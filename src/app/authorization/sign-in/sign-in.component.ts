@@ -11,7 +11,6 @@ import {User} from "../../users/shared/user";
 })
 export class SignInComponent implements OnInit {
   title: string;
-  model = 1;
   user: User;
 
   constructor(private modalService: NgbModal) { }
@@ -20,11 +19,6 @@ export class SignInComponent implements OnInit {
     this.title = "Sign in"
 
     this.user = new User();
-  }
-
-  open() {
-    const modalRef = this.modalService.open(MovieDetailsModalComponent);
-    modalRef.componentInstance.name = 'World';
   }
 
   save(userModel: User, isValid: boolean) {
