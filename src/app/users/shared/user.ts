@@ -6,16 +6,17 @@ import {Movie} from "../../movies/shared/movie";
 export class User {
   id: number;
   username: string;
+  password: string;
   name: string;
   email: string;
   private movieService: MovieService;
 
 
-  constructor(id: number, username: string, name: string, email: string) {
-    this.id = id;
+  constructor(/*id: number, username: string, name: string, email: string*/) {
+    /*this.id = id;
     this.username = username;
     this.name = name;
-    this.email = email;
+    this.email = email;*/
   }
 
   /*get favourites() : Promise<FavouriteMedia> {

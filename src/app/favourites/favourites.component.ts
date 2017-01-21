@@ -15,7 +15,7 @@ import {Movie} from "../movies/shared/movie";
   styleUrls: ['./favourites.component.css']
 })
 export class FavouritesComponent implements OnInit {
-  user: User = new User(0, null, null, null);
+  user: User = new User();
   fav: FavouriteMedia[];
   title: string;
 

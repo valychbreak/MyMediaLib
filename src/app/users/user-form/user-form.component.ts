@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['user-form.component.css']
 })
 export class UserFormComponent implements OnInit {
-  model = new User(19, "someUser", "Some User", "email@t.com");
+  model = new User();
 
   submitted = false;
 
