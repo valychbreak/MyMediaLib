@@ -3,32 +3,73 @@
     <h1 class="page-header">
       {{movie.name}}
       <small>Movie</small>
+
+      <hr/>
+
+      <div class="movie-actions">
+        <div class="btn-group float-left" role="group" aria-label="Basic example">
+          <button class="btn btn-secondary">Add to favourites &nbsp; <i class="fa fa-star-o fa-lg" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary">Share &nbsp;<i class="fa fa-share-alt fa-lg" aria-hidden="true"></i></button>
+        </div>
+      </div>
     </h1>
   </div>
 </div>
 <!-- /.row -->
 
+<hr/>
+
 <!-- Portfolio Item Row -->
 <div class="row">
 
   <div class="col-md-8">
-    <img class="img-responsive" src="http://placehold.it/750x500" alt="">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="thumbnail">
+          <img class="img-responsive" [src]="movie.imagePath" alt="">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3>Movie Information</h3>
+        <ul>
+          <li>Name: {{movie.name}}</li>
+          <li>Duration: {{movie.duration}}</li>
+          <li>Rating: {{movie.stars}}/5</li>
+          <li>Reviews: {{movie.reviews}}</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="col-md-4">
-    <h3>Movie Description</h3>
-    <p>{{movie.description}}</p>
-    <h3>Movie Information</h3>
+    <h3>Producers</h3>
+    <p>Work in progress...</p>
+    <h3>Cast</h3>
     <ul>
-      <li>Name: {{movie.name}}</li>
+      <li>Ernest Borgnine Picture	Ernest Borgnine as Coley Trimble</li>
+      <li>Lee Marvin Picture	Lee Marvin as Hector David</li>
+      <li>Spencer Tracy Picture	Spencer Tracy as John J. Macreedy</li>
+      <li>ne Francis Picture	Anne Francis as Liz Wirth</li>
+      <!--<li>Name: {{movie.name}}</li>
       <li>Duration: {{movie.duration}}</li>
       <li>Rating: {{movie.stars}}/5</li>
-      <li>Reviews: {{movie.reviews}}</li>
+      <li>Reviews: {{movie.reviews}}</li>-->
     </ul>
   </div>
 
 </div>
+
+<hr/>
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Description</h3>
+    <p class="row">{{movie.description}}</p>
+  </div>
+</div>
 <!-- /.row -->
+
+<hr/>
 
 <!-- Related Projects Row -->
 <div class="row">
