@@ -25,4 +25,8 @@ export class SignInComponent implements OnInit {
     console.log(userModel, isValid);
   }
 
+  inputHasErrors(input) {
+    return input.errors && (input.dirty || input.touched)
+  }
+
 }
