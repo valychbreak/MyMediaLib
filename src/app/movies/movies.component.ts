@@ -28,4 +28,8 @@ export class MoviesComponent implements OnInit {
     modal.componentInstance.movie = movie;
   }
 
+  gotoMoviePage(movie: Movie) {
+    this.router.navigate(['/movie', movie.id])
+  }
+
 }
