@@ -4,7 +4,7 @@ import {SignInComponent} from "../authorization/sign-in/sign-in.component";
 import {UserFormComponent} from "../users/user-form/user-form.component";
 import {UsersComponent} from "../users/users.component";
 import {FavouritesComponent} from "../favourites/favourites.component";
-import {MovieViewComponent} from "../movies/movie-view/movie-view.component";
+import {MovieViewComponent} from "../movies/movie-details/movie-details.component";
 import {MoviesComponent} from "../movies/movies.component";
 
 const routes: Routes = [
