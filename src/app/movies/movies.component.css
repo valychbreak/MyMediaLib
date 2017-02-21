@@ -105,6 +105,10 @@
   padding-bottom: 40px;
 }
 
+.hovereffect .overlay-body .info {
+  margin-top: 10px;
+}
+
 
 .hovereffect:hover .overlay-body {
   opacity: 1;

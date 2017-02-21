@@ -13,10 +13,10 @@ export class SignInComponent implements OnInit {
   title: string;
   user: User;
 
-  constructor(private modalService: NgbModal) { }
+  constructor() { }
 
   ngOnInit() {
-    this.title = "Sign in"
+    this.title = "Sign in";
 
     this.user = new User();
   }

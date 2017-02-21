@@ -10,7 +10,7 @@ import {UsersComponent} from "./users/users.component";
 import {UsersModule} from "./users/users.module";
 import { UserFormComponent } from './users/user-form/user-form.component';
 import {MoviesComponent} from "./movies/movies.component";
-import {MovieViewComponent} from "./movies/movie-view/movie-view.component";
+import {MovieViewComponent} from "./movies/movie-details/movie-details.component";
 import {FavouritesComponent} from "./favourites/favourites.component";
 import { SignInComponent } from './authorization/sign-in/sign-in.component';
 import {AppRoutingModule} from "./app-routing/app-routing.module";
