@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.config;
+package com.valychbreak.mymedialib;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,8 +15,7 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.valychbreak.mymedialib")
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class ApplicationWebMvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
