@@ -29,14 +29,14 @@ public class UserController {
 
     @RequestMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = new ArrayList<>();
-        users.add(new User(1L, "test1", "first1", "last1", "test1@t.com"));
+    public ResponseEntity<Iterable<User>> getUsers() {
+        Iterable<User> users;
+        /*users.add(new User(1L, "test1", "first1", "last1", "test1@t.com"));
         users.add(new User(2L, "test2", "first2", "last2", "test1@t.com"));
-        users.add(new User(3L, "test3", "first3", "last3", "test1@t.com"));
+        users.add(new User(3L, "test3", "first3", "last3", "test1@t.com"));*/
 
-        userRepository.findAll();
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        users = userRepository.findAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST,
