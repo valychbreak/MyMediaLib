@@ -16,6 +16,7 @@ import { SignInComponent } from './authorization/sign-in/sign-in.component';
 import {AppRoutingModule} from "./app-routing/app-routing.module";
 import { MovieDetailsModalComponent } from './movies/movie-details-modal/movie-details-modal.component';
 import {MovieService} from "./movies/shared/movie.service";
+import { SignUpComponent } from './authorization/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {MovieService} from "./movies/shared/movie.service";
     SignInComponent,
     FavouritesComponent,
     MovieViewComponent,
-    MovieDetailsModalComponent
+    MovieDetailsModalComponent,
+    SignUpComponent
   ],
   entryComponents: [
     MovieDetailsModalComponent

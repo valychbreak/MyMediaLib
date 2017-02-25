@@ -6,6 +6,7 @@ import {UsersComponent} from "../users/users.component";
 import {FavouritesComponent} from "../favourites/favourites.component";
 import {MovieViewComponent} from "../movies/movie-details/movie-details.component";
 import {MoviesComponent} from "../movies/movies.component";
+import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
   {
     path: 'signin',
     component: SignInComponent
+  },
+  {
+    path: 'signup',
+    component: SignUpComponent
   }
 ];
 

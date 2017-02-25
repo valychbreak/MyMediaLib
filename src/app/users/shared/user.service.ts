@@ -1,5 +1,5 @@
 import {Injectable}     from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, Headers, RequestOptions} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {User} from "./user";
@@ -8,6 +8,7 @@ import {Config} from "../../config/config";
 @Injectable()
 export class UserService {
   static usersURL = Config.dataRequestLink + "users";
+  static createUserURL = Config.dataRequestLink + "user/add";
 
 
   constructor(private http: Http) {
@@ -23,6 +24,14 @@ export class UserService {
   getUser(id: number | string) {
     return this.getUsers()
       .then(users => users.find(user => user.id === +id));
+  }
+
+  addUser(user: User): Promise<User> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(UserService.createUserURL, user, options)
+        .toPromise()
+        .then(response => response.json() as User)
   }
 
   private handleError(error: any): Promise<any> {

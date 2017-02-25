@@ -1,8 +1,3 @@
-<p>
-  sign-in works!
-  {{title}}
-</p>
-
 <!--<div class="col-md-5">
   <h1>Sign-in form</h1>
   <form (ng-submit)="authenticate()" #signInForm="ngForm">
@@ -44,20 +39,21 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" [ngClass]="{'has-danger':inputHasErrors(password)}">
       <label>Password</label>
       <!--bind name to ngModel, it's required with minimum 5 characters-->
       <input type="password" class="form-control"
              name="password" [(ngModel)]="user.password"
              #password="ngModel" required >
-      <div *ngIf="password.errors && (password.dirty || password.touched)"
-           class="alert alert-danger">
-        <div [hidden]="!password.errors.required">
+      <div *ngIf="inputHasErrors(password)"
+           class="form-control-feedback">
+        <div [hidden]="!username.errors.required">
           Password is required
         </div>
       </div>
     </div>
 
     <button [disabled]="!f.valid" type="submit" class="btn btn-default">Sign in</button>
+    Don't have an account yet? <a routerLink="/signup">Sign up</a> now!
   </form>
 </div>
