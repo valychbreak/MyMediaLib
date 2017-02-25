@@ -3,14 +3,18 @@ import {Http} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {User} from "./user";
+import {Config} from "../../config/config";
 
 @Injectable()
 export class UserService {
+  static usersURL = Config.dataRequestLink + "users";
+
+
   constructor(private http: Http) {
   }
 
   getUsers(): Promise<User[]> {
-    return this.http.get("http://localhost:4200/app/data/users.json")
+    return this.http.get(UserService.usersURL) //"http://localhost:4200/app/data/users.json"
       .toPromise()
       .then(response => response.json() as User[])
       .catch(this.handleError);
