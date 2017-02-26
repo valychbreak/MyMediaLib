@@ -17,6 +17,7 @@ import {AppRoutingModule} from "./app-routing/app-routing.module";
 import { MovieDetailsModalComponent } from './movies/movie-details-modal/movie-details-modal.component';
 import {MovieService} from "./movies/shared/movie.service";
 import { SignUpComponent } from './authorization/sign-up/sign-up.component';
+import {LoginService} from "./users/shared/login.service";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { SignUpComponent } from './authorization/sign-up/sign-up.component';
     NgbModule.forRoot(),
     UsersModule
   ],
-  providers: [MovieService],
+  providers: [MovieService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

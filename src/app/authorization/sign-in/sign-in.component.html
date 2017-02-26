@@ -13,7 +13,7 @@
   </form>
 </div>-->
 
-<div class="col-md-6">
+<div class="col-md-6" *ngIf="!isAuthenticated()">
   <h1>Add user</h1>
   <form #f="ngForm" (ngSubmit)="save(f.value, f.valid)" novalidate>
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -31,8 +31,7 @@
              name="username" [(ngModel)]="user.username"
              #username="ngModel" required>
       <!--<div class="form-control-feedback">Sorry, that username's taken. Try another?</div>-->
-      <div *ngIf="inputHasErrors(username)"
-           class="form-control-feedback">
+      <div *ngIf="inputHasErrors(username)" class="form-control-feedback">
         <div [hidden]="!username.errors.required">
           Username is required
         </div>
@@ -56,4 +55,8 @@
     <button [disabled]="!f.valid" type="submit" class="btn btn-default">Sign in</button>
     Don't have an account yet? <a routerLink="/signup">Sign up</a> now!
   </form>
+</div>
+
+<div *ngIf="isAuthenticated()" class="col-md-6">
+  <button class="btn btn-primary" (click)="logout()">Logout</button>
 </div>

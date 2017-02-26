@@ -23,7 +23,6 @@ export class SignUpComponent extends AbstractForm implements OnInit {
   save(userModel: User, isValid: boolean) {
     console.log(userModel, isValid);
     if(isValid) {
-      userModel.lastName = userModel.firstName;
       this.userService.addUser(userModel)
           .then(user => {
             console.log("User was created successfully. " + user);
