@@ -15,11 +15,11 @@ public class User {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @Column(name = "first_name", nullable = false)
+    private String name;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -27,15 +27,14 @@ public class User {
     protected User() {
     }
 
-    public User(String username, String firstName, String lastName, String email) {
-        this(null, username, firstName, lastName, email);
+    public User(String username, String name, String email) {
+        this(null, username, name, email);
     }
 
-    public User(Long id, String username, String firstName, String lastName, String email) {
+    public User(Long id, String username, String name, String email) {
         this.id = id;
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.email = email;
     }
 
@@ -63,20 +62,20 @@ public class User {
         this.username = username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

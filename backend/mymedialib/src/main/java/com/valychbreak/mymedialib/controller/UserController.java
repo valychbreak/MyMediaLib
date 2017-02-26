@@ -1,11 +1,15 @@
 package com.valychbreak.mymedialib.controller;
 
+import com.valychbreak.mymedialib.data.UserDetailsImpl;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,29 +25,32 @@ import java.util.List;
 public class UserController {
 
     private UserRepository userRepository;
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.userRepository = userRepository;
+        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
     }
 
     @RequestMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<Iterable<User>> getUsers() {
-        Iterable<User> users;
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = new ArrayList<>();
         /*users.add(new User(1L, "test1", "first1", "last1", "test1@t.com"));
         users.add(new User(2L, "test2", "first2", "last2", "test1@t.com"));
         users.add(new User(3L, "test3", "first3", "last3", "test1@t.com"));*/
 
-        users = userRepository.findAll();
+        userRepository.findAll().forEach(users::add);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user) throws Exception {
         User createdUser = userRepository.save(user);
 
+        inMemoryUserDetailsManager.createUser(new UserDetailsImpl(user.getUsername(), user.getPassword()));
         return new ResponseEntity<User>(createdUser, HttpStatus.OK);
     }
 }
