@@ -1,6 +1,10 @@
 package com.valychbreak.mymedialib.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.valychbreak.mymedialib.tools.gson.JsonExclude;
 
 /**
  * Created by valych on 2/25/17.
@@ -23,6 +27,11 @@ public class User {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "user")
+    @JsonExclude
+    private List<UserMedia> favourites = new ArrayList<>();
+
 
     protected User() {
     }
@@ -76,6 +85,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<UserMedia> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(List<UserMedia> favourites) {
+        this.favourites = favourites;
     }
 
     @Override

@@ -8,18 +8,22 @@ import com.valychbreak.mymedialib.services.OmdbVideoProvider;
 import com.valychbreak.mymedialib.tools.adapters.MediaFullDetailsAdapter;
 import com.valychbreak.mymedialib.tools.adapters.MediaShortDetailsAdapter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 /**
  * Created by Valeriy on 3/18/2017.
  */
-/*@Entity
-@Table(name = "media")*/
+@Entity
+@Table(name = "media")
 public class Media {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "imdbId", nullable = false, unique = true)
     private String imdbId;
+
+    @Column(name = "title")
     private String title;
 
     protected Media() { }
