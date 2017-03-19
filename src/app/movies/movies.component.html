@@ -28,7 +28,14 @@
   </div>
 
 </div>-->
-
+<div class="row">
+  <div class="col-sm-5">
+    <input class="form-control" type="text" [(ngModel)]="searchString"/>
+  </div>
+  <div class="col-sm-2">
+    <button class="btn btn-primary" (click)="submitSearch()">Submit</button>
+  </div>
+</div>
 <div class="row">
 
   <div *ngFor="let movie of movies" class="col-md-4">
@@ -37,7 +44,7 @@
         <div class="hovereffect">
           <img class="img-responsive" height="400" [src]="movie.imagePath" alt="">
           <div class="overlay">
-            <div class="overlay-header">{{movie.name}}</div>
+            <div class="overlay-header">{{movie.title}}</div>
             <div class="overlay-body">
               <span>Rating: {{movie.stars}}/5</span>
               <span>{{movie.genre}}</span>
@@ -47,7 +54,7 @@
           </div>
         </div>
         <div class="caption">
-          <!--<span class="movie header" >{{movie.name}}</span> ({{movie.duration}} mins.)-->
+          <!--<span class="movie header" >{{movie.title}}</span> ({{movie.duration}} mins.)-->
           <p>{{movie.shortDescription}}</p>
         </div>
         <div class="ratings">

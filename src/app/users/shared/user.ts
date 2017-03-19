@@ -12,10 +12,10 @@ export class User {
   private movieService: MovieService;
 
 
-  constructor(/*id: number, username: string, name: string, email: string*/) {
+  constructor(/*id: number, username: string, title: string, email: string*/) {
     /*this.id = id;
     this.username = username;
-    this.name = name;
+    this.title = title;
     this.email = email;*/
   }
 
@@ -42,7 +42,7 @@ export class User {
     let f = new FavouriteMedia();
     f.date = "01/01/2016 15:30";
     f.media = new Movie();
-    f.media.name = "Test 123";
+    f.media.title = "Test 123";
     let favourites: FavouriteMedia[] = [];
     favourites.push(f);
     var movies: Movie[];

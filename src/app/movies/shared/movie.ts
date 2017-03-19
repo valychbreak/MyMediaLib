@@ -1,22 +1,23 @@
 export class Movie {
   id: number;
   imagePath: string;
-  name: string;
+  title: string;
   genre: string;
   duration: number;
   shortDescription: string;
   description: string;
   stars: number;
   reviews: number;
+  imdbId: string;
 
 
   constructor() {
   }
 
-/*constructor(id: number, imagePath: string, name: string, duration: number, shortDescription: string, description: string, stars: number, reviews: number) {
+/*constructor(id: number, imagePath: string, title: string, duration: number, shortDescription: string, description: string, stars: number, reviews: number) {
     this.id = id;
     this.imagePath = imagePath;
-    this.name = name;
+    this.title = title;
     this.duration = duration;
     this.shortDescription = shortDescription;
     this.description = description;

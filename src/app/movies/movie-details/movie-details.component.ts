@@ -14,12 +14,15 @@ export class MovieViewComponent implements OnInit {
   constructor(private movieService: MovieService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    let id = +this.route.snapshot.params['id'];
+    /*let id = +this.route.snapshot.params['id'];
     if(!isNaN(id)) {
       console.log(id);
       this.movieService.getMovie(id)
         .then((movie: Movie) => this.movie = movie);
-    }
+    }*/
+    let id = this.route.snapshot.params['id'];
+    this.movieService.getMovieByImdbId(id)
+        .then((movie: Movie) => this.movie = movie);
   }
 
 }

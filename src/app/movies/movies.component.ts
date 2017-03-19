@@ -12,11 +12,16 @@ import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-mo
 })
 export class MoviesComponent implements OnInit {
   movies: Movie[];
+  searchString: string;
 
   constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal) { }
 
   ngOnInit() {
-    this.getMovies();
+    //this.getMovies();
+  }
+
+  submitSearch(): void {
+    this.movieService.getMoviesByFilter(this.searchString).then(movies => this.movies = movies);
   }
 
   getMovies(): void {
@@ -29,7 +34,7 @@ export class MoviesComponent implements OnInit {
   }
 
   gotoMoviePage(movie: Movie) {
-    this.router.navigate(['/movie', movie.id])
+    this.router.navigate(['/movie', movie.imdbId])
   }
 
 }
