@@ -9,6 +9,7 @@ export class Movie {
   stars: number;
   reviews: number;
   imdbId: string;
+  isFavourite: boolean;
 
 
   constructor() {

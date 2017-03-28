@@ -13,7 +13,9 @@
       <h1 class="page-header">
         <div class="movie-actions">
           <div class="btn-group float-left" role="group" aria-label="Basic example">
-            <button class="btn btn-secondary" (click)="addToFavourites()">Add to favourites &nbsp; <i class="fa fa-star-o fa-lg" aria-hidden="true"></i></button>
+            <button *ngIf="!movie.isFavourite" class="btn btn-secondary" (click)="addToFavourites(movie)">Add to favourites &nbsp; <i class="fa fa-star-o fa-lg" aria-hidden="true"></i></button>
+            <button *ngIf="movie.isFavourite" class="btn btn-secondary" (click)="removeFromFavourites(movie)">Remove from favourites &nbsp; <i class="fa fa-star fa-lg" aria-hidden="true"></i></button>
+
             <button class="btn btn-secondary">Share &nbsp;<i class="fa fa-share-alt fa-lg" aria-hidden="true"></i></button>
           </div>
           <button class="btn btn-secondary float-right" (click)="gotoMoviePage()">Open movie page &nbsp;<i class="fa fa-external-link fa-lg" aria-hidden="true"></i></button>

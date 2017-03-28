@@ -29,6 +29,15 @@ export class UserFavouritesService {
             .then(response => response.json() as Movie)
     }
 
+    removeMedia(movie: Movie): Promise<Movie> {
+        let username = this.loginService.getLoggedUsername();
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(Config.dataRequestLink + "user/" + username + "/favourites/remove", movie, options)
+            .toPromise()
+            .then(response => response)
+    }
+
     getUserFavourites(username: string): Promise<Movie[]> {
         return this.http.get(Config.dataRequestLink + "user/" + username + "/favourites")
             .toPromise()
