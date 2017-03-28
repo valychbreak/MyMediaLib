@@ -10,5 +10,6 @@ import java.util.List;
  */
 public interface UserRepository extends CrudRepository<User, Long> {
      List<User> findByUsername(String username);
+     User findFirstByUsername(String username);
      List<User> findByUsernameAndPassword(String username, String password);
 }

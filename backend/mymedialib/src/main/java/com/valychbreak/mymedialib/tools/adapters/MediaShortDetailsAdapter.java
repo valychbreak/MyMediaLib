@@ -13,6 +13,7 @@ public class MediaShortDetailsAdapter implements MediaShortDetails {
 
     protected String imdbId;
     protected String title;
+    protected boolean isFavourite;
 
     public MediaShortDetailsAdapter(OmdbVideoBasic omdbVideoBasic) {
         this.omdbVideoBasic = omdbVideoBasic;
@@ -39,5 +40,15 @@ public class MediaShortDetailsAdapter implements MediaShortDetails {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    @Override
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
     }
 }

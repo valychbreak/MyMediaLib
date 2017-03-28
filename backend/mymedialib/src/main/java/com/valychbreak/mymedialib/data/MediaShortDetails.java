@@ -6,4 +6,6 @@ package com.valychbreak.mymedialib.data;
 public interface MediaShortDetails {
     String getImdbId();
     String getTitle();
+    boolean isFavourite();
+    void setFavourite(boolean isFavourite);
 }

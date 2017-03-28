@@ -43,8 +43,9 @@ public class AuthenticationController {
                     loginDTO.getUsername(), loginDTO.getPassword());
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         }
 
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
