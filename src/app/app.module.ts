@@ -18,6 +18,8 @@ import { MovieDetailsModalComponent } from './movies/movie-details-modal/movie-d
 import {MovieService} from "./movies/shared/movie.service";
 import { SignUpComponent } from './authorization/sign-up/sign-up.component';
 import {LoginService} from "./users/shared/login.service";
+import { MovieShortViewComponent } from './movies/movie-short-view/movie-short-view.component';
+import {UserFavouritesService} from "./users/shared/user-favourites.service";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import {LoginService} from "./users/shared/login.service";
     FavouritesComponent,
     MovieViewComponent,
     MovieDetailsModalComponent,
-    SignUpComponent
+    SignUpComponent,
+    MovieShortViewComponent
   ],
   entryComponents: [
     MovieDetailsModalComponent
@@ -40,7 +43,7 @@ import {LoginService} from "./users/shared/login.service";
     NgbModule.forRoot(),
     UsersModule
   ],
-  providers: [MovieService, LoginService],
+  providers: [MovieService, LoginService, UserFavouritesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

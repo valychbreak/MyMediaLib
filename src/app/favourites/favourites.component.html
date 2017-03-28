@@ -1,8 +1,6 @@
-<!--<p>{{user.favourites}}</p>
-<div *ngFor="let media of user.favourites">
-  {{media.name}}
-</div>-->
-<p>{{title}}</p>
-<div *ngFor="let favourite of fav">
-  {{favourite.id}}  <a (click)="onSelectMovie(favourite.media)" style="cursor: pointer">{{favourite.media.name}}</a><br/>
+<p>{{title}}:</p>
+<div class="row">
+  <div *ngFor="let favourite of favouriteMedia" class="col-md-4">
+    <app-movie-short-view [movie]="favourite"></app-movie-short-view>
+  </div>
 </div>

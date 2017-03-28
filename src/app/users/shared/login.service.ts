@@ -9,6 +9,8 @@ import {Config} from "../../config/config";
 export class LoginService {
     static authenticateURL = Config.dataRequestLink + "signin";
 
+    static LOGGED_USER_KEY = "loggedUserKey";
+
 
     constructor(private http: Http) {
     }
@@ -19,24 +21,32 @@ export class LoginService {
         return this.http.post(LoginService.authenticateURL, {username, password}, options)
             .toPromise()
             .then(response => {
+                console.log("Sign in response: " + response.json());
                 let user = response.json() as User;
                 console.log(user);
-                localStorage.setItem("currentUsername", username);
+                localStorage.setItem(LoginService.LOGGED_USER_KEY, JSON.stringify(user));
                 return
             })
-            .catch(this.handleError);
+            .catch(this.onLoginFail);
     }
 
     logout(contactServer: boolean) {
-        localStorage.removeItem("currentUsername");
+        localStorage.removeItem(LoginService.LOGGED_USER_KEY);
     }
 
     isAuthenticated() {
-        return !!localStorage.getItem("currentUsername")
+        return !!localStorage.getItem(LoginService.LOGGED_USER_KEY)
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+    getLoggedUsername() {
+        if(this.isAuthenticated()) {
+            return (JSON.parse(localStorage.getItem(LoginService.LOGGED_USER_KEY)) as User).username;
+        } else {
+            return "";
+        }
+    }
+
+    private onLoginFail(error: any): Promise<any> {
+        return Promise.reject("Wrong credentials");
     }
 }

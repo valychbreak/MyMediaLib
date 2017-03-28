@@ -4,6 +4,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetailsModalComponent} from "../../movies/movie-details-modal/movie-details-modal.component";
 import {User} from "../../users/shared/user";
 import {LoginService} from "../../users/shared/login.service";
+import {Http} from "@angular/http";
+import {Config} from "../../config/config";
 
 @Component({
   selector: 'app-sign-in',
@@ -14,12 +16,20 @@ export class SignInComponent implements OnInit {
   title: string;
   user: User;
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private http: Http) { }
 
   ngOnInit() {
     this.title = "Sign in";
 
     this.user = new User();
+  }
+
+  checkAuthentication() {
+    this.http.get(Config.dataRequestLink + "user/fav/test")
+        .toPromise()
+        .then(response => {
+          console.log("response: " + response.json());
+        })
   }
 
   save(userModel: User, isValid: boolean) {

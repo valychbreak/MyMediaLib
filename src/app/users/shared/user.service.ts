@@ -4,6 +4,7 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {User} from "./user";
 import {Config} from "../../config/config";
+import {Movie} from "../../movies/shared/movie";
 
 @Injectable()
 export class UserService {
@@ -32,6 +33,13 @@ export class UserService {
     return this.http.post(UserService.createUserURL, user, options)
         .toPromise()
         .then(response => response.json() as User)
+  }
+
+  getUserFavourites(username: string): Promise<Movie[]> {
+    return this.http.get(Config.dataRequestLink + "user/" + username + "/favourites")
+        .toPromise()
+        .then(response => response.json() as Movie[])
+        .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

@@ -39,36 +39,7 @@
 <div class="row">
 
   <div *ngFor="let movie of movies" class="col-md-4">
-    <div class="movie-view-block" (click)="onSelectMovie(movie)">
-      <div class="thumbnail">
-        <div class="hovereffect">
-          <img class="img-responsive" height="400" [src]="movie.imagePath" alt="">
-          <div class="overlay">
-            <div class="overlay-header">{{movie.title}}</div>
-            <div class="overlay-body">
-              <span>Rating: {{movie.stars}}/5</span>
-              <span>{{movie.genre}}</span>
-              <button class="btn btn-success info" >Click for details</button>
-              <button class="btn btn-default info" (click)="gotoMoviePage(movie)">Open page &nbsp;<i class="fa fa-external-link fa-lg" aria-hidden="true"></i></button>
-            </div>
-          </div>
-        </div>
-        <div class="caption">
-          <!--<span class="movie header" >{{movie.title}}</span> ({{movie.duration}} mins.)-->
-          <p>{{movie.shortDescription}}</p>
-        </div>
-        <div class="ratings">
-          <p class="float-right">{{movie.reviews}} reviews</p>
-          <p>
-            <!--<span *ngFor="let star of [1, 2, 3, 4, 5];">
-              <span *ngIf="star <= movie.stars" class="glyphicons glyphicons-star" >1</span>
-              <span *ngIf="star > movie.stars" class="glyphicons glyphicons-star-empty" >0</span>
-            </span>-->
-            <ngb-rating [(rate)]="movie.stars" max="5" readonly="true"></ngb-rating>
-          </p>
-        </div>
-      </div>
-    </div>
+    <app-movie-short-view [movie]="movie"></app-movie-short-view>
   </div>
 
   <!--<div class="col-sm-4 col-lg-4 col-md-4">
