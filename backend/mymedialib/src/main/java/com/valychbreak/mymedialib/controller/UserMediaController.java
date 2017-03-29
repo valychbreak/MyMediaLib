@@ -42,14 +42,6 @@ public class UserMediaController {
         this.userMediaRepository = userMediaRepository;
     }
 
-    /*@RequestMapping(value = "/user/{userId}/favourites", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MediaFullDetails>> getFavouritesByUserId(@PathVariable String userId) throws Exception {
-        User user = userRepository.findOne(Long.parseLong(userId));
-        List<MediaFullDetails> mediaList = getUserFavouriteMedia(user);
-        return new ResponseEntity<>(mediaList, HttpStatus.OK);
-    }*/
-
     @RequestMapping(value = "/user/{username}/favourites", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MediaFullDetails>> getFavouritesByUsername(@PathVariable String username) throws Exception {
@@ -77,11 +69,7 @@ public class UserMediaController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Media> addFavourite(@PathVariable String username, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
         User user = getUserByUsername(username);
-
-        OmdbVideoProvider videoProvider = new OmdbVideoProvider();
-        //MediaShortDetails mediaShortDetails = new MediaShortDetailsAdapter(mediaDetails);
         Media media = addMedia(mediaDetails, user);
-
         return new ResponseEntity<>(media, HttpStatus.OK);
     }
 
@@ -101,25 +89,6 @@ public class UserMediaController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/user/{userId}/favourites/addtest", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Media> addTestFavourite(@PathVariable String userId) throws Exception {
-        User user = userRepository.findOne(Long.parseLong(userId));
-
-        OmdbVideoBasic videoBasic = new OmdbVideoBasic();
-        videoBasic.setImdbID("tt0145487");
-        videoBasic.setTitle("Spider-Man");
-        MediaShortDetails mediaShortDetails = new MediaShortDetailsAdapter(videoBasic);
-        Media media = addMedia(mediaShortDetails, user);
-
-        videoBasic.setImdbID("tt1722512");
-        videoBasic.setTitle("Ultimate Spider-Man");
-        mediaShortDetails = new MediaShortDetailsAdapter(videoBasic);
-        media = addMedia(mediaShortDetails, user);
-
-        return new ResponseEntity<>(media, HttpStatus.OK);
     }
 
     private Media addMedia(@RequestBody MediaShortDetails mediaDetails, User user) {

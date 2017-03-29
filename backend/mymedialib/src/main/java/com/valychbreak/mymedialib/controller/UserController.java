@@ -37,9 +37,6 @@ public class UserController {
             method = RequestMethod.GET)
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = new ArrayList<>();
-        /*users.add(new User(1L, "test1", "first1", "last1", "test1@t.com"));
-        users.add(new User(2L, "test2", "first2", "last2", "test1@t.com"));
-        users.add(new User(3L, "test3", "first3", "last3", "test1@t.com"));*/
 
         userRepository.findAll().forEach(users::add);
         return new ResponseEntity<>(users, HttpStatus.OK);
