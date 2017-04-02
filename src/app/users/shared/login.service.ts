@@ -1,5 +1,5 @@
 import {Injectable}     from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import {Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {User} from "./user";
@@ -18,9 +18,13 @@ export class LoginService {
     authenticate(username: string, password: string): Promise<User> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
+        let body = new URLSearchParams();
+        body.append('username', username);
+        body.append('password', password);
         return this.http.post(LoginService.authenticateURL, {username, password}, options)
             .toPromise()
             .then(response => {
+                console.log("Raw response: " + response);
                 console.log("Sign in response: " + response.json());
                 let user = response.json() as User;
                 console.log(user);

@@ -25,7 +25,7 @@ export class SignInComponent implements OnInit {
   }
 
   checkAuthentication() {
-    this.http.get(Config.dataRequestLink + "user/fav/test")
+    this.http.get(Config.dataRequestLink + "islogged/test")
         .toPromise()
         .then(response => {
           console.log("response: " + response.json());

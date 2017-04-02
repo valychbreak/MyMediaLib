@@ -28,6 +28,10 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @ManyToOne
+    @JoinColumn(name = "user_role_id", nullable = false)
+    private UserRole role;
+
     @OneToMany(mappedBy = "user")
     @JsonExclude
     private List<UserMedia> favourites = new ArrayList<>();
@@ -85,6 +89,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public List<UserMedia> getFavourites() {
