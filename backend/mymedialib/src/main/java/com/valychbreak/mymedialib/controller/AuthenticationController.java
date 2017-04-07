@@ -56,7 +56,7 @@ public class AuthenticationController {
         /*List<User> users = userRepository.findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
         User user = users.size() > 0 ? users.get(0) : null;
 */
-        Object credentials = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Object credentials = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println(credentials);
         /*if(user != null) {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

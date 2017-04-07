@@ -45,7 +45,7 @@ public class AuthenticationService {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Cookie cookie = new Cookie("MyCookie", user.getUsername());
+            Cookie cookie = new Cookie("someCookie", user.getUsername());
             cookie.setPath("/");
             cookie.setMaxAge(20*60);
             //Cookie cannot be accessed via JavaScript

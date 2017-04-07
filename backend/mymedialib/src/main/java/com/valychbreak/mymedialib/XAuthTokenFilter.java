@@ -30,6 +30,11 @@ public class XAuthTokenFilter extends GenericFilterBean {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
         if (/*!request.getRequestURI().contains("/api") || */request.getRequestURI().contains("/signin")){
             filterChain.doFilter(request, response);
         } else {
@@ -63,9 +68,9 @@ public class XAuthTokenFilter extends GenericFilterBean {
                 this.authenticationService.tokenAuthentication(login);*/
 
                 Cookie cookie = findJwtCookie(request);
-                String username = cookie.getValue();
+                //String username = cookie.getValue();
 
-            this.authenticationService.tokenAuthentication(username);
+            this.authenticationService.tokenAuthentication("test");
 
             filterChain.doFilter(request, response);
             /*} catch (*//*HmacException | ParseException e*//*) {

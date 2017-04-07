@@ -11,12 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class HelloWorldController {
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String showIndexPage(Model model) {
         model.addAttribute("name", "John Doe");
 
         return "welcome";
-    }
+    }*/
 
     @GetMapping("/hello")
     public String showHelloPage(Model model) {
