@@ -72,7 +72,9 @@ public class XAuthTokenFilter extends GenericFilterBean {
                 if(cookie != null) {
                     String username = cookie.getValue();
 
-                    this.authenticationService.tokenAuthentication(username);
+                    if(!username.isEmpty()) {
+                        this.authenticationService.tokenAuthentication(username);
+                    }
                 }
             filterChain.doFilter(request, response);
             /*} catch (*//*HmacException | ParseException e*//*) {

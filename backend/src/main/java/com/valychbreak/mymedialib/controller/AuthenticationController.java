@@ -13,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -51,8 +53,8 @@ public class AuthenticationController {
         //return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/islogged/{username}", method = RequestMethod.GET)
-    public ResponseEntity<User> authenticate(@PathVariable String username, HttpServletResponse response) {
+    @RequestMapping(value = "/islogged", method = RequestMethod.GET)
+    public ResponseEntity<Boolean> authenticate(HttpServletResponse response) {
         /*List<User> users = userRepository.findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
         User user = users.size() > 0 ? users.get(0) : null;
 */
@@ -65,7 +67,23 @@ public class AuthenticationController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         }*/
+        boolean result = false;
+        try {
+            String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+            List<User> users = userRepository.findByUsername(username);
+            result = users.size() > 0;//SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+        } catch (ClassCastException e) {
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/logout123", method = RequestMethod.GET)
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
+        Cookie someCookie = new Cookie("someCookie", "");
+        someCookie.setPath("/");
+        response.addCookie(someCookie);
     }
 }

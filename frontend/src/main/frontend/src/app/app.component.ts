@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {LoginService} from "./users/shared/login.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,21 @@ export class AppComponent {
     router.events.subscribe(e => {
       console.log(e.url);
       if(!this.isAuthenticated() && (e.url != '/signin' && e.url != '/signup')) {
-        router.navigate(['/signin']);
+        this.loginService.checkAuthOnServer().subscribe(data => {
+          let result: boolean;
+          result = data == "true";
+          if (!result) {
+            router.navigate(['/signin']);
+          }
+        });
       }
+      /*if(!this.isAuthenticated() && (e.url != '/signin' && e.url != '/signup')) {
+        router.navigate(['/signin']);
+      }*/
     })
   }
 
-  isAuthenticated() {
-    return this.loginService.isAuthenticated();
+  isAuthenticated(): boolean {
+    return
   }
 }

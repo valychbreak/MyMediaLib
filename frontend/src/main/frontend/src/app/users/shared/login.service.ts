@@ -4,10 +4,13 @@ import {Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {User} from "./user";
 import {Config} from "../../config/config";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class LoginService {
     static authenticateURL = Config.dataRequestLink + "signin";
+    static isLoggedURL = Config.dataRequestLink + "islogged";
+    static logoutURL = Config.dataRequestLink + "logout123";
 
     static LOGGED_USER_KEY = "loggedUserKey";
 
@@ -29,17 +32,33 @@ export class LoginService {
                 let user = response.json() as User;
                 console.log(user);
                 localStorage.setItem(LoginService.LOGGED_USER_KEY, JSON.stringify(user));
-                return
+                return user;
             })
             .catch(this.onLoginFail);
     }
 
     logout(contactServer: boolean) {
         localStorage.removeItem(LoginService.LOGGED_USER_KEY);
+        this.http.get(LoginService.logoutURL)
+            .toPromise().then(response => console.log("logged out"));
     }
 
     isAuthenticated() {
-        return !!localStorage.getItem(LoginService.LOGGED_USER_KEY)
+        //returzn !!localStorage.getItem(LoginService.LOGGED_USER_KEY)
+        let response: string;
+        this.checkAuthOnServer().subscribe(data => response = data);
+        return response == "true";
+    }
+
+    isAuthenticatedPromise(): Promise<boolean> {
+        //returzn !!localStorage.getItem(LoginService.LOGGED_USER_KEY)
+        return this.checkAuthOnServer()
+            .toPromise()
+            .then(data => data == "true");
+    }
+
+    checkAuthOnServer() : Observable<string> {
+        return this.http.get(LoginService.isLoggedURL).map(response => response.text())
     }
 
     getLoggedUsername() {

@@ -15,6 +15,7 @@ import {Config} from "../../config/config";
 export class SignInComponent implements OnInit {
   title: string;
   user: User;
+  isUserAuthenticated: boolean;
 
   constructor(private loginService: LoginService, private http: Http) { }
 
@@ -22,6 +23,13 @@ export class SignInComponent implements OnInit {
     this.title = "Sign in";
 
     this.user = new User();
+
+    this.checkAuthenticationStatus();
+  }
+
+  private checkAuthenticationStatus() {
+    this.loginService.isAuthenticatedPromise()
+        .then(data => this.isUserAuthenticated = data)
   }
 
   checkAuthentication() {
@@ -38,16 +46,18 @@ export class SignInComponent implements OnInit {
     if(isValid) {
       this.loginService.authenticate(userModel.username, userModel.password).then(user => {
         console.log("User on login: " + user);
+        this.checkAuthenticationStatus();
       }).catch(this.handleError);
     }
   }
 
   isAuthenticated() {
-    return this.loginService.isAuthenticated();
+    return this.isUserAuthenticated;
   }
 
   logout() {
     this.loginService.logout(true);
+    this.checkAuthenticationStatus();
   }
 
   private handleError(error: any) {
