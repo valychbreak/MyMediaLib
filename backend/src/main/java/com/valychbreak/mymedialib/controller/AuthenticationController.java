@@ -23,6 +23,7 @@ import java.util.List;
  * Created by valych on 2/26/17.
  */
 @RestController
+@RequestMapping("/api")
 public class AuthenticationController {
     private UserRepository userRepository;
     private AuthenticationManager authenticationManager;

@@ -35,11 +35,11 @@ public class XAuthTokenFilter extends GenericFilterBean {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        if (/*!request.getRequestURI().contains("/api") || */request.getRequestURI().contains("/signin")){
+        if (!request.getRequestURI().contains("/api") || request.getRequestURI().contains("/signin")){
             filterChain.doFilter(request, response);
         } else {
 
-            //try {
+            try {
 
                 /*Cookie jwtCookie = findJwtCookie(request);
                 Assert.notNull(jwtCookie,"No jwt cookie found");
@@ -69,18 +69,23 @@ public class XAuthTokenFilter extends GenericFilterBean {
 
                 Cookie cookie = findJwtCookie(request);
 
-                if(cookie != null) {
-                    String username = cookie.getValue();
+                if(cookie == null) {
 
-                    if(!username.isEmpty()) {
-                        this.authenticationService.tokenAuthentication(username);
-                    }
+                    //throw new Exception("Not authorized");
+                    throw new Exception("Not authorized");
                 }
-            filterChain.doFilter(request, response);
-            /*} catch (*//*HmacException | ParseException e*//*) {
+
+                String username = cookie.getValue();
+
+                if(!username.isEmpty()) {
+                    this.authenticationService.tokenAuthentication(username);
+                }
+                filterChain.doFilter(request, response);
+            } catch (Exception e) {
                 e.printStackTrace();
                 response.setStatus(403);
-            }*/
+                //response.sendError(403, e.getMessage());
+            }
         }
     }
 

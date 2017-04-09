@@ -29,6 +29,7 @@ import java.util.List;
  * Created by valych on 3/19/17.
  */
 @RestController
+@RequestMapping("/api")
 public class UserMediaController {
     private UserRepository userRepository;
     private MediaRepository mediaRepository;

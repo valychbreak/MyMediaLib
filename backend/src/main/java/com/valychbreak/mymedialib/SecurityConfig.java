@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 /*.antMatchers("/signin").permitAll()*/
-                .antMatchers("/login").permitAll()
+                .antMatchers("/api/signin").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/favicon.ico").anonymous()
@@ -72,11 +72,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().formLogin()
+                .and()/*.formLogin()
                 .loginPage("/login").failureUrl("/login?error")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .and()
+                .and()*/
                 .logout()
                 .permitAll().
                 and()

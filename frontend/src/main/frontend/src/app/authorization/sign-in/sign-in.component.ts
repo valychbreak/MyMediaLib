@@ -15,7 +15,7 @@ import {Config} from "../../config/config";
 export class SignInComponent implements OnInit {
   title: string;
   user: User;
-  isUserAuthenticated: boolean;
+  //isUserAuthenticated: boolean;
 
   constructor(private loginService: LoginService, private http: Http) { }
 
@@ -24,13 +24,13 @@ export class SignInComponent implements OnInit {
 
     this.user = new User();
 
-    this.checkAuthenticationStatus();
+    //this.checkAuthenticationStatus();
   }
 
-  private checkAuthenticationStatus() {
+  /*private checkAuthenticationStatus() {
     this.loginService.isAuthenticatedPromise()
         .then(data => this.isUserAuthenticated = data)
-  }
+  }*/
 
   checkAuthentication() {
     this.http.get(Config.dataRequestLink + "islogged/test")
@@ -45,19 +45,19 @@ export class SignInComponent implements OnInit {
 
     if(isValid) {
       this.loginService.authenticate(userModel.username, userModel.password).then(user => {
-        console.log("User on login: " + user);
-        this.checkAuthenticationStatus();
+        console.log("User on login: " + user.username);
+        //this.checkAuthenticationStatus();
       }).catch(this.handleError);
     }
   }
 
   isAuthenticated() {
-    return this.isUserAuthenticated;
+    return this.loginService.isAuthenticated();
   }
 
   logout() {
     this.loginService.logout(true);
-    this.checkAuthenticationStatus();
+    //this.checkAuthenticationStatus();
   }
 
   private handleError(error: any) {

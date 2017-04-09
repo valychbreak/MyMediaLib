@@ -47,7 +47,7 @@ public class AuthenticationService {
 
             Cookie cookie = new Cookie("someCookie", user.getUsername());
             cookie.setPath("/");
-            cookie.setMaxAge(20*60);
+            cookie.setMaxAge(10);
             //Cookie cannot be accessed via JavaScript
             //cookie.setHttpOnly(true);
             response.addCookie(cookie);

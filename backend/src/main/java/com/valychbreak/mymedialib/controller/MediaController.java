@@ -30,7 +30,7 @@ import java.util.List;
  * Created by Valeriy on 3/18/2017.
  */
 @RestController
-@RequestMapping(value = "/movie")
+@RequestMapping(value = "/api/movie")
 public class MediaController {
     public static final Logger logger = LoggerFactory.getLogger(MediaController.class);
 

@@ -5,6 +5,8 @@ import 'rxjs/add/operator/toPromise';
 import {User} from "./user";
 import {Config} from "../../config/config";
 import {Observable} from "rxjs";
+import {AccountEventsService} from "../../account/account-events.service";
+import {Account} from "../../account/account";
 
 @Injectable()
 export class LoginService {
@@ -15,7 +17,7 @@ export class LoginService {
     static LOGGED_USER_KEY = "loggedUserKey";
 
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private accountEventsService: AccountEventsService) {
     }
 
     authenticate(username: string, password: string): Promise<User> {
@@ -32,6 +34,10 @@ export class LoginService {
                 let user = response.json() as User;
                 console.log(user);
                 localStorage.setItem(LoginService.LOGGED_USER_KEY, JSON.stringify(user));
+
+                let account = new Account();
+                account.login = user.username;
+                this.accountEventsService.loginSuccess(account);
                 return user;
             })
             .catch(this.onLoginFail);
@@ -39,26 +45,23 @@ export class LoginService {
 
     logout(contactServer: boolean) {
         localStorage.removeItem(LoginService.LOGGED_USER_KEY);
-        this.http.get(LoginService.logoutURL)
-            .toPromise().then(response => console.log("logged out"));
+
+        if(contactServer) {
+            this.http.get(LoginService.logoutURL)
+                .toPromise().then(response => {
+                    console.log("logged out");
+                    this.accountEventsService.logout(new Account());
+            });
+        }
     }
 
     isAuthenticated() {
-        //returzn !!localStorage.getItem(LoginService.LOGGED_USER_KEY)
-        let response: string;
-        this.checkAuthOnServer().subscribe(data => response = data);
-        return response == "true";
+        return !!localStorage.getItem(LoginService.LOGGED_USER_KEY);
     }
 
-    isAuthenticatedPromise(): Promise<boolean> {
-        //returzn !!localStorage.getItem(LoginService.LOGGED_USER_KEY)
-        return this.checkAuthOnServer()
-            .toPromise()
-            .then(data => data == "true");
-    }
-
-    checkAuthOnServer() : Observable<string> {
-        return this.http.get(LoginService.isLoggedURL).map(response => response.text())
+    checkIsAuthenticatedOnServer() : Promise<boolean> {
+        return this.http.get(LoginService.isLoggedURL)
+            .toPromise().then(response => response.text() == "true")
     }
 
     getLoggedUsername() {

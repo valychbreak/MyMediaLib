@@ -24,6 +24,7 @@ import java.util.List;
  * Created by valych on 2/25/17.
  */
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     private UserRepository userRepository;
