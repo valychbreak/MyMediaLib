@@ -24,6 +24,9 @@ import java.util.List;
 @Service
 public class AuthenticationService {
 
+    public static final String APP_COOKIE = "someCookie";
+
+
     private UserRepository userRepository;
     private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
@@ -45,7 +48,7 @@ public class AuthenticationService {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Cookie cookie = new Cookie("someCookie", user.getUsername());
+            Cookie cookie = new Cookie(APP_COOKIE, user.getUsername());
             cookie.setPath("/");
             cookie.setMaxAge(10);
             //Cookie cannot be accessed via JavaScript

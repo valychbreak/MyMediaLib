@@ -38,41 +38,21 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public ResponseEntity<User> authenticate(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
-        /*List<User> users = userRepository.findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
-        User user = users.size() > 0 ? users.get(0) : null;
-
-        if(user != null) {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    loginDTO.getUsername(), loginDTO.getPassword());
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return new ResponseEntity<User>(user, HttpStatus.OK);
-        }*/
-
         User user = authenticationService.authenticate(loginDTO, response);
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-        //return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/islogged", method = RequestMethod.GET)
     public ResponseEntity<Boolean> authenticate(HttpServletResponse response) {
-        /*List<User> users = userRepository.findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword());
-        User user = users.size() > 0 ? users.get(0) : null;
-*/
+
         Object credentials = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println(credentials);
-        /*if(user != null) {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    loginDTO.getUsername(), loginDTO.getPassword());
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return new ResponseEntity<User>(user, HttpStatus.OK);
-        }*/
+
         boolean result = false;
         try {
             String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
             List<User> users = userRepository.findByUsername(username);
-            result = users.size() > 0;//SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+            result = users.size() > 0; //SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
         } catch (ClassCastException e) {
 
         }
@@ -83,7 +63,7 @@ public class AuthenticationController {
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         SecurityContextHolder.getContext().setAuthentication(null);
         System.out.println(SecurityContextHolder.getContext().getAuthentication());
-        Cookie someCookie = new Cookie("someCookie", "");
+        Cookie someCookie = new Cookie(AuthenticationService.APP_COOKIE, "");
         someCookie.setPath("/");
         response.addCookie(someCookie);
     }
