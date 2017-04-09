@@ -7,8 +7,8 @@ import {LoginService} from "./login.service";
 import {Movie} from "../../movies/shared/movie";
 @Injectable()
 export class UserFavouritesService {
-    static usersURL = Config.dataRequestLink + "users";
-    static addMedia = Config.dataRequestLink + "user/add";
+    static usersURL = Config.dataRequestLink + "/users";
+    static addMedia = Config.dataRequestLink + "/user/add";
 
 
     constructor(private http: Http, private userService: UserService, private loginService: LoginService) {
@@ -24,7 +24,7 @@ export class UserFavouritesService {
         let username = this.loginService.getLoggedUsername();
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(Config.dataRequestLink + "user/" + username + "/favourites/add", movie, options)
+        return this.http.post(Config.dataRequestLink + "/user/" + username + "/favourites/add", movie, options)
             .toPromise()
             .then(response => response.json() as Movie)
     }
@@ -33,13 +33,13 @@ export class UserFavouritesService {
         let username = this.loginService.getLoggedUsername();
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(Config.dataRequestLink + "user/" + username + "/favourites/remove", movie, options)
+        return this.http.post(Config.dataRequestLink + "/user/" + username + "/favourites/remove", movie, options)
             .toPromise()
-            .then(response => response)
+            .then(response => response.json() as Movie)
     }
 
     getUserFavourites(username: string): Promise<Movie[]> {
-        return this.http.get(Config.dataRequestLink + "user/" + username + "/favourites")
+        return this.http.get(Config.dataRequestLink + "/user/" + username + "/favourites")
             .toPromise()
             .then(response => response.json() as Movie[])
             .catch(this.handleError);

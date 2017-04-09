@@ -10,9 +10,9 @@ import {Account} from "../../account/account";
 
 @Injectable()
 export class LoginService {
-    static authenticateURL = Config.dataRequestLink + "signin";
-    static isLoggedURL = Config.dataRequestLink + "islogged";
-    static logoutURL = Config.dataRequestLink + "logout123";
+    static authenticateURL = Config.dataRequestLink + "/signin";
+    static isLoggedURL = Config.dataRequestLink + "/islogged";
+    static logoutURL = Config.dataRequestLink + "/logout123";
 
     static LOGGED_USER_KEY = "loggedUserKey";
 

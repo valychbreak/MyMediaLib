@@ -1,3 +1,3 @@
 export class Config {
-    static dataRequestLink = "http://localhost:8080/api/";
+    static dataRequestLink = "http://localhost:8080/api";
 }

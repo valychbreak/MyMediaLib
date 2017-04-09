@@ -8,8 +8,8 @@ import {Movie} from "../../movies/shared/movie";
 
 @Injectable()
 export class UserService {
-  static usersURL = Config.dataRequestLink + "users";
-  static createUserURL = Config.dataRequestLink + "user/add";
+  static usersURL = Config.dataRequestLink + "/users";
+  static createUserURL = Config.dataRequestLink + "/user/add";
 
 
   constructor(private http: Http) {
@@ -36,7 +36,7 @@ export class UserService {
   }
 
   getUserFavourites(username: string): Promise<Movie[]> {
-    return this.http.get(Config.dataRequestLink + "user/" + username + "/favourites")
+    return this.http.get(Config.dataRequestLink + "/user/" + username + "/favourites")
         .toPromise()
         .then(response => response.json() as Movie[])
         .catch(this.handleError);
