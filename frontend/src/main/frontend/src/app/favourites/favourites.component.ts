@@ -28,7 +28,7 @@ export class FavouritesComponent implements OnInit {
   ngOnInit() {
     this.title = "Favourites";
     //this.getLoggedUser();
-    this.getFavouriteMedia().subscribe(media => this.fav = media);
+    //this.getFavouriteMedia().subscribe(media => this.fav = media);
 
     this.getFavourites();
   }
