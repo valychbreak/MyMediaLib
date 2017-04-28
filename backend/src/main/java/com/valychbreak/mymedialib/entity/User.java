@@ -40,15 +40,12 @@ public class User {
     protected User() {
     }
 
-    public User(String username, String name, String email) {
-        this(null, username, name, email);
-    }
-
-    public User(Long id, String username, String name, String email) {
-        this.id = id;
+    public User(String username, String password, String name, String email, UserRole role) {
         this.username = username;
+        this.password = password;
         this.name = name;
         this.email = email;
+        this.role = role;
     }
 
     public Long getId() {
