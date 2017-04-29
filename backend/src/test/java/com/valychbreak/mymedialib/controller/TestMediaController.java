@@ -25,15 +25,17 @@ import static com.valychbreak.mymedialib.controller.TestMediaController.MEDIA_CO
 /**
  * Created by valych on 4/29/17.
  */
-@WithMockUser(username = MEDIA_CONTROLLER_TEST_USER_NAME, roles={"USER"})
 public class TestMediaController extends AbstractControllerTest {
 
     public static final String MEDIA_CONTROLLER_TEST_USER_NAME = "mediaControllerTestUser";
 
-    private User testUser;
+    //private User testUser;
 
     @Test
+    @WithMockUser(username = "getFavouritesUser", roles={"USER"})
     public void testGetUserFavourites() throws Exception {
+        User testUser = createUserInDb("getFavouritesUser");
+
         MediaFullDetails fightClubMovie = getMediaShortDetailsBy("tt0137523");
         MediaFullDetails friendsTVSeries = getMediaShortDetailsBy("tt0108778");
 
@@ -47,13 +49,16 @@ public class TestMediaController extends AbstractControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "testAddUser", roles={"USER"})
     public void testAddUserFavourites() throws Exception {
+        User testUser = createUserInDb("testAddUser");
+
         MediaFullDetails fightClubMovie = getMediaShortDetailsBy("tt0137523");
         mockMvc.perform(MockMvcRequestBuilders.post("/api/user/" + testUser.getUsername() + "/favourites/add")
                 .contentType(MediaType.APPLICATION_JSON).content(json(fightClubMovie)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        User dbTestUser = userRepository.findFirstByUsername(MEDIA_CONTROLLER_TEST_USER_NAME);
+        User dbTestUser = userRepository.findFirstByUsername(testUser.getUsername());
         boolean found = userHasInFavourites(fightClubMovie, dbTestUser);
 
         Assert.assertTrue(fightClubMovie.getTitle() + " media is not in " + dbTestUser.getUsername() + "'s favourites", found);
@@ -73,7 +78,7 @@ public class TestMediaController extends AbstractControllerTest {
     protected void setupTest() throws Exception {
         super.setupTest();
 
-        testUser = createUserInDb(MEDIA_CONTROLLER_TEST_USER_NAME);
+        //testUser = createUserInDb(MEDIA_CONTROLLER_TEST_USER_NAME);
     }
 
     private void initFavourites(User user) throws Exception {

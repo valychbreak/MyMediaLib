@@ -8,7 +8,6 @@ import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import com.valychbreak.mymedialib.tools.gson.GsonBuilderTools;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,9 +17,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by valych on 4/28/17.
@@ -53,15 +49,17 @@ public abstract class AbstractControllerTest {
                 .webAppContextSetup(context)
                 .build();
 
-        // TODO: fix the issue with tests when running more than one test
-        initUserRoles();
-        createAdminUser();
+        createAdminUserIfNotExists();
         setupTest();
     }
 
-    private void createAdminUser() {
-        UserRole adminRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
-        adminUser = createUserInDb("admin", "test12","Admin", "admin@t.com", adminRole);
+    private void createAdminUserIfNotExists() {
+        adminUser = userRepository.findFirstByUsername("admin");
+
+        if(adminUser == null) {
+            UserRole adminRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
+            adminUser = createUserInDb("admin", "test12", "Admin", "admin@t.com", adminRole);
+        }
     }
 
     protected User createUserInDb(String username) {
@@ -89,15 +87,5 @@ public abstract class AbstractControllerTest {
     protected String json(Object object) {
         Gson gson = GsonBuilderTools.getGsonBuilder().create();
         return gson.toJson(object);
-    }
-
-    private void initUserRoles() {
-        List<UserRole> userRoles = new ArrayList<>();
-        UserRole adminRole = new UserRole("ADMIN");
-        UserRole userRole = new UserRole("USER");
-        userRoles.add(adminRole);
-        userRoles.add(userRole);
-
-        userRoleRepository.save(userRoles);
     }
 }

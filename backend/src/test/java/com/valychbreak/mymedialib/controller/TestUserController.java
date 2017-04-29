@@ -37,6 +37,7 @@ public class TestUserController extends AbstractControllerTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
+        initUsers();
         Iterable<User> allUsers = userRepository.findAll();
         String expectedResult = json(allUsers);
 
@@ -59,7 +60,7 @@ public class TestUserController extends AbstractControllerTest {
 
     @Override
     protected void setupTest() {
-        initUsers();
+        //initUsers();
     }
 
 
