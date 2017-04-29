@@ -8,6 +8,7 @@ import com.omertron.omdbapi.model.SearchResults;
 import com.omertron.omdbapi.tools.OmdbBuilder;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
+import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.UserMedia;
 import com.valychbreak.mymedialib.repository.UserRepository;
@@ -41,9 +42,9 @@ public class MediaController {
 
     @RequestMapping(value = "/imdb/get/{imdbId}", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<MediaFullDetailsAdapter> getMovieByImdbId(@PathVariable String imdbId) throws OMDBException {
+    public ResponseEntity<MediaFullDetailsImpl> getMovieByImdbId(@PathVariable String imdbId) throws OMDBException {
         OmdbVideoFull omdbVideo = new OmdbVideoProvider().getOmdbVideo(imdbId);
-        MediaFullDetailsAdapter media = new MediaFullDetailsAdapter(omdbVideo);
+        MediaFullDetailsImpl media = new MediaFullDetailsAdapter(omdbVideo);
 
         User user = getLoggedUser();
         boolean isFavourite = isUserFavourite(user, media);
@@ -56,7 +57,7 @@ public class MediaController {
         boolean isFavourite = false;
         List<UserMedia> userMediaList = user.getFavourites();
         for (UserMedia userMedia : userMediaList) {
-            if(userMedia.getMedia().getShortDetails().getImdbId().equals(media.getImdbId())) {
+            if(userMedia.getMedia().getImdbId().equals(media.getImdbId())) {
                 isFavourite = true;
             }
         }
@@ -86,8 +87,8 @@ public class MediaController {
         for (OmdbVideoBasic videoBasic : results.getResults()) {
             OmdbVideoFull omdbVideo = new OmdbVideoProvider().getOmdbVideo(videoBasic.getImdbID());
             MediaFullDetails fullDetailsAdapter = new MediaFullDetailsAdapter(omdbVideo);
-            boolean isFavourite = isUserFavourite(user, fullDetailsAdapter);
-            fullDetailsAdapter.setFavourite(isFavourite);
+            /*boolean isFavourite = isUserFavourite(user, fullDetailsAdapter);
+            fullDetailsAdapter.setFavourite(isFavourite);*/
             mediaSearchResult.add(fullDetailsAdapter);
         }
 
