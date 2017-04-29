@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.data;
+package com.valychbreak.mymedialib.data.movie;
 
 /**
  * Created by Valeriy on 3/18/2017.

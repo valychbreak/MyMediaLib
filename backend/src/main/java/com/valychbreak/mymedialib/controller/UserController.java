@@ -1,10 +1,6 @@
 package com.valychbreak.mymedialib.controller;
 
-import com.valychbreak.mymedialib.data.MediaShortDetails;
-import com.valychbreak.mymedialib.data.UserDetailsImpl;
-import com.valychbreak.mymedialib.entity.Media;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.UserMedia;
 import com.valychbreak.mymedialib.entity.UserRole;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
@@ -12,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

@@ -1,9 +1,8 @@
 package com.valychbreak.mymedialib.controller;
 
 import com.omertron.omdbapi.OMDBException;
-import com.omertron.omdbapi.model.OmdbVideoBasic;
-import com.valychbreak.mymedialib.data.MediaFullDetails;
-import com.valychbreak.mymedialib.data.MediaShortDetails;
+import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
+import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.Media;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.UserMedia;
@@ -11,13 +10,11 @@ import com.valychbreak.mymedialib.repository.MediaRepository;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
-import com.valychbreak.mymedialib.tools.adapters.MediaShortDetailsAdapter;
+import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 

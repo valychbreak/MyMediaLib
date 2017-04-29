@@ -2,14 +2,12 @@ package com.valychbreak.mymedialib.controller;
 
 import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.model.OmdbVideoFull;
-import com.valychbreak.mymedialib.data.MediaFullDetails;
-import com.valychbreak.mymedialib.data.MediaShortDetails;
+import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
+import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.UserMedia;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
-import com.valychbreak.mymedialib.tools.adapters.MediaFullDetailsAdapter;
-import com.valychbreak.mymedialib.tools.adapters.MediaShortDetailsAdapter;
-import org.hamcrest.Matcher;
+import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsAdapter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -19,8 +17,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static com.valychbreak.mymedialib.controller.TestMediaController.MEDIA_CONTROLLER_TEST_USER_NAME;
 
 /**
  * Created by valych on 4/29/17.
