@@ -33,11 +33,6 @@ import java.util.List;
  */
 
 public class TestUserController extends AbstractControllerTest {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
 
 
     @Test
@@ -64,25 +59,16 @@ public class TestUserController extends AbstractControllerTest {
 
     @Override
     protected void setupTest() {
-        initUserRoles();
         initUsers();
     }
 
-    private void initUserRoles() {
-        List<UserRole> userRoles = new ArrayList<>();
-        UserRole adminRole = new UserRole("ADMIN");
-        UserRole userRole = new UserRole("USER");
-        userRoles.add(adminRole);
-        userRoles.add(userRole);
 
-        userRoleRepository.save(userRoles);
-    }
 
     private void initUsers() {
         UserRole adminRole = getAdminRole();
         UserRole userRole = getUserRole();
 
-        User admin = new User("admin", "test12","Admin", "t@t.com", adminRole);
+        User admin = new User("anotherAdmin", "test12","Another Admin", "t@t.com", adminRole);
         User user = new User("test", "test12","Test", "t2t.com", userRole);
 
         userRepository.save(admin);

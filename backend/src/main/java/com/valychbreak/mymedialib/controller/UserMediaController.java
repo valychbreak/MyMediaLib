@@ -46,10 +46,14 @@ public class UserMediaController {
     @RequestMapping(value = "/user/favourites", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MediaFullDetails>> getFavourites() throws Exception {
-        String username = ((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-        User user = getUserByUsername(username);
-        List<MediaFullDetails> mediaList = getUserFavouriteMedia(user);
+        List<MediaFullDetails> mediaList = getUserFavouriteMedia(getLoggedUser());
         return new ResponseEntity<>(mediaList, HttpStatus.OK);
+    }
+
+    private User getLoggedUser() {
+        String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getUsername();
+        return getUserByUsername(username);
     }
 
     @RequestMapping(value = "/user/{username}/favourites", method = RequestMethod.GET,
