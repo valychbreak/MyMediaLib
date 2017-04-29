@@ -32,7 +32,7 @@ public class User {
     @JoinColumn(name = "user_role_id", nullable = false)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonExclude
     private List<UserMedia> favourites = new ArrayList<>();
 

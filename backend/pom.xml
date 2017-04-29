@@ -81,6 +81,12 @@
             <version>4.3.8.RELEASE</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>4.2.2.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

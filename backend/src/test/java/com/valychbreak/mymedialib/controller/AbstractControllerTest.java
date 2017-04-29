@@ -8,6 +8,7 @@ import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import com.valychbreak.mymedialib.tools.gson.GsonBuilderTools;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,10 @@ import java.util.List;
 @TestPropertySource(locations="classpath:test.properties")
 public abstract class AbstractControllerTest {
 
+    public static final String ADMIN_ROLE_NAME = "ADMIN";
+    public static final String USER_ROLE_NAME = "USER";
+
+
     protected User adminUser;
     protected MockMvc mockMvc;
 
@@ -43,23 +48,41 @@ public abstract class AbstractControllerTest {
     private WebApplicationContext context;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
 
+        // TODO: fix the issue with tests when running more than one test
         initUserRoles();
         createAdminUser();
         setupTest();
     }
 
     private void createAdminUser() {
-        UserRole adminRole = userRoleRepository.findByRole("ADMIN");
-        adminUser = new User("admin", "test12","Admin", "admin@t.com", adminRole);
-        userRepository.save(adminUser);
+        UserRole adminRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
+        adminUser = createUserInDb("admin", "test12","Admin", "admin@t.com", adminRole);
     }
 
-    protected void setupTest() {
+    protected User createUserInDb(String username) {
+        String password = username + "pass";
+        String name = username + "_name";
+        String email = username + "@email.com";
+        return createUserInDb(username, password, name, email);
+    }
+
+    protected User createUserInDb(String username, String password, String name, String email) {
+        UserRole userRole = userRoleRepository.findByRole(USER_ROLE_NAME);
+        return createUserInDb(username, password, name, email, userRole);
+    }
+
+    protected User createUserInDb(String username, String password, String name, String email, UserRole adminRole) {
+        User user = new User(username, password, name, email, adminRole);
+        userRepository.save(user);
+        return user;
+    }
+
+    protected void setupTest() throws Exception {
 
     }
 
