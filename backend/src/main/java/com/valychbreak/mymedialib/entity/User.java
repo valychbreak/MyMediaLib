@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.tools.gson.JsonExclude;
 
 /**

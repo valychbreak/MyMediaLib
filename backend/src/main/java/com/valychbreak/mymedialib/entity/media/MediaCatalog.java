@@ -1,7 +1,5 @@
 package com.valychbreak.mymedialib.entity.media;
 
-import com.valychbreak.mymedialib.entity.Media;
-
 import javax.persistence.*;
 import java.util.List;
 

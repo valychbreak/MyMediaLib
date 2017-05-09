@@ -10,7 +10,7 @@ import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.UserMedia;
+import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsAdapter;

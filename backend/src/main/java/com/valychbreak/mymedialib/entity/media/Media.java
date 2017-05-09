@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.entity;
+package com.valychbreak.mymedialib.entity.media;
 
 import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.model.OmdbVideoFull;

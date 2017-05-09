@@ -1,4 +1,6 @@
-package com.valychbreak.mymedialib.entity;
+package com.valychbreak.mymedialib.entity.media;
+
+import com.valychbreak.mymedialib.entity.User;
 
 import javax.persistence.*;
 import java.util.Date;

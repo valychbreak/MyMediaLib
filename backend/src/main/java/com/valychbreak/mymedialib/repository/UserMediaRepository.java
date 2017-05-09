@@ -1,6 +1,6 @@
 package com.valychbreak.mymedialib.repository;
 
-import com.valychbreak.mymedialib.entity.UserMedia;
+import com.valychbreak.mymedialib.entity.media.UserMedia;
 import org.springframework.data.repository.CrudRepository;
 
 /**
