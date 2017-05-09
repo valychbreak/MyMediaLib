@@ -23,6 +23,10 @@ import {UserFavouritesService} from "./users/shared/user-favourites.service";
 import {CustomHttpService} from "./utils/custom-http-service";
 import {AccountEventsService} from "./account/account-events.service";
 
+export function httpFactory(backend: XHRBackend, options: RequestOptions, accountEventsService: AccountEventsService) {
+  return new CustomHttpService(backend, options, accountEventsService);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,9 +51,7 @@ import {AccountEventsService} from "./account/account-events.service";
   ],
   providers: [MovieService, LoginService, UserFavouritesService, AccountEventsService, {
     provide: Http,
-    useFactory: (backend: XHRBackend, options: RequestOptions, accountEventsService: AccountEventsService) => {
-      return new CustomHttpService(backend, options, accountEventsService);
-    },
+    useFactory: httpFactory,
     deps: [XHRBackend, RequestOptions, AccountEventsService],
     multi: false
   }

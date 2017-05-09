@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class WebstormFirstProjectPage {
+export class TestProjectPage {
   navigateTo() {
     return browser.get('/');
   }

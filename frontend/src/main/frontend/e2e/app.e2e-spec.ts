@@ -1,10 +1,10 @@
-import { WebstormFirstProjectPage } from './app.po';
+import { TestProjectPage } from './app.po';
 
-describe('webstorm-first-project App', function() {
-  let page: WebstormFirstProjectPage;
+describe('test-project App', () => {
+  let page: TestProjectPage;
 
   beforeEach(() => {
-    page = new WebstormFirstProjectPage();
+    page = new TestProjectPage();
   });
 
   it('should display message saying app works', () => {
