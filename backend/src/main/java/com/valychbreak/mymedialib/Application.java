@@ -1,12 +1,16 @@
 package com.valychbreak.mymedialib;
 
+import com.valychbreak.mymedialib.tools.ApplicationFirstRunSetup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
 
@@ -17,6 +21,9 @@ import java.util.Arrays;
 @EnableAutoConfiguration(exclude = { JacksonAutoConfiguration.class })
 public class Application {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
+
+    @Autowired
+    private ApplicationFirstRunSetup applicationFirstRunSetup;
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
@@ -33,5 +40,12 @@ public class Application {
         for (String beanName : beanNames) {
             log.info(beanName);
         }
+    }
+
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        return args -> {
+            applicationFirstRunSetup.execute();
+        };
     }
 }

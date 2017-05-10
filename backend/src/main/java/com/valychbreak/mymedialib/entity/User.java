@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.tools.gson.JsonExclude;
 
 /**
@@ -32,7 +33,7 @@ public class User {
     @JoinColumn(name = "user_role_id", nullable = false)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonExclude
     private List<UserMedia> favourites = new ArrayList<>();
 
@@ -40,15 +41,12 @@ public class User {
     protected User() {
     }
 
-    public User(String username, String name, String email) {
-        this(null, username, name, email);
-    }
-
-    public User(Long id, String username, String name, String email) {
-        this.id = id;
+    public User(String username, String password, String name, String email, UserRole role) {
         this.username = username;
+        this.password = password;
         this.name = name;
         this.email = email;
+        this.role = role;
     }
 
     public Long getId() {

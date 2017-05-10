@@ -4,6 +4,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.valychbreak.mymedialib.tools.gson.GsonBuilderTools;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -25,11 +26,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     private GsonHttpMessageConverter createGsonHttpMessageConverter() {
-        Gson gson = new GsonBuilder()
-                //.excludeFieldsWithoutExposeAnnotation()
-                .setExclusionStrategies(new JsonAnnotationExcludeStrategy())
-                //.setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
-                .create();
+        Gson gson = GsonBuilderTools.getGsonBuilder().create();
 
         GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();
         gsonConverter.setGson(gson);

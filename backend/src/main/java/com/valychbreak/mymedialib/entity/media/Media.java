@@ -1,12 +1,12 @@
-package com.valychbreak.mymedialib.entity;
+package com.valychbreak.mymedialib.entity.media;
 
 import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.model.OmdbVideoFull;
-import com.valychbreak.mymedialib.data.MediaFullDetails;
-import com.valychbreak.mymedialib.data.MediaShortDetails;
+import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
+import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
-import com.valychbreak.mymedialib.tools.adapters.MediaFullDetailsAdapter;
-import com.valychbreak.mymedialib.tools.adapters.MediaShortDetailsAdapter;
+import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsAdapter;
+import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsAdapter;
 
 import javax.persistence.*;
 
