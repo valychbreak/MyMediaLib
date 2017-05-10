@@ -26,13 +26,11 @@ import java.util.List;
 @RequestMapping("/api")
 public class AuthenticationController {
     private UserRepository userRepository;
-    private AuthenticationManager authenticationManager;
     private AuthenticationService authenticationService;
 
     @Autowired
-    public AuthenticationController(UserRepository userRepository, AuthenticationManager authenticationManager, AuthenticationService authenticationService) {
+    public AuthenticationController(UserRepository userRepository, AuthenticationService authenticationService) {
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
         this.authenticationService = authenticationService;
     }
 

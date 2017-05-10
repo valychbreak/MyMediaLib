@@ -28,13 +28,18 @@ public class AuthenticationService {
 
 
     private UserRepository userRepository;
-    private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
 
+    /**
+     * Fixes the issue with cycle dependency with SecurityConfig
+     */
     @Autowired
-    public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+    private AuthenticationManager authenticationManager;
+
+
+    @Autowired
+    public AuthenticationService(UserRepository userRepository, UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
     }
 

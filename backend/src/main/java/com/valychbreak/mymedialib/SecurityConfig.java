@@ -35,15 +35,13 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
-
-    @Autowired
     private AuthenticationService authenticationService;
 
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService/*, AuthenticationService authenticationService*/) {
+    public SecurityConfig(UserDetailsService userDetailsService, AuthenticationService authenticationService) {
         this.userDetailsService = userDetailsService;
-        //this.authenticationService = authenticationService;
+        this.authenticationService = authenticationService;
     }
 
     @Override

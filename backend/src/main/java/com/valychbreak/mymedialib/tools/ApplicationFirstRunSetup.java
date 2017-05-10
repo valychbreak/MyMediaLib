@@ -35,10 +35,10 @@ public class ApplicationFirstRunSetup {
             userRoleRepository.save(userRoles);
         }
 
-        /*if(userRepository.count() == 0) {
+        if(userRepository.count() == 0) {
             UserRole adminRole = userRoleRepository.findByRole("ADMIN");
-            User adminUser = new User("admin", "adminPassword123","Admin", "admin@t.com", adminRole);
+            User adminUser = new User("test", "test12","Admin test", "admin@t.com", adminRole);
             userRepository.save(adminUser);
-        }*/
+        }
     }
 }
