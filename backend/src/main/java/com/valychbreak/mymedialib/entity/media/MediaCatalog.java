@@ -22,7 +22,7 @@ public class MediaCatalog {
     private List<MediaCatalog> subMediaCatalogs;
 
     @ManyToMany
-    private List<Media> mediaList;
+    private List<UserMedia> userMediaList;
 
     protected MediaCatalog() { }
 
@@ -62,11 +62,11 @@ public class MediaCatalog {
         this.subMediaCatalogs = subMediaCatalogs;
     }
 
-    public List<Media> getMediaList() {
-        return mediaList;
+    public List<UserMedia> getUserMediaList() {
+        return userMediaList;
     }
 
-    public void setMediaList(List<Media> mediaList) {
-        this.mediaList = mediaList;
+    public void setUserMediaList(List<UserMedia> userMediaList) {
+        this.userMediaList = userMediaList;
     }
 }
