@@ -39,9 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService, AuthenticationService authenticationService) {
+    public SecurityConfig(UserDetailsService userDetailsService/*, AuthenticationService authenticationService*/) {
         this.userDetailsService = userDetailsService;
-        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -97,6 +96,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new XAuthTokenConfigurer(authenticationService);
     }
 
+
+    /**
+     * Fixes the issue with cycle dependency with AuthenticationService
+     * (authenticationService -> authenticationManager -> Security config -> authenticationService)
+     */
+    @Autowired
+    public void setAuthenticationService(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
     /*@Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         List<UserDetails> userDetailsList = new ArrayList<>();
