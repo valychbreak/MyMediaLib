@@ -35,7 +35,7 @@ public class XAuthTokenFilter extends GenericFilterBean {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        if (!request.getRequestURI().contains("/api") || request.getRequestURI().contains("/signin")){
+        if (!isToBeAuthenticated(request)){
             filterChain.doFilter(request, response);
         } else {
 
@@ -87,6 +87,11 @@ public class XAuthTokenFilter extends GenericFilterBean {
                 //response.sendError(403, e.getMessage());
             }
         }
+    }
+
+    private boolean isToBeAuthenticated(HttpServletRequest request) {
+        return request.getRequestURI().contains("/api") && !request.getRequestURI().contains("/signin")
+                && !request.getRequestURI().contains("/user/add");
     }
 
     private Cookie findJwtCookie(HttpServletRequest request) {
