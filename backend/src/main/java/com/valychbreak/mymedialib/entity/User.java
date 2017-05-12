@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.valychbreak.mymedialib.entity.media.MediaCatalog;
+import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.tools.gson.JsonExclude;
 
@@ -36,7 +36,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "root_user_media_catalog"/*, nullable = false*/)
-    private MediaCatalog rootMediaCatalog;
+    private UserMediaCatalog rootUserMediaCatalog;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonExclude

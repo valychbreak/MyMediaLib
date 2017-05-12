@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by valych on 5/9/17.
  */
-public class MediaCatalog {
+public class UserMediaCatalog {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,17 +16,17 @@ public class MediaCatalog {
 
     @ManyToOne
     @JoinColumn(name = "parent_media_catalog")
-    private MediaCatalog parentMediaCatalog;
+    private UserMediaCatalog parentUserMediaCatalog;
 
-    @OneToMany(mappedBy = "parentMediaCatalog")
-    private List<MediaCatalog> subMediaCatalogs;
+    @OneToMany(mappedBy = "parentUserMediaCatalog")
+    private List<UserMediaCatalog> subUserMediaCatalogs;
 
     @ManyToMany
     private List<UserMedia> userMediaList;
 
-    protected MediaCatalog() { }
+    protected UserMediaCatalog() { }
 
-    public MediaCatalog(String name) {
+    public UserMediaCatalog(String name) {
         this.name = name;
     }
 
@@ -46,20 +46,20 @@ public class MediaCatalog {
         this.name = name;
     }
 
-    public MediaCatalog getParentMediaCatalog() {
-        return parentMediaCatalog;
+    public UserMediaCatalog getParentUserMediaCatalog() {
+        return parentUserMediaCatalog;
     }
 
-    public void setParentMediaCatalog(MediaCatalog parentMediaCatalog) {
-        this.parentMediaCatalog = parentMediaCatalog;
+    public void setParentUserMediaCatalog(UserMediaCatalog parentUserMediaCatalog) {
+        this.parentUserMediaCatalog = parentUserMediaCatalog;
     }
 
-    public List<MediaCatalog> getSubMediaCatalogs() {
-        return subMediaCatalogs;
+    public List<UserMediaCatalog> getSubUserMediaCatalogs() {
+        return subUserMediaCatalogs;
     }
 
-    public void setSubMediaCatalogs(List<MediaCatalog> subMediaCatalogs) {
-        this.subMediaCatalogs = subMediaCatalogs;
+    public void setSubUserMediaCatalogs(List<UserMediaCatalog> subUserMediaCatalogs) {
+        this.subUserMediaCatalogs = subUserMediaCatalogs;
     }
 
     public List<UserMedia> getUserMediaList() {
