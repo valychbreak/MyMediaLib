@@ -3,7 +3,7 @@ package com.valychbreak.mymedialib.controller;
 import com.google.gson.Gson;
 import com.valychbreak.mymedialib.Application;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.UserRole;
+import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import com.valychbreak.mymedialib.tools.gson.GsonBuilderTools;
@@ -57,7 +57,7 @@ public abstract class AbstractControllerTest {
         adminUser = userRepository.findFirstByUsername("admin");
 
         if(adminUser == null) {
-            UserRole adminRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
+            Role adminRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
             adminUser = createUserInDb("admin", "test12", "Admin", "admin@t.com", adminRole);
         }
     }
@@ -70,11 +70,11 @@ public abstract class AbstractControllerTest {
     }
 
     protected User createUserInDb(String username, String password, String name, String email) {
-        UserRole userRole = userRoleRepository.findByRole(USER_ROLE_NAME);
-        return createUserInDb(username, password, name, email, userRole);
+        Role role = userRoleRepository.findByRole(USER_ROLE_NAME);
+        return createUserInDb(username, password, name, email, role);
     }
 
-    protected User createUserInDb(String username, String password, String name, String email, UserRole adminRole) {
+    protected User createUserInDb(String username, String password, String name, String email, Role adminRole) {
         User user = new User(username, password, name, email, adminRole);
         userRepository.save(user);
         return user;

@@ -1,6 +1,6 @@
 package com.valychbreak.mymedialib.services;
 
-import com.valychbreak.mymedialib.entity.UserRole;
+import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,13 +50,13 @@ public class MyUserDetailsService implements UserDetailsService {
                 true, true, true, true, authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(UserRole userRole) {
+    private List<GrantedAuthority> buildUserAuthority(Role role) {
 
         Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 
         // Build user's authorities
-        //for (UserRole userRole : userRoles) {
-            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+        //for (Role role : userRoles) {
+            setAuths.add(new SimpleGrantedAuthority(role.getRole()));
         //}
 
         List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);

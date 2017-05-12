@@ -1,7 +1,7 @@
 package com.valychbreak.mymedialib.services;
 
+import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.UserRole;
 import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
 import com.valychbreak.mymedialib.repository.UserRepository;
@@ -31,30 +31,30 @@ public class CreateUserService {
     }
 
     public User saveSimpleUser(String username, String password, String name, String email) {
-        UserRole userRole = getRole(USER_ROLE_NAME);
-        return saveUser(username, password, name, email, userRole);
+        Role role = getRole(USER_ROLE_NAME);
+        return saveUser(username, password, name, email, role);
     }
 
     public User saveAdminUser(String username, String password, String name, String email) {
-        UserRole userRole = getRole(ADMIN_ROLE_NAME);
-        return saveUser(username, password, name, email, userRole);
+        Role role = getRole(ADMIN_ROLE_NAME);
+        return saveUser(username, password, name, email, role);
     }
 
-    public User saveUser(String username, String password, String name, String email, UserRole role) {
+    public User saveUser(String username, String password, String name, String email, Role role) {
         User user = createUserInstance(username, password, name, email, role);
         userMediaCatalogRepository.save(user.getRootUserMediaCatalog());
         userRepository.save(user);
         return user;
     }
 
-    public User createUserInstance(String username, String password, String name, String email, UserRole role) {
+    public User createUserInstance(String username, String password, String name, String email, Role role) {
         UserMediaCatalog userMediaCatalog = new UserMediaCatalog(username + "_root_catalog");
         User user = new User(username, password, name, email, role);
         user.setRootUserMediaCatalog(userMediaCatalog);
         return user;
     }
 
-    private UserRole getRole(String userRoleName) {
+    private Role getRole(String userRoleName) {
         return userRoleRepository.findByRole(userRoleName);
     }
 }

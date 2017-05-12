@@ -1,7 +1,7 @@
 package com.valychbreak.mymedialib.controller;
 
+import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.UserRole;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +32,18 @@ public class UserController {
 
     @RequestMapping(value = "/initroles", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<List<UserRole>> initRoles() {
-        List<UserRole> userRoles = new ArrayList<>();
+    public ResponseEntity<List<Role>> initRoles() {
+        List<Role> roles = new ArrayList<>();
         if(userRoleRepository.count() == 0) {
-            UserRole adminRole = new UserRole("ADMIN");
-            UserRole userRole = new UserRole("USER");
-            userRoles.add(adminRole);
-            userRoles.add(userRole);
+            Role adminRole = new Role("ADMIN");
+            Role role = new Role("USER");
+            roles.add(adminRole);
+            roles.add(role);
             //userRoleRepository.save(adminRole);
-            userRoleRepository.save(userRoles);
+            userRoleRepository.save(roles);
         }
 
-        return new ResponseEntity<>(userRoles, HttpStatus.OK);
+        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE},
@@ -58,7 +58,7 @@ public class UserController {
     @RequestMapping(value = "/user/add", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addUser(@RequestBody User user) throws Exception {
-        UserRole role = userRoleRepository.findByRole("ADMIN");
+        Role role = userRoleRepository.findByRole("ADMIN");
         user.setRole(role);
         User createdUser = userRepository.save(user);
 

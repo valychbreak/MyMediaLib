@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "user_role")
-public class UserRole {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,9 +23,9 @@ public class UserRole {
     @OneToMany(mappedBy = "role")
     private List<User> users;
 
-    protected UserRole() {}
+    protected Role() {}
 
-    public UserRole(String role) {
+    public Role(String role) {
         this.role = role;
     }
 

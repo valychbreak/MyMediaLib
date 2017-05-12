@@ -34,7 +34,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "user_role_id", nullable = false)
-    private UserRole role;
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "root_user_media_catalog", nullable = false)
@@ -48,7 +48,7 @@ public class User {
     protected User() {
     }
 
-    public User(String username, String password, String name, String email, UserRole role) {
+    public User(String username, String password, String name, String email, Role role) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -96,11 +96,11 @@ public class User {
         this.name = name;
     }
 
-    public UserRole getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
