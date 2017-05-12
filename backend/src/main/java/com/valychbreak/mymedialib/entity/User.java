@@ -35,7 +35,7 @@ public class User {
     private UserRole role;
 
     @ManyToOne
-    @JoinColumn(name = "root_user_media_catalog"/*, nullable = false*/)
+    @JoinColumn(name = "root_user_media_catalog", nullable = false)
     private UserMediaCatalog rootUserMediaCatalog;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -108,6 +108,14 @@ public class User {
 
     public void setFavourites(List<UserMedia> favourites) {
         this.favourites = favourites;
+    }
+
+    public UserMediaCatalog getRootUserMediaCatalog() {
+        return rootUserMediaCatalog;
+    }
+
+    public void setRootUserMediaCatalog(UserMediaCatalog rootUserMediaCatalog) {
+        this.rootUserMediaCatalog = rootUserMediaCatalog;
     }
 
     @Override

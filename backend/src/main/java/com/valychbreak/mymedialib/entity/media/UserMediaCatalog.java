@@ -6,6 +6,8 @@ import java.util.List;
 /**
  * Created by valych on 5/9/17.
  */
+@Entity
+@Table(name = "user_media_catalog")
 public class UserMediaCatalog {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
