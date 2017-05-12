@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CreateUserService {
-    public static final String ADMIN_ROLE_NAME = "ADMIN";
-    public static final String USER_ROLE_NAME = "USER";
 
 
     private UserRepository userRepository;
@@ -31,12 +29,12 @@ public class CreateUserService {
     }
 
     public User saveSimpleUser(String username, String password, String name, String email) {
-        Role role = getRole(USER_ROLE_NAME);
+        Role role = getRole(Role.USER_ROLE_NAME);
         return saveUser(username, password, name, email, role);
     }
 
     public User saveAdminUser(String username, String password, String name, String email) {
-        Role role = getRole(ADMIN_ROLE_NAME);
+        Role role = getRole(Role.ADMIN_ROLE_NAME);
         return saveUser(username, password, name, email, role);
     }
 

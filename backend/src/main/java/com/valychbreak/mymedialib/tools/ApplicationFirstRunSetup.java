@@ -29,18 +29,26 @@ public class ApplicationFirstRunSetup {
 
     public void execute() {
         if(userRoleRepository.count() == 0) {
-            List<Role> roles = new ArrayList<>();
-            Role adminRole = new Role("ADMIN");
-            Role role = new Role("USER");
-            roles.add(adminRole);
-            roles.add(role);
-
-            userRoleRepository.save(roles);
+            createBasicRoles();
         }
 
         if(userRepository.count() == 0) {
-            Role adminRole = userRoleRepository.findByRole("ADMIN");
-            createUserService.saveUser("test", "test12","Admin test", "test@t.com", adminRole);
+            createAdminUser();
         }
+    }
+
+    private void createBasicRoles() {
+        List<Role> roles = new ArrayList<>();
+        Role adminRole = new Role(Role.ADMIN_ROLE_NAME);
+        Role role = new Role(Role.USER_ROLE_NAME);
+        roles.add(adminRole);
+        roles.add(role);
+
+        userRoleRepository.save(roles);
+    }
+
+    private void createAdminUser() {
+        Role adminRole = userRoleRepository.findByRole(Role.ADMIN_ROLE_NAME);
+        createUserService.saveUser("test", "test12","Admin test", "test@t.com", adminRole);
     }
 }

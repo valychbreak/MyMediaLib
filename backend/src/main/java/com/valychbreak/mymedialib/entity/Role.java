@@ -11,6 +11,10 @@ import java.util.List;
 @Entity
 @Table(name = "user_role")
 public class Role {
+    public static final String ADMIN_ROLE_NAME = "ADMIN";
+    public static final String USER_ROLE_NAME = "USER";
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
