@@ -22,19 +22,25 @@ public class CreateUserService {
     private UserMediaCatalogRepository userMediaCatalogRepository;
     private UserRoleRepository userRoleRepository;
 
+
     @Autowired
-    public CreateUserService(UserRepository userRepository, UserMediaCatalogRepository userMediaCatalogRepository) {
+    public CreateUserService(UserRepository userRepository, UserMediaCatalogRepository userMediaCatalogRepository, UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
         this.userMediaCatalogRepository = userMediaCatalogRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     public User createSimpleUser(String username, String password, String name, String email) {
-        UserRole userRole = userRoleRepository.findByRole(USER_ROLE_NAME);
+        UserRole userRole = getRole(USER_ROLE_NAME);
         return createUser(username, password, name, email, userRole);
     }
 
+    private UserRole getRole(String userRoleName) {
+        return userRoleRepository.findByRole(userRoleName);
+    }
+
     public User createAdminUser(String username, String password, String name, String email) {
-        UserRole userRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
+        UserRole userRole = getRole(ADMIN_ROLE_NAME);
         return createUser(username, password, name, email, userRole);
     }
 

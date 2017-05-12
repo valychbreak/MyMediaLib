@@ -7,6 +7,7 @@ import java.util.List;
 import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.tools.gson.JsonExclude;
+import org.hibernate.validator.constraints.Email;
 
 /**
  * Created by valych on 2/25/17.
@@ -27,6 +28,7 @@ public class User {
     @Column(name = "first_name", nullable = false)
     private String name;
 
+    @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
@@ -116,6 +118,28 @@ public class User {
 
     public void setRootUserMediaCatalog(UserMediaCatalog rootUserMediaCatalog) {
         this.rootUserMediaCatalog = rootUserMediaCatalog;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        return email != null ? email.equals(user.email) : user.email == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
     }
 
     @Override

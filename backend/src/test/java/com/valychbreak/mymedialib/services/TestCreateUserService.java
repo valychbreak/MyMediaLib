@@ -42,13 +42,7 @@ public class TestCreateUserService {
         User user = createUserService.createUser(username, "test12", "test", email, role);
         User dbUser = userRepository.findFirstByUsername(username);
 
-        // TODO: check if users are equal
-        Assert.assertNotNull(user);
-        Assert.assertNotNull(dbUser);
-    }
-
-    private String makeUnique(String string) {
-        return string + new Date();
+        Assert.assertEquals(user, dbUser);
     }
 
     @Test
@@ -58,14 +52,26 @@ public class TestCreateUserService {
         User user = createUserService.createSimpleUser(username, "test12", "test", email);
         User dbUser = userRepository.findFirstByUsername(username);
 
-        // TODO: check if users are equal
-        Assert.assertNotNull(user);
-        Assert.assertNotNull(dbUser);
+        Assert.assertEquals(user, dbUser);
+    }
+
+    @Test
+    public void testCreateAdminUser() throws Exception {
+        String username = makeUnique("test");
+        String email = makeUnique("testEmail") + "@t.com";
+        User user = createUserService.createAdminUser(username, "test12", "test", email);
+        User dbUser = userRepository.findFirstByUsername(username);
+
+        Assert.assertEquals(user, dbUser);
     }
 
     private UserRole createRole(String roleName) {
         UserRole role = new UserRole(roleName);
         userRoleRepository.save(role);
         return role;
+    }
+
+    private String makeUnique(String string) {
+        return string + new Date().getTime();
     }
 }
