@@ -51,11 +51,8 @@ public class TestUserController extends AbstractControllerTest {
         Role adminRole = getAdminRole();
         Role role = getUserRole();
 
-        User admin = new User("anotherAdmin", "test12","Another Admin", "t@t.com", adminRole);
-        User user = new User("test", "test12","Test", "t2t.com", role);
-
-        userRepository.save(admin);
-        userRepository.save(user);
+        User admin = createUserInDb("anotherAdmin", "test12","Another Admin", "t@t.com", adminRole);
+        User user = createUserInDb("simpleUser", "test12","Test", "t2@t.com", role);
     }
 
     private Role getAdminRole() {

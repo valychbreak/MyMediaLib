@@ -36,6 +36,7 @@ public class User {
     @JoinColumn(name = "user_role_id", nullable = false)
     private Role role;
 
+    @JsonExclude
     @ManyToOne
     @JoinColumn(name = "root_user_media_catalog", nullable = false)
     private UserMediaCatalog rootUserMediaCatalog;

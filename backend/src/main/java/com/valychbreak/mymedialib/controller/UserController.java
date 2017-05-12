@@ -4,6 +4,7 @@ import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
+import com.valychbreak.mymedialib.services.CreateUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,12 +23,14 @@ public class UserController {
 
     private UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
+    private CreateUserService createUserService;
 
 
     @Autowired
-    public UserController(UserRepository userRepository, UserRoleRepository userRoleRepository) {
+    public UserController(UserRepository userRepository, UserRoleRepository userRoleRepository, CreateUserService createUserService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.createUserService = createUserService;
     }
 
     @RequestMapping(value = "/initroles", produces = {MediaType.APPLICATION_JSON_VALUE},
@@ -58,11 +61,10 @@ public class UserController {
     @RequestMapping(value = "/user/add", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addUser(@RequestBody User user) throws Exception {
-        Role role = userRoleRepository.findByRole("ADMIN");
+        Role role = userRoleRepository.findByRole(Role.USER_ROLE_NAME);
         user.setRole(role);
-        User createdUser = userRepository.save(user);
-
-        //inMemoryUserDetailsManager.createUser(new UserDetailsImpl(user.getUsername(), user.getPassword()));
+        User createdUser = createUserService.saveUser(user.getUsername(), user.getPassword(),
+                user.getName(), user.getEmail(), user.getRole());
         return new ResponseEntity<User>(createdUser, HttpStatus.OK);
     }
 }
