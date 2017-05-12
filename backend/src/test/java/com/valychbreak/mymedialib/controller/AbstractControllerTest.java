@@ -6,6 +6,7 @@ import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
+import com.valychbreak.mymedialib.services.CreateUserService;
 import com.valychbreak.mymedialib.tools.gson.GsonBuilderTools;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -41,6 +42,9 @@ public abstract class AbstractControllerTest {
     protected UserRoleRepository userRoleRepository;
 
     @Autowired
+    protected CreateUserService createUserService;
+
+    @Autowired
     private WebApplicationContext context;
 
     @Before
@@ -74,9 +78,8 @@ public abstract class AbstractControllerTest {
         return createUserInDb(username, password, name, email, role);
     }
 
-    protected User createUserInDb(String username, String password, String name, String email, Role adminRole) {
-        User user = new User(username, password, name, email, adminRole);
-        userRepository.save(user);
+    protected User createUserInDb(String username, String password, String name, String email, Role role) {
+        User user = createUserService.saveUser(username, password, name, email, role);
         return user;
     }
 
