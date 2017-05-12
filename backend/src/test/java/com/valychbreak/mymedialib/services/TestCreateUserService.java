@@ -39,7 +39,7 @@ public class TestCreateUserService {
 
         String username = makeUnique("test");
         String email = makeUnique("testEmail@t.com");
-        User user = createUserService.createUser(username, "test12", "test", email, role);
+        User user = createUserService.saveUser(username, "test12", "test", email, role);
         User dbUser = userRepository.findFirstByUsername(username);
 
         Assert.assertEquals(user, dbUser);
@@ -49,7 +49,7 @@ public class TestCreateUserService {
     public void testCreateSimpleUser() throws Exception {
         String username = makeUnique("test");
         String email = makeUnique("testEmail@t.com");
-        User user = createUserService.createSimpleUser(username, "test12", "test", email);
+        User user = createUserService.saveSimpleUser(username, "test12", "test", email);
         User dbUser = userRepository.findFirstByUsername(username);
 
         Assert.assertEquals(user, dbUser);
@@ -59,10 +59,19 @@ public class TestCreateUserService {
     public void testCreateAdminUser() throws Exception {
         String username = makeUnique("test");
         String email = makeUnique("testEmail") + "@t.com";
-        User user = createUserService.createAdminUser(username, "test12", "test", email);
+        User user = createUserService.saveAdminUser(username, "test12", "test", email);
         User dbUser = userRepository.findFirstByUsername(username);
 
         Assert.assertEquals(user, dbUser);
+    }
+
+    @Test
+    public void testCreateUserInstance() throws Exception {
+        String username = makeUnique("test");
+        String email = makeUnique("testEmail") + "@t.com";
+        User user = createUserService.createUserInstance(username, "test12", "test", email, new UserRole("role"));
+
+        Assert.assertNotNull(user.getRootUserMediaCatalog());
     }
 
     private UserRole createRole(String roleName) {

@@ -30,31 +30,31 @@ public class CreateUserService {
         this.userRoleRepository = userRoleRepository;
     }
 
-    public User createSimpleUser(String username, String password, String name, String email) {
+    public User saveSimpleUser(String username, String password, String name, String email) {
         UserRole userRole = getRole(USER_ROLE_NAME);
-        return createUser(username, password, name, email, userRole);
+        return saveUser(username, password, name, email, userRole);
     }
 
-    private UserRole getRole(String userRoleName) {
-        return userRoleRepository.findByRole(userRoleName);
-    }
-
-    public User createAdminUser(String username, String password, String name, String email) {
+    public User saveAdminUser(String username, String password, String name, String email) {
         UserRole userRole = getRole(ADMIN_ROLE_NAME);
-        return createUser(username, password, name, email, userRole);
+        return saveUser(username, password, name, email, userRole);
     }
 
-    public User createUser(String username, String password, String name, String email, UserRole role) {
+    public User saveUser(String username, String password, String name, String email, UserRole role) {
         User user = createUserInstance(username, password, name, email, role);
         userMediaCatalogRepository.save(user.getRootUserMediaCatalog());
         userRepository.save(user);
         return user;
     }
 
-    private User createUserInstance(String username, String password, String name, String email, UserRole role) {
+    public User createUserInstance(String username, String password, String name, String email, UserRole role) {
         UserMediaCatalog userMediaCatalog = new UserMediaCatalog(username + "_root_catalog");
         User user = new User(username, password, name, email, role);
         user.setRootUserMediaCatalog(userMediaCatalog);
         return user;
+    }
+
+    private UserRole getRole(String userRoleName) {
+        return userRoleRepository.findByRole(userRoleName);
     }
 }
