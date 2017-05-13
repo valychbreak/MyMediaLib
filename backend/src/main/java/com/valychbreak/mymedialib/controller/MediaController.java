@@ -55,7 +55,7 @@ public class MediaController {
 
     private boolean isUserFavourite(User user, MediaShortDetails media) throws OMDBException {
         boolean isFavourite = false;
-        List<UserMedia> userMediaList = user.getFavourites();
+        List<UserMedia> userMediaList = user.getAllFavorites();
         for (UserMedia userMedia : userMediaList) {
             if(userMedia.getMedia().getImdbId().equals(media.getImdbId())) {
                 isFavourite = true;

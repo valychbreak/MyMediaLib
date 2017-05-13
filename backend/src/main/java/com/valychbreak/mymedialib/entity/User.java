@@ -43,7 +43,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonExclude
-    private List<UserMedia> favourites = new ArrayList<>();
+    private List<UserMedia> allFavorites = new ArrayList<>();
 
 
     protected User() {
@@ -105,12 +105,12 @@ public class User {
         this.role = role;
     }
 
-    public List<UserMedia> getFavourites() {
-        return favourites;
+    public List<UserMedia> getAllFavorites() {
+        return allFavorites;
     }
 
-    public void setFavourites(List<UserMedia> favourites) {
-        this.favourites = favourites;
+    public void setAllFavorites(List<UserMedia> allFavorites) {
+        this.allFavorites = allFavorites;
     }
 
     public UserMediaCatalog getRootUserMediaCatalog() {

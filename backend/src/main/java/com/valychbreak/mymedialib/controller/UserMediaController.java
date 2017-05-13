@@ -6,7 +6,9 @@ import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.media.Media;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
+import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.repository.MediaRepository;
+import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
@@ -31,13 +33,16 @@ public class UserMediaController {
     private UserRepository userRepository;
     private MediaRepository mediaRepository;
     private UserMediaRepository userMediaRepository;
+    private UserMediaCatalogRepository userMediaCatalogRepository;
 
 
     @Autowired
-    public UserMediaController(UserRepository userRepository, MediaRepository mediaRepository, UserMediaRepository userMediaRepository) {
+    public UserMediaController(UserRepository userRepository, MediaRepository mediaRepository, UserMediaRepository userMediaRepository,
+                               UserMediaCatalogRepository userMediaCatalogRepository) {
         this.userRepository = userRepository;
         this.mediaRepository = mediaRepository;
         this.userMediaRepository = userMediaRepository;
+        this.userMediaCatalogRepository = userMediaCatalogRepository;
     }
 
     @RequestMapping(value = "/user/favourites", method = RequestMethod.GET,
@@ -67,8 +72,8 @@ public class UserMediaController {
     }
 
     private List<MediaFullDetails> getUserFavouriteMedia(User user) throws OMDBException {
-        List<MediaFullDetails> mediaList = new ArrayList<>();//user.getFavourites();
-        for (UserMedia userMedia : user.getFavourites()) {
+        List<MediaFullDetails> mediaList = new ArrayList<>();//user.getAllFavorites();
+        for (UserMedia userMedia : user.getAllFavorites()) {
             MediaFullDetails details = userMedia.getMedia().getDetails();
             details.setFavourite(true);
             mediaList.add(details);
@@ -84,6 +89,15 @@ public class UserMediaController {
         return new ResponseEntity<>(media, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/user/{username}/favourites/{catalogId}/add", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Media> addFavourite(@PathVariable String username, @PathVariable String catalogId, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
+        User user = getUserByUsername(username);
+        UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(Long.parseLong(catalogId));
+        Media media = addMedia(mediaDetails, user, userMediaCatalog);
+        return new ResponseEntity<>(media, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/user/{username}/favourites/remove", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Media> removeFavourite(@PathVariable String username, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
@@ -93,7 +107,7 @@ public class UserMediaController {
         //MediaShortDetails mediaShortDetails = new MediaShortDetailsAdapter(mediaDetails);
         //Media media = addMedia(mediaDetails, user);
 
-        for (UserMedia userMedia : user.getFavourites()) {
+        for (UserMedia userMedia : user.getAllFavorites()) {
             if(userMedia.getMedia().getImdbId().equals(mediaDetails.getImdbId())) {
                 userMediaRepository.delete(userMedia);
             }
@@ -102,7 +116,12 @@ public class UserMediaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private Media addMedia(@RequestBody MediaShortDetails mediaDetails, User user) {
+    private Media addMedia(MediaShortDetails mediaDetails, User user) {
+        UserMediaCatalog rootUserMediaCatalog = user.getRootUserMediaCatalog();
+        return addMedia(mediaDetails, user, rootUserMediaCatalog);
+    }
+
+    private Media addMedia(MediaShortDetails mediaDetails, User user, UserMediaCatalog userMediaCatalog) {
         Media media = mediaRepository.findByImdbId(mediaDetails.getImdbId());
 
         if(media == null) {
@@ -116,6 +135,10 @@ public class UserMediaController {
         userMedia.setAddingDate(new Date());
 
         userMediaRepository.save(userMedia);
+
+
+        userMediaCatalog.getUserMediaList().add(userMedia);
+        userMediaCatalogRepository.save(userMediaCatalog);
         return media;
     }
 }

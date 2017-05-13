@@ -1,6 +1,7 @@
 package com.valychbreak.mymedialib.entity.media;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +22,10 @@ public class UserMediaCatalog {
     private UserMediaCatalog parentUserMediaCatalog;
 
     @OneToMany(mappedBy = "parentUserMediaCatalog")
-    private List<UserMediaCatalog> subUserMediaCatalogs;
+    private List<UserMediaCatalog> subUserMediaCatalogs = new ArrayList<>();
 
     @ManyToMany
-    private List<UserMedia> userMediaList;
+    private List<UserMedia> userMediaList = new ArrayList<>();
 
     protected UserMediaCatalog() { }
 
