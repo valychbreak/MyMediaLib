@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by valych on 4/29/17.
  */
-public class TestMediaController extends AbstractControllerTest {
+public class TestUserMediaController extends AbstractControllerTest {
 
     public static final String MEDIA_CONTROLLER_TEST_USER_NAME = "mediaControllerTestUser";
 
