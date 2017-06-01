@@ -60,6 +60,10 @@ export class SignInComponent implements OnInit {
     //this.checkAuthenticationStatus();
   }
 
+  getLoggedUserName() {
+    return this.loginService.getLoggedUsername();
+  }
+
   private handleError(error: any) {
     console.error('An error occurred', error); // for demo purposes only
     //return Promise.reject(error.message || error);

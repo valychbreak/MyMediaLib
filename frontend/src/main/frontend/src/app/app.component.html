@@ -9,7 +9,10 @@
       <a class="list-group-item" routerLink="/movies" routerLinkActive="active">Media</a>
       <a class="list-group-item" routerLink="/favourites" routerLinkActive="active">Favourites</a>
       <a class="list-group-item" routerLink="/users" routerLinkActive="active">Users</a>
-      <a class="list-group-item" routerLink="/signin" routerLinkActive="active">Sign in</a>
+      <a class="list-group-item" routerLink="/signin" routerLinkActive="active">
+        <span *ngIf="!isAuthenticated()">Sign in</span>
+        <span *ngIf="isAuthenticated()">Profile</span>
+      </a>
       <a href="#" class="list-group-item">Contacts</a>
       <a href="#" class="list-group-item">About</a>
     </div>

@@ -10,6 +10,7 @@
         <div class="btn-group float-left" role="group" aria-label="Basic example">
           <button *ngIf="!movie.isFavourite" class="btn btn-secondary" (click)="addToFavourites(movie)">Add to favourites &nbsp; <i class="fa fa-star-o fa-lg" aria-hidden="true"></i></button>
           <button *ngIf="movie.isFavourite" class="btn btn-secondary" (click)="removeFromFavourites(movie)">Remove from favourites &nbsp; <i class="fa fa-star fa-lg" aria-hidden="true"></i></button>
+          <button class="btn btn-secondary disabled">Move...&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></button>
           <button class="btn btn-secondary">Share &nbsp;<i class="fa fa-share-alt fa-lg" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -35,7 +36,7 @@
         <ul>
           <li>Name: {{movie.title}}</li>
           <li>Duration: {{movie.duration}}</li>
-          <li>Rating: {{movie.stars}}/5</li>
+          <li>Rating: {{movie.stars}}/10</li>
           <li>Reviews: {{movie.reviews}}</li>
         </ul>
       </div>
@@ -79,27 +80,15 @@
     <h3 class="page-header">Related Movies</h3>
   </div>
 
-  <div class="col-sm-3 col-xs-6">
+  <div class="col-sm-3">
     <a href="#">
-      <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+      <img class="img-responsive portfolio-item" style="width: 100%" src="http://placehold.it/100x150" alt="">
     </a>
   </div>
 
-  <div class="col-sm-3 col-xs-6">
+  <div class="col-sm-3">
     <a href="#">
-      <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-    </a>
-  </div>
-
-  <div class="col-sm-3 col-xs-6">
-    <a href="#">
-      <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-    </a>
-  </div>
-
-  <div class="col-sm-3 col-xs-6">
-    <a href="#">
-      <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+      <img class="img-responsive portfolio-item" style="width: 100%" src="http://placehold.it/100x150" alt="">
     </a>
   </div>
 </div>
