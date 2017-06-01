@@ -140,6 +140,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.uwetrottmann.tmdb2</groupId>
+            <artifactId>tmdb-java</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.valychbreak</groupId>
             <artifactId>mymedialib-frontend</artifactId>
             <version>${project.version}</version>

@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,7 +72,7 @@ public class UserMediaController {
         return userList.size() > 0 ? userList.get(0) : null;
     }
 
-    private List<MediaFullDetails> getUserFavouriteMedia(User user) throws OMDBException {
+    private List<MediaFullDetails> getUserFavouriteMedia(User user) throws OMDBException, IOException {
         List<MediaFullDetails> mediaList = new ArrayList<>();//user.getAllFavorites();
         for (UserMedia userMedia : user.getAllFavorites()) {
             MediaFullDetails details = userMedia.getMedia().getDetails();
