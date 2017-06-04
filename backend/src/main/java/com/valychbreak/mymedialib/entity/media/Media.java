@@ -7,6 +7,7 @@ import com.uwetrottmann.tmdb2.entities.Movie;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
+import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsTmdbMovieAdapter;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsAdapter;
@@ -64,9 +65,10 @@ public class Media {
     }
 
     @Transient
-    public MediaShortDetails getShortDetails() throws OMDBException {
-        OmdbVideoFull omdbVideo = new OmdbVideoProvider().getOmdbVideo(imdbId);
-        return new MediaShortDetailsAdapter(omdbVideo);
+    public MediaShortDetails getShortDetails() throws OMDBException, IOException {
+        Movie movie = new TmdbMovieProvider().getMovieBy(imdbId);
+        MediaShortDetails media = new MediaShortDetailsTmdbMovieAdapter(movie);
+        return media;
     }
 
     @Transient
