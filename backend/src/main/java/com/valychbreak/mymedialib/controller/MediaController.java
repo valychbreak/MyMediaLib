@@ -82,8 +82,7 @@ public class MediaController {
         return isFavourite;
     }
 
-    @RequestMapping(value = "/advanced-search", produces = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET)
+    @RequestMapping(value = "/advanced-search", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
     public ResponseEntity<List<MediaFullDetails>> advanceSearchMovies(@RequestParam(value = "s") String searchTerm,
                                                                       @RequestParam(value = "year", required = false) Integer year,
                                                                       @RequestParam(value = "page", required = false) Integer page
@@ -114,26 +113,30 @@ public class MediaController {
         return new ResponseEntity<>(mediaSearchResult, HttpStatus.OK);*/
 
         Tmdb tmdb = TMDB_INSTANCE;
-        Call<MovieResultsPage> call = tmdb.searchService().movie(searchTerm, null, null, null, null,
-                null, null);
-        MovieResultsPage movieResults = call.execute().body();
+        MovieResultsPage movieResults = searchMovies(searchTerm, tmdb);
         List<MediaFullDetails> mediaSearchResults = new ArrayList<>();
         for (Movie result : movieResults.results) {
-            Call<Movie> summary = tmdb.moviesService().summary(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
-            Movie movie = summary.execute().body();
+            Movie movie = getTmdbMovie(tmdb, result);
 
             //FIXME: get rid of imdbId
-            if(movie == null || StringUtils.isBlank(movie.imdb_id)) {
-                continue;
+            if(movie != null && StringUtils.isBlank(movie.imdb_id)) {
+                MediaFullDetails media = new MediaFullDetailsTmdbMovieAdapter(movie);
+                mediaSearchResults.add(media);
             }
-            MediaFullDetails media = new MediaFullDetailsTmdbMovieAdapter(movie);
-            mediaSearchResults.add(media);
+
         }
 
-        return new ResponseEntity<List<MediaFullDetails>>(mediaSearchResults, HttpStatus.OK);
+        return new ResponseEntity<>(mediaSearchResults, HttpStatus.OK);
     }
 
-    private User getLoggedUser() {
-        return userRepository.findFirstByUsername("test");
+    private MovieResultsPage searchMovies(String searchTerm, Tmdb tmdb) throws IOException {
+        Call<MovieResultsPage> call = tmdb.searchService().movie(searchTerm, null, null, null, null,
+                null, null);
+        return call.execute().body();
+    }
+
+    private Movie getTmdbMovie(Tmdb tmdb, Movie result) throws IOException {
+        Call<Movie> summary = tmdb.moviesService().summary(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
+        return summary.execute().body();
     }
 }
