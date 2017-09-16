@@ -108,6 +108,12 @@ public class UserMediaController {
         //MediaShortDetails mediaShortDetails = new MediaShortDetailsAdapter(mediaDetails);
         //Media media = addMedia(mediaDetails, user);
 
+        List<UserMedia> mediaToRemove = new ArrayList<>();
+        for (UserMedia userMedia : user.getRootUserMediaCatalog().getUserMediaList()) {
+            if(userMedia.getMedia().getImdbId().equals(mediaDetails.getImdbId())) {
+
+            }
+        }
         for (UserMedia userMedia : user.getAllFavorites()) {
             if(userMedia.getMedia().getImdbId().equals(mediaDetails.getImdbId())) {
                 userMediaRepository.delete(userMedia);
@@ -138,8 +144,8 @@ public class UserMediaController {
         userMediaRepository.save(userMedia);
 
 
-        userMediaCatalog.getUserMediaList().add(userMedia);
-        userMediaCatalogRepository.save(userMediaCatalog);
+        /*userMediaCatalog.getUserMediaList().add(userMedia);
+        userMediaCatalogRepository.save(userMediaCatalog);*/
         return media;
     }
 }

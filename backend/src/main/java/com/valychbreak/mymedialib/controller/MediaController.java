@@ -119,7 +119,7 @@ public class MediaController {
             Movie movie = getTmdbMovie(tmdb, result);
 
             //FIXME: get rid of imdbId
-            if(movie != null && StringUtils.isBlank(movie.imdb_id)) {
+            if(movie != null && StringUtils.isNotBlank(movie.imdb_id) && movie.backdrop_path != null) {
                 MediaFullDetails media = new MediaFullDetailsTmdbMovieAdapter(movie);
                 mediaSearchResults.add(media);
             }
