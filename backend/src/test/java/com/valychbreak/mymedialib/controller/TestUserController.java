@@ -40,13 +40,6 @@ public class TestUserController extends AbstractControllerTest {
         Assert.assertNotNull(dbUser);
     }
 
-    @Override
-    protected void setupTest() {
-        //initUsers();
-    }
-
-
-
     private void initUsers() {
         Role adminRole = getAdminRole();
         Role role = getUserRole();

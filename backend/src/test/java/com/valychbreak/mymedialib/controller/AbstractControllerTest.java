@@ -33,6 +33,8 @@ public abstract class AbstractControllerTest {
 
 
     protected User adminUser;
+    protected User user;
+
     protected MockMvc mockMvc;
 
     @Autowired
@@ -47,22 +49,28 @@ public abstract class AbstractControllerTest {
     @Autowired
     private WebApplicationContext context;
 
+
     @Before
     public void init() throws Exception {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
 
-        createAdminUserIfNotExists();
-        setupTest();
+        createDefaultUsersIfNotExist();
     }
 
-    private void createAdminUserIfNotExists() {
+    private void createDefaultUsersIfNotExist() {
         adminUser = userRepository.findFirstByUsername("admin");
+        user = userRepository.findFirstByUsername("user");
 
         if(adminUser == null) {
             Role adminRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
             adminUser = createUserInDb("admin", "test12", "Admin", "admin@t.com", adminRole);
+        }
+
+        if (user == null) {
+            Role userRole = userRoleRepository.findByRole(USER_ROLE_NAME);
+            user = createUserInDb("user", "test12", "User", "user@t.com", userRole);
         }
     }
 
@@ -81,10 +89,6 @@ public abstract class AbstractControllerTest {
     protected User createUserInDb(String username, String password, String name, String email, Role role) {
         User user = createUserService.saveUser(username, password, name, email, role);
         return user;
-    }
-
-    protected void setupTest() throws Exception {
-
     }
 
     protected String json(Object object) {

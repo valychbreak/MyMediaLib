@@ -11,6 +11,7 @@ import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsAdapter;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,6 +33,11 @@ public class TestUserMediaController extends AbstractControllerTest {
     //private User testUser;
     @Autowired
     private UserMediaCatalogRepository userMediaCatalogRepository;
+
+    @Before
+    public void setUp() throws Exception {
+        //testUser = createUserInDb(MEDIA_CONTROLLER_TEST_USER_NAME);
+    }
 
     @Test
     @WithMockUser(username = "getFavouritesUser", roles={"USER"})
@@ -117,13 +123,6 @@ public class TestUserMediaController extends AbstractControllerTest {
         }
 
         return found;
-    }
-
-    @Override
-    protected void setupTest() throws Exception {
-        super.setupTest();
-
-        //testUser = createUserInDb(MEDIA_CONTROLLER_TEST_USER_NAME);
     }
 
     private void initFavourites(User user) throws Exception {
