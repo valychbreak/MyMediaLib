@@ -2,12 +2,14 @@ package com.valychbreak.mymedialib.entity.media;
 
 import com.omertron.omdbapi.OMDBException;
 import com.uwetrottmann.tmdb2.entities.Movie;
+import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsTmdbMovieAdapter;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.services.TmdbMediaProvider;
+import com.valychbreak.mymedialib.utils.TmdbUtils;
 
 import javax.persistence.*;
 import java.io.IOException;
@@ -69,8 +71,8 @@ public class Media {
     @Transient
     public MediaFullDetails getDetails() throws OMDBException, IOException {
         //OmdbVideoFull omdbVideo = new OmdbVideoProvider().getOmdbVideo(imdbId);
-        Movie movie = new TmdbMediaProvider().getMovieBy(imdbId);
-        MediaFullDetailsImpl media = new MediaFullDetailsTmdbMovieAdapter(movie);
+        com.uwetrottmann.tmdb2.entities.Media mediaBy = new TmdbMediaProvider().getMediaBy(imdbId);
+        MediaFullDetailsImpl media = (MediaFullDetailsImpl) TmdbUtils.getMediaFullDetailsFromTmdbMedia(APIController.TMDB_INSTANCE, mediaBy);
         return media;
     }
 }

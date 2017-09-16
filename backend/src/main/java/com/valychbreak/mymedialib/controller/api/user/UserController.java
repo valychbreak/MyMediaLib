@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.controller;
+package com.valychbreak.mymedialib.controller.api.user;
 
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;

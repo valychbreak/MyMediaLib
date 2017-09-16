@@ -1,6 +1,7 @@
-package com.valychbreak.mymedialib.controller;
+package com.valychbreak.mymedialib.controller.api.user.favorites;
 
 import com.omertron.omdbapi.OMDBException;
+import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.media.Media;
@@ -29,22 +30,11 @@ import java.util.List;
  * Created by valych on 3/19/17.
  */
 @RestController
-@RequestMapping("/api")
-public class UserMediaController {
-    private UserRepository userRepository;
-    private MediaRepository mediaRepository;
-    private UserMediaRepository userMediaRepository;
-    private UserMediaCatalogRepository userMediaCatalogRepository;
-
+public class UserFavoriteMediaController extends APIController {
 
     @Autowired
-    public UserMediaController(UserRepository userRepository, MediaRepository mediaRepository, UserMediaRepository userMediaRepository,
-                               UserMediaCatalogRepository userMediaCatalogRepository) {
-        this.userRepository = userRepository;
-        this.mediaRepository = mediaRepository;
-        this.userMediaRepository = userMediaRepository;
-        this.userMediaCatalogRepository = userMediaCatalogRepository;
-    }
+    protected UserMediaRepository userMediaRepository;
+
 
     @RequestMapping(value = "/user/favourites", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,23 +43,12 @@ public class UserMediaController {
         return new ResponseEntity<>(mediaList, HttpStatus.OK);
     }
 
-    private User getLoggedUser() {
-        String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal()).getUsername();
-        return getUserByUsername(username);
-    }
-
     @RequestMapping(value = "/user/{username}/favourites", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MediaFullDetails>> getFavouritesByUsername(@PathVariable String username) throws Exception {
-        User user = getUserByUsername(username);
+        User user = userRepository.findFirstByUsername(username);
         List<MediaFullDetails> mediaList = getUserFavouriteMedia(user);
         return new ResponseEntity<>(mediaList, HttpStatus.OK);
-    }
-
-    private User getUserByUsername(@PathVariable String username) {
-        List<User> userList = userRepository.findByUsername(username);
-        return userList.size() > 0 ? userList.get(0) : null;
     }
 
     private List<MediaFullDetails> getUserFavouriteMedia(User user) throws OMDBException, IOException {
@@ -82,27 +61,12 @@ public class UserMediaController {
         return mediaList;
     }
 
-    @RequestMapping(value = "/user/{username}/favourites/add", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Media> addFavourite(@PathVariable String username, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
-        User user = getUserByUsername(username);
-        Media media = addMedia(mediaDetails, user);
-        return new ResponseEntity<>(media, HttpStatus.OK);
-    }
 
-    @RequestMapping(value = "/user/{username}/favourites/{catalogId}/add", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Media> addFavourite(@PathVariable String username, @PathVariable String catalogId, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
-        User user = getUserByUsername(username);
-        UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(Long.parseLong(catalogId));
-        Media media = addMedia(mediaDetails, user, userMediaCatalog);
-        return new ResponseEntity<>(media, HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/user/{username}/favourites/remove", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Media> removeFavourite(@PathVariable String username, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
-        User user = getUserByUsername(username);
+        User user = userRepository.findFirstByUsername(username);
 
         OmdbVideoProvider videoProvider = new OmdbVideoProvider();
         //MediaShortDetails mediaShortDetails = new MediaShortDetailsAdapter(mediaDetails);
@@ -123,29 +87,5 @@ public class UserMediaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private Media addMedia(MediaShortDetails mediaDetails, User user) {
-        UserMediaCatalog rootUserMediaCatalog = user.getRootUserMediaCatalog();
-        return addMedia(mediaDetails, user, rootUserMediaCatalog);
-    }
 
-    private Media addMedia(MediaShortDetails mediaDetails, User user, UserMediaCatalog userMediaCatalog) {
-        Media media = mediaRepository.findByImdbId(mediaDetails.getImdbId());
-
-        if(media == null) {
-            media = new Media(mediaDetails.getImdbId(), mediaDetails.getTitle());
-            mediaRepository.save(media);
-        }
-
-        UserMedia userMedia = new UserMedia();
-        userMedia.setUser(user);
-        userMedia.setMedia(media);
-        userMedia.setAddingDate(new Date());
-
-        userMediaRepository.save(userMedia);
-
-
-        /*userMediaCatalog.getUserMediaList().add(userMedia);
-        userMediaCatalogRepository.save(userMediaCatalog);*/
-        return media;
-    }
 }

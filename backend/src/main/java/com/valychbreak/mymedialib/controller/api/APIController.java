@@ -2,10 +2,17 @@ package com.valychbreak.mymedialib.controller.api;
 
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.valychbreak.mymedialib.controller.api.media.MediaController;
+import com.valychbreak.mymedialib.entity.User;
+import com.valychbreak.mymedialib.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * Created by valych on 9/16/17.
@@ -15,4 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public abstract class APIController {
     public static final Tmdb TMDB_INSTANCE = new Tmdb("01e924145da414b33cdc651619bb694b");
     public static final Logger LOG = LoggerFactory.getLogger(MediaController.class);
+
+    @Autowired
+    protected UserRepository userRepository;
+
+    protected User getLoggedUser() {
+        String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getUsername();
+        return userRepository.findFirstByUsername(username);
+    }
 }
