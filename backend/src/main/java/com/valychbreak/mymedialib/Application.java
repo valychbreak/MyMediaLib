@@ -1,6 +1,6 @@
 package com.valychbreak.mymedialib;
 
-import com.valychbreak.mymedialib.tools.ApplicationFirstRunSetup;
+import com.valychbreak.mymedialib.utils.ApplicationFirstRunSetup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

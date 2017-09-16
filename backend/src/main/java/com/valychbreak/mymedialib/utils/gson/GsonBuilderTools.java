@@ -1,6 +1,5 @@
-package com.valychbreak.mymedialib.tools.gson;
+package com.valychbreak.mymedialib.utils.gson;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.valychbreak.mymedialib.config.WebMvcConfig;
 

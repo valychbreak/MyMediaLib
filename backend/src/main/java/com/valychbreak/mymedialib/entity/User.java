@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
-import com.valychbreak.mymedialib.tools.gson.JsonExclude;
+import com.valychbreak.mymedialib.utils.gson.JsonExclude;
 import org.hibernate.validator.constraints.Email;
 
 /**

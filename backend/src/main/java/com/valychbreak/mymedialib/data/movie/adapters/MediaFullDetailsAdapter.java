@@ -3,7 +3,7 @@ package com.valychbreak.mymedialib.data.movie.adapters;
 import com.omertron.omdbapi.model.OmdbVideoFull;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
-import com.valychbreak.mymedialib.tools.gson.JsonExclude;
+import com.valychbreak.mymedialib.utils.gson.JsonExclude;
 
 /**
  * Created by Valeriy on 3/18/2017.

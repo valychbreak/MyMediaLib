@@ -1,6 +1,6 @@
 package com.valychbreak.mymedialib.entity;
 
-import com.valychbreak.mymedialib.tools.gson.JsonExclude;
+import com.valychbreak.mymedialib.utils.gson.JsonExclude;
 
 import javax.persistence.*;
 import java.util.List;

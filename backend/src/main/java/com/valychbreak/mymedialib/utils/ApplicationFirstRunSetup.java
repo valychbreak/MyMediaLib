@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.tools;
+package com.valychbreak.mymedialib.utils;
 
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.repository.UserRepository;

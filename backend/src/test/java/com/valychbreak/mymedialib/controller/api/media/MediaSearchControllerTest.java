@@ -1,5 +1,6 @@
-package com.valychbreak.mymedialib.controller;
+package com.valychbreak.mymedialib.controller.api.media;
 
+import com.valychbreak.mymedialib.controller.AbstractControllerTest;
 import org.junit.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 

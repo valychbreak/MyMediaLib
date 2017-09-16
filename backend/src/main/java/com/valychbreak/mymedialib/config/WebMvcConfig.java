@@ -3,14 +3,13 @@ package com.valychbreak.mymedialib.config;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.valychbreak.mymedialib.tools.gson.GsonBuilderTools;
+import com.valychbreak.mymedialib.utils.gson.GsonBuilderTools;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.valychbreak.mymedialib.tools.gson.JsonExclude;
+import com.valychbreak.mymedialib.utils.gson.JsonExclude;
 
 import java.util.List;
 

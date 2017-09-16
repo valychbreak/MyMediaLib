@@ -1,9 +1,8 @@
 package com.valychbreak.mymedialib.data.movie.adapters;
 
 import com.omertron.omdbapi.model.OmdbVideoBasic;
-import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.impl.MediaShortDetailsImpl;
-import com.valychbreak.mymedialib.tools.gson.JsonExclude;
+import com.valychbreak.mymedialib.utils.gson.JsonExclude;
 
 /**
  * Created by Valeriy on 3/18/2017.

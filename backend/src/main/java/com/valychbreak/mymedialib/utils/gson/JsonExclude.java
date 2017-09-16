@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.tools.gson;
+package com.valychbreak.mymedialib.utils.gson;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

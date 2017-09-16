@@ -12,14 +12,12 @@ import java.util.List;
  */
 public class MediaFullDetailsTmdbMovieAdapter extends MediaFullDetailsImpl {
     public static final String TMDB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w342/";
-    private Movie movie;
 
     public MediaFullDetailsTmdbMovieAdapter(TvShow tvShow) {
         convert(tvShow);
     }
 
     public MediaFullDetailsTmdbMovieAdapter(Movie movie) {
-        this.movie = movie;
         convert(movie);
     }
 

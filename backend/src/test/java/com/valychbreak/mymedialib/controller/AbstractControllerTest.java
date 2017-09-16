@@ -7,7 +7,7 @@ import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import com.valychbreak.mymedialib.services.CreateUserService;
-import com.valychbreak.mymedialib.tools.gson.GsonBuilderTools;
+import com.valychbreak.mymedialib.utils.gson.GsonBuilderTools;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
