@@ -22,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 /**
  * Created by valych on 4/28/17.
  */
+@Deprecated
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration

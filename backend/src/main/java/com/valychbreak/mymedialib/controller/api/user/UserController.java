@@ -1,5 +1,6 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
+import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
@@ -18,19 +19,14 @@ import java.util.List;
  * Created by valych on 2/25/17.
  */
 @RestController
-@RequestMapping("/api")
-public class UserController {
-
-    private UserRepository userRepository;
+public class UserController extends APIController {
     private UserRoleRepository userRoleRepository;
-    private CreateUserService createUserService;
 
 
     @Autowired
     public UserController(UserRepository userRepository, UserRoleRepository userRoleRepository, CreateUserService createUserService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
-        this.createUserService = createUserService;
     }
 
     @RequestMapping(value = "/initroles", produces = {MediaType.APPLICATION_JSON_VALUE},
@@ -42,7 +38,7 @@ public class UserController {
             Role role = new Role("USER");
             roles.add(adminRole);
             roles.add(role);
-            //userRoleRepository.save(adminRole);
+
             userRoleRepository.save(roles);
         }
 
@@ -58,13 +54,10 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addUser(@RequestBody User user) throws Exception {
-        Role role = userRoleRepository.findByRole(Role.USER_ROLE_NAME);
-        user.setRole(role);
-        User createdUser = createUserService.saveUser(user.getUsername(), user.getPassword(),
-                user.getName(), user.getEmail(), user.getRole());
-        return new ResponseEntity<User>(createdUser, HttpStatus.OK);
+    @RequestMapping(value = "/users/search", produces = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET)
+    public ResponseEntity<List<User>> searchUsers(@RequestAttribute("q") String query) {
+
+        return null;
     }
 }

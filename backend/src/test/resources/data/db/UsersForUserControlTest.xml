@@ -1,0 +1,11 @@
+<dataset>
+    <user_role id="100" role="USER_ROLE" />
+
+    <user_media_catalog id="1" name="root" />
+    <users id="1" username="test1" first_name="Test1" email="test1@t.com" password="test12" user_role_id="100"
+           root_user_media_catalog="1"/>
+
+    <user_media_catalog id="2" name="root" />
+    <users id="2" username="test2" first_name="Test1" email="test2@t.com" password="test12" user_role_id="100"
+           root_user_media_catalog="2"/>
+</dataset>

@@ -32,9 +32,9 @@ public class ApplicationFirstRunSetup {
             createBasicRoles();
         }
 
-        if(userRepository.count() == 0) {
+        /*if(userRepository.count() == 0) {
             createAdminUser();
-        }
+        }*/
     }
 
     private void createBasicRoles() {
