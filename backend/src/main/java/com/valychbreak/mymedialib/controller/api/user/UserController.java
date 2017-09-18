@@ -53,11 +53,4 @@ public class UserController extends APIController {
         userRepository.findAll().forEach(users::add);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/users/search", produces = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET)
-    public ResponseEntity<List<User>> searchUsers(@RequestAttribute("q") String query) {
-
-        return null;
-    }
 }

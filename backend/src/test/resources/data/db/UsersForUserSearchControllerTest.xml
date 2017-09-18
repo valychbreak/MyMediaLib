@@ -1,0 +1,20 @@
+<dataset>
+    <!--<users />
+    <user_role />
+    <user_media />
+    <user_media_catalog />-->
+
+    <user_role id="1000" role="USER_ROLE" />
+
+    <user_media_catalog id="1000" name="root" />
+    <users id="1000" username="test1" first_name="Test1" email="test1@t.com" password="test12" user_role_id="1000"
+           root_user_media_catalog="1000"/>
+
+    <user_media_catalog id="1002" name="root" />
+    <users id="1002" username="username2" first_name="Test2" email="test2@t.com" password="test12" user_role_id="1000"
+           root_user_media_catalog="1002"/>
+
+    <user_media_catalog id="1003" name="root" />
+    <users id="1003" username="username3" first_name="username3" email="test3@t.com" password="test12" user_role_id="1000"
+           root_user_media_catalog="1003"/>
+</dataset>
