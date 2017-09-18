@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by valych on 4/28/17.
  */
@@ -57,7 +60,21 @@ public abstract class AbstractControllerTest {
                 .webAppContextSetup(context)
                 .build();
 
+        initRoles();
         createDefaultUsersIfNotExist();
+    }
+
+    private void initRoles() {
+        Role adminRole = userRoleRepository.findByRole(Role.ADMIN_ROLE_NAME);
+        Role role = userRoleRepository.findByRole(Role.USER_ROLE_NAME);
+
+        if (adminRole == null) {
+            userRoleRepository.save(new Role(Role.ADMIN_ROLE_NAME));
+        }
+
+        if (role == null) {
+            userRoleRepository.save(new Role(Role.USER_ROLE_NAME));
+        }
     }
 
     private void createDefaultUsersIfNotExist() {

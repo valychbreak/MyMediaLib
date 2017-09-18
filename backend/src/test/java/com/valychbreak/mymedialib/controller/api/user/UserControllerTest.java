@@ -1,27 +1,19 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.valychbreak.mymedialib.Application;
-import com.valychbreak.mymedialib.controller.AbstractControllerTest;
 import com.valychbreak.mymedialib.controller.ControllerTest;
-import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,14 +26,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
-@DatabaseSetup("/data/db/UsersForUserControlTest.xml")
-//@DatabaseTearDown
+@DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 public class UserControllerTest extends ControllerTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
+    @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
     public void getAllUsers() throws Exception {
         Iterable<User> allUsers = userRepository.findAll();
         String expectedResult = json(allUsers);

@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,6 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 @TestPropertySource(locations="classpath:test.properties")
+/*@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)*/
 public abstract class ControllerTest {
     @Autowired
     private WebApplicationContext context;

@@ -1,10 +1,8 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
-import com.valychbreak.mymedialib.controller.AbstractControllerTest;
 import com.valychbreak.mymedialib.controller.ControllerTest;
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
@@ -27,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
-//@DatabaseTearDown
+@DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 public class RegisterUserControllerTest extends ControllerTest {
 
     @Autowired
@@ -37,7 +35,7 @@ public class RegisterUserControllerTest extends ControllerTest {
     private UserRepository userRepository;
 
     @Test
-    @DatabaseSetup("/data/db/BasicRolesDataset.xml")
+    @DatabaseSetup(value = "/data/db/BasicRolesDataset.xml")
     public void addUser() throws Exception {
         Role role = getUserRole();
         User newUser = new User("username1", "password2", "User name", "useremail@t.com", role);
