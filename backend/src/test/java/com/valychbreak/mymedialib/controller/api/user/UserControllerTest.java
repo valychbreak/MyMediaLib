@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.ControllerTest;
+import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.junit.Test;
@@ -42,5 +43,27 @@ public class UserControllerTest extends ControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().json(expectedResult))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
+    public void getUserDetailsById() throws Exception {
+        User user = userRepository.findOne(1000L);
+        UserDetailsDTO expectedDetails = new UserDetailsDTO(user);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/details/1000"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json(json(expectedDetails)));
+    }
+
+    @Test
+    @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
+    public void getUserDetailsByUsername() throws Exception {
+        User user = userRepository.findOne(1002L);
+        UserDetailsDTO expectedDetails = new UserDetailsDTO(user);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/details/test2"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json(json(expectedDetails)));
     }
 }
