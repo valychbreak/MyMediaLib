@@ -1,6 +1,7 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
 import com.valychbreak.mymedialib.controller.api.APIController;
+import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
@@ -48,11 +49,10 @@ public class UserController extends APIController {
 
     @RequestMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = new ArrayList<>();
-
-        userRepository.findAll().forEach(users::add);
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        userRepository.findAll().forEach(user -> userDTOList.add(new UserDTO(user)));
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/details/{userIdOrUsername}")

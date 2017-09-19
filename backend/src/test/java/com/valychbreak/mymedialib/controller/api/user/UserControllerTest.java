@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.ControllerTest;
+import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
@@ -16,7 +17,12 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -37,11 +43,23 @@ public class UserControllerTest extends ControllerTest {
     @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
     public void getAllUsers() throws Exception {
         Iterable<User> allUsers = userRepository.findAll();
-        String expectedResult = json(allUsers);
+        List<UserDTO> userDTOList = new ArrayList<>();
+        allUsers.forEach(user -> userDTOList.add(new UserDTO(user)));
+        String expectedResult = json(userDTOList);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().json(expectedResult))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
+    public void getAllUsersDoesNotContainPassword() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("*.password").doesNotExist())
                 .andExpect(status().isOk());
     }
 
