@@ -1,6 +1,7 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
 import com.valychbreak.mymedialib.controller.api.APIController;
+import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,10 @@ public class UserSearchController extends APIController {
 
     @RequestMapping(value = "/users/search", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<List<User>> searchUsers(@RequestAttribute("q") String query) {
-        List<User> foundUsers = new ArrayList<>(userRepository.findByUsernameOrNameIgnoreCaseContaining(query, query));
-        return new ResponseEntity<>(foundUsers, HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> searchUsers(@RequestAttribute("q") String query) {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        userRepository.findByUsernameOrNameIgnoreCaseContaining(query, query)
+                .forEach(user -> userDTOList.add(new UserDTO(user)));
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 }
