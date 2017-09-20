@@ -6,6 +6,7 @@ import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -47,6 +49,9 @@ public class TestCreateUserService {
 
     @Test
     public void testCreateSimpleUser() throws Exception {
+        Role userRole = new Role(Role.USER_ROLE_NAME);
+        userRoleRepository.save(userRole);
+
         String username = makeUnique("test");
         String email = makeUnique("testEmail@t.com");
         User user = createUserService.saveSimpleUser(username, "test12", "test", email);
@@ -57,6 +62,9 @@ public class TestCreateUserService {
 
     @Test
     public void testCreateAdminUser() throws Exception {
+        Role adminRole = new Role(Role.ADMIN_ROLE_NAME);
+        userRoleRepository.save(adminRole);
+
         String username = makeUnique("test");
         String email = makeUnique("testEmail") + "@t.com";
         User user = createUserService.saveAdminUser(username, "test12", "test", email);

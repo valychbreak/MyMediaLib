@@ -1,12 +1,14 @@
-package com.valychbreak.mymedialib.controller.api.user.favorites;
+package com.valychbreak.mymedialib.controller.api.favorites;
 
 import com.valychbreak.mymedialib.controller.AbstractControllerTest;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
+import com.valychbreak.mymedialib.repository.UserMediaRepository;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -16,10 +18,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserRemoveFavoriteMediaControllerTest extends AbstractControllerTest {
+    @Autowired
+    private UserMediaRepository userMediaRepository;
+
     @Test
     @WithMockUser(username = "removeFavouritesUser", roles = "USER")
     public void removeFavourite() throws Exception {
@@ -41,7 +45,7 @@ public class UserRemoveFavoriteMediaControllerTest extends AbstractControllerTes
 
     private boolean isUserFavorite(User dbTestUser, MediaFullDetails fightClubMovie) {
         boolean found = false;
-        for (UserMedia userMedia : dbTestUser.getAllFavorites()) {
+        for (UserMedia userMedia : userMediaRepository.findByUser(dbTestUser)) {
             if(userMedia.getMedia().getImdbId().equals(fightClubMovie.getImdbId())) {
                 found = true;
             }

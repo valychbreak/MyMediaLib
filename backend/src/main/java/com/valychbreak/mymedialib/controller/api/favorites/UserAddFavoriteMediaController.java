@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.controller.api.user.favorites;
+package com.valychbreak.mymedialib.controller.api.favorites;
 
 import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;

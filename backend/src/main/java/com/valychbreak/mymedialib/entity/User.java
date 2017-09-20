@@ -41,11 +41,6 @@ public class User {
     @JoinColumn(name = "root_user_media_catalog", nullable = false)
     private UserMediaCatalog rootUserMediaCatalog;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonExclude
-    private List<UserMedia> allFavorites = new ArrayList<>();
-
-
     protected User() {
     }
 
@@ -103,14 +98,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public List<UserMedia> getAllFavorites() {
-        return allFavorites;
-    }
-
-    public void setAllFavorites(List<UserMedia> allFavorites) {
-        this.allFavorites = allFavorites;
     }
 
     public UserMediaCatalog getRootUserMediaCatalog() {

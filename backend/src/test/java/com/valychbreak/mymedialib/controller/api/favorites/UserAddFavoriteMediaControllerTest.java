@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.controller.api.user.favorites;
+package com.valychbreak.mymedialib.controller.api.favorites;
 
 import com.omertron.omdbapi.OMDBException;
 import com.omertron.omdbapi.model.OmdbVideoFull;
@@ -12,17 +12,13 @@ import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
