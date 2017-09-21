@@ -79,4 +79,32 @@ public class MediaFullDetailsImpl extends MediaShortDetailsImpl implements Media
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MediaFullDetailsImpl)) return false;
+
+        MediaFullDetailsImpl that = (MediaFullDetailsImpl) o;
+
+        if (genre != null ? !genre.equals(that.genre) : that.genre != null) return false;
+        if (duration != null ? !duration.equals(that.duration) : that.duration != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (imagePath != null ? !imagePath.equals(that.imagePath) : that.imagePath != null) return false;
+        if (stars != null ? !stars.equals(that.stars) : that.stars != null) return false;
+        if (reviews != null ? !reviews.equals(that.reviews) : that.reviews != null) return false;
+        return type != null ? type.equals(that.type) : that.type == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = genre != null ? genre.hashCode() : 0;
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
+        result = 31 * result + (stars != null ? stars.hashCode() : 0);
+        result = 31 * result + (reviews != null ? reviews.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
 }
