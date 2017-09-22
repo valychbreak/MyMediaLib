@@ -25,6 +25,10 @@ public class UserMediaCatalog {
     private List<UserMediaCatalog> subUserMediaCatalogs = new ArrayList<>();
 
     @ManyToMany
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "user_media_catalog_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_media_id")
+    )
     private List<UserMedia> userMediaList = new ArrayList<>();
 
     protected UserMediaCatalog() { }
