@@ -1,28 +1,84 @@
-<div class="row">
-  <div class="col-sm-3">
-    <p class="lead">Menu</p>
-    <div class="list-group">
-      <!--<a href="#" class="list-group-item">Category 1</a>
-      <a href="#" class="list-group-item">Category 2</a>
-      <a href="#" class="list-group-item">Category 3</a>-->
-      <a href="#" class="list-group-item">News</a>
-      <a class="list-group-item" routerLink="/movies" routerLinkActive="active">Media</a>
-      <a class="list-group-item" routerLink="/favourites" routerLinkActive="active">Favourites</a>
-      <a class="list-group-item" routerLink="/users" routerLinkActive="active">Users</a>
-      <a class="list-group-item" routerLink="/signin" routerLinkActive="active">
-        <span *ngIf="!isAuthenticated()">Sign in</span>
-        <span *ngIf="isAuthenticated()">Profile</span>
-      </a>
-      <a href="#" class="list-group-item">Contacts</a>
-      <a href="#" class="list-group-item">About</a>
-    </div>
-  </div>
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">MovieLib</a>
 
-  <template ngbModalContainer></template>
-  <div class="col-md-9" style="">
-    <div class="content-block">
-      <router-outlet></router-outlet>
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/movies" routerLinkActive="active">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/movies" routerLinkActive="active">Media</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Settings</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/favourites" routerLinkActive="active">Favourites</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/signin" routerLinkActive="active">
+          <span *ngIf="!isAuthenticated()">Sign in</span>
+          <span *ngIf="isAuthenticated()">Profile</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/movies" routerLinkActive="active">Contacts</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/movies" routerLinkActive="active">About</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Help</a>
+      </li>
+    </ul>
+    <form class="form-inline mt-2 mt-md-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <template ngbModalContainer></template>
+    <div class="col-sm-12" style="">
+      <div class="content-block">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
+</div>
+<!-- /.container -->
+<div class="container">
+
+  <hr/>
+
+  <!-- Footer -->
+  <footer>
+    <div class="row">
+      <div class="col-lg-12">
+        <!--Copyright here-->
+      </div>
+    </div>
+  </footer>
 
 </div>
+
+
+
+
+
+
+
