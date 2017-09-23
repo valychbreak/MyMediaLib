@@ -14,7 +14,7 @@
 </div>-->
 <!--<button class="btn btn-secondary" (click)="checkAuthentication()">Check Auth</button>-->
 <div class="col-md-6" *ngIf="!isAuthenticated()">
-  <h1>Add user</h1>
+  <h1>Sign in</h1>
   <form #f="ngForm" (ngSubmit)="save(f.value, f.valid)" novalidate>
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">

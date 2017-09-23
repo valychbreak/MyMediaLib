@@ -4,24 +4,27 @@ import {MovieService} from "./shared/movie.service";
 import {Router} from "@angular/router";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-modal.component";
+import {AbstractForm} from "../base/form";
 
 @Component({
   selector: 'app-movie',
   templateUrl: 'movies.component.html',
   styleUrls: ['movies.component.css']
 })
-export class MoviesComponent implements OnInit {
+export class MoviesComponent extends AbstractForm implements OnInit {
   movies: Movie[];
   searchString: string;
 
-  constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal) { }
+  constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal) {
+    super()
+  }
 
   ngOnInit() {
     //this.getMovies();
   }
 
-  submitSearch(): void {
-    this.movieService.getMoviesByFilter(this.searchString).then(movies => this.movies = movies);
+  submitSearch(query: string, isValid: boolean): void {
+    this.movieService.getMoviesByFilter(query).then(movies => this.movies = movies);
   }
 
   getMovies(): void {

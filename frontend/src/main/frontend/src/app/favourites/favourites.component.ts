@@ -20,13 +20,11 @@ export class FavouritesComponent implements OnInit {
   user: User = new User();
   fav: FavouriteMedia[];
   favouriteMedia: Movie[];
-  title: string;
 
   constructor(private http: Http, private router: Router, private userFavouritesService: UserFavouritesService,
               private userService: UserService, private loginService: LoginService) { }
 
   ngOnInit() {
-    this.title = "Favourites";
     //this.getLoggedUser();
     //this.getFavouriteMedia().subscribe(media => this.fav = media);
 
