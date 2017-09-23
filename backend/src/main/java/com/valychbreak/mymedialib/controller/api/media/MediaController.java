@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
  * Created by Valeriy on 3/18/2017.
  */
 @RestController
-@RequestMapping(value = "/api/media")
 public class MediaController extends APIController {
 
 }

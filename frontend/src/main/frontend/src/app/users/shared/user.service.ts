@@ -36,7 +36,7 @@ export class UserService {
   }
 
   getUserFavourites(username: string): Promise<Movie[]> {
-    return this.http.get(Config.dataRequestLink + "/user/" + username + "/favourites")
+    return this.http.get(Config.dataRequestLink + "/user/favourites")
         .toPromise()
         .then(response => response.json() as Movie[])
         .catch(this.handleError);

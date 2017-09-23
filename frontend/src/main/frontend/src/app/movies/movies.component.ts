@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-modal.component";
 import {AbstractForm} from "../base/form";
+import {MovieSearch} from "./shared/movie-search";
 
 @Component({
   selector: 'app-movie',
@@ -14,17 +15,19 @@ import {AbstractForm} from "../base/form";
 export class MoviesComponent extends AbstractForm implements OnInit {
   movies: Movie[];
   searchString: string;
+  movieSearch: MovieSearch;
 
   constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal) {
     super()
   }
 
   ngOnInit() {
+    this.movieSearch = new MovieSearch();
     //this.getMovies();
   }
 
-  submitSearch(query: string, isValid: boolean): void {
-    this.movieService.getMoviesByFilter(query).then(movies => this.movies = movies);
+  submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
+    this.movieService.getMoviesByFilter(movieSearch.query).then(movies => this.movies = movies);
   }
 
   getMovies(): void {

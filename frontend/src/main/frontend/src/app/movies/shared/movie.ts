@@ -10,6 +10,7 @@ export class Movie {
   reviews: number;
   imdbId: string;
   isFavourite: boolean;
+  type: string;
 
 
   constructor() {

@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 public class MediaSearchController extends MediaController {
-    @RequestMapping(value = "/search", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
+    @RequestMapping(value = "/media/search", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
     public ResponseEntity<List<MediaFullDetails>> advancedMediaSearch(@RequestParam(value = "q") String searchTerm,
                                                                       @RequestParam(value = "year", required = false) Integer year,
                                                                       @RequestParam(value = "page", required = false) Integer page

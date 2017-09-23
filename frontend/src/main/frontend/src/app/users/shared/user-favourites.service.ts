@@ -15,16 +15,17 @@ export class UserFavouritesService {
     }
 
     getFavourites(): Promise<Movie[]> {
-        let username = this.loginService.getLoggedUsername();
-        return this.userService.getUserFavourites(username)
-            .then(media => media);
+        return this.http.get(Config.dataRequestLink + "/user/favourites")
+            .toPromise()
+            .then(response => response.json() as Movie[])
+            .catch(this.handleError);
     }
 
     addMedia(movie: Movie): Promise<Movie> {
         let username = this.loginService.getLoggedUsername();
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(Config.dataRequestLink + "/user/" + username + "/favourites/add", movie, options)
+        return this.http.post(Config.dataRequestLink + "/user/favourites/add", movie, options)
             .toPromise()
             .then(response => response.json() as Movie)
     }
@@ -33,7 +34,7 @@ export class UserFavouritesService {
         let username = this.loginService.getLoggedUsername();
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.post(Config.dataRequestLink + "/user/" + username + "/favourites/remove", movie, options)
+        return this.http.post(Config.dataRequestLink + "/user/favourites/remove", movie, options)
             .toPromise()
             .then(response => response.json() as Movie)
     }

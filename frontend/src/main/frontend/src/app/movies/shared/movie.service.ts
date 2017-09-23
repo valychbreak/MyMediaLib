@@ -9,14 +9,14 @@ export class MovieService {
   }
 
   getMovies(): Promise<Movie[]> {
-    return this.http.get("http://localhost:8080/api/movie/advanced-search?s=spider-man")
+    return this.http.get("http://localhost:8080/api/movie/search?s=spider-man")
       .toPromise()
       .then(response => response.json() as Movie[])
       .catch(this.handleError);
   }
 
   getMoviesByFilter(searchString: string): Promise<Movie[]> {
-    return this.http.get("http://localhost:8080/api/movie/advanced-search?s=" + searchString)
+    return this.http.get("http://localhost:8080/api/media/search?q=" + searchString)
         .toPromise()
         .then(response => response.json() as Movie[])
         .catch(this.handleError);
@@ -30,7 +30,7 @@ export class MovieService {
   }
 
   getMovieByImdbId(id: string) : Promise<Movie> {
-    return this.http.get("http://localhost:8080/api/movie/imdb/get/" + id)
+    return this.http.get("http://localhost:8080/api/media/details/" + id)
         .toPromise()
         .then(response => response.json() as Movie)
         .catch(this.handleError);

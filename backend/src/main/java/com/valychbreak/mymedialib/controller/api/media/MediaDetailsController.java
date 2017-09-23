@@ -35,7 +35,7 @@ public class MediaDetailsController extends MediaController {
         this.userMediaRepository = userMediaRepository;
     }
 
-    @RequestMapping(value = "/details/{imdbId}", produces = {MediaType.APPLICATION_JSON_VALUE},
+    @RequestMapping(value = "/media/details/{imdbId}", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
     public ResponseEntity<MediaFullDetailsImpl> getMediaDetailsByImdbId(@PathVariable String imdbId) throws OMDBException, IOException {
         /*OmdbVideoFull omdbVideo = new OmdbVideoProvider().getOmdbVideo(imdbId);
