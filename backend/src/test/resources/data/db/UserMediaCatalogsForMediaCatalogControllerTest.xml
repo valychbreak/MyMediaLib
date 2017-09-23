@@ -9,7 +9,7 @@
     <user_media_catalog id="1005" name="child1_2_2_1" parent_media_catalog="1004"/>
     <user_media_catalog id="1006" name="child1_3" parent_media_catalog="1000"/>
 
-    <users id="1000" username="test1" first_name="Test1" email="test1@t.com" password="test12" user_role_id="1000"
+    <users id="1000" username="test" first_name="Test1" email="test1@t.com" password="test12" user_role_id="1000"
            root_user_media_catalog="1000"/>
 
     <media id="100" imdb_id="tt0137523" title="Unknown" />
