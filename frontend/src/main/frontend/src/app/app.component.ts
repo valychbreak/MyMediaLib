@@ -3,6 +3,7 @@ import {NavigationEnd, Router} from "@angular/router";
 import {LoginService} from "./users/shared/login.service";
 import {Observable} from "rxjs";
 import {AccountEventsService} from "./account/account-events.service";
+import {UserAppSetings} from "./config/user-app-settings";
 
 @Component({
   selector: 'app-root',
@@ -43,5 +44,13 @@ export class AppComponent {
 
   isAuthenticated(): boolean {
     return this.loginService.isAuthenticated();
+  }
+
+  getSidebarToggle(): boolean {
+    return UserAppSetings.sidebarToggle;
+  }
+
+  toggleSidebar() {
+    UserAppSetings.sidebarToggle = !UserAppSetings.sidebarToggle;
   }
 }
