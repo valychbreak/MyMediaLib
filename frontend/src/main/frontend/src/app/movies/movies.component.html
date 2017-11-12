@@ -1,54 +1,63 @@
-<div class="row">
-  <div class="col-sm-12">
-    <h1>Search media</h1>
+<div class="m-2">
+    <div class="row">
+        <h1>Search media</h1>
+    </div>
 
-    <hr />
+    <hr/>
 
-    <form #f="ngForm" (ngSubmit)="submitSearch(f.value, f.valid)" class="form-inline" novalidate>
-      <input id="query" type="text" class="form-control col-5 mb-5 mr-sm-2 mb-sm-0"
-             name="query" [(ngModel)]="movieSearch.query"
-             placeholder="Start typing..."
-             #query="ngModel" required>
-      <button type="submit" class="btn btn-outline-secondary">Search</button>
-    </form>
-  </div>
-</div>
+    <div class="row">
+        <form #f="ngForm" (ngSubmit)="submitSearch(f.value, f.valid)" class="form-inline w-100" novalidate>
+            <input id="query" type="text" class="form-control col-8 mb-5 mr-sm-2 mb-sm-0"
+                   name="query" [(ngModel)]="movieSearch.query"
+                   placeholder="Start typing..."
+                   #query="ngModel" required>
+            <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </form>
+    </div>
 
-<div class="row m-3">
-  <ngb-tabset>
-    <ngb-tab id="tab1" title="All">
-      <ng-template ngbTabContent>
-        <div class="row">
-          <div *ngFor="let movie of movies" class="col-sm-4">
-            <app-movie-short-view [movie]="movie"></app-movie-short-view>
-          </div>
-        </div>
-      </ng-template>
-    </ngb-tab>
+    <div class="row mt-3">
+        <ngb-tabset class="w-100">
+            <ngb-tab id="tab1" title="All">
+                <ng-template ngbTabContent>
+                    <div class="row">
+                        <div *ngFor="let movie of movies" class="col-sm-4">
+                            <app-movie-short-view [movie]="movie"></app-movie-short-view>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
 
-    <ngb-tab id="tab2" title="Movies">
-      <ng-template ngbTabContent>
-        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-          master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-          dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-          iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab id="tab3" title="TV Shows">
-      <ng-template ngbTabContent>
-        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-          master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-          dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-          iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab id="tab4" title="People">
-      <ng-template ngbTabContent>
-        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-          master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-          dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-          iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
-      </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
+            <ngb-tab id="tab2" title="Movies">
+                <ng-template ngbTabContent>
+                    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua,
+                        retro synth
+                        master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                        butcher
+                        retro keffiyeh
+                        dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip
+                        placeat
+                        salvia cillum
+                        iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tab3" title="TV Shows">
+                <ng-template ngbTabContent>
+                    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua,
+                        retro synth
+                        master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+                        butcher
+                        retro keffiyeh
+                        dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip
+                        placeat
+                        salvia cillum
+                        iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tab4" title="People">
+                <ng-template ngbTabContent>
+                    <person-short-view [person]="person"></person-short-view>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
 </div>

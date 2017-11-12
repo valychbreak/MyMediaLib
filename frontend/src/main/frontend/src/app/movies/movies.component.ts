@@ -6,6 +6,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-modal.component";
 import {AbstractForm} from "../base/form";
 import {MovieSearch} from "./shared/movie-search";
+import {Person} from "../person/shared/person";
 
 @Component({
   selector: 'app-movie',
@@ -14,6 +15,7 @@ import {MovieSearch} from "./shared/movie-search";
 })
 export class MoviesComponent extends AbstractForm implements OnInit {
   movies: Movie[];
+  person: Person;
   searchString: string;
   movieSearch: MovieSearch;
 
@@ -23,6 +25,10 @@ export class MoviesComponent extends AbstractForm implements OnInit {
 
   ngOnInit() {
     this.movieSearch = new MovieSearch();
+    this.person = new Person();
+    this.person.name = "Brad Pitt";
+    this.person.isAdult = true;
+    this.person.image = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
     //this.getMovies();
   }
 
