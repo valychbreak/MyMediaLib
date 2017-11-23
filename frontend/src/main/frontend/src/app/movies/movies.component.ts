@@ -7,6 +7,7 @@ import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-mo
 import {AbstractForm} from "../base/form";
 import {MovieSearch} from "./shared/movie-search";
 import {Person} from "../person/shared/person";
+import {BasicMovie} from "./shared/basic-movie";
 
 @Component({
   selector: 'app-movie',
@@ -15,7 +16,7 @@ import {Person} from "../person/shared/person";
 })
 export class MoviesComponent extends AbstractForm implements OnInit {
   movies: Movie[];
-  person: Person;
+  persons: Person[];
   searchString: string;
   movieSearch: MovieSearch;
 
@@ -25,14 +26,49 @@ export class MoviesComponent extends AbstractForm implements OnInit {
 
   ngOnInit() {
     this.movieSearch = new MovieSearch();
-    this.person = new Person();
-    this.person.name = "Brad Pitt";
-    this.person.isAdult = true;
-    this.person.image = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
-    //this.getMovies();
+
+    this.mockData();
+      //this.getMovies();
   }
 
-  submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
+    private mockData() {
+      let movie = new Movie();
+      movie.title = "Fight club";
+      movie.genre = "Action";
+      movie.imagePath = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
+      this.movies = [movie];
+
+        this.persons = [
+            this.createPerson(),
+            this.createPerson(),
+            this.createPerson(),
+            this.createPerson()
+        ];
+    }
+
+    private createPerson() {
+        let person = new Person();
+        person.name = "Brad Pitt";
+        person.isAdult = true;
+        person.image = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
+
+        person.knownFor = [
+            this.createBasicMovie("Fight club", "1996"),
+            this.createBasicMovie("Spider man", "2004"),
+            this.createBasicMovie("The amazing spider-man", "2013")
+        ];
+        return person;
+    }
+
+    private createBasicMovie(title: string, releaseDate: string): BasicMovie {
+        let basicMovie = new BasicMovie();
+        basicMovie.title = title;
+        basicMovie.mediaType = "Movie";
+        basicMovie.releaseDate = releaseDate;
+        return basicMovie;
+    }
+
+    submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
     this.movieService.getMoviesByFilter(movieSearch.query).then(movies => this.movies = movies);
   }
 

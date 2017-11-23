@@ -1,3 +1,19 @@
-.people-avatar {
-    max-height: 50px;
+.people-view-block {
+    border: 5px solid #eeeeee;
+    border-radius: 5px;
+    margin: 5px 5px 0 0;
+    background: #eeeeee;
+}
+
+.people-view-block:hover {
+    border-color: #5cb85c;
+}
+
+.people-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.people-known-for {
+    font-size: 12px;
 }

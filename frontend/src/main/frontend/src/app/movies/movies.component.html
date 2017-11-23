@@ -20,7 +20,7 @@
             <ngb-tab id="tab1" title="All">
                 <ng-template ngbTabContent>
                     <div class="row">
-                        <div *ngFor="let movie of movies" class="col-sm-4">
+                        <div *ngFor="let movie of movies" class="col-xs-12 col-sm-4 col-lg-3">
                             <app-movie-short-view [movie]="movie"></app-movie-short-view>
                         </div>
                     </div>
@@ -55,7 +55,11 @@
             </ngb-tab>
             <ngb-tab id="tab4" title="People">
                 <ng-template ngbTabContent>
-                    <person-short-view [person]="person"></person-short-view>
+                    <div class="row container-fluid">
+                        <div *ngFor="let person of persons" class="col-sm-6 col-lg-4 p-0">
+                            <person-short-view [person]="person"></person-short-view>
+                        </div>
+                    </div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
