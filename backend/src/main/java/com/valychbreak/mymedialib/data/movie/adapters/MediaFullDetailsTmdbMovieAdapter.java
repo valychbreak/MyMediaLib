@@ -28,7 +28,7 @@ public class MediaFullDetailsTmdbMovieAdapter extends MediaFullDetailsImpl {
         genre = getGenre(movie.genres);
         duration = movie.runtime != null ? movie.runtime.toString() : "116";
         description = movie.overview;
-        imagePath = TMDB_IMAGE_BASE_URL + movie.backdrop_path;
+        imagePath = TMDB_IMAGE_BASE_URL + movie.poster_path;
         stars = movie.vote_average.toString();
         reviews = movie.vote_count.toString();
         type = "Movie";
