@@ -6,9 +6,9 @@ import {Http, HttpModule, RequestOptions, XHRBackend} from '@angular/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import {UsersComponent} from "./users/users.component";
-import {UsersModule} from "./users/users.module";
-import { UserFormComponent } from './users/user-form/user-form.component';
+import {UsersComponent} from "./views/users/users.component";
+import {UsersModule} from "./views/users/users.module";
+import { UserFormComponent } from './views/users/user-form/user-form.component';
 import {MoviesComponent} from "./movies/movies.component";
 import {MovieViewComponent} from "./movies/movie-details/movie-details.component";
 import {FavouritesComponent} from "./views/favorites/favourites.component";

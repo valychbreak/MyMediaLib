@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../shared/users/user";
 import {ActivatedRoute, Router, Params} from "@angular/router";
-import {UserService} from "../../shared/users/user.service";
 
 import 'rxjs/add/operator/switchMap';
+import {User} from "../../../shared/users/user";
+import {UserService} from "../../../shared/users/user.service";
 
 @Component({
   //moduleId: module.id,
