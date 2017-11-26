@@ -4,7 +4,7 @@ import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.BasePerson;
 import com.uwetrottmann.tmdb2.entities.Media;
 import com.uwetrottmann.tmdb2.entities.PersonResultsPage;
-import com.valychbreak.mymedialib.dto.movie.BasicMovieDTO;
+import com.valychbreak.mymedialib.dto.movie.BasicMediaDTO;
 import com.valychbreak.mymedialib.dto.person.BasicPersonDTO;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
@@ -43,21 +43,15 @@ public class DefaultPeopleService implements PeopleService {
 
     private void addKnowFor(BasicPersonDTO basicPersonDTO, List<Media> knownFor) {
         for (Media media : knownFor) {
-            BasicMovieDTO basicMovieDTO = new BasicMovieDTO();
-            switch (media.media_type) {
-                case MOVIE:
-                    basicMovieDTO.setName(media.movie.title);
-                    break;
-                case TV:
-                    basicMovieDTO.setName(media.tvShow.name);
-            }
-
-            basicPersonDTO.getKnownFor().add(basicMovieDTO);
+            BasicMediaDTO basicMediaDTO = new BasicMediaDTO(media);
+            basicPersonDTO.getKnownFor().add(basicMediaDTO);
         }
     }
 
     private PersonResultsPage getTmdbSearchResults(SearchParams searchParams) throws IOException {
-        Call<PersonResultsPage> peopleSearchResult = tmdb.searchService().person(searchParams.getQuery(), searchParams.getPage(), null, null);
+        Call<PersonResultsPage> peopleSearchResult = tmdb.searchService().person(
+                searchParams.getQuery(), searchParams.getPage(), null, null
+        );
         return peopleSearchResult.execute().body();
     }
 }

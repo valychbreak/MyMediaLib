@@ -7,11 +7,12 @@ import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 
 import java.util.List;
 
+import static com.valychbreak.mymedialib.utils.TmdbUtils.TMDB_IMAGE_BASE_URL;
+
 /**
  * Created by valych on 6/1/17.
  */
 public class MediaFullDetailsTmdbMovieAdapter extends MediaFullDetailsImpl {
-    public static final String TMDB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w342/";
 
     public MediaFullDetailsTmdbMovieAdapter(TvShow tvShow) {
         convert(tvShow);

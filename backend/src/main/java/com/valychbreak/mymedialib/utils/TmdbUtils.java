@@ -14,6 +14,8 @@ import java.io.IOException;
  * Created by valych on 9/16/17.
  */
 public class TmdbUtils {
+    public static final String TMDB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w342/";
+
     public static Movie requestDetailedTmdbTvShow(Tmdb tmdb, BaseMovie result) throws IOException {
 
         Call<Movie> summary = tmdb.moviesService().summary(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
