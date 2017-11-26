@@ -22,7 +22,7 @@ import { MovieShortViewComponent } from './movies/movie-short-view/movie-short-v
 import {UserFavouritesService} from "./shared/users/user-favourites.service";
 import {CustomHttpService} from "./utils/custom-http-service";
 import {AccountEventsService} from "./account/account-events.service";
-import { PersonShortViewComponent } from './person/person-short-view/person-short-view.component';
+import { PersonShortViewComponent } from './views/people/person-short-view/person-short-view.component';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions, accountEventsService: AccountEventsService) {
   return new CustomHttpService(backend, options, accountEventsService);

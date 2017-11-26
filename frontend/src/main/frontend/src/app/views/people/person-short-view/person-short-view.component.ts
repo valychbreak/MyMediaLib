@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {Person} from "../../shared/person/person";
+import {Person} from "../../../shared/person/person";
 
 @Component({
   selector: 'person-short-view',
