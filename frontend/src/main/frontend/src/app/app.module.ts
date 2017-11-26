@@ -23,6 +23,7 @@ import {UserFavouritesService} from "./service/user-favourites.service";
 import {CustomHttpService} from "./utils/custom-http-service";
 import {AccountEventsService} from "./account/account-events.service";
 import { PersonShortViewComponent } from './views/people/person-short-view/person-short-view.component';
+import {PeopleService} from "./service/people.service";
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions, accountEventsService: AccountEventsService) {
   return new CustomHttpService(backend, options, accountEventsService);
@@ -51,7 +52,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions, accoun
     NgbModule.forRoot(),
     UsersModule
   ],
-  providers: [MovieService, LoginService, UserFavouritesService, AccountEventsService, {
+  providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, {
     provide: Http,
     useFactory: httpFactory,
     deps: [XHRBackend, RequestOptions, AccountEventsService],

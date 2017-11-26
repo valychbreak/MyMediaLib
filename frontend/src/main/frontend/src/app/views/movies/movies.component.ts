@@ -8,6 +8,7 @@ import {AbstractForm} from "../../base/form";
 import {MovieSearch} from "../../shared/movie/movie-search";
 import {Person} from "../../shared/person/person";
 import {BasicMovie} from "../../shared/movie/basic-movie";
+import {PeopleService} from "../../service/people.service";
 
 @Component({
   selector: 'app-movie',
@@ -16,11 +17,11 @@ import {BasicMovie} from "../../shared/movie/basic-movie";
 })
 export class MoviesComponent extends AbstractForm implements OnInit {
   movies: Movie[];
-  persons: Person[];
+  people: Person[];
   searchString: string;
   movieSearch: MovieSearch;
 
-  constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal) {
+  constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService) {
     super()
   }
 
@@ -38,7 +39,7 @@ export class MoviesComponent extends AbstractForm implements OnInit {
       movie.imagePath = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
       this.movies = [movie];
 
-        this.persons = [
+        this.people = [
             this.createPerson(),
             this.createPerson(),
             this.createPerson(),
@@ -70,6 +71,7 @@ export class MoviesComponent extends AbstractForm implements OnInit {
 
     submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
     this.movieService.getMoviesByFilter(movieSearch.query).then(movies => this.movies = movies);
+    this.peopleService.searchPeople(movieSearch.query).then(people => this.people = people)
   }
 
   getMovies(): void {
