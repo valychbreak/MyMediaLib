@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
-import {SignInComponent} from "../authorization/sign-in/sign-in.component";
+import {SignInComponent} from "../views/auth/sign-in/sign-in.component";
 import {UserFormComponent} from "../users/user-form/user-form.component";
 import {UsersComponent} from "../users/users.component";
 import {FavouritesComponent} from "../favourites/favourites.component";
 import {MovieViewComponent} from "../movies/movie-details/movie-details.component";
 import {MoviesComponent} from "../movies/movies.component";
-import {SignUpComponent} from "../authorization/sign-up/sign-up.component";
+import {SignUpComponent} from "../views/auth/sign-up/sign-up.component";
 
 const routes: Routes = [
   {
