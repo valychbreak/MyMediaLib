@@ -4,8 +4,8 @@ import {SignInComponent} from "../views/auth/sign-in/sign-in.component";
 import {UserFormComponent} from "../views/users/user-form/user-form.component";
 import {UsersComponent} from "../views/users/users.component";
 import {FavouritesComponent} from "../views/favorites/favourites.component";
-import {MovieViewComponent} from "../movies/movie-details/movie-details.component";
-import {MoviesComponent} from "../movies/movies.component";
+import {MovieViewComponent} from "../views/movies/movie-details/movie-details.component";
+import {MoviesComponent} from "../views/movies/movies.component";
 import {SignUpComponent} from "../views/auth/sign-up/sign-up.component";
 
 const routes: Routes = [

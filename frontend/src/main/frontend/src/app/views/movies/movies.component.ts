@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {Movie} from "../shared/movie/movie";
-import {MovieService} from "../shared/movie/movie.service";
+import {Movie} from "../../shared/movie/movie";
+import {MovieService} from "../../shared/movie/movie.service";
 import {Router} from "@angular/router";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-modal.component";
-import {AbstractForm} from "../base/form";
-import {MovieSearch} from "../shared/movie/movie-search";
-import {Person} from "../shared/person/person";
-import {BasicMovie} from "../shared/movie/basic-movie";
+import {AbstractForm} from "../../base/form";
+import {MovieSearch} from "../../shared/movie/movie-search";
+import {Person} from "../../shared/person/person";
+import {BasicMovie} from "../../shared/movie/basic-movie";
 
 @Component({
   selector: 'app-movie',

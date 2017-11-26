@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {MovieDetailsModalComponent} from "../../../movies/movie-details-modal/movie-details-modal.component";
+import {MovieDetailsModalComponent} from "../../movies/movie-details-modal/movie-details-modal.component";
 import {User} from "../../../shared/users/user";
 import {LoginService} from "../../../shared/users/login.service";
 import {Http} from "@angular/http";
