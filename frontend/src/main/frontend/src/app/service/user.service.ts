@@ -2,9 +2,9 @@ import {Injectable}     from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-import {User} from "./user";
-import {Config} from "../../config/config";
-import {Movie} from "../movie/movie";
+import {User} from "../shared/users/user";
+import {Config} from "../config/config";
+import {Movie} from "../shared/movie/movie";
 
 @Injectable()
 export class UserService {

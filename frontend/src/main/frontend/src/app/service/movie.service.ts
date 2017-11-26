@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {Movie} from "./movie";
+import {Movie} from "../shared/movie/movie";
 
 @Injectable()
 export class MovieService {

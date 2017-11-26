@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Movie} from "../../shared/movie/movie";
-import {MovieService} from "../../shared/movie/movie.service";
+import {MovieService} from "../../service/movie.service";
 import {Router} from "@angular/router";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-modal.component";

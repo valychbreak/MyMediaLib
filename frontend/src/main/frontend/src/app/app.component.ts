@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
-import {LoginService} from "./shared/users/login.service";
+import {LoginService} from "./service/login.service";
 import {Observable} from "rxjs";
 import {AccountEventsService} from "./account/account-events.service";
 import {UserAppSetings} from "./config/user-app-settings";

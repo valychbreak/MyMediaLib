@@ -1,6 +1,6 @@
 import {Component, OnInit, Injector} from '@angular/core';
 import {Movie} from "../../../shared/movie/movie";
-import {MovieService} from "../../../shared/movie/movie.service";
+import {MovieService} from "../../../service/movie.service";
 import {ActivatedRoute} from "@angular/router";
 import {AbstractMovieDetails} from "../../../shared/movie/base-movie-details";
 

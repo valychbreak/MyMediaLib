@@ -3,7 +3,7 @@ import {ActivatedRoute, Router, Params} from "@angular/router";
 
 import 'rxjs/add/operator/switchMap';
 import {User} from "../../../shared/users/user";
-import {UserService} from "../../../shared/users/user.service";
+import {UserService} from "../../../service/user.service";
 
 @Component({
   //moduleId: module.id,

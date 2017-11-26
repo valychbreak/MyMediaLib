@@ -1,5 +1,5 @@
 import {Movie} from "./movie";
-import {UserFavouritesService} from "../users/user-favourites.service";
+import {UserFavouritesService} from "../../service/user-favourites.service";
 import {Injector} from "@angular/core";
 export abstract class AbstractMovieDetails {
     protected userFavouritesService: UserFavouritesService

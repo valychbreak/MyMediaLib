@@ -2,11 +2,11 @@ import {Injectable}     from '@angular/core';
 import {Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
-import {User} from "./user";
-import {Config} from "../../config/config";
+import {User} from "../shared/users/user";
+import {Config} from "../config/config";
 import {Observable} from "rxjs";
-import {AccountEventsService} from "../../account/account-events.service";
-import {Account} from "../../account/account";
+import {AccountEventsService} from "../account/account-events.service";
+import {Account} from "../account/account";
 
 @Injectable()
 export class LoginService {

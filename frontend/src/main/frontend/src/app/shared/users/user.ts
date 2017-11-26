@@ -1,6 +1,6 @@
 
 import {FavouriteMedia} from "../favorites/FavouriteMedia";
-import {MovieService} from "../movie/movie.service";
+import {MovieService} from "../../service/movie.service";
 import {Movie} from "../movie/movie";
 
 export class User {
