@@ -1,4 +1,4 @@
-import {Movie} from "../../movies/shared/movie";
+import {Movie} from "../movie/movie";
 
 
 export class FavouriteMedia {

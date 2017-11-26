@@ -1,8 +1,8 @@
 import {Component, OnInit, Injector} from '@angular/core';
-import {Movie} from "../shared/movie";
-import {MovieService} from "../shared/movie.service";
+import {Movie} from "../../shared/movie/movie";
+import {MovieService} from "../../shared/movie/movie.service";
 import {ActivatedRoute} from "@angular/router";
-import {AbstractMovieDetails} from "../shared/base-movie-details";
+import {AbstractMovieDetails} from "../../shared/movie/base-movie-details";
 
 @Component({
   selector: 'app-movie-view',

@@ -1,4 +1,4 @@
-import {BasicMovie} from "../../movies/shared/basic-movie";
+import {BasicMovie} from "../movie/basic-movie";
 
 export class Person {
     name: string;

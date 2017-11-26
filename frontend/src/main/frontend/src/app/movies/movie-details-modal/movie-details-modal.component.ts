@@ -1,9 +1,9 @@
 import {Component, OnInit, Input, Injector} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Movie} from "../shared/movie";
+import {Movie} from "../../shared/movie/movie";
 import {Router} from "@angular/router";
-import {UserFavouritesService} from "../../users/shared/user-favourites.service";
-import {AbstractMovieDetails} from "../shared/base-movie-details";
+import {UserFavouritesService} from "../../shared/users/user-favourites.service";
+import {AbstractMovieDetails} from "../../shared/movie/base-movie-details";
 
 @Component({
   selector: 'app-movie-details-modal',

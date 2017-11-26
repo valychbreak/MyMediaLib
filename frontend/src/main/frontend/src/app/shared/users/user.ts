@@ -1,7 +1,7 @@
 
-import {FavouriteMedia} from "../../favourites/shared/FavouriteMedia";
-import {MovieService} from "../../movies/shared/movie.service";
-import {Movie} from "../../movies/shared/movie";
+import {FavouriteMedia} from "../favorites/FavouriteMedia";
+import {MovieService} from "../movie/movie.service";
+import {Movie} from "../movie/movie";
 
 export class User {
   id: number;

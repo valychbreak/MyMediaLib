@@ -4,7 +4,7 @@ import {Http, Headers, RequestOptions} from "@angular/http";
 import {User} from "./user";
 import {UserService} from "./user.service";
 import {LoginService} from "./login.service";
-import {Movie} from "../../movies/shared/movie";
+import {Movie} from "../movie/movie";
 @Injectable()
 export class UserFavouritesService {
     static usersURL = Config.dataRequestLink + "/users";

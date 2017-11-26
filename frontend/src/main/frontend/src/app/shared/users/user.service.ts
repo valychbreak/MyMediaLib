@@ -4,7 +4,7 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {User} from "./user";
 import {Config} from "../../config/config";
-import {Movie} from "../../movies/shared/movie";
+import {Movie} from "../movie/movie";
 
 @Injectable()
 export class UserService {

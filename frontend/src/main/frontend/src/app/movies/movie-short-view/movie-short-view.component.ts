@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {Movie} from "../shared/movie";
+import {Movie} from "../../shared/movie/movie";
 import {MovieDetailsModalComponent} from "../movie-details-modal/movie-details-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";

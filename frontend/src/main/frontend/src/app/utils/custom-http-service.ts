@@ -2,7 +2,7 @@
 import {Injectable} from "@angular/core";
 import {Http, RequestOptions, RequestOptionsArgs, Response, XHRBackend} from "@angular/http";
 import {Observable, Observer} from "rxjs";
-import {LoginService} from "../users/shared/login.service";
+import {LoginService} from "../shared/users/login.service";
 import {AccountEventsService} from "../account/account-events.service";
 @Injectable()
 export class CustomHttpService extends Http {

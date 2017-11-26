@@ -7,6 +7,7 @@ import com.uwetrottmann.tmdb2.entities.Media;
 import com.uwetrottmann.tmdb2.entities.PersonResultsPage;
 import com.uwetrottmann.tmdb2.enumerations.MediaType;
 import com.uwetrottmann.tmdb2.services.SearchService;
+import com.valychbreak.mymedialib.dto.movie.BasicMediaDTO;
 import com.valychbreak.mymedialib.dto.person.BasicPersonDTO;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchParamsBuilder;
@@ -19,7 +20,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,6 +67,7 @@ public class DefaultPeopleServiceTest {
         BaseMovie movie = new BaseMovie();
         movie.title = "Fight Club";
         media.movie = movie;
+        movie.media_type = "Movie";
         return media;
     }
 
@@ -89,7 +90,9 @@ public class DefaultPeopleServiceTest {
         assertThat(searchResult.getItems().size()).isEqualTo(1);
 
         BasicPersonDTO basicPersonDTO = searchResult.getItems().get(0);
-        assertThat(basicPersonDTO.getKnownFor().get(0).getName()).isEqualTo("Fight Club");
+        BasicMediaDTO basicMediaDTO = basicPersonDTO.getKnownFor().get(0);
+        assertThat(basicMediaDTO.getTitle()).isEqualTo("Fight Club");
+        assertThat(basicMediaDTO.getMediaType()).isEqualTo("Movie");
     }
 
 }
