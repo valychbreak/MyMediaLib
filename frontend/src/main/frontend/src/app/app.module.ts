@@ -11,7 +11,7 @@ import {UsersModule} from "./users/users.module";
 import { UserFormComponent } from './users/user-form/user-form.component';
 import {MoviesComponent} from "./movies/movies.component";
 import {MovieViewComponent} from "./movies/movie-details/movie-details.component";
-import {FavouritesComponent} from "./favourites/favourites.component";
+import {FavouritesComponent} from "./views/favorites/favourites.component";
 import { SignInComponent } from './views/auth/sign-in/sign-in.component';
 import {AppRoutingModule} from "./app-routing/app-routing.module";
 import { MovieDetailsModalComponent } from './movies/movie-details-modal/movie-details-modal.component';
