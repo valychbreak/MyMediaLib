@@ -4,6 +4,7 @@ import com.omertron.omdbapi.OMDBException;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.*;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
+import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.utils.TmdbUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ import java.util.List;
 @RestController
 public class MediaSearchController extends MediaController {
     @RequestMapping(value = "/media/search", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
-    public ResponseEntity<List<MediaFullDetails>> advancedMediaSearch(@RequestParam(value = "q") String searchTerm,
+    public ResponseEntity<SearchResult<MediaFullDetails>> advancedMediaSearch(@RequestParam(value = "q") String searchTerm,
                                                                       @RequestParam(value = "year", required = false) Integer year,
                                                                       @RequestParam(value = "page", required = false) Integer page
     ) throws OMDBException, IOException {
@@ -41,7 +42,9 @@ public class MediaSearchController extends MediaController {
 
         }
 
-        return new ResponseEntity<>(mediaSearchResults, HttpStatus.OK);
+        SearchResult<MediaFullDetails> searchResult = new SearchResult<>(movieResults.total_results, movieResults.total_pages, mediaSearchResults);
+
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     private MediaResultsPage searchMovies(String searchTerm, Tmdb tmdb) throws IOException {

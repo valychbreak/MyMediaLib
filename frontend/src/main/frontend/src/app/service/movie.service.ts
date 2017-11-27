@@ -18,7 +18,7 @@ export class MovieService {
   getMoviesByFilter(searchString: string): Promise<Movie[]> {
     return this.http.get("http://localhost:8080/api/media/search?q=" + searchString)
         .toPromise()
-        .then(response => response.json() as Movie[])
+        .then(response => response.json().items as Movie[])
         .catch(this.handleError);
   }
 
