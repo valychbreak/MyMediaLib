@@ -24,8 +24,8 @@ public class PeopleSearchController extends APIController {
 
     @RequestMapping(value = "/people/search", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
     public ResponseEntity<SearchResult<BasicPersonDTO>> searchPeople(
-            @RequestAttribute(value = "q") String query,
-            @RequestAttribute(value = "p", required = false) Integer page
+            @RequestParam(value = "q") String query,
+            @RequestParam(value = "p", required = false) Integer page
     ) throws IOException {
         SearchParamsBuilder searchParamsBuilder = new SearchParamsBuilder();
         searchParamsBuilder.withQuery(query);

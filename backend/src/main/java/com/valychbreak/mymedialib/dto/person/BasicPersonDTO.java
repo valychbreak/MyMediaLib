@@ -7,11 +7,15 @@ import java.util.List;
 public class BasicPersonDTO {
     private Long id;
     private String name;
+    private String image;
+    private Integer popularity;
     private List<BasicMediaDTO> knownFor;
 
-    public BasicPersonDTO(Long id, String name, List<BasicMediaDTO> knownFor) {
+    public BasicPersonDTO(Long id, String name, String image, Integer popularity, List<BasicMediaDTO> knownFor) {
         this.id = id;
         this.name = name;
+        this.image = image;
+        this.popularity = popularity;
         this.knownFor = knownFor;
     }
 

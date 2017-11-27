@@ -15,7 +15,7 @@ export class PeopleService {
     searchPeople(searchString: string): Promise<Person[]> {
         return this.http.get(PeopleService.peopleURL + "/search?q=" + searchString + "&p=1")
             .toPromise()
-            .then(response => response.json() as Person[])
+            .then(response => response.json().items as Person[])
             .catch(this.handleError);
     }
 

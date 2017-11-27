@@ -71,7 +71,7 @@ export class MoviesComponent extends AbstractForm implements OnInit {
 
     submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
     this.movieService.getMoviesByFilter(movieSearch.query).then(movies => this.movies = movies);
-    this.peopleService.searchPeople(movieSearch.query).then(people => this.people = people)
+    this.peopleService.searchPeople(movieSearch.query).then(people => this.people = people);
   }
 
   getMovies(): void {

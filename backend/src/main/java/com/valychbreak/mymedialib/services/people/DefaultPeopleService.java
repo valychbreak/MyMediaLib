@@ -8,6 +8,7 @@ import com.valychbreak.mymedialib.dto.movie.BasicMediaDTO;
 import com.valychbreak.mymedialib.dto.person.BasicPersonDTO;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
+import com.valychbreak.mymedialib.utils.TmdbUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -32,8 +33,9 @@ public class DefaultPeopleService implements PeopleService {
 
         List<BasicPersonDTO> results = new ArrayList<>(tmdbSearchResults.results.size());
         for (BasePerson basePerson : tmdbSearchResults.results) {
-            BasicPersonDTO basicPersonDTO = new BasicPersonDTO(new Long(basePerson.id), basePerson.name, new ArrayList<>());
-            addKnowFor(basicPersonDTO, basePerson.known_for);
+            String posterImage = TmdbUtils.TMDB_IMAGE_BASE_URL + basePerson.profile_path;
+            BasicPersonDTO basicPersonDTO = new BasicPersonDTO(new Long(basePerson.id), basePerson.name, posterImage, basePerson.popularity, new ArrayList<>());
+            addKnownFor(basicPersonDTO, basePerson.known_for);
 
             results.add(basicPersonDTO);
         }
@@ -41,7 +43,7 @@ public class DefaultPeopleService implements PeopleService {
         return new SearchResult<>(tmdbSearchResults.total_results, tmdbSearchResults.total_pages, results);
     }
 
-    private void addKnowFor(BasicPersonDTO basicPersonDTO, List<Media> knownFor) {
+    private void addKnownFor(BasicPersonDTO basicPersonDTO, List<Media> knownFor) {
         for (Media media : knownFor) {
             BasicMediaDTO basicMediaDTO = new BasicMediaDTO(media);
             basicPersonDTO.getKnownFor().add(basicMediaDTO);
