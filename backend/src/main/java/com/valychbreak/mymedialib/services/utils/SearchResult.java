@@ -1,13 +1,15 @@
 package com.valychbreak.mymedialib.services.utils;
 
-import java.util.List;
+import java.util.Collection;
 
 public class SearchResult<T> {
+    protected int page;
     protected int totalResults;
     protected int totalPages;
-    protected List<T> items;
+    protected Collection<T> items;
 
-    public SearchResult(int totalResults, int totalPages, List<T> items) {
+    public SearchResult(int page, int totalPages, int totalResults, Collection<T> items) {
+        this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
         this.items = items;
@@ -21,7 +23,7 @@ public class SearchResult<T> {
         return totalPages;
     }
 
-    public List<T> getItems() {
+    public Collection<T> getItems() {
         return items;
     }
 }

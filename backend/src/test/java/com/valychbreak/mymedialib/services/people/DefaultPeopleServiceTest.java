@@ -89,7 +89,7 @@ public class DefaultPeopleServiceTest {
         assertThat(searchResult.getTotalResults()).isEqualTo(100);
         assertThat(searchResult.getItems().size()).isEqualTo(1);
 
-        BasicPersonDTO basicPersonDTO = searchResult.getItems().get(0);
+        BasicPersonDTO basicPersonDTO = searchResult.getItems().iterator().next();
         BasicMediaDTO basicMediaDTO = basicPersonDTO.getKnownFor().get(0);
         assertThat(basicMediaDTO.getTitle()).isEqualTo("Fight Club");
         assertThat(basicMediaDTO.getMediaType()).isEqualTo("Movie");

@@ -8,6 +8,7 @@ import com.valychbreak.mymedialib.dto.movie.BasicMediaDTO;
 import com.valychbreak.mymedialib.dto.person.BasicPersonDTO;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
+import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
 import com.valychbreak.mymedialib.utils.TmdbUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,8 @@ public class DefaultPeopleService implements PeopleService {
             results.add(basicPersonDTO);
         }
 
-        return new SearchResult<>(tmdbSearchResults.total_results, tmdbSearchResults.total_pages, results);
+        SearchResultFactory searchResultFactory = new SearchResultFactory();
+        return searchResultFactory.create(searchParams.getPage(), tmdbSearchResults.total_pages, tmdbSearchResults.total_results, results);
     }
 
     private void addKnownFor(BasicPersonDTO basicPersonDTO, List<Media> knownFor) {
