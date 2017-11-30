@@ -9,6 +9,7 @@ import {MovieSearch} from "../../shared/movie/movie-search";
 import {Person} from "../../shared/person/person";
 import {BasicMovie} from "../../shared/movie/basic-movie";
 import {PeopleService} from "../../service/people.service";
+import {SearchResult} from "../../shared/search-result";
 
 @Component({
   selector: 'app-movie',
@@ -20,12 +21,16 @@ export class MoviesComponent extends AbstractForm implements OnInit {
   people: Person[];
   searchString: string;
   movieSearch: MovieSearch;
+  mediaSearchResult: SearchResult;
 
   constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService) {
     super()
   }
 
   ngOnInit() {
+      this.mediaSearchResult = new SearchResult();
+      this.mediaSearchResult.page = 1;
+      this.mediaSearchResult.totalPages = 0;
     this.movieSearch = new MovieSearch();
 
     this.mockData();
@@ -70,8 +75,16 @@ export class MoviesComponent extends AbstractForm implements OnInit {
     }
 
     submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
-    this.movieService.getMoviesByFilter(movieSearch.query).then(movies => this.movies = movies);
+    this.movieService.searchMedia(movieSearch.query, this.mediaSearchResult.page).then(searchResult => {
+        this.mediaSearchResult = searchResult;
+        this.movies = searchResult.items;
+    });
     this.peopleService.searchPeople(movieSearch.query).then(people => this.people = people);
+  }
+
+  onPageChange() {
+      this.submitSearch(this.movieSearch, true);
+      console.log("current page is " + this.mediaSearchResult.page);
   }
 
   getMovies(): void {

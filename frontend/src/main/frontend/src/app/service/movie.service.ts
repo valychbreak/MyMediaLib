@@ -2,6 +2,7 @@ import 'rxjs/add/operator/toPromise';
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Movie} from "../shared/movie/movie";
+import {SearchResult} from "../shared/search-result";
 
 @Injectable()
 export class MovieService {
@@ -15,10 +16,11 @@ export class MovieService {
       .catch(this.handleError);
   }
 
-  getMoviesByFilter(searchString: string): Promise<Movie[]> {
-    return this.http.get("http://localhost:8080/api/media/search?q=" + searchString)
+  searchMedia(searchString: string, page: number): Promise<SearchResult> {
+    // TODO: use standard methods of building params
+    return this.http.get("http://localhost:8080/api/media/search?q=" + searchString + "&p=" + page)
         .toPromise()
-        .then(response => response.json().items as Movie[])
+        .then(response => response.json() as SearchResult)
         .catch(this.handleError);
   }
 

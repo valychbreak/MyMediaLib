@@ -20,6 +20,13 @@
             <ngb-tab id="tab1" title="All">
                 <ng-template ngbTabContent>
                     <div class="row">
+                        <ngb-pagination [pageSize]="1" [(collectionSize)]="mediaSearchResult.totalPages"
+                                        [(page)]="mediaSearchResult.page" (pageChange)="onPageChange()"
+                                        [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+
+                        </ngb-pagination>
+                    </div>
+                    <div class="row">
                         <div *ngFor="let movie of movies" class="col-xs-12 col-sm-4 col-lg-3">
                             <app-movie-short-view [movie]="movie"></app-movie-short-view>
                         </div>
