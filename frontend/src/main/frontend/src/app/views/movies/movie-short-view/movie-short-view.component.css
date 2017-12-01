@@ -1,10 +1,10 @@
 .movie-view-block {
     border: 5px solid white;
     border-radius: 5px;
-    -webkit-transition : border 0.2s ease-in-out;
-    -moz-transition : border 0.2s ease-in-out;
-    -o-transition : border 0.2s ease-in-out;
-    transition : border 0.2s ease-in-out;
+    -webkit-transition: border 0.2s ease-in-out;
+    -moz-transition: border 0.2s ease-in-out;
+    -o-transition: border 0.2s ease-in-out;
+    transition: border 0.2s ease-in-out;
 }
 
 .movie-view-block:hover {
@@ -98,6 +98,7 @@
     margin: 50px 0 0 0;
     /*padding: 7px 50px;*/
 }
+
 .hovereffect .overlay-body span {
     display: block;
     font-weight: bolder;
@@ -108,7 +109,6 @@
 .hovereffect .overlay-body .info {
     margin-top: 10px;
 }
-
 
 .hovereffect:hover .overlay-body {
     opacity: 1;

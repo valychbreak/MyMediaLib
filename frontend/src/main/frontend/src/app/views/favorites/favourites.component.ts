@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../shared/users/user";
 import {MovieService} from "../../service/movie.service";
@@ -12,45 +12,46 @@ import {LoginService} from "../../service/login.service";
 import {UserFavouritesService} from "../../service/user-favourites.service";
 
 @Component({
-  selector: 'app-favourites',
-  templateUrl: './favourites.component.html',
-  styleUrls: ['./favourites.component.css']
+    selector: 'app-favourites',
+    templateUrl: './favourites.component.html',
+    styleUrls: ['./favourites.component.css']
 })
 export class FavouritesComponent implements OnInit {
-  user: User = new User();
-  fav: FavouriteMedia[];
-  favouriteMedia: Movie[];
+    user: User = new User();
+    fav: FavouriteMedia[];
+    favouriteMedia: Movie[];
 
-  constructor(private http: Http, private router: Router, private userFavouritesService: UserFavouritesService,
-              private userService: UserService, private loginService: LoginService) { }
+    constructor(private http: Http, private router: Router, private userFavouritesService: UserFavouritesService,
+                private userService: UserService, private loginService: LoginService) {
+    }
 
-  ngOnInit() {
-    //this.getLoggedUser();
-    //this.getFavouriteMedia().subscribe(media => this.fav = media);
+    ngOnInit() {
+        //this.getLoggedUser();
+        //this.getFavouriteMedia().subscribe(media => this.fav = media);
 
-    this.getFavourites();
-  }
+        this.getFavourites();
+    }
 
-  getFavouriteMedia() : Observable<FavouriteMedia[]> {
-    return this.http.get("http://localhost:4200/app/data/favourites.json")
-      .map((res:Response)=> res.json())
-  }
+    getFavouriteMedia(): Observable<FavouriteMedia[]> {
+        return this.http.get("http://localhost:4200/app/data/favourites.json")
+            .map((res: Response) => res.json())
+    }
 
-  getFavourites() {
-    this.userFavouritesService.getFavourites()
-        .then(media => this.favouriteMedia = media);
-  }
+    getFavourites() {
+        this.userFavouritesService.getFavourites()
+            .then(media => this.favouriteMedia = media);
+    }
 
-  getLoggedUser() {
-    this.userService.getUser(1).then((user: User) => {
-      this.user = user;
-      this.fav = this.user.favourites;
-      console.log(this.fav.pop());
-    });
-  }
+    getLoggedUser() {
+        this.userService.getUser(1).then((user: User) => {
+            this.user = user;
+            this.fav = this.user.favourites;
+            console.log(this.fav.pop());
+        });
+    }
 
-  onSelectMovie(movie: Movie) {
-    this.router.navigate(['/movie', movie.id]);
-  }
+    onSelectMovie(movie: Movie) {
+        this.router.navigate(['/movie', movie.id]);
+    }
 
 }

@@ -1,8 +1,10 @@
 import {Movie} from "./movie";
 import {UserFavouritesService} from "../../service/user-favourites.service";
 import {Injector} from "@angular/core";
+
 export abstract class AbstractMovieDetails {
     protected userFavouritesService: UserFavouritesService
+
     constructor(injector: Injector) {
         this.userFavouritesService = injector.get(UserFavouritesService);
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {MovieDetailsModalComponent} from "../../movies/movie-details-modal/movie-details-modal.component";
@@ -8,69 +8,71 @@ import {Http} from "@angular/http";
 import {Config} from "../../../config/config";
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: 'sign-in.component.html',
-  styleUrls: ['sign-in.component.css']
+    selector: 'app-sign-in',
+    templateUrl: 'sign-in.component.html',
+    styleUrls: ['sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
-  title: string;
-  user: User;
-  //isUserAuthenticated: boolean;
+    title: string;
+    user: User;
 
-  constructor(private loginService: LoginService, private http: Http) { }
+    //isUserAuthenticated: boolean;
 
-  ngOnInit() {
-    this.title = "Sign in";
-
-    this.user = new User();
-
-    //this.checkAuthenticationStatus();
-  }
-
-  /*private checkAuthenticationStatus() {
-    this.loginService.isAuthenticatedPromise()
-        .then(data => this.isUserAuthenticated = data)
-  }*/
-
-  checkAuthentication() {
-    this.http.get(Config.dataRequestLink + "/islogged/test")
-        .toPromise()
-        .then(response => {
-          console.log("response: " + response.json());
-        })
-  }
-
-  save(userModel: User, isValid: boolean) {
-    console.log(userModel, isValid);
-
-    if(isValid) {
-      this.loginService.authenticate(userModel.username, userModel.password).then(user => {
-        console.log("User on login: " + user.username);
-        //this.checkAuthenticationStatus();
-      }).catch(this.handleError);
+    constructor(private loginService: LoginService, private http: Http) {
     }
-  }
 
-  isAuthenticated() {
-    return this.loginService.isAuthenticated();
-  }
+    ngOnInit() {
+        this.title = "Sign in";
 
-  logout() {
-    this.loginService.logout(true);
-    //this.checkAuthenticationStatus();
-  }
+        this.user = new User();
 
-  getLoggedUserName() {
-    return this.loginService.getLoggedUsername();
-  }
+        //this.checkAuthenticationStatus();
+    }
 
-  private handleError(error: any) {
-    console.error('An error occurred', error); // for demo purposes only
-    //return Promise.reject(error.message || error);
-  }
+    /*private checkAuthenticationStatus() {
+      this.loginService.isAuthenticatedPromise()
+          .then(data => this.isUserAuthenticated = data)
+    }*/
 
-  inputHasErrors(input) {
-    return input.errors && (input.dirty || input.touched)
-  }
+    checkAuthentication() {
+        this.http.get(Config.dataRequestLink + "/islogged/test")
+            .toPromise()
+            .then(response => {
+                console.log("response: " + response.json());
+            })
+    }
+
+    save(userModel: User, isValid: boolean) {
+        console.log(userModel, isValid);
+
+        if (isValid) {
+            this.loginService.authenticate(userModel.username, userModel.password).then(user => {
+                console.log("User on login: " + user.username);
+                //this.checkAuthenticationStatus();
+            }).catch(this.handleError);
+        }
+    }
+
+    isAuthenticated() {
+        return this.loginService.isAuthenticated();
+    }
+
+    logout() {
+        this.loginService.logout(true);
+        //this.checkAuthenticationStatus();
+    }
+
+    getLoggedUserName() {
+        return this.loginService.getLoggedUsername();
+    }
+
+    private handleError(error: any) {
+        console.error('An error occurred', error); // for demo purposes only
+        //return Promise.reject(error.message || error);
+    }
+
+    inputHasErrors(input) {
+        return input.errors && (input.dirty || input.touched)
+    }
 
 }

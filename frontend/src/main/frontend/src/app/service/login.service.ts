@@ -1,10 +1,9 @@
-import {Injectable}     from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 import {User} from "../shared/users/user";
 import {Config} from "../config/config";
-import {Observable} from "rxjs";
 import {AccountEventsService} from "../account/account-events.service";
 import {Account} from "../account/account";
 
@@ -21,8 +20,8 @@ export class LoginService {
     }
 
     authenticate(username: string, password: string): Promise<User> {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
         let body = new URLSearchParams();
         body.append('username', username);
         body.append('password', password);
@@ -46,11 +45,11 @@ export class LoginService {
     logout(contactServer: boolean) {
         localStorage.removeItem(LoginService.LOGGED_USER_KEY);
 
-        if(contactServer) {
+        if (contactServer) {
             this.http.get(LoginService.logoutURL)
                 .toPromise().then(response => {
-                    console.log("logged out");
-                    this.accountEventsService.logout(new Account());
+                console.log("logged out");
+                this.accountEventsService.logout(new Account());
             });
         }
     }
@@ -59,13 +58,13 @@ export class LoginService {
         return !!localStorage.getItem(LoginService.LOGGED_USER_KEY);
     }
 
-    checkIsAuthenticatedOnServer() : Promise<boolean> {
+    checkIsAuthenticatedOnServer(): Promise<boolean> {
         return this.http.get(LoginService.isLoggedURL)
             .toPromise().then(response => response.text() == "true")
     }
 
     getLoggedUsername() {
-        if(this.isAuthenticated()) {
+        if (this.isAuthenticated()) {
             return (JSON.parse(localStorage.getItem(LoginService.LOGGED_USER_KEY)) as User).username;
         } else {
             return "";

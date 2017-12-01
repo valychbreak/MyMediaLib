@@ -6,35 +6,35 @@ import {UserFavouritesService} from "../../../service/user-favourites.service";
 import {AbstractMovieDetails} from "../../../shared/movie/base-movie-details";
 
 @Component({
-  selector: 'app-movie-details-modal',
-  templateUrl: './movie-details-modal.component.html',
-  styleUrls: ['./movie-details-modal.component.css']
+    selector: 'app-movie-details-modal',
+    templateUrl: './movie-details-modal.component.html',
+    styleUrls: ['./movie-details-modal.component.css']
 })
 export class MovieDetailsModalComponent extends AbstractMovieDetails implements OnInit {
 
-  @Input()
-  movie: Movie;
+    @Input()
+    movie: Movie;
 
-  constructor(public activeModal: NgbActiveModal, private router: Router, private injector: Injector) {
-    super(injector);
-  }
+    constructor(public activeModal: NgbActiveModal, private router: Router, private injector: Injector) {
+        super(injector);
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  addToFavourites(movie: Movie) {
-    movie.isFavourite = true;
-    this.userFavouritesService.addMedia(movie);
-  }
+    addToFavourites(movie: Movie) {
+        movie.isFavourite = true;
+        this.userFavouritesService.addMedia(movie);
+    }
 
-  removeFromFavourites(movie: Movie) {
-    movie.isFavourite = false;
-    this.userFavouritesService.removeMedia(movie);
-  }
+    removeFromFavourites(movie: Movie) {
+        movie.isFavourite = false;
+        this.userFavouritesService.removeMedia(movie);
+    }
 
-  gotoMoviePage() {
-    this.activeModal.dismiss();
-    this.router.navigate(['/movie', this.movie.imdbId])
-  }
+    gotoMoviePage() {
+        this.activeModal.dismiss();
+        this.router.navigate(['/movie', this.movie.imdbId])
+    }
 
 }

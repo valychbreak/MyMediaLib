@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Movie} from "../../shared/movie/movie";
 import {MovieService} from "../../service/movie.service";
 import {Router} from "@angular/router";
@@ -12,37 +12,37 @@ import {PeopleService} from "../../service/people.service";
 import {SearchResult} from "../../shared/search-result";
 
 @Component({
-  selector: 'app-movie',
-  templateUrl: 'movies.component.html',
-  styleUrls: ['movies.component.css']
+    selector: 'app-movie',
+    templateUrl: 'movies.component.html',
+    styleUrls: ['movies.component.css']
 })
 export class MoviesComponent extends AbstractForm implements OnInit {
-  movies: Movie[];
-  people: Person[];
-  searchString: string;
-  movieSearch: MovieSearch;
-  mediaSearchResult: SearchResult;
+    movies: Movie[];
+    people: Person[];
+    searchString: string;
+    movieSearch: MovieSearch;
+    mediaSearchResult: SearchResult;
 
-  constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService) {
-    super()
-  }
+    constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService) {
+        super()
+    }
 
-  ngOnInit() {
-      this.mediaSearchResult = new SearchResult();
-      this.mediaSearchResult.page = 1;
-      this.mediaSearchResult.totalPages = 0;
-    this.movieSearch = new MovieSearch();
+    ngOnInit() {
+        this.mediaSearchResult = new SearchResult();
+        this.mediaSearchResult.page = 1;
+        this.mediaSearchResult.totalPages = 0;
+        this.movieSearch = new MovieSearch();
 
-    this.mockData();
-      //this.getMovies();
-  }
+        this.mockData();
+        //this.getMovies();
+    }
 
     private mockData() {
-      let movie = new Movie();
-      movie.title = "Fight club";
-      movie.genre = "Action";
-      movie.imagePath = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
-      this.movies = [movie];
+        let movie = new Movie();
+        movie.title = "Fight club";
+        movie.genre = "Action";
+        movie.imagePath = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
+        this.movies = [movie];
 
         this.people = [
             this.createPerson(),
@@ -75,29 +75,29 @@ export class MoviesComponent extends AbstractForm implements OnInit {
     }
 
     submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
-    this.movieService.searchMedia(movieSearch.query, this.mediaSearchResult.page).then(searchResult => {
-        this.mediaSearchResult = searchResult;
-        this.movies = searchResult.items;
-    });
-    this.peopleService.searchPeople(movieSearch.query).then(people => this.people = people);
-  }
+        this.movieService.searchMedia(movieSearch.query, this.mediaSearchResult.page).then(searchResult => {
+            this.mediaSearchResult = searchResult;
+            this.movies = searchResult.items;
+        });
+        this.peopleService.searchPeople(movieSearch.query).then(people => this.people = people);
+    }
 
-  onPageChange() {
-      this.submitSearch(this.movieSearch, true);
-      console.log("current page is " + this.mediaSearchResult.page);
-  }
+    onPageChange() {
+        this.submitSearch(this.movieSearch, true);
+        console.log("current page is " + this.mediaSearchResult.page);
+    }
 
-  getMovies(): void {
-    this.movieService.getMovies().then(movies => this.movies = movies);
-  }
+    getMovies(): void {
+        this.movieService.getMovies().then(movies => this.movies = movies);
+    }
 
-  onSelectMovie(movie: Movie) {
-    const modal = this.modalService.open(MovieDetailsModalComponent, {size: 'lg'});
-    modal.componentInstance.movie = movie;
-  }
+    onSelectMovie(movie: Movie) {
+        const modal = this.modalService.open(MovieDetailsModalComponent, {size: 'lg'});
+        modal.componentInstance.movie = movie;
+    }
 
-  gotoMoviePage(movie: Movie) {
-    this.router.navigate(['/movie', movie.imdbId])
-  }
+    gotoMoviePage(movie: Movie) {
+        this.router.navigate(['/movie', movie.imdbId])
+    }
 
 }

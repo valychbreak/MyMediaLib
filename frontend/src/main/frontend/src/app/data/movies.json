@@ -2,14 +2,56 @@
   {
     "id": 1,
     "imagePath": "../../assets/movie-cover.jpg",
-    "genre":"Thriller / Drama", "name": "Movie 1",
+    "genre": "Thriller / Drama",
+    "name": "Movie 1",
     "duration": 116,
     "shortDescription": "Once upon a time, the Kingdom of Erebor in the Lonely Mountain was taken from the dwarfs by the evil",
     "description": "Once upon a time, the Kingdom of Erebor in the Lonely Mountain was taken from the dwarfs by the evil dragon Smaug. One day, the young Hobbit Bilbo Baggins is unexpectedly visited by the wizard Gandalf the Grey and twelve homeless dwarfs led by their former king Thorin and decided to vanquish Smaug and recover Erebor and their treasure. Bilbo joins the company in an unexpected journey through dangerous lands of the Middle-Earth where they have to fight against Trolls, Orcs and other magic creatures. Bilbo also meets the Gollum and finds his lost magic ring.",
     "stars": 5,
-    "reviews": 12 },
-  {"id": 2, "imagePath": "../../assets/movie-cover2.jpg", "genre":"Thriller / Drama", "name": "Movie movie some long movie name", "duration": 116, "shortDescription": "Movie short description, which is going to explain what is this film about.", "description": "Movie 1 description", "stars": 2, "reviews": 5 },
-  {"id": 3, "imagePath": "../../assets/movie-cover.jpg", "genre":"Thriller / Drama", "name": "Movie 3", "duration": 116, "shortDescription": "Movie short description, which is going to explain what is this film about.", "description": "Movie 1 description", "stars": 4, "reviews": 35 },
-  {"id": 4, "imagePath": "../../assets/movie-cover.jpg", "genre":"Thriller / Drama", "name": "Movie 4", "duration": 116, "shortDescription": "Movie short description, which is going to explain what is this film about.", "description": "Movie 1 description", "stars": 1, "reviews": 2 },
-  {"id": 5, "imagePath": "../../assets/movie-cover2.jpg", "genre":"Thriller / Drama", "name": "Movie 5", "duration": 116, "shortDescription": "Movie short description, which is going to explain what is this film about.", "description": "Movie 1 description", "stars": 5, "reviews": 105 }
+    "reviews": 12
+  },
+  {
+    "id": 2,
+    "imagePath": "../../assets/movie-cover2.jpg",
+    "genre": "Thriller / Drama",
+    "name": "Movie movie some long movie name",
+    "duration": 116,
+    "shortDescription": "Movie short description, which is going to explain what is this film about.",
+    "description": "Movie 1 description",
+    "stars": 2,
+    "reviews": 5
+  },
+  {
+    "id": 3,
+    "imagePath": "../../assets/movie-cover.jpg",
+    "genre": "Thriller / Drama",
+    "name": "Movie 3",
+    "duration": 116,
+    "shortDescription": "Movie short description, which is going to explain what is this film about.",
+    "description": "Movie 1 description",
+    "stars": 4,
+    "reviews": 35
+  },
+  {
+    "id": 4,
+    "imagePath": "../../assets/movie-cover.jpg",
+    "genre": "Thriller / Drama",
+    "name": "Movie 4",
+    "duration": 116,
+    "shortDescription": "Movie short description, which is going to explain what is this film about.",
+    "description": "Movie 1 description",
+    "stars": 1,
+    "reviews": 2
+  },
+  {
+    "id": 5,
+    "imagePath": "../../assets/movie-cover2.jpg",
+    "genre": "Thriller / Drama",
+    "name": "Movie 5",
+    "duration": 116,
+    "shortDescription": "Movie short description, which is going to explain what is this film about.",
+    "description": "Movie 1 description",
+    "stars": 5,
+    "reviews": 105
+  }
 ]

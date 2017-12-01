@@ -5,6 +5,7 @@ import {User} from "../shared/users/user";
 import {UserService} from "./user.service";
 import {LoginService} from "./login.service";
 import {Movie} from "../shared/movie/movie";
+
 @Injectable()
 export class UserFavouritesService {
     static usersURL = Config.dataRequestLink + "/users";
@@ -23,8 +24,8 @@ export class UserFavouritesService {
 
     addMedia(movie: Movie): Promise<Movie> {
         let username = this.loginService.getLoggedUsername();
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
         return this.http.post(Config.dataRequestLink + "/user/favourites/add", movie, options)
             .toPromise()
             .then(response => response.json() as Movie)
@@ -32,8 +33,8 @@ export class UserFavouritesService {
 
     removeMedia(movie: Movie): Promise<Movie> {
         let username = this.loginService.getLoggedUsername();
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({headers: headers});
         return this.http.post(Config.dataRequestLink + "/user/favourites/remove", movie, options)
             .toPromise()
             .then(response => response.json() as Movie)
