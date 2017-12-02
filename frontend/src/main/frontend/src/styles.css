@@ -57,3 +57,8 @@ body {
 footer {
   margin: 50px 0;
 }
+
+.justify-content-center {
+  display: flex !important;
+  justify-content: center !important;
+}

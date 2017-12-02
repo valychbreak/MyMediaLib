@@ -20,17 +20,27 @@
             <ngb-tab id="tab1" title="All">
                 <ng-template ngbTabContent>
                     <div class="row">
+                        <div class="col-12 justify-content-center">
+                            <ngb-pagination [pageSize]="1" [(collectionSize)]="mediaSearchResult.totalPages"
+                                            [(page)]="searchParams.page" (pageChange)="onPageChange()"
+                                            [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+
+                            </ngb-pagination>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ng4-loading-spinner> </ng4-loading-spinner>
+
+                        <div *ngFor="let movie of movies" class="col-xs-12 col-sm-4 col-lg-3">
+                            <app-movie-short-view [movie]="movie"></app-movie-short-view>
+                        </div>
+                    </div>
+                    <div class="col-12 justify-content-center">
                         <ngb-pagination [pageSize]="1" [(collectionSize)]="mediaSearchResult.totalPages"
                                         [(page)]="searchParams.page" (pageChange)="onPageChange()"
                                         [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
 
                         </ngb-pagination>
-                    </div>
-                    <div class="row">
-                        <!--<ng4-loading-spinner></ng4-loading-spinner>-->
-                        <div *ngFor="let movie of movies" class="col-xs-12 col-sm-4 col-lg-3">
-                            <app-movie-short-view [movie]="movie"></app-movie-short-view>
-                        </div>
                     </div>
                 </ng-template>
             </ngb-tab>

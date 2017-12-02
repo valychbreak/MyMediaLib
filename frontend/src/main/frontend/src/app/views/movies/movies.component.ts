@@ -10,6 +10,7 @@ import {BasicMovie} from "../../shared/movie/basic-movie";
 import {PeopleService} from "../../service/people.service";
 import {SearchResult} from "../../shared/search/search-result";
 import {SearchParams} from "../../shared/search/search-params";
+import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 
 @Component({
     selector: 'app-movie',
@@ -23,8 +24,8 @@ export class MoviesComponent extends AbstractForm implements OnInit {
     searchParams: SearchParams;
     mediaSearchResult: SearchResult;
 
-    constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService/*,
-                private ng4LoadingSpinnerService: Ng4LoadingSpinnerService*/) {
+    constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService,
+                private ng4LoadingSpinnerService: Ng4LoadingSpinnerService) {
         super()
     }
 
@@ -77,13 +78,13 @@ export class MoviesComponent extends AbstractForm implements OnInit {
     }
 
     submitSearch(searchParams: SearchParams, isValid: boolean): void {
-        //this.ng4LoadingSpinnerService.show();
+        this.ng4LoadingSpinnerService.show();
         this.movieService.searchMedia(searchParams.query, searchParams.page).then(searchResult => {
             this.mediaSearchResult = searchResult;
             this.movies = searchResult.items;
-            //this.ng4LoadingSpinnerService.hide();
+            this.ng4LoadingSpinnerService.hide();
         }).catch( err => {
-            //this.ng4LoadingSpinnerService.hide();
+            this.ng4LoadingSpinnerService.hide();
         });
         this.peopleService.searchPeople(searchParams.query).then(people => this.people = people);
     }

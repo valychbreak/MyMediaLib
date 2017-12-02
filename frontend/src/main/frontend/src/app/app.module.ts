@@ -24,6 +24,7 @@ import {CustomHttpService} from "./utils/custom-http-service";
 import {AccountEventsService} from "./account/account-events.service";
 import {PersonShortViewComponent} from './views/people/person-short-view/person-short-view.component';
 import {PeopleService} from "./service/people.service";
+import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions, accountEventsService: AccountEventsService) {
     return new CustomHttpService(backend, options, accountEventsService);
@@ -50,7 +51,8 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions, accoun
         HttpModule,
         AppRoutingModule,
         NgbModule.forRoot(),
-        UsersModule
+        UsersModule,
+        Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, {
         provide: Http,
