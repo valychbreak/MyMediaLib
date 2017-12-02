@@ -8,7 +8,7 @@
     <div class="row">
         <form #f="ngForm" (ngSubmit)="submitSearch(f.value, f.valid)" class="form-inline w-100" novalidate>
             <input id="query" type="text" class="form-control col-8 mb-5 mr-sm-2 mb-sm-0"
-                   name="query" [(ngModel)]="movieSearch.query"
+                   name="query" [(ngModel)]="searchParams.query"
                    placeholder="Start typing..."
                    #query="ngModel" required>
             <button type="submit" class="btn btn-outline-secondary">Search</button>
@@ -21,12 +21,13 @@
                 <ng-template ngbTabContent>
                     <div class="row">
                         <ngb-pagination [pageSize]="1" [(collectionSize)]="mediaSearchResult.totalPages"
-                                        [(page)]="mediaSearchResult.page" (pageChange)="onPageChange()"
+                                        [(page)]="searchParams.page" (pageChange)="onPageChange()"
                                         [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
 
                         </ngb-pagination>
                     </div>
                     <div class="row">
+                        <!--<ng4-loading-spinner></ng4-loading-spinner>-->
                         <div *ngFor="let movie of movies" class="col-xs-12 col-sm-4 col-lg-3">
                             <app-movie-short-view [movie]="movie"></app-movie-short-view>
                         </div>

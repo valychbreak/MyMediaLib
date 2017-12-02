@@ -5,11 +5,11 @@ import {Router} from "@angular/router";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-modal.component";
 import {AbstractForm} from "../../base/form";
-import {MovieSearch} from "../../shared/movie/movie-search";
 import {Person} from "../../shared/person/person";
 import {BasicMovie} from "../../shared/movie/basic-movie";
 import {PeopleService} from "../../service/people.service";
-import {SearchResult} from "../../shared/search-result";
+import {SearchResult} from "../../shared/search/search-result";
+import {SearchParams} from "../../shared/search/search-params";
 
 @Component({
     selector: 'app-movie',
@@ -20,10 +20,11 @@ export class MoviesComponent extends AbstractForm implements OnInit {
     movies: Movie[];
     people: Person[];
     searchString: string;
-    movieSearch: MovieSearch;
+    searchParams: SearchParams;
     mediaSearchResult: SearchResult;
 
-    constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService) {
+    constructor(private router: Router, private movieService: MovieService, private modalService: NgbModal, private peopleService: PeopleService/*,
+                private ng4LoadingSpinnerService: Ng4LoadingSpinnerService*/) {
         super()
     }
 
@@ -31,7 +32,8 @@ export class MoviesComponent extends AbstractForm implements OnInit {
         this.mediaSearchResult = new SearchResult();
         this.mediaSearchResult.page = 1;
         this.mediaSearchResult.totalPages = 0;
-        this.movieSearch = new MovieSearch();
+        this.searchParams = new SearchParams();
+        this.searchParams.page = 1;
 
         this.mockData();
         //this.getMovies();
@@ -74,16 +76,20 @@ export class MoviesComponent extends AbstractForm implements OnInit {
         return basicMovie;
     }
 
-    submitSearch(movieSearch: MovieSearch, isValid: boolean): void {
-        this.movieService.searchMedia(movieSearch.query, this.mediaSearchResult.page).then(searchResult => {
+    submitSearch(searchParams: SearchParams, isValid: boolean): void {
+        //this.ng4LoadingSpinnerService.show();
+        this.movieService.searchMedia(searchParams.query, searchParams.page).then(searchResult => {
             this.mediaSearchResult = searchResult;
             this.movies = searchResult.items;
+            //this.ng4LoadingSpinnerService.hide();
+        }).catch( err => {
+            //this.ng4LoadingSpinnerService.hide();
         });
-        this.peopleService.searchPeople(movieSearch.query).then(people => this.people = people);
+        this.peopleService.searchPeople(searchParams.query).then(people => this.people = people);
     }
 
     onPageChange() {
-        this.submitSearch(this.movieSearch, true);
+        this.submitSearch(this.searchParams, true);
         console.log("current page is " + this.mediaSearchResult.page);
     }
 
