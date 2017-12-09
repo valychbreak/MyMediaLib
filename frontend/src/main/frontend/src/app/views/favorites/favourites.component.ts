@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {Movie} from "../../shared/movie/movie";
 import {LoginService} from "../../service/login.service";
 import {UserFavouritesService} from "../../service/user-favourites.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-favourites',
@@ -21,7 +22,7 @@ export class FavouritesComponent implements OnInit {
     fav: FavouriteMedia[];
     favouriteMedia: Movie[];
 
-    constructor(private http: Http, private router: Router, private userFavouritesService: UserFavouritesService,
+    constructor(private router: Router, private userFavouritesService: UserFavouritesService,
                 private userService: UserService, private loginService: LoginService) {
     }
 
@@ -30,11 +31,6 @@ export class FavouritesComponent implements OnInit {
         //this.getFavouriteMedia().subscribe(media => this.fav = media);
 
         this.getFavourites();
-    }
-
-    getFavouriteMedia(): Observable<FavouriteMedia[]> {
-        return this.http.get("http://localhost:4200/app/data/favourites.json")
-            .map((res: Response) => res.json())
     }
 
     getFavourites() {

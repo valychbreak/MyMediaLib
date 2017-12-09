@@ -5,6 +5,7 @@ import {User} from "../shared/users/user";
 import {UserService} from "./user.service";
 import {LoginService} from "./login.service";
 import {Movie} from "../shared/movie/movie";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class UserFavouritesService {
@@ -12,38 +13,36 @@ export class UserFavouritesService {
     static addMedia = Config.dataRequestLink + "/user/add";
 
 
-    constructor(private http: Http, private userService: UserService, private loginService: LoginService) {
+    constructor(private http: HttpClient, private userService: UserService, private loginService: LoginService) {
     }
 
     getFavourites(): Promise<Movie[]> {
-        return this.http.get(Config.dataRequestLink + "/user/favourites")
+        return this.http.get<Movie[]>(Config.dataRequestLink + "/user/favourites")
             .toPromise()
-            .then(response => response.json() as Movie[])
+            .then(response => response)
             .catch(this.handleError);
     }
 
     addMedia(movie: Movie): Promise<Movie> {
         let username = this.loginService.getLoggedUsername();
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        return this.http.post(Config.dataRequestLink + "/user/favourites/add", movie, options)
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post<Movie>(Config.dataRequestLink + "/user/favourites/add", movie, {headers})
             .toPromise()
-            .then(response => response.json() as Movie)
+            .then(response => response)
     }
 
     removeMedia(movie: Movie): Promise<Movie> {
         let username = this.loginService.getLoggedUsername();
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        return this.http.post(Config.dataRequestLink + "/user/favourites/remove", movie, options)
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post<Movie>(Config.dataRequestLink + "/user/favourites/remove", movie, {headers})
             .toPromise()
-            .then(response => response.json() as Movie)
+            .then(response => response)
     }
 
     getUserFavourites(username: string): Promise<Movie[]> {
-        return this.http.get(Config.dataRequestLink + "/user/" + username + "/favourites")
+        return this.http.get<Movie[]>(Config.dataRequestLink + "/user/" + username + "/favourites")
             .toPromise()
-            .then(response => response.json() as Movie[])
+            .then(response => response)
             .catch(this.handleError);
     }
 

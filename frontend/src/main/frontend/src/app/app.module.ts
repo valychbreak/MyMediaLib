@@ -1,14 +1,11 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {Http, HttpModule, RequestOptions, XHRBackend} from '@angular/http';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
-import {UsersComponent} from "./views/users/users.component";
 import {UsersModule} from "./views/users/users.module";
-import {UserFormComponent} from './views/users/user-form/user-form.component';
 import {MoviesComponent} from "./views/movies/movies.component";
 import {MovieViewComponent} from "./views/movies/movie-details/movie-details.component";
 import {FavouritesComponent} from "./views/favorites/favourites.component";
@@ -20,15 +17,13 @@ import {SignUpComponent} from './views/auth/sign-up/sign-up.component';
 import {LoginService} from "./service/login.service";
 import {MovieShortViewComponent} from './views/movies/movie-short-view/movie-short-view.component';
 import {UserFavouritesService} from "./service/user-favourites.service";
-import {CustomHttpService} from "./utils/custom-http-service";
 import {AccountEventsService} from "./account/account-events.service";
 import {PersonShortViewComponent} from './views/people/person-short-view/person-short-view.component';
 import {PeopleService} from "./service/people.service";
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {AuthenticationInterceptor} from "./interceptor/authentication-interceptor";
 
-export function httpFactory(backend: XHRBackend, options: RequestOptions, accountEventsService: AccountEventsService) {
-    return new CustomHttpService(backend, options, accountEventsService);
-}
 
 @NgModule({
     declarations: [
@@ -48,18 +43,17 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions, accoun
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         AppRoutingModule,
         NgbModule.forRoot(),
         UsersModule,
         Ng4LoadingSpinnerModule.forRoot()
     ],
     providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, {
-        provide: Http,
-        useFactory: httpFactory,
-        deps: [XHRBackend, RequestOptions, AccountEventsService],
-        multi: false
-    }
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthenticationInterceptor,
+            multi: true,
+        }
     ],
     bootstrap: [AppComponent]
 })

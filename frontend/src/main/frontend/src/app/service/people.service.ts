@@ -3,19 +3,21 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Person} from "../shared/person/person";
 import {Config} from "../config/config";
+import {HttpClient} from "@angular/common/http";
+import {SearchResult} from "../shared/search/search-result";
 
 @Injectable()
 export class PeopleService {
     static peopleURL = Config.dataRequestLink + "/people";
 
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
     }
 
     searchPeople(searchString: string): Promise<Person[]> {
-        return this.http.get(PeopleService.peopleURL + "/search?q=" + searchString + "&p=1")
+        return this.http.get<SearchResult>(PeopleService.peopleURL + "/search?q=" + searchString + "&p=1")
             .toPromise()
-            .then(response => response.json().items as Person[])
+            .then(response => response.items as Person[])
             .catch(this.handleError);
     }
 

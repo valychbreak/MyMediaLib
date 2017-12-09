@@ -6,6 +6,7 @@ import {User} from "../../../shared/users/user";
 import {LoginService} from "../../../service/login.service";
 import {Http} from "@angular/http";
 import {Config} from "../../../config/config";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-sign-in',
@@ -18,7 +19,7 @@ export class SignInComponent implements OnInit {
 
     //isUserAuthenticated: boolean;
 
-    constructor(private loginService: LoginService, private http: Http) {
+    constructor(private loginService: LoginService, private http: HttpClient) {
     }
 
     ngOnInit() {
@@ -38,7 +39,7 @@ export class SignInComponent implements OnInit {
         this.http.get(Config.dataRequestLink + "/islogged/test")
             .toPromise()
             .then(response => {
-                console.log("response: " + response.json());
+                console.log("response: " + response);
             })
     }
 

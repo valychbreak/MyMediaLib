@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import {User} from "../shared/users/user";
 import {Config} from "../config/config";
 import {Movie} from "../shared/movie/movie";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class UserService {
@@ -12,13 +13,13 @@ export class UserService {
     static createUserURL = Config.dataRequestLink + "/user/add";
 
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
     }
 
     getUsers(): Promise<User[]> {
-        return this.http.get(UserService.usersURL) //"http://localhost:4200/app/data/users.json"
+        return this.http.get<User[]>(UserService.usersURL) //"http://localhost:4200/app/data/users.json"
             .toPromise()
-            .then(response => response.json() as User[])
+            .then(response => response)
             .catch(this.handleError);
     }
 
@@ -28,17 +29,16 @@ export class UserService {
     }
 
     addUser(user: User): Promise<User> {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        return this.http.post(UserService.createUserURL, user, options)
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+        return this.http.post<User>(UserService.createUserURL, user, {headers})
             .toPromise()
-            .then(response => response.json() as User)
+            .then(response => response)
     }
 
     getUserFavourites(username: string): Promise<Movie[]> {
-        return this.http.get(Config.dataRequestLink + "/user/favourites")
+        return this.http.get<Movie[]>(Config.dataRequestLink + "/user/favourites")
             .toPromise()
-            .then(response => response.json() as Movie[])
+            .then(response => response)
             .catch(this.handleError);
     }
 

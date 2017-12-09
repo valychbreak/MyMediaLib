@@ -3,16 +3,17 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Movie} from "../shared/movie/movie";
 import {SearchResult} from "../shared/search/search-result";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class MovieService {
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
     }
 
     getMovies(): Promise<Movie[]> {
-        return this.http.get("http://localhost:8080/api/movie/search?s=spider-man")
+        return this.http.get<Movie[]>("http://localhost:8080/api/movie/search?s=spider-man")
             .toPromise()
-            .then(response => response.json() as Movie[])
+            .then(response => response)
             .catch(this.handleError);
     }
 
@@ -21,9 +22,9 @@ export class MovieService {
         if (!page) {
             page = 1;
         }
-        return this.http.get("http://localhost:8080/api/media/search?q=" + searchString + "&p=" + page)
+        return this.http.get<SearchResult>("http://localhost:8080/api/media/search?q=" + searchString + "&p=" + page)
             .toPromise()
-            .then(response => response.json() as SearchResult)
+            .then(response => response)
             .catch(this.handleError);
     }
 
@@ -35,9 +36,9 @@ export class MovieService {
     }
 
     getMovieByImdbId(id: string): Promise<Movie> {
-        return this.http.get("http://localhost:8080/api/media/details/" + id)
+        return this.http.get<Movie>("http://localhost:8080/api/media/details/" + id)
             .toPromise()
-            .then(response => response.json() as Movie)
+            .then(response => response)
             .catch(this.handleError);
     }
 
