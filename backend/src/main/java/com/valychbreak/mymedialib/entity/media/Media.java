@@ -62,6 +62,7 @@ public class Media {
     }
 
     @Transient
+    @Deprecated
     public MediaShortDetails getShortDetails() throws OMDBException, IOException {
         Movie movie = new TmdbMediaProvider().getMovieBy(imdbId);
         MediaShortDetails media = new MediaShortDetailsTmdbMovieAdapter(movie);
@@ -69,6 +70,7 @@ public class Media {
     }
 
     @Transient
+    @Deprecated
     public MediaFullDetails getDetails() throws OMDBException, IOException {
         //OmdbVideoFull omdbVideo = new OmdbVideoProvider().getOmdbVideo(imdbId);
         com.uwetrottmann.tmdb2.entities.Media mediaBy = new TmdbMediaProvider().getMediaBy(imdbId);
