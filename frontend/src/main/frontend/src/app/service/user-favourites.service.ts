@@ -1,7 +1,5 @@
 import {Injectable} from "@angular/core";
 import {Config} from "../config/config";
-import {Http, Headers, RequestOptions} from "@angular/http";
-import {User} from "../shared/users/user";
 import {UserService} from "./user.service";
 import {LoginService} from "./login.service";
 import {Movie} from "../shared/movie/movie";

@@ -1,16 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../shared/users/user";
-import {MovieService} from "../../service/movie.service";
 import {FavouriteMedia} from "../../shared/favorites/FavouriteMedia";
-import {Observable} from "rxjs";
 import 'rxjs/add/operator/map'
-import {Http, Response} from "@angular/http";
 import {Router} from "@angular/router";
 import {Movie} from "../../shared/movie/movie";
 import {LoginService} from "../../service/login.service";
 import {UserFavouritesService} from "../../service/user-favourites.service";
-import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-favourites',

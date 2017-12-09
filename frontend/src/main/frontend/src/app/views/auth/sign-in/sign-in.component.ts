@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
-import {MovieDetailsModalComponent} from "../../movies/movie-details-modal/movie-details-modal.component";
 import {User} from "../../../shared/users/user";
 import {LoginService} from "../../../service/login.service";
-import {Http} from "@angular/http";
 import {Config} from "../../../config/config";
 import {HttpClient} from "@angular/common/http";
 

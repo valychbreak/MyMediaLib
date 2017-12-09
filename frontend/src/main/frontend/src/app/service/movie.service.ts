@@ -1,6 +1,5 @@
 import 'rxjs/add/operator/toPromise';
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
 import {Movie} from "../shared/movie/movie";
 import {SearchResult} from "../shared/search/search-result";
 import {HttpClient} from "@angular/common/http";
