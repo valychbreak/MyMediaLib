@@ -3,6 +3,7 @@ package com.valychbreak.mymedialib.dto.movie;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.Media;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
@@ -28,7 +29,7 @@ public class BasicMediaDTO {
 
     private void init(BaseMovie baseMovie) {
         title = baseMovie.title;
-        posterImage = TMDB_IMAGE_BASE_URL + baseMovie.poster_path;
+        posterImage = getPosterImageLink(baseMovie.poster_path);
         overview = baseMovie.overview;
         releaseDate = baseMovie.release_date;
         mediaType = baseMovie.media_type;
@@ -36,10 +37,18 @@ public class BasicMediaDTO {
 
     private void init(BaseTvShow baseTvShow) {
         title = baseTvShow.name;
-        posterImage = TMDB_IMAGE_BASE_URL + baseTvShow.poster_path;
+        posterImage = getPosterImageLink(baseTvShow.poster_path);
         overview = baseTvShow.overview;
         releaseDate = baseTvShow.first_air_date;
         mediaType = baseTvShow.media_type;
+    }
+
+    private String getPosterImageLink(String poster_path) {
+        if (StringUtils.isNotBlank(poster_path) && !poster_path.equals("null")) {
+            return TMDB_IMAGE_BASE_URL + poster_path;
+        } else {
+            return "";
+        }
     }
 
     public String getTitle() {

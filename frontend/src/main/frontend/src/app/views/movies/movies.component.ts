@@ -43,7 +43,12 @@ export class MoviesComponent extends AbstractForm implements OnInit {
         movie.title = "Fight club";
         movie.genre = "Action";
         movie.imagePath = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
-        this.movies = [movie];
+
+        let movie2 = new Movie();
+        movie2.title = "Fight club 1234";
+        movie2.genre = "Action";
+        movie2.imagePath = "";
+        this.movies = [movie, movie2];
 
         this.people = [
             this.createPerson(),

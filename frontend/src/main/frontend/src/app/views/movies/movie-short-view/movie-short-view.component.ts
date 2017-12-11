@@ -3,6 +3,7 @@ import {Movie} from "../../../shared/movie/movie";
 import {MovieDetailsModalComponent} from "../movie-details-modal/movie-details-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
+import {ImageUtils} from "../../utils/image-utils";
 
 @Component({
     selector: 'app-movie-short-view',
@@ -18,6 +19,10 @@ export class MovieShortViewComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    getImage(imagePath: string): string {
+        return ImageUtils.getNoImageIfEmptyOrNull(imagePath);
     }
 
     onSelectMovie(movie: Movie) {
