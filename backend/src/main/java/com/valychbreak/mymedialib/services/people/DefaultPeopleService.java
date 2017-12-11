@@ -34,7 +34,7 @@ public class DefaultPeopleService implements PeopleService {
 
         List<BasicPersonDTO> results = new ArrayList<>(tmdbSearchResults.results.size());
         for (BasePerson basePerson : tmdbSearchResults.results) {
-            String posterImage = TmdbUtils.TMDB_IMAGE_BASE_URL + basePerson.profile_path;
+            String posterImage = TmdbUtils.getPosterImageLink(basePerson.profile_path);
             BasicPersonDTO basicPersonDTO = new BasicPersonDTO(new Long(basePerson.id), basePerson.name, posterImage, basePerson.popularity, new ArrayList<>());
             addKnownFor(basicPersonDTO, basePerson.known_for);
 

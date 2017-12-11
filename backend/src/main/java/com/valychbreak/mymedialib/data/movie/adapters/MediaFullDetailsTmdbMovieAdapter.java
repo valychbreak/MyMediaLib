@@ -8,6 +8,7 @@ import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import java.util.List;
 
 import static com.valychbreak.mymedialib.utils.TmdbUtils.TMDB_IMAGE_BASE_URL;
+import static com.valychbreak.mymedialib.utils.TmdbUtils.getPosterImageLink;
 
 /**
  * Created by valych on 6/1/17.
@@ -28,7 +29,7 @@ public class MediaFullDetailsTmdbMovieAdapter extends MediaFullDetailsImpl {
         genre = getGenre(movie.genres);
         duration = movie.runtime != null ? movie.runtime.toString() : "116";
         description = movie.overview;
-        imagePath = TMDB_IMAGE_BASE_URL + movie.poster_path;
+        imagePath = getPosterImageLink(movie.poster_path);
         stars = movie.vote_average.toString();
         reviews = movie.vote_count.toString();
         type = "Movie";
@@ -41,7 +42,7 @@ public class MediaFullDetailsTmdbMovieAdapter extends MediaFullDetailsImpl {
         duration = tvShow.episode_run_time != null && !tvShow.episode_run_time.isEmpty() ?
                 tvShow.episode_run_time.get(0).toString() : "116";
         description = tvShow.overview;
-        imagePath = TMDB_IMAGE_BASE_URL + tvShow.backdrop_path;
+        imagePath = getPosterImageLink(tvShow.poster_path);
         stars = tvShow.rating != null ? tvShow.rating.toString() : "0";
         reviews = tvShow.vote_count.toString();
         type = "TV Show";

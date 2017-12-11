@@ -3,11 +3,13 @@ package com.valychbreak.mymedialib.dto.movie;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.Media;
+import com.valychbreak.mymedialib.utils.TmdbUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
 
 import static com.valychbreak.mymedialib.utils.TmdbUtils.TMDB_IMAGE_BASE_URL;
+import static com.valychbreak.mymedialib.utils.TmdbUtils.getPosterImageLink;
 
 public class BasicMediaDTO {
     private String title;
@@ -44,11 +46,7 @@ public class BasicMediaDTO {
     }
 
     private String getPosterImageLink(String poster_path) {
-        if (StringUtils.isNotBlank(poster_path) && !poster_path.equals("null")) {
-            return TMDB_IMAGE_BASE_URL + poster_path;
-        } else {
-            return "";
-        }
+        return TmdbUtils.getPosterImageLink(poster_path);
     }
 
     public String getTitle() {

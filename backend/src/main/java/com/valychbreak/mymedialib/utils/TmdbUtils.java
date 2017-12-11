@@ -16,6 +16,14 @@ import java.io.IOException;
 public class TmdbUtils {
     public static final String TMDB_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w342";
 
+    public static String getPosterImageLink(String posterPath) {
+        if (StringUtils.isNotBlank(posterPath) && !posterPath.equals("null")) {
+            return TMDB_IMAGE_BASE_URL + posterPath;
+        } else {
+            return "";
+        }
+    }
+
     public static Movie requestDetailedTmdbTvShow(Tmdb tmdb, BaseMovie result) throws IOException {
 
         Call<Movie> summary = tmdb.moviesService().summary(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
