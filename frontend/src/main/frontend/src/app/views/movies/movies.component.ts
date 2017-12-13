@@ -17,9 +17,7 @@ import {SearchParams} from "../../shared/search/search-params";
     styleUrls: ['movies.component.css']
 })
 export class MoviesComponent extends AbstractForm implements OnInit {
-    movies: Movie[];
     people: Person[];
-    searchString: string;
     searchParams: SearchParams;
     mediaSearchResult: SearchResult;
 
@@ -35,21 +33,9 @@ export class MoviesComponent extends AbstractForm implements OnInit {
         this.searchParams.page = 1;
 
         this.mockData();
-        //this.getMovies();
     }
 
     private mockData() {
-        let movie = new Movie();
-        movie.title = "Fight club";
-        movie.genre = "Action";
-        movie.imagePath = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
-
-        let movie2 = new Movie();
-        movie2.title = "Fight club 1234";
-        movie2.genre = "Action";
-        movie2.imagePath = "";
-        this.movies = [movie, movie2];
-
         this.people = [
             this.createPerson(),
             this.createPerson(),
@@ -81,30 +67,11 @@ export class MoviesComponent extends AbstractForm implements OnInit {
     }
 
     submitSearch(searchParams: SearchParams, isValid: boolean): void {
-        this.movieService.searchMedia(searchParams.query, searchParams.page).then(searchResult => {
-            this.mediaSearchResult = searchResult;
-            this.movies = searchResult.items;
-        });
+        this.searchParams = new SearchParams();
+        this.searchParams.query = searchParams.query;
+        this.searchParams.page = searchParams.page;
 
         this.peopleService.searchPeople(searchParams.query).then(people => this.people = people);
-    }
-
-    onPageChange() {
-        this.submitSearch(this.searchParams, true);
-        console.log("current page is " + this.mediaSearchResult.page);
-    }
-
-    getMovies(): void {
-        this.movieService.getMovies().then(movies => this.movies = movies);
-    }
-
-    onSelectMovie(movie: Movie) {
-        const modal = this.modalService.open(MovieDetailsModalComponent, {size: 'lg'});
-        modal.componentInstance.movie = movie;
-    }
-
-    gotoMoviePage(movie: Movie) {
-        this.router.navigate(['/movie', movie.imdbId])
     }
 
 }

@@ -23,6 +23,7 @@ import {PeopleService} from "./service/people.service";
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthenticationInterceptor} from "./interceptor/authentication-interceptor";
+import { MovieSearchSectionComponent } from './views/movies/movie-search-section/movie-search-section.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {AuthenticationInterceptor} from "./interceptor/authentication-intercepto
         MovieDetailsModalComponent,
         SignUpComponent,
         MovieShortViewComponent,
-        PersonShortViewComponent
+        PersonShortViewComponent,
+        MovieSearchSectionComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent
