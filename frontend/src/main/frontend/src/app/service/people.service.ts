@@ -13,10 +13,13 @@ export class PeopleService {
     constructor(private http: HttpClient) {
     }
 
-    searchPeople(searchString: string): Promise<Person[]> {
-        return this.http.get<SearchResult>(PeopleService.peopleURL + "/search?q=" + searchString + "&p=1")
+    searchPeople(searchString: string, page: number): Promise<SearchResult> {
+        if (!page) {
+            page = 1;
+        }
+        return this.http.get<SearchResult>(PeopleService.peopleURL + "/search?q=" + searchString + "&p=" + page)
             .toPromise()
-            .then(response => response.items as Person[])
+            .then(response => response as SearchResult)
             .catch(this.handleError);
     }
 

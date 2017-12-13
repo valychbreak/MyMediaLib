@@ -24,6 +24,7 @@ import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthenticationInterceptor} from "./interceptor/authentication-interceptor";
 import { MovieSearchSectionComponent } from './views/movies/movie-search-section/movie-search-section.component';
+import { PeopleSearchSectionComponent } from './views/people/people-search-section/people-search-section.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MovieSearchSectionComponent } from './views/movies/movie-search-section
         SignUpComponent,
         MovieShortViewComponent,
         PersonShortViewComponent,
-        MovieSearchSectionComponent
+        MovieSearchSectionComponent,
+        PeopleSearchSectionComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent
