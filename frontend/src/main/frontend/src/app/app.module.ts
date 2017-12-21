@@ -25,6 +25,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthenticationInterceptor} from "./interceptor/authentication-interceptor";
 import { MovieSearchSectionComponent } from './views/movies/movie-search-section/movie-search-section.component';
 import { PeopleSearchSectionComponent } from './views/people/people-search-section/people-search-section.component';
+import {BusyModule} from "angular2-busy";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { PeopleSearchSectionComponent } from './views/people/people-search-secti
         AppRoutingModule,
         NgbModule.forRoot(),
         UsersModule,
-        Ng4LoadingSpinnerModule.forRoot()
+        Ng4LoadingSpinnerModule.forRoot(),
+        BrowserAnimationsModule,
+        BusyModule
     ],
     providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, {
             provide: HTTP_INTERCEPTORS,

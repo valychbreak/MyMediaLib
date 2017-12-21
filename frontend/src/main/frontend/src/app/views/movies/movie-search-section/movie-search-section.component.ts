@@ -10,6 +10,7 @@ import {SearchComponentSection} from "../../search-component-section";
     styleUrls: ['./movie-search-section.component.css']
 })
 export class MovieSearchSectionComponent extends SearchComponentSection<Movie> implements PageOriented, OnInit {
+    private busy: any;
 
     constructor(private movieService: MovieService) {
         super();
@@ -47,7 +48,7 @@ export class MovieSearchSectionComponent extends SearchComponentSection<Movie> i
             console.log("[Movie] Search is activated");
 
             let page = this.searchResult ? this.searchResult.page : this.searchParams.page;
-            this.movieService.searchMedia(this.searchParams.query, page).then(searchResult => {
+            this.busy = this.movieService.searchMedia(this.searchParams.query, page).then(searchResult => {
                 this.searchResult = searchResult;
             });
         }

@@ -25,6 +25,7 @@
     "@angular/router": "^5.0.5",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.5",
     "@types/node": "^6.0.90",
+    "angular2-busy": "^2.0.4",
     "core-js": "^2.5.1",
     "ng4-loading-spinner": "^1.1.1",
     "rxjs": "^5.5.3",
