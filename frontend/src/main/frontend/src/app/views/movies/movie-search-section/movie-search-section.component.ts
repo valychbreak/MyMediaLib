@@ -9,7 +9,7 @@ import {SearchComponentSection} from "../../search-component-section";
     templateUrl: './movie-search-section.component.html',
     styleUrls: ['./movie-search-section.component.css']
 })
-export class MovieSearchSectionComponent extends SearchComponentSection implements PageOriented, OnInit {
+export class MovieSearchSectionComponent extends SearchComponentSection<Movie> implements PageOriented, OnInit {
 
     constructor(private movieService: MovieService) {
         super();

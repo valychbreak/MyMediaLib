@@ -10,7 +10,7 @@ import {BasicMovie} from "../../../shared/movie/basic-movie";
     templateUrl: './people-search-section.component.html',
     styleUrls: ['./people-search-section.component.css']
 })
-export class PeopleSearchSectionComponent extends SearchComponentSection implements PageOriented, OnInit {
+export class PeopleSearchSectionComponent extends SearchComponentSection<Person> implements PageOriented, OnInit {
 
     constructor(private peopleService: PeopleService) {
         super();
@@ -29,7 +29,7 @@ export class PeopleSearchSectionComponent extends SearchComponentSection impleme
         ];
     }
 
-    private createPerson() {
+    private createPerson(): Person {
         let person = new Person();
         person.name = "Brad Pitt";
         person.isAdult = true;

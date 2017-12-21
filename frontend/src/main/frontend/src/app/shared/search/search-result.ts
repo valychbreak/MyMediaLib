@@ -1,6 +1,6 @@
-export class SearchResult {
+export class SearchResult<T> {
     page: number;
     totalPages: number;
     totalResults: number;
-    items: any[];
+    items: T[];
 }

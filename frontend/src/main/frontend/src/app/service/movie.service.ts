@@ -1,8 +1,8 @@
 import 'rxjs/add/operator/toPromise';
 import {Injectable} from "@angular/core";
 import {Movie} from "../shared/movie/movie";
-import {SearchResult} from "../shared/search/search-result";
 import {HttpClient} from "@angular/common/http";
+import {MovieSearchResult} from "../shared/search/result/movie-search-result";
 
 @Injectable()
 export class MovieService {
@@ -16,12 +16,12 @@ export class MovieService {
             .catch(this.handleError);
     }
 
-    searchMedia(searchString: string, page: number): Promise<SearchResult> {
+    searchMedia(searchString: string, page: number): Promise<MovieSearchResult> {
         // TODO: use standard methods of building params
         if (!page) {
             page = 1;
         }
-        return this.http.get<SearchResult>("http://localhost:8080/api/media/search?q=" + searchString + "&p=" + page)
+        return this.http.get<MovieSearchResult>("http://localhost:8080/api/media/search?q=" + searchString + "&p=" + page)
             .toPromise()
             .then(response => response)
             .catch(this.handleError);

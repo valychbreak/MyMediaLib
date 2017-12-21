@@ -2,10 +2,10 @@
 import {SearchParams} from "../shared/search/search-params";
 import {SearchResult} from "../shared/search/search-result";
 
-export class SearchComponentSection {
+export class SearchComponentSection<T> {
     private _searchParams: SearchParams;
 
-    protected searchResult: SearchResult;
+    protected searchResult: SearchResult<T>;
 
 
     constructor() {
