@@ -27,6 +27,8 @@ import { MovieSearchSectionComponent } from './views/movies/movie-search-section
 import { PeopleSearchSectionComponent } from './views/people/people-search-section/people-search-section.component';
 import {BusyModule} from "angular2-busy";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { CategoryPathComponent } from './views/favorites/category/category-path/category-path.component';
+import { SubCategoriesListViewComponent } from './views/favorites/category/sub-categories-list-view/sub-categories-list-view.component';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         MovieShortViewComponent,
         PersonShortViewComponent,
         MovieSearchSectionComponent,
-        PeopleSearchSectionComponent
+        PeopleSearchSectionComponent,
+        CategoryPathComponent,
+        SubCategoriesListViewComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent
