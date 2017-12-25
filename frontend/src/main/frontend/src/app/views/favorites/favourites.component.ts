@@ -8,6 +8,7 @@ import {Movie} from "../../shared/movie/movie";
 import {LoginService} from "../../service/login.service";
 import {UserFavouritesService} from "../../service/user-favourites.service";
 import {Category} from "../../shared/favorites/category/category";
+import {CategoryService} from "../../service/category.service";
 
 @Component({
     selector: 'app-favourites',
@@ -22,7 +23,7 @@ export class FavouritesComponent implements OnInit {
     currentCategory: Category;
 
     constructor(private router: Router, private userFavouritesService: UserFavouritesService,
-                private userService: UserService, private loginService: LoginService) {
+                private userService: UserService, private categoryService: CategoryService) {
     }
 
     ngOnInit() {
@@ -30,6 +31,8 @@ export class FavouritesComponent implements OnInit {
         //this.getFavouriteMedia().subscribe(media => this.fav = media);
 
         this.getFavourites();
+
+        //this.loadRootCategory();
 
         let childCategory = new Category();
         childCategory.name = "Watch with friends";
@@ -40,6 +43,11 @@ export class FavouritesComponent implements OnInit {
         childCategory.parent = rootCategory;
 
         this.currentCategory = rootCategory;
+    }
+
+    private loadRootCategory() {
+        this.categoryService.getRootCategory()
+            .then(category => this.currentCategory = category);
     }
 
     getFavourites() {

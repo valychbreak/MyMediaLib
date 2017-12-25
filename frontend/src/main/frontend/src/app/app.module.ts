@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -29,6 +29,8 @@ import {BusyModule} from "angular2-busy";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CategoryPathComponent } from './views/favorites/category/category-path/category-path.component';
 import { SubCategoriesListViewComponent } from './views/favorites/category/sub-categories-list-view/sub-categories-list-view.component';
+import {CategoryService} from "./service/category.service";
+import { NewCategoryViewComponent } from './views/favorites/category/new-category-view/new-category-view.component';
 
 
 @NgModule({
@@ -45,14 +47,17 @@ import { SubCategoriesListViewComponent } from './views/favorites/category/sub-c
         MovieSearchSectionComponent,
         PeopleSearchSectionComponent,
         CategoryPathComponent,
-        SubCategoriesListViewComponent
+        SubCategoriesListViewComponent,
+        NewCategoryViewComponent
     ],
     entryComponents: [
-        MovieDetailsModalComponent
+        MovieDetailsModalComponent,
+        NewCategoryViewComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
         NgbModule.forRoot(),
@@ -61,7 +66,7 @@ import { SubCategoriesListViewComponent } from './views/favorites/category/sub-c
         BrowserAnimationsModule,
         BusyModule
     ],
-    providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, {
+    providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, CategoryService, {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthenticationInterceptor,
             multi: true,

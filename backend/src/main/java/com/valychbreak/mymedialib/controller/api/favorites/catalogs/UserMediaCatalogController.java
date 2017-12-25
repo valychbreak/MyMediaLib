@@ -25,7 +25,7 @@ public class UserMediaCatalogController extends APIController {
     @RequestMapping(value = "/catalog/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCatalogDTO> getCatalog(@PathVariable String id,
-                                                      @RequestAttribute("media") String includeMedia) throws IOException, OMDBException {
+                                                      @RequestAttribute(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
         Long catalogId = Long.parseLong(id);
         UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(catalogId);
 
@@ -35,14 +35,14 @@ public class UserMediaCatalogController extends APIController {
 
     @RequestMapping(value = "/user/catalog/root", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MediaCatalogDTO> getUserRootCatalog(@RequestAttribute("media") String includeMedia) throws IOException, OMDBException {
+    public ResponseEntity<MediaCatalogDTO> getUserRootCatalog(@RequestAttribute(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
 
         User user = getLoggedUser();
         MediaCatalogDTO catalog = getMediaCatalogDTO(user.getRootUserMediaCatalog(), includeMedia);
         return new ResponseEntity<>(catalog, HttpStatus.OK);
     }
 
-    private MediaCatalogDTO getMediaCatalogDTO(UserMediaCatalog userMediaCatalog, @RequestAttribute("media") String includeMedia) throws IOException, OMDBException {
+    private MediaCatalogDTO getMediaCatalogDTO(UserMediaCatalog userMediaCatalog, String includeMedia) throws IOException, OMDBException {
         MediaCatalogDTOFactory mediaCatalogDTOFactory = new MediaCatalogDTOFactory();
 
         MediaCatalogDTO catalog;

@@ -33,4 +33,8 @@ export class CategoryPathComponent implements OnInit {
     isCurrentCategory(category: Category): boolean {
         return category == this.currentCategory;
     }
+
+    isCategoryDefined(): boolean {
+        return !!this.currentCategory;
+    }
 }

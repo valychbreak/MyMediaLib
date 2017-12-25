@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        New Category
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12 m-3">
+            <form class="form-inline" novalidate
+                  [formGroup]="newCategoryForm" (ngSubmit)="createCategory(newCategoryForm.value)">
+
+                <input type="text"
+                       class="form-control input-lg mb-2 mr-sm-2 mb-sm-0"
+                       formControlName="name" placeholder="Name">
+
+                <button type="submit" class="btn btn-secondary">Create</button>
+
+
+                <!--<div class="form-group">
+                    <label>Language</label>
+                    <select class="form-control"
+                            formControlName="language">
+                        <option value="">Please select a language</option>
+                        <option *ngFor="let lang of langs"
+                                [value]="lang">{{lang}}
+                        </option>
+                    </select>
+                </div>-->
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+</div>

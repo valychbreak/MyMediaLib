@@ -1,4 +1,4 @@
-<nav aria-label="breadcrumb" role="navigation">
+<nav *ngIf="isCategoryDefined()" aria-label="breadcrumb" role="navigation">
     <ol class="breadcrumb">
         <li class="breadcrumb-item" *ngFor="let category of getAllParentCategories()"
             [ngClass]="{'active': isCurrentCategory(category)}" aria-current="page">
