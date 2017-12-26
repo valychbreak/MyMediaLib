@@ -8,6 +8,7 @@ import java.util.List;
 public class MediaCatalogDTO {
     private Long id;
     private String name;
+    private MediaCatalogDTO parent;
 
     private List<MediaCatalogDTO> subCatalogs = new ArrayList<>();
 
@@ -15,8 +16,13 @@ public class MediaCatalogDTO {
     private List<MediaFullDetailsImpl> mediaList;
 
     public MediaCatalogDTO(Long id, String name, List<MediaFullDetailsImpl> mediaList, List<MediaCatalogDTO> subCatalogs) {
+        this(id, name, null, mediaList, subCatalogs);
+    }
+
+    public MediaCatalogDTO(Long id, String name, MediaCatalogDTO parent, List<MediaFullDetailsImpl> mediaList, List<MediaCatalogDTO> subCatalogs) {
         this.id = id;
         this.name = name;
+        this.parent = parent;
         this.subCatalogs = subCatalogs;
         this.mediaList = mediaList;
     }
@@ -51,6 +57,14 @@ public class MediaCatalogDTO {
 
     public void setMediaList(List<MediaFullDetailsImpl> mediaList) {
         this.mediaList = mediaList;
+    }
+
+    public MediaCatalogDTO getParent() {
+        return parent;
+    }
+
+    public void setParent(MediaCatalogDTO parent) {
+        this.parent = parent;
     }
 
     @Override
