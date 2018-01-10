@@ -35,6 +35,7 @@ public class AddUserMediaCatalogControllerTest extends ControllerTest {
     @Autowired
     private UserMediaCatalogRepository userMediaCatalogRepository;
 
+    // TODO: fails when all tests are run, but passes when run alone
     @Test
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional

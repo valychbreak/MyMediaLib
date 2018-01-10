@@ -81,14 +81,19 @@ public class MediaCatalogDTOFactoryTest {
     }
 
     @Test
-    public void createByUserMediaCatalogWith2LevelInSubCatalogs() throws Exception {
+    public void doesNotIncludeMediaInChildrenCatalogs() throws Exception {
+        // Tested on hierarchy of 2 children in depth
+
         UserMediaCatalog userMediaCatalog = getUserMediaCatalogWithHierarchyLevel2();
 
         MediaCatalogDTO mediaCatalogDTO = mediaCatalogDTOFactory.createWithMedia(userMediaCatalog);
 
-        MediaCatalogDTO childLevel2 = new MediaCatalogDTO(null, "child2", Arrays.asList(new MediaFullDetailsImpl()), new ArrayList<>());
-        MediaCatalogDTO childLevel1 = new MediaCatalogDTO(null, "child1", new ArrayList<>(), Arrays.asList(childLevel2));
+        MediaCatalogDTO childLevel2 = new MediaCatalogDTO(null, "child2", null, new ArrayList<>());
+        MediaCatalogDTO childLevel1 = new MediaCatalogDTO(null, "child1", null, Arrays.asList(childLevel2));
         MediaCatalogDTO expected = new MediaCatalogDTO(null, "root", Arrays.asList(new MediaFullDetailsImpl()), Arrays.asList(childLevel1));
+
+        childLevel1.setParent(expected);
+        childLevel2.setParent(childLevel1);
 
         assertThat(mediaCatalogDTO).isEqualTo(expected);
     }
