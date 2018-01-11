@@ -1,5 +1,6 @@
 package com.valychbreak.mymedialib.dto.catalog;
 
+import com.google.common.collect.Lists;
 import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.entity.media.Media;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTOBuilder.aMediaCatalogDTOBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -61,15 +63,25 @@ public class MediaCatalogDTOFactoryTest {
 
         MediaCatalogDTO mediaCatalogDTO = mediaCatalogDTOFactory.createWithoutMedia(root);
 
-        MediaCatalogDTO expectedChild1_2_2_1 = new MediaCatalogDTO(null, "child1_2_2_1", null, new ArrayList<>());
-        MediaCatalogDTO expectedChild1_2_2 = new MediaCatalogDTO(null, "child1_2_2", null, Arrays.asList(expectedChild1_2_2_1));
-        MediaCatalogDTO expectedChild1_2_1 = new MediaCatalogDTO(null, "child1_2_1", null, new ArrayList<>());
-        MediaCatalogDTO expectedChild1_2 = new MediaCatalogDTO(null, "child1_2", null, Arrays.asList(expectedChild1_2_1, expectedChild1_2_2));
-        MediaCatalogDTO expectedChild1_1 = new MediaCatalogDTO(null, "child1_1", null, new ArrayList<>());
-        MediaCatalogDTO expectedChild1_3 = new MediaCatalogDTO(null, "child1_3", null, new ArrayList<>());
-        MediaCatalogDTO expectedRoot = new MediaCatalogDTO(null, "root", null, Arrays.asList(expectedChild1_1, expectedChild1_2, expectedChild1_3));
+        MediaCatalogDTO expectedChild1_2_2_1 = createCategoryWith("child1_2_2_1");
+        MediaCatalogDTO expectedChild1_2_2 = createCategoryWith("child1_2_2", expectedChild1_2_2_1);
+        MediaCatalogDTO expectedChild1_2_1 = createCategoryWith("child1_2_1");
+        MediaCatalogDTO expectedChild1_2 = createCategoryWith("child1_2", expectedChild1_2_1, expectedChild1_2_2);
+        MediaCatalogDTO expectedChild1_1 = createCategoryWith("child1_1");
+        MediaCatalogDTO expectedChild1_3 = createCategoryWith("child1_3");
+        MediaCatalogDTO expectedRoot = createCategoryWith("root", expectedChild1_1, expectedChild1_2, expectedChild1_3);
 
         assertThat(mediaCatalogDTO).isEqualTo(expectedRoot);
+    }
+
+    private MediaCatalogDTO createCategoryWith(String name, MediaCatalogDTO... subCatalogs) {
+        ArrayList<MediaCatalogDTO> catalogs = Lists.newArrayList(subCatalogs);
+        return aMediaCatalogDTOBuilder().withName(name).withSubCatalogs(catalogs).build();
+    }
+
+    private MediaCatalogDTO createCategoryWith(String name, MediaFullDetailsImpl mediaFullDetails, MediaCatalogDTO... subCatalogs) {
+        ArrayList<MediaCatalogDTO> catalogs = Lists.newArrayList(subCatalogs);
+        return aMediaCatalogDTOBuilder().withName(name).withSubCatalogs(catalogs).withMedia(Lists.newArrayList(mediaFullDetails)).build();
     }
 
     @Test
@@ -77,7 +89,14 @@ public class MediaCatalogDTOFactoryTest {
         UserMediaCatalog userMediaCatalog = getUserMediaCatalogWithoutSubCatalogs();
 
         MediaCatalogDTO mediaCatalogDTO = mediaCatalogDTOFactory.createWithMedia(userMediaCatalog);
-        assertThat(mediaCatalogDTO).isEqualTo(new MediaCatalogDTO(null, "root", Arrays.asList(new MediaFullDetailsImpl()), new ArrayList<>()));
+
+        MediaCatalogDTO expected = aMediaCatalogDTOBuilder()
+                .withName("root")
+                .withMedia(Arrays.asList(new MediaFullDetailsImpl()))
+                .withSubCatalogs(new ArrayList<>())
+                .build();
+
+        assertThat(mediaCatalogDTO).isEqualTo(expected);
     }
 
     @Test
@@ -88,9 +107,9 @@ public class MediaCatalogDTOFactoryTest {
 
         MediaCatalogDTO mediaCatalogDTO = mediaCatalogDTOFactory.createWithMedia(userMediaCatalog);
 
-        MediaCatalogDTO childLevel2 = new MediaCatalogDTO(null, "child2", null, new ArrayList<>());
-        MediaCatalogDTO childLevel1 = new MediaCatalogDTO(null, "child1", null, Arrays.asList(childLevel2));
-        MediaCatalogDTO expected = new MediaCatalogDTO(null, "root", Arrays.asList(new MediaFullDetailsImpl()), Arrays.asList(childLevel1));
+        MediaCatalogDTO childLevel2 = createCategoryWith("child2");
+        MediaCatalogDTO childLevel1 = createCategoryWith("child1", childLevel2);
+        MediaCatalogDTO expected = createCategoryWith("root", new MediaFullDetailsImpl(), childLevel1);
 
         childLevel1.setParent(expected);
         childLevel2.setParent(childLevel1);

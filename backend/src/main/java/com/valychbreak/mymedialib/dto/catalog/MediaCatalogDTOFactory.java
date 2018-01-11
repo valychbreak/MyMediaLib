@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTOBuilder.aMediaCatalogDTOBuilder;
+
 
 public class MediaCatalogDTOFactory {
     public MediaCatalogDTO createWithMedia(UserMediaCatalog userMediaCatalog) throws IOException, OMDBException {
@@ -43,6 +45,13 @@ public class MediaCatalogDTOFactory {
         if (userMediaCatalog.getParentUserMediaCatalog() != null) {
             parentCatalogDTO = create(userMediaCatalog.getParentUserMediaCatalog(), false, false);
         }
-        return new MediaCatalogDTO(userMediaCatalog.getId(), userMediaCatalog.getName(), parentCatalogDTO, mediaList, subCatalogs);
+
+        return aMediaCatalogDTOBuilder()
+                .withId(userMediaCatalog.getId())
+                .withName(userMediaCatalog.getName())
+                .withParent(parentCatalogDTO)
+                .withMedia(mediaList)
+                .withSubCatalogs(subCatalogs)
+                .build();
     }
 }

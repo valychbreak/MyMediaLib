@@ -3,9 +3,9 @@ package com.valychbreak.mymedialib.controller.api.favorites.catalogs;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.google.common.collect.Lists;
 import com.valychbreak.mymedialib.controller.ControllerTest;
 import com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTO;
-import com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTOFactory;
 import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
 import org.junit.Test;
@@ -17,10 +17,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTOBuilder.aMediaCatalogDTOBuilder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,8 +39,8 @@ public class AddUserMediaCatalogControllerTest extends ControllerTest {
     public void addMediaCatalog() throws Exception {
         UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(1000L);
 
-        MediaCatalogDTO parentMediaCatalogDTO = new MediaCatalogDTO(userMediaCatalog.getId(), userMediaCatalog.getName(), null, null, null);
-        MediaCatalogDTO expectedMediaCatalog = new MediaCatalogDTO(1L, "New Catalog Name", parentMediaCatalogDTO, new ArrayList<>(), new ArrayList<>());
+        MediaCatalogDTO parentMediaCatalogDTO = aMediaCatalogDTOBuilder().withId(userMediaCatalog.getId()).withName(userMediaCatalog.getName()).build();
+        MediaCatalogDTO expectedMediaCatalog = aMediaCatalogDTOBuilder().withId(1L).withName("New Catalog Name").withParent(parentMediaCatalogDTO).withMedia(Lists.newArrayList()).withSubCatalogs(Lists.newArrayList()).build();
 
         mockMvc.perform(post("/api/catalog/1000/add").param("name", "New Catalog Name"))
                 .andExpect(status().isOk())

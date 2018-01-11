@@ -2,7 +2,6 @@ package com.valychbreak.mymedialib.dto.catalog;
 
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MediaCatalogDTO {
@@ -10,13 +9,12 @@ public class MediaCatalogDTO {
     private String name;
     private MediaCatalogDTO parent;
 
-    private List<MediaCatalogDTO> subCatalogs = new ArrayList<>();
+    private List<MediaCatalogDTO> subCatalogs;
 
     // Not using interface here because Gson lib works only with fields
     private List<MediaFullDetailsImpl> mediaList;
 
-    public MediaCatalogDTO(Long id, String name, List<MediaFullDetailsImpl> mediaList, List<MediaCatalogDTO> subCatalogs) {
-        this(id, name, null, mediaList, subCatalogs);
+    protected MediaCatalogDTO() {
     }
 
     public MediaCatalogDTO(Long id, String name, MediaCatalogDTO parent, List<MediaFullDetailsImpl> mediaList, List<MediaCatalogDTO> subCatalogs) {
