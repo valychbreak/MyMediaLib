@@ -81,7 +81,7 @@ public class MediaCatalogDTOFactoryTest {
 
     private MediaCatalogDTO createCategoryWith(String name, MediaFullDetailsImpl mediaFullDetails, MediaCatalogDTO... subCatalogs) {
         ArrayList<MediaCatalogDTO> catalogs = Lists.newArrayList(subCatalogs);
-        return aMediaCatalogDTOBuilder().withName(name).withSubCatalogs(catalogs).withMedia(Lists.newArrayList(mediaFullDetails)).build();
+        return aMediaCatalogDTOBuilder().withName(name).withSubCatalogs(catalogs).withMediaList(Lists.newArrayList(mediaFullDetails)).build();
     }
 
     @Test
@@ -92,7 +92,7 @@ public class MediaCatalogDTOFactoryTest {
 
         MediaCatalogDTO expected = aMediaCatalogDTOBuilder()
                 .withName("root")
-                .withMedia(Arrays.asList(new MediaFullDetailsImpl()))
+                .withMediaList(Arrays.asList(new MediaFullDetailsImpl()))
                 .withSubCatalogs(new ArrayList<>())
                 .build();
 

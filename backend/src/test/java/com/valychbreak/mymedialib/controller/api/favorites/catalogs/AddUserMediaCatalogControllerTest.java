@@ -40,7 +40,7 @@ public class AddUserMediaCatalogControllerTest extends ControllerTest {
         UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(1000L);
 
         MediaCatalogDTO parentMediaCatalogDTO = aMediaCatalogDTOBuilder().withId(userMediaCatalog.getId()).withName(userMediaCatalog.getName()).build();
-        MediaCatalogDTO expectedMediaCatalog = aMediaCatalogDTOBuilder().withId(1L).withName("New Catalog Name").withParent(parentMediaCatalogDTO).withMedia(Lists.newArrayList()).withSubCatalogs(Lists.newArrayList()).build();
+        MediaCatalogDTO expectedMediaCatalog = aMediaCatalogDTOBuilder().withId(1L).withName("New Catalog Name").withParent(parentMediaCatalogDTO).withMediaList(Lists.newArrayList()).withSubCatalogs(Lists.newArrayList()).build();
 
         mockMvc.perform(post("/api/catalog/1000/add").param("name", "New Catalog Name"))
                 .andExpect(status().isOk())

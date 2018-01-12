@@ -50,7 +50,7 @@ public class MediaCatalogDTOFactory {
                 .withId(userMediaCatalog.getId())
                 .withName(userMediaCatalog.getName())
                 .withParent(parentCatalogDTO)
-                .withMedia(mediaList)
+                .withMediaList(mediaList)
                 .withSubCatalogs(subCatalogs)
                 .build();
     }

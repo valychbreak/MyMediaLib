@@ -2,47 +2,45 @@ package com.valychbreak.mymedialib.dto.catalog;
 
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class MediaCatalogDTOBuilder {
-
-    private MediaCatalogDTO mediaCatalogDTO;
+    private Long id;
+    private String name;
+    private MediaCatalogDTO parent;
+    private List<MediaFullDetailsImpl> mediaList;
+    private List<MediaCatalogDTO> subCatalogs;
 
     public static MediaCatalogDTOBuilder aMediaCatalogDTOBuilder() {
         return new MediaCatalogDTOBuilder();
     }
 
-    public MediaCatalogDTOBuilder() {
-        mediaCatalogDTO = new MediaCatalogDTO();
-    }
-
     public MediaCatalogDTOBuilder withId(Long id) {
-        mediaCatalogDTO.setId(id);
+        this.id = id;
         return this;
     }
 
     public MediaCatalogDTOBuilder withName(String name) {
-        mediaCatalogDTO.setName(name);
+        this.name = name;
         return this;
     }
 
     public MediaCatalogDTOBuilder withParent(MediaCatalogDTO parent) {
-        mediaCatalogDTO.setParent(parent);
+        this.parent = parent;
         return this;
     }
 
-    public MediaCatalogDTOBuilder withSubCatalogs(Collection<MediaCatalogDTO> subCatalogs) {
-        mediaCatalogDTO.setSubCatalogs(subCatalogs == null ? null : new ArrayList<>(subCatalogs));
+    public MediaCatalogDTOBuilder withMediaList(List<MediaFullDetailsImpl> mediaList) {
+        this.mediaList = mediaList;
         return this;
     }
 
-    public MediaCatalogDTOBuilder withMedia(Collection<MediaFullDetailsImpl> mediaList) {
-        mediaCatalogDTO.setMediaList(mediaList == null ? null : new ArrayList<>(mediaList));
+    public MediaCatalogDTOBuilder withSubCatalogs(List<MediaCatalogDTO> subCatalogs) {
+        this.subCatalogs = subCatalogs;
         return this;
     }
 
     public MediaCatalogDTO build() {
-        return mediaCatalogDTO;
+        return new MediaCatalogDTO(id, name, parent, mediaList, subCatalogs);
     }
 }
