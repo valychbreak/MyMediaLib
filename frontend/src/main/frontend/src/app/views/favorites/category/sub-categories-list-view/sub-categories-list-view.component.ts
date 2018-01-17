@@ -20,7 +20,9 @@ export class SubCategoriesListViewComponent implements OnInit {
     }
 
     openNewCategoryModalWindow() {
-        this.modalService.open(NewCategoryViewComponent)
+        const modal = this.modalService.open(NewCategoryViewComponent);
+        modal.componentInstance.parentCategory = this.currentCategory;
+        //this.modalService.open(NewCategoryViewComponent)
     }
 
 }

@@ -10,6 +10,7 @@ import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
 import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -37,12 +38,13 @@ public class AddUserMediaCatalogControllerTest extends ControllerTest {
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
     public void addMediaCatalog() throws Exception {
-        UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(1000L);
+        UserMediaCatalog parentUserMediaCatalog = userMediaCatalogRepository.findOne(1000L);
 
-        MediaCatalogDTO parentMediaCatalogDTO = aMediaCatalogDTOBuilder().withId(userMediaCatalog.getId()).withName(userMediaCatalog.getName()).build();
+        MediaCatalogDTO parentMediaCatalogDTO = aMediaCatalogDTOBuilder().withId(parentUserMediaCatalog.getId()).withName(parentUserMediaCatalog.getName()).build();
         MediaCatalogDTO expectedMediaCatalog = aMediaCatalogDTOBuilder().withId(1L).withName("New Catalog Name").withParent(parentMediaCatalogDTO).withMediaList(Lists.newArrayList()).withSubCatalogs(Lists.newArrayList()).build();
 
-        mockMvc.perform(post("/api/catalog/1000/add").param("name", "New Catalog Name"))
+        MediaCatalogDTO newMediaCatalog = aMediaCatalogDTOBuilder().withName("New Catalog Name").withParent(parentMediaCatalogDTO).build();
+        mockMvc.perform(post("/api/catalog/add").contentType(MediaType.APPLICATION_JSON).content(json(newMediaCatalog)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCatalog)));
     }

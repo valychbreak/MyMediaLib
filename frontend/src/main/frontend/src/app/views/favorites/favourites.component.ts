@@ -32,17 +32,20 @@ export class FavouritesComponent implements OnInit {
 
         this.getFavourites();
 
-        //this.loadRootCategory();
+        this.loadRootCategory();
 
-        let childCategory = new Category();
+        /*let childCategory = new Category();
         childCategory.name = "Watch with friends";
 
         let rootCategory = new Category();
         rootCategory.name = "Home";
         rootCategory.subCategories = [childCategory, childCategory, childCategory, childCategory, childCategory, childCategory, childCategory];
-        childCategory.parent = rootCategory;
 
-        this.currentCategory = rootCategory;
+        let parentWithoutSubCategories = Category.copyOf(rootCategory);
+        parentWithoutSubCategories.subCategories = null;
+        childCategory.parent = parentWithoutSubCategories;
+
+        this.currentCategory = rootCategory;*/
     }
 
     private loadRootCategory() {

@@ -8,6 +8,7 @@ import {HttpClient} from "@angular/common/http";
 export class CategoryService {
     static GET_ROOT_CATEGORY_LINK = Config.dataRequestLink + "/user/catalog/root";
     static GET_CATEGORY_LINK = Config.dataRequestLink + "/user/catalog/";
+    static ADD_CATEGORY_LINK = Config.dataRequestLink + "/catalog/add";
 
     constructor(private http: HttpClient) {
     }
@@ -20,6 +21,12 @@ export class CategoryService {
 
     getCategory(id: number): Promise<Category> {
         return this.http.get<Category>(CategoryService.GET_CATEGORY_LINK + id + "?media=true")
+            .toPromise()
+            .then(category => category);
+    }
+
+    addNewCategory(newCategory: Category): Promise<Category> {
+        return this.http.post<Category>(CategoryService.ADD_CATEGORY_LINK, newCategory)
             .toPromise()
             .then(category => category);
     }

@@ -22,21 +22,26 @@ public class AddUserMediaCatalogController extends APIController {
         this.userMediaCatalogRepository = userMediaCatalogRepository;
     }
 
-    @RequestMapping(value = "/catalog/{id}/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MediaCatalogDTO> addMediaCatalog(@PathVariable("id") String parentId, @RequestParam("name") String catalogName) throws Exception {
-        Long parentCatalogId = Long.parseLong(parentId);
+    @RequestMapping(value = "/catalog/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MediaCatalogDTO> addMediaCatalog(@RequestBody MediaCatalogDTO newMediaCatalog) throws Exception {
+        Long parentCatalogId = getParentId(newMediaCatalog);
         UserMediaCatalog parentCatalog = userMediaCatalogRepository.findOne(parentCatalogId);
 
         if (parentCatalog == null) {
-            throw new CatalogNotFoundException("Catalog with " + parentId + " id does not exist. Cannot add new catalog " + catalogName);
+            throw new CatalogNotFoundException("Catalog with " + parentCatalogId + " id does not exist. Cannot add new catalog " + newMediaCatalog.getName());
         }
 
-        UserMediaCatalog newUserMediaCatalog = new UserMediaCatalog(catalogName);
+        UserMediaCatalog newUserMediaCatalog = new UserMediaCatalog(newMediaCatalog.getName());
         newUserMediaCatalog.setParentUserMediaCatalog(parentCatalog);
 
         userMediaCatalogRepository.save(newUserMediaCatalog);
 
         MediaCatalogDTO mediaCatalogDTO = new MediaCatalogDTOFactory().createWithMedia(newUserMediaCatalog);
         return new ResponseEntity<>(mediaCatalogDTO, HttpStatus.OK);
+    }
+
+    private Long getParentId(MediaCatalogDTO newMediaCatalog) {
+        MediaCatalogDTO parent = newMediaCatalog.getParent();
+        return parent == null ? null : parent.getId();
     }
 }
