@@ -33,7 +33,7 @@ public class AuthenticationService {
     /**
      * Fixes the issue with cycle dependency with SecurityConfig
      */
-    @Autowired
+    /*@Autowired*/
     private AuthenticationManager authenticationManager;
 
 

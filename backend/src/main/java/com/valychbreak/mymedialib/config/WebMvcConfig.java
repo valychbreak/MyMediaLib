@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
-    @Override
+    /*@Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(createGsonHttpMessageConverter());
         super.configureMessageConverters(converters);
@@ -48,5 +48,5 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         {
             return f.getAnnotation(JsonExclude.class) != null;
         }
-    }
+    }*/
 }

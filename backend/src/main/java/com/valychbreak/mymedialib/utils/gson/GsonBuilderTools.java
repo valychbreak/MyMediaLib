@@ -8,9 +8,9 @@ import com.valychbreak.mymedialib.config.WebMvcConfig;
  */
 public class GsonBuilderTools {
     public static GsonBuilder getGsonBuilder() {
-        return new GsonBuilder()
+        return new GsonBuilder();
                 //.excludeFieldsWithoutExposeAnnotation()
                 //.setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
-                .setExclusionStrategies(new WebMvcConfig.JsonAnnotationExcludeStrategy());
+                //.setExclusionStrategies(new WebMvcConfig.JsonAnnotationExcludeStrategy());
     }
 }

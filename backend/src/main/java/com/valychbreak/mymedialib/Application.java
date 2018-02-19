@@ -9,8 +9,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
 import java.util.Arrays;
 
@@ -18,7 +25,7 @@ import java.util.Arrays;
  * Created by valych on 2/25/17.
  */
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = { JacksonAutoConfiguration.class })
+//@EnableAutoConfiguration(exclude = { JacksonAutoConfiguration.class })
 public class Application {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 

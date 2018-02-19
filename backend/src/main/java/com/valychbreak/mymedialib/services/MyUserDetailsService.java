@@ -35,6 +35,11 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
         com.valychbreak.mymedialib.entity.User user = userRepository.findFirstByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("Username not found");
+        }
+
         List<GrantedAuthority> authorities =
                 buildUserAuthority(user.getRole());
 
