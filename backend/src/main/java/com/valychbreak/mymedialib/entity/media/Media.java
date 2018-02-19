@@ -1,11 +1,11 @@
 package com.valychbreak.mymedialib.entity.media;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.omertron.omdbapi.OMDBException;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
-import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsTmdbMovieAdapter;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.services.TmdbMediaProvider;
@@ -61,6 +61,7 @@ public class Media {
         this.title = title;
     }
 
+    @JsonIgnore
     @Transient
     @Deprecated
     public MediaShortDetails getShortDetails() throws OMDBException, IOException {
@@ -69,6 +70,7 @@ public class Media {
         return media;
     }
 
+    @JsonIgnore
     @Transient
     @Deprecated
     public MediaFullDetails getDetails() throws OMDBException, IOException {

@@ -15,6 +15,10 @@ public class SearchResult<T> {
         this.items = items;
     }
 
+    public int getPage() {
+        return page;
+    }
+
     public int getTotalResults() {
         return totalResults;
     }

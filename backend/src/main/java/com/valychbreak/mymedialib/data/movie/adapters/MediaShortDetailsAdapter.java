@@ -11,6 +11,7 @@ public class MediaShortDetailsAdapter extends MediaShortDetailsImpl {
     @JsonExclude
     private OmdbVideoBasic omdbVideoBasic;
 
+    protected MediaShortDetailsAdapter() { }
 
     public MediaShortDetailsAdapter(OmdbVideoBasic omdbVideoBasic) {
         super(omdbVideoBasic.getImdbID(), omdbVideoBasic.getTitle());

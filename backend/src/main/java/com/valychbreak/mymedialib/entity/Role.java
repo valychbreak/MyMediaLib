@@ -1,9 +1,6 @@
 package com.valychbreak.mymedialib.entity;
 
-import com.valychbreak.mymedialib.utils.gson.JsonExclude;
-
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by valych on 4/1/17.
@@ -22,10 +19,6 @@ public class Role {
 
     @Column(name = "role")
     private String role;
-
-    @JsonExclude
-    @OneToMany(mappedBy = "role")
-    private List<User> users;
 
     protected Role() {}
 
@@ -47,13 +40,5 @@ public class Role {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 }
