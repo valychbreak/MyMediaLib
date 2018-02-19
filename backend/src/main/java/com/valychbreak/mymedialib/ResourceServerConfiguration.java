@@ -12,7 +12,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-        http/*.requiresChannel().anyRequest().requiresSecure().and()*/.antMatcher("/me").antMatcher("/api/**").authorizeRequests().anyRequest().authenticated();
+        http/*.requiresChannel().anyRequest().requiresSecure().and()*/
+                .antMatcher("/me")
+                .antMatcher("/api/**")
+                .authorizeRequests()
+                .antMatchers("/api/users/search").authenticated()//.hasAuthority("ROLE_USER")
+                .anyRequest().authenticated();
         // @formatter:on
     }
 

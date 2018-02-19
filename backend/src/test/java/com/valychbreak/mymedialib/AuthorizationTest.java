@@ -17,6 +17,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -31,7 +32,11 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //import org.springframework.security.test.context.support.WithAnonymousUser;
@@ -58,22 +63,35 @@ public class AuthorizationTest {
     private MockMvc mvc;
 
     @Before
-    public void prepare() {
-		this.mvc = MockMvcBuilders
-				.webAppContextSetup(context)
-				.build();
+    public void prepare() throws Exception {
+        this.mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
     }
 
-    @Ignore
     @Test
-    @WithAnonymousUser
-    public void returnsPrincipal() throws Exception {
+    public void simpleAccessTestApplyingToken() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer " + requestToken());
 
-        ResponseEntity<String> responseEntity = testRestTemplate.postForEntity("/me", new HttpEntity<String>("", headers), String.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        mvc.perform(get("/api/users/search").requestAttr("q", "test").headers(headers))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("*.password").doesNotExist());
+    }
+
+    @Test
+    public void errorWhenTokenIsInvalid() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer BBasdf123-asdfasdf");
+
+        mvc.perform(get("/api/users/search").requestAttr("q", "test").headers(headers))
+                .andDo(print())
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error").value("invalid_token"))
+                .andExpect(jsonPath("$.error_description").value("Invalid access token: BBasdf123-asdfasdf"));
     }
 
     @Test
