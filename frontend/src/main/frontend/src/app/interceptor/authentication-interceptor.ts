@@ -6,6 +6,8 @@ import {AccountEventsService} from "../account/account-events.service";
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
+import {LoginService} from "../service/login.service";
+import {AccessToken} from "../shared/AccessToken";
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
@@ -18,7 +20,15 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         console.log("Request....");
         console.log(req.body);
 
-        const modifiedRequest = req.clone(/*{setHeaders: {'AuthTest': 'myValue123'}}*/);
+        let accessToken = this.accountEventsService.getToken();
+        let modifiedRequest;
+        if (accessToken != null) {
+            modifiedRequest = req.clone({setHeaders: {'Authorization': 'Bearer ' + accessToken.access_token/*, 'AuthTest': 'myValue123'*/}});
+            //modifiedRequest.headers.set("Authorization", 'Bearer ' + accessToken.access_token);
+        } else {
+            modifiedRequest = req.clone();
+        }
+        //modifiedRequest.headers.set('Authorization', 'Bearer ' + accessToken.access_token);
         return next.handle(modifiedRequest)
             .catch((error, caught) => {
             console.log(error);
@@ -27,6 +37,13 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                 console.log('Unauthorized request:', error.message);
                 this.accountEventsService.logout({error: "Not authenticated"});
                 //.accountEventsService.logout({error:res.text()});
+            }
+
+            if (error.status == 401) {
+                if (error.error.error == "invalid_token") {
+                    this.accountEventsService.clearToken();
+                    console.log("Token cleared");
+                }
             }
             return Observable.throw(error);
         }) as any;

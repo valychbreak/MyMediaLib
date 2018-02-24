@@ -43,8 +43,14 @@ export class SignInComponent implements OnInit {
         console.log(userModel, isValid);
 
         if (isValid) {
-            this.loginService.authenticate(userModel.username, userModel.password).then(user => {
-                console.log("User on login: " + user.username);
+            this.loginService.authenticate(userModel.username, userModel.password).then(accessToken => {
+                //console.log("User on login: " + user.username);
+                console.log("access token: " + accessToken.access_token)
+                this.http.get(Config.dataRequestLink + "/principal", {/*headers: {'Authorization': 'Bearer ' + accessToken.access_token}*/})
+                    .toPromise()
+                    .then(principal => {
+                        console.log(principal);
+                    })
                 //this.checkAuthenticationStatus();
             }).catch(this.handleError);
         }
@@ -65,7 +71,7 @@ export class SignInComponent implements OnInit {
 
     private handleError(error: any) {
         console.error('An error occurred', error); // for demo purposes only
-        //return Promise.reject(error.message || error);
+        return Promise.reject(error.message || error);
     }
 
     inputHasErrors(input) {

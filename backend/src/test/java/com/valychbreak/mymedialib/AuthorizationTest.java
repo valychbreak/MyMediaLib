@@ -76,7 +76,7 @@ public class AuthorizationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer " + requestToken());
 
-        mvc.perform(get("/api/users/search").requestAttr("q", "test").headers(headers))
+        mvc.perform(get("/api/users/search").param("q", "test").headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("*.password").doesNotExist());
     }

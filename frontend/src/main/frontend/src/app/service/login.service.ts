@@ -6,12 +6,13 @@ import {Config} from "../config/config";
 import {AccountEventsService} from "../account/account-events.service";
 import {Account} from "../account/account";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {AccessToken} from "../shared/AccessToken";
 
 @Injectable()
 export class LoginService {
-    static authenticateURL = Config.dataRequestLink + "/signin";
+    static authenticateURL = Config.hostLink + "/oauth/token";
     static isLoggedURL = Config.dataRequestLink + "/islogged";
-    static logoutURL = Config.dataRequestLink + "/logout123";
+    static logoutURL = Config.dataRequestLink + "/logout";
 
     static LOGGED_USER_KEY = "loggedUserKey";
 
@@ -19,15 +20,19 @@ export class LoginService {
     constructor(private http: HttpClient, private accountEventsService: AccountEventsService) {
     }
 
-    authenticate(username: string, password: string): Promise<User> {
+    authenticate(username: string, password: string): Promise<AccessToken> {
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
         let body = new HttpParams();
+        body.append("grant_type", "password");
         body.append('username', username);
         body.append('password', password);
-        return this.http.post<User>(LoginService.authenticateURL, {username, password}, {headers})
+        return this.http.post<AccessToken>(Config.hostLink + "/api/signin2", {"username" : username, "password": password}, {headers})
             .toPromise()
             .then(response => {
-                console.log("Raw response: " + response);
+                let accessToken = response as AccessToken;
+                console.log(accessToken);
+                this.accountEventsService.saveToken(accessToken);
+                /*console.log("Raw response: " + response);
                 console.log("Sign in response: " + response);
                 let user = response;
                 console.log(user);
@@ -35,8 +40,8 @@ export class LoginService {
 
                 let account = new Account();
                 account.login = user.username;
-                this.accountEventsService.loginSuccess(account);
-                return user;
+                this.accountEventsService.loginSuccess(account);*/
+                return accessToken;
             })
             .catch(this.onLoginFail);
     }

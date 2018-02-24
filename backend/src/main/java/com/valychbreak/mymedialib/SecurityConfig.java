@@ -24,11 +24,16 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CompositeFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import javax.servlet.Filter;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -63,8 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .anonymous().authorities("ROLE_ANONYMOUS")
                 .and().authorizeRequests()
+                .antMatchers("/local/login").permitAll()
                 .antMatchers("/signin").permitAll()
                 .antMatchers("/api/signin").permitAll()
+                .antMatchers("/api/signin2").anonymous()
                 .antMatchers("/api/user/add").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/favicon.ico").anonymous()
@@ -72,11 +79,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                .headers()
-                .frameOptions().disable().and().logout()
+                /*.headers()
+                .frameOptions().disable().and()*/.logout()
                 .logoutSuccessUrl("/").permitAll().and().csrf().disable()
                 //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new SimpleCORSFilter(), BasicAuthenticationFilter.class);
+                //.cors();
         /*http.anonymous().authorities("ROLE_ANONYMOUS").and()
                 .requestMatchers().antMatchers("/login", "/oauth/authorize")
                 .and().antMatcher("/**")
@@ -91,14 +100,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);*/
     }
 
-    /*@Bean
-    @ConfigurationProperties("local")*/
+    @Bean
+    @ConfigurationProperties("local")
     public ClientResources local() {
 		/*ClientResources clientResources = new ClientResources();
 		clientResources.getClient().setClientId("gigy");
 
 		return clientResources;*/
         return new ClientResources();
+    }
+
+    @Bean
+    public OAuth2RestTemplate localClientTemplate() {
+        OAuth2RestTemplate template = new OAuth2RestTemplate(local().getClient(), oauth2ClientContext);
+        return template;
     }
 
     private Filter ssoFilter() {

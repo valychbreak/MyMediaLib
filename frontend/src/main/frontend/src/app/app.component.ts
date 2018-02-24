@@ -14,11 +14,11 @@ export class AppComponent {
     title = 'app works!';
 
     constructor(router: Router, private loginService: LoginService, private accountEventsService: AccountEventsService) {
-        accountEventsService.subscribe((account) => {
+        /*accountEventsService.subscribe((account) => {
             if (!account.authenticated) {
                 this.loginService.logout(false);
             }
-        });
+        });*/
 
         router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {

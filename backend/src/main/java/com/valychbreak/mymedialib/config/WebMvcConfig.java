@@ -7,6 +7,7 @@ import com.valychbreak.mymedialib.utils.gson.GsonBuilderTools;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.valychbreak.mymedialib.utils.gson.JsonExclude;
@@ -49,4 +50,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
             return f.getAnnotation(JsonExclude.class) != null;
         }
     }*/
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*");
+    }
 }

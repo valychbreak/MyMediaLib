@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,7 @@ public class UserSearchController extends APIController {
 
     @RequestMapping(value = "/users/search", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<List<UserDTO>> searchUsers(@RequestAttribute("q") String query) {
+    public ResponseEntity<List<UserDTO>> searchUsers(@RequestParam("q") String query) {
         List<UserDTO> userDTOList = new ArrayList<>();
         userRepository.findByUsernameOrNameIgnoreCaseContaining(query, query)
                 .forEach(user -> userDTOList.add(new UserDTO(user)));
