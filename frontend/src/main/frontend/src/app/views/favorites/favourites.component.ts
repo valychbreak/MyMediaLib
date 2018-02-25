@@ -58,14 +58,6 @@ export class FavouritesComponent implements OnInit {
             .then(media => this.favouriteMedia = media);
     }
 
-    getLoggedUser() {
-        this.userService.getUser(1).then((user: User) => {
-            this.user = user;
-            this.fav = this.user.favourites;
-            console.log(this.fav.pop());
-        });
-    }
-
     onSelectMovie(movie: Movie) {
         this.router.navigate(['/movie', movie.id]);
     }

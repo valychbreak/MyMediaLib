@@ -1,11 +1,13 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
 import {AccessToken} from "../shared/AccessToken";
+import {User} from "../shared/users/user";
 
 @Injectable()
 export class AccountEventsService extends Subject<any> {
 
     static ACCESS_TOKEN_PATH = "ACCESS-TOKEN-OBJECT";
+    static LOGGED_USER_TOKEN = "LOGGED-USER-OBJECT";
 
     authenticated: boolean;
 
@@ -28,6 +30,14 @@ export class AccountEventsService extends Subject<any> {
             super.next(account);
         }
         this.authenticated = false;
+    }
+
+    saveUser(user: User) {
+        localStorage.setItem(AccountEventsService.LOGGED_USER_TOKEN, JSON.stringify(user));
+    }
+
+    getUser(): User {
+        return JSON.parse(localStorage.getItem(AccountEventsService.LOGGED_USER_TOKEN));
     }
 
     saveToken(accessToken: AccessToken) {

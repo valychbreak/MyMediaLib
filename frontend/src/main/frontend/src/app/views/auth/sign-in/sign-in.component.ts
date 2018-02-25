@@ -3,6 +3,8 @@ import {User} from "../../../shared/users/user";
 import {LoginService} from "../../../service/login.service";
 import {Config} from "../../../config/config";
 import {HttpClient} from "@angular/common/http";
+import {AccountEventsService} from "../../../account/account-events.service";
+import {UserCredentials} from "../../../shared/users/user-credentials";
 
 @Component({
     selector: 'app-sign-in',
@@ -11,17 +13,19 @@ import {HttpClient} from "@angular/common/http";
 })
 export class SignInComponent implements OnInit {
     title: string;
+    userCredentials: UserCredentials;
     user: User;
 
-    //isUserAuthenticated: boolean;
-
-    constructor(private loginService: LoginService, private http: HttpClient) {
+    constructor(private loginService: LoginService, private http: HttpClient, private accountEventsService: AccountEventsService) {
     }
 
     ngOnInit() {
         this.title = "Sign in";
 
-        this.user = new User();
+        this.userCredentials = new UserCredentials();
+        this.user = null;
+
+        this.updateUserDetails();
 
         //this.checkAuthenticationStatus();
     }
@@ -39,25 +43,34 @@ export class SignInComponent implements OnInit {
             })
     }
 
-    save(userModel: User, isValid: boolean) {
+    save(userModel: UserCredentials, isValid: boolean) {
         console.log(userModel, isValid);
 
         if (isValid) {
             this.loginService.authenticate(userModel.username, userModel.password).then(accessToken => {
                 //console.log("User on login: " + user.username);
-                console.log("access token: " + accessToken.access_token)
-                this.http.get(Config.dataRequestLink + "/principal", {/*headers: {'Authorization': 'Bearer ' + accessToken.access_token}*/})
-                    .toPromise()
-                    .then(principal => {
-                        console.log(principal);
+                console.log("access token: " + accessToken.access_token);
+                this.loginService.requestUser()
+                    .then(user => {
+                        this.accountEventsService.saveUser(user);
+                        this.user = user;
                     })
+                    .catch(error => {
+                        this.user = null;
+                        return Promise.reject(error.message || error);
+                    });
+
                 //this.checkAuthenticationStatus();
             }).catch(this.handleError);
         }
     }
 
+    private updateUserDetails() {
+        this.user = this.accountEventsService.getUser();
+    }
+
     isAuthenticated() {
-        return this.loginService.isAuthenticated();
+        return this.user != null;
     }
 
     logout() {
@@ -66,7 +79,7 @@ export class SignInComponent implements OnInit {
     }
 
     getLoggedUserName() {
-        return this.loginService.getLoggedUsername();
+        return this.user == null ? "Anonymous" : this.user.username;
     }
 
     private handleError(error: any) {

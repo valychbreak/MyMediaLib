@@ -28,7 +28,7 @@
             <label for="username">Username</label>
             <!--bind name to ngModel, it's required with minimum 5 characters-->
             <input id="username" type="text" class="form-control"
-                   name="username" [(ngModel)]="user.username"
+                   name="username" [(ngModel)]="userCredentials.username"
                    #username="ngModel" required>
             <!--<div class="form-control-feedback">Sorry, that username's taken. Try another?</div>-->
             <div *ngIf="inputHasErrors(username)" class="form-control-feedback">
@@ -42,11 +42,11 @@
             <label>Password</label>
             <!--bind name to ngModel, it's required with minimum 5 characters-->
             <input type="password" class="form-control"
-                   name="password" [(ngModel)]="user.password"
+                   name="password" [(ngModel)]="userCredentials.password"
                    #password="ngModel" required>
             <div *ngIf="inputHasErrors(password)"
                  class="form-control-feedback">
-                <div [hidden]="!username.errors.required">
+                <div [hidden]="!password.errors.required">
                     Password is required
                 </div>
             </div>

@@ -1,6 +1,7 @@
 package com.valychbreak.mymedialib.controller;
 
 import com.valychbreak.mymedialib.dto.LoginDTO;
+import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.services.AuthenticationService;
@@ -8,33 +9,25 @@ import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.TokenService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
-import org.springframework.security.oauth2.client.token.AccessTokenProviderChain;
 import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.ServletException;
@@ -43,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,18 +48,9 @@ import java.util.List;
 public class AuthenticationController {
     private UserRepository userRepository;
     private AuthenticationService authenticationService;
-    private ResourceServerTokenServices resourceServerTokenServices;
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private OAuth2RestTemplate localClientTemplate;
-
-    private TokenService tokenService;
-
-    /*@Autowired*/
-    private OAuth2AuthenticationManager userInfoTokenServices;
 
     @Autowired
     public AuthenticationController(UserRepository userRepository, AuthenticationService authenticationService) {
@@ -76,8 +59,14 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/principal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Principal getPrincipal(Principal principal) {
-        return principal;
+    public ResponseEntity<UserDTO> getPrincipal(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+            String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
+            User firstByUsername = userRepository.findFirstByUsername(username);
+            return new ResponseEntity<>(new UserDTO(firstByUsername), HttpStatus.OK);
+        } else {
+            throw new UsernameNotFoundException("User principal is not found");
+        }
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)

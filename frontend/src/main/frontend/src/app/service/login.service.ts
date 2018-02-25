@@ -67,6 +67,12 @@ export class LoginService {
             .toPromise().then(response => response == "true")
     }
 
+    requestUser(): Promise<any> {
+        return this.http.get<any>(Config.dataRequestLink + "/principal",{/*responseType: 'text'*/})
+            .toPromise()
+            .then(response => response)
+    }
+
     getLoggedUsername() {
         if (this.isAuthenticated()) {
             return (JSON.parse(localStorage.getItem(LoginService.LOGGED_USER_KEY)) as User).username;
