@@ -35,13 +35,17 @@ export class NewCategoryViewComponent implements OnInit {
         newCategory.name = formValue.name;
 
         let parentCat = Category.copyOf(this.parentCategory);
-        parentCat.subCategories = null;
+        parentCat.subCatalogs = null;
 
         newCategory.parent = parentCat;
 
         this.categoryService.addNewCategory(newCategory).then(category => {
             console.log("Category returned:");
             console.log(category);
+
+            this.parentCategory.subCatalogs.push(category);
+
+            this.activeModal.close();
         });
     }
 
