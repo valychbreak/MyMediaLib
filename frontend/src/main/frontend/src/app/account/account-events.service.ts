@@ -46,6 +46,7 @@ export class AccountEventsService extends Subject<any> {
 
     clearToken(): boolean {
         localStorage.removeItem(AccountEventsService.ACCESS_TOKEN_PATH);
+        localStorage.removeItem(AccountEventsService.LOGGED_USER_TOKEN);
         return true;
     }
 

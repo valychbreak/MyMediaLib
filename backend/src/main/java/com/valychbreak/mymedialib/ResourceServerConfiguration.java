@@ -25,6 +25,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/api/signin2").permitAll()
+                .antMatchers("/api/user/add").permitAll()
                 //.antMatchers("/api/users/search").authenticated()//.hasAuthority("ROLE_USER")
                 .anyRequest().authenticated()/*.and().headers().frameOptions().disable()*/;//.and().cors();
         // @formatter:on

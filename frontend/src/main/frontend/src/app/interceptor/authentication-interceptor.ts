@@ -43,6 +43,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                 if (error.error.error == "invalid_token") {
                     this.accountEventsService.clearToken();
                     console.log("Token cleared");
+                } else {
+                    this.accountEventsService.clearToken();
                 }
             }
             return Observable.throw(error);

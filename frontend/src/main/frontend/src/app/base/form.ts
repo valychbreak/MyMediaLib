@@ -1,5 +1,5 @@
 export abstract class AbstractForm {
     inputHasErrors(input) {
-        return input.errors && (input.dirty || input.touched)
+        return false;//input.errors && (input.dirty || input.touched)
     }
 }

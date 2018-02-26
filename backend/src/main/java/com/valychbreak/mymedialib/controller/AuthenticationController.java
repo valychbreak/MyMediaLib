@@ -82,7 +82,7 @@ public class AuthenticationController {
         // TODO: is there any way to get rid of setting auth to global context?
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        OAuth2AccessToken accessToken = restTemplate().getAccessToken();
+        OAuth2AccessToken accessToken = restTemplate(loginDTO).getAccessToken();
         String requestToken = accessToken.getValue();
 
         //OAuth2AuthenticationManager
@@ -91,7 +91,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(accessToken, HttpStatus.OK);
     }
 
-    protected OAuth2ProtectedResourceDetails resource() {
+    protected OAuth2ProtectedResourceDetails resource(String username, String password) {
 
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
 
@@ -104,16 +104,16 @@ public class AuthenticationController {
         resource.setGrantType("password");
         resource.setScope(scopes);
 
-        resource.setUsername("test_user");
-        resource.setPassword("test12");
+        resource.setUsername(username);
+        resource.setPassword(password);
 
         return resource;
     }
 
-    public OAuth2RestTemplate restTemplate() {
+    public OAuth2RestTemplate restTemplate(LoginDTO loginDTO) {
         AccessTokenRequest atr = new DefaultAccessTokenRequest();
 
-        OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(resource(), new DefaultOAuth2ClientContext(atr));
+        OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(resource(loginDTO.getUsername(), loginDTO.getPassword()), new DefaultOAuth2ClientContext(atr));
         //oAuth2RestTemplate.setAccessTokenProvider(new AccessTokenProviderChain());
         return oAuth2RestTemplate;
     }

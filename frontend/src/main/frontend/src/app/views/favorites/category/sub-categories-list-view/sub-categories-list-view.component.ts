@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Category} from "../../../../shared/favorites/category/category";
+import {MediaCollection} from "../../../../shared/favorites/collection/media-collection";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {NewCategoryViewComponent} from "../new-category-view/new-category-view.component";
 
@@ -11,7 +11,7 @@ import {NewCategoryViewComponent} from "../new-category-view/new-category-view.c
 export class SubCategoriesListViewComponent implements OnInit {
 
     @Input()
-    private currentCategory: Category;
+    private currentCategory: MediaCollection;
 
     constructor(private modalService: NgbModal) {
     }

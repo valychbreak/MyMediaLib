@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Category} from "../../../../shared/favorites/category/category";
+import {MediaCollection} from "../../../../shared/favorites/collection/media-collection";
 
 @Component({
     selector: 'category-path',
@@ -9,7 +9,7 @@ import {Category} from "../../../../shared/favorites/category/category";
 export class CategoryPathComponent implements OnInit {
 
     @Input()
-    private currentCategory: Category;
+    private currentCategory: MediaCollection;
 
     constructor() {
     }
@@ -17,12 +17,12 @@ export class CategoryPathComponent implements OnInit {
     ngOnInit() {
     }
 
-    getAllParentCategories(): Category[] {
+    getAllParentCategories(): MediaCollection[] {
         return this.getParentCategoryRecursively(this.currentCategory);
     }
 
-    getParentCategoryRecursively(category: Category): Category[] {
-        let categoryList: Category[] = [];
+    getParentCategoryRecursively(category: MediaCollection): MediaCollection[] {
+        let categoryList: MediaCollection[] = [];
         if (category.parent) {
             categoryList = this.getParentCategoryRecursively(category.parent);
         }
@@ -30,7 +30,7 @@ export class CategoryPathComponent implements OnInit {
         return categoryList;
     }
 
-    isCurrentCategory(category: Category): boolean {
+    isCurrentCategory(category: MediaCollection): boolean {
         return category == this.currentCategory;
     }
 

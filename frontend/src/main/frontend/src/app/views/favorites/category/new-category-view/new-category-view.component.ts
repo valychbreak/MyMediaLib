@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {Category} from "../../../../shared/favorites/category/category";
-import {CategoryService} from "../../../../service/category.service";
+import {MediaCollection} from "../../../../shared/favorites/collection/media-collection";
+import {MediaCollectionService} from "../../../../service/media-collection.service";
 
 @Component({
     selector: 'app-new-category-view',
@@ -12,11 +12,11 @@ import {CategoryService} from "../../../../service/category.service";
 export class NewCategoryViewComponent implements OnInit {
 
     @Input()
-    parentCategory: Category;
+    parentCategory: MediaCollection;
 
     newCategoryForm: FormGroup;
 
-    constructor(public activeModal: NgbActiveModal, private categoryService: CategoryService) {
+    constructor(public activeModal: NgbActiveModal, private categoryService: MediaCollectionService) {
     }
 
     ngOnInit() {
@@ -31,19 +31,19 @@ export class NewCategoryViewComponent implements OnInit {
         console.log(formValue.name);
         console.log("Saved to " + this.parentCategory.id + " category");
 
-        let newCategory = new Category();
+        let newCategory = new MediaCollection();
         newCategory.name = formValue.name;
 
-        let parentCat = Category.copyOf(this.parentCategory);
-        parentCat.subCatalogs = null;
+        let parentCat = MediaCollection.copyOf(this.parentCategory);
+        parentCat.subCollections = null;
 
         newCategory.parent = parentCat;
 
         this.categoryService.addNewCategory(newCategory).then(category => {
-            console.log("Category returned:");
+            console.log("MediaCollection returned:");
             console.log(category);
 
-            this.parentCategory.subCatalogs.push(category);
+            this.parentCategory.subCollections.push(category);
 
             this.activeModal.close();
         });

@@ -7,8 +7,8 @@ import {Router} from "@angular/router";
 import {Movie} from "../../shared/movie/movie";
 import {LoginService} from "../../service/login.service";
 import {UserFavouritesService} from "../../service/user-favourites.service";
-import {Category} from "../../shared/favorites/category/category";
-import {CategoryService} from "../../service/category.service";
+import {MediaCollection} from "../../shared/favorites/collection/media-collection";
+import {MediaCollectionService} from "../../service/media-collection.service";
 
 @Component({
     selector: 'app-favourites',
@@ -20,10 +20,10 @@ export class FavouritesComponent implements OnInit {
     fav: FavouriteMedia[];
     favouriteMedia: Movie[];
 
-    currentCategory: Category;
+    currentCategory: MediaCollection;
 
     constructor(private router: Router, private userFavouritesService: UserFavouritesService,
-                private userService: UserService, private categoryService: CategoryService) {
+                private userService: UserService, private categoryService: MediaCollectionService) {
     }
 
     ngOnInit() {
@@ -34,15 +34,15 @@ export class FavouritesComponent implements OnInit {
 
         this.loadRootCategory();
 
-        /*let childCategory = new Category();
+        /*let childCategory = new MediaCollection();
         childCategory.name = "Watch with friends";
 
-        let rootCategory = new Category();
+        let rootCategory = new MediaCollection();
         rootCategory.name = "Home";
-        rootCategory.subCatalogs = [childCategory, childCategory, childCategory, childCategory, childCategory, childCategory, childCategory];
+        rootCategory.subCollections = [childCategory, childCategory, childCategory, childCategory, childCategory, childCategory, childCategory];
 
-        let parentWithoutSubCategories = Category.copyOf(rootCategory);
-        parentWithoutSubCategories.subCatalogs = null;
+        let parentWithoutSubCategories = MediaCollection.copyOf(rootCategory);
+        parentWithoutSubCategories.subCollections = null;
         childCategory.parent = parentWithoutSubCategories;
 
         this.currentCategory = rootCategory;*/

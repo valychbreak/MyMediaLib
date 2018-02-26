@@ -16,12 +16,12 @@
                        name="name" [(ngModel)]="user.name"
                        #title="ngModel" required>
                 <!--<div class="form-control-feedback">Sorry, that username's taken. Try another?</div>-->
-                <div *ngIf="inputHasErrors(name)"
+                <!--<div *ngIf="inputHasErrors(name)"
                      class="form-control-feedback">
                     <div [hidden]="!name.errors.required">
                         Name is required
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -32,12 +32,12 @@
                        name="username" [(ngModel)]="user.username"
                        #username="ngModel" required>
                 <!--<div class="form-control-feedback">Sorry, that username's taken. Try another?</div>-->
-                <div *ngIf="inputHasErrors(username)"
+                <!--<div *ngIf="inputHasErrors(username)"
                      class="form-control-feedback">
                     <div [hidden]="!username.errors.required">
                         Username is required
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -48,12 +48,12 @@
                 <input id="password" type="password" class="form-control"
                        name="password" [(ngModel)]="user.password"
                        #password="ngModel" required>
-                <div *ngIf="inputHasErrors(username)"
+                <!--<div *ngIf="inputHasErrors(password)"
                      class="form-control-feedback">
                     <div [hidden]="!password.errors.required">
                         Password is required
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -64,12 +64,12 @@
                        name="email" [(ngModel)]="user.email"
                        #email="ngModel" required>
                 <!--<div class="form-control-feedback">Sorry, that username's taken. Try another?</div>-->
-                <div *ngIf="inputHasErrors(email)"
+                <!--<div *ngIf="inputHasErrors(email)"
                      class="form-control-feedback">
                     <div [hidden]="!email.errors.required">
                         Email is required
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
         <div class="form-group row">

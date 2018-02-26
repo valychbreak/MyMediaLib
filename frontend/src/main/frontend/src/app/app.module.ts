@@ -29,7 +29,7 @@ import {BusyModule} from "angular2-busy";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CategoryPathComponent } from './views/favorites/category/category-path/category-path.component';
 import { SubCategoriesListViewComponent } from './views/favorites/category/sub-categories-list-view/sub-categories-list-view.component';
-import {CategoryService} from "./service/category.service";
+import {MediaCollectionService} from "./service/media-collection.service";
 import { NewCategoryViewComponent } from './views/favorites/category/new-category-view/new-category-view.component';
 
 
@@ -66,7 +66,7 @@ import { NewCategoryViewComponent } from './views/favorites/category/new-categor
         BrowserAnimationsModule,
         BusyModule
     ],
-    providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, CategoryService, {
+    providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService, {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthenticationInterceptor,
             multi: true,
