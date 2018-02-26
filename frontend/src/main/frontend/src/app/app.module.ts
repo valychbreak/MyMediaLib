@@ -27,10 +27,10 @@ import { MovieSearchSectionComponent } from './views/movies/movie-search-section
 import { PeopleSearchSectionComponent } from './views/people/people-search-section/people-search-section.component';
 import {BusyModule} from "angular2-busy";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { CategoryPathComponent } from './views/favorites/category/category-path/category-path.component';
-import { SubCategoriesListViewComponent } from './views/favorites/category/sub-categories-list-view/sub-categories-list-view.component';
+import { CategoryPathComponent } from './views/favorites/collection/collection-path/category-path.component';
+import { SubCategoriesListViewComponent } from './views/favorites/collection/sub-collections-list-view/sub-categories-list-view.component';
 import {MediaCollectionService} from "./service/media-collection.service";
-import { NewCategoryViewComponent } from './views/favorites/category/new-category-view/new-category-view.component';
+import { NewCategoryViewComponent } from './views/favorites/collection/new-collection-view/new-category-view.component';
 
 
 @NgModule({
