@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Email;
  */
 @Entity
 @Table(name = "users")
+// TODO: implement from UserDetails (spring class)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
