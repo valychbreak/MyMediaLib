@@ -8,8 +8,8 @@ import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsAdapter;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
-import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
-import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
+import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.services.OmdbVideoProvider;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserAddFavoriteMediaControllerTest extends AbstractControllerTest {
     @Autowired
-    private UserMediaCatalogRepository userMediaCatalogRepository;
+    private UserMediaCollectionRepository userMediaCollectionRepository;
 
 
     @Test
@@ -50,18 +50,18 @@ public class UserAddFavoriteMediaControllerTest extends AbstractControllerTest {
     public void testAddUserFavouritesToSubCategory() throws Exception {
         User testUser = createUserInDb("testAddUser");
 
-        UserMediaCatalog rootUserMediaCatalog = testUser.getRootUserMediaCatalog();
-        UserMediaCatalog userMediaCatalog = new UserMediaCatalog("testCat");
-        userMediaCatalog.setParentUserMediaCatalog(rootUserMediaCatalog);
-        userMediaCatalogRepository.save(userMediaCatalog);
+        UserMediaCollection rootUserMediaCollection = testUser.getRootUserMediaCollection();
+        UserMediaCollection userMediaCollection = new UserMediaCollection("testCat");
+        userMediaCollection.setParentUserMediaCollection(rootUserMediaCollection);
+        userMediaCollectionRepository.save(userMediaCollection);
 
-        rootUserMediaCatalog.getSubUserMediaCatalogs().add(userMediaCatalog);
+        rootUserMediaCollection.getSubUserMediaCollections().add(userMediaCollection);
 
-        userMediaCatalogRepository.save(rootUserMediaCatalog);
+        userMediaCollectionRepository.save(rootUserMediaCollection);
 
 
         MediaFullDetails fightClubMovie = MediaUtils.getMediaShortDetailsBy("tt0137523");
-        mockMvc.perform(post("/api/user/favourites/" + userMediaCatalog.getId() + "/add")
+        mockMvc.perform(post("/api/user/favourites/" + userMediaCollection.getId() + "/add")
                 .contentType(MediaType.APPLICATION_JSON).content(json(fightClubMovie)))
                 .andExpect(status().isOk());
 
@@ -71,23 +71,23 @@ public class UserAddFavoriteMediaControllerTest extends AbstractControllerTest {
     }
 
     private boolean isUserFavorite(User dbTestUser, MediaFullDetails fightClubMovie) {
-        UserMediaCatalog userMediaCatalog = dbTestUser.getRootUserMediaCatalog();
-        boolean found = isInCatalogOrSubCatalog(fightClubMovie, userMediaCatalog);
+        UserMediaCollection userMediaCollection = dbTestUser.getRootUserMediaCollection();
+        boolean found = isInCollectionOrSubCollection(fightClubMovie, userMediaCollection);
         return found;
     }
 
-    private boolean isInCatalogOrSubCatalog(MediaFullDetails fightClubMovie, UserMediaCatalog userMediaCatalog) {
+    private boolean isInCollectionOrSubCollection(MediaFullDetails fightClubMovie, UserMediaCollection userMediaCollection) {
         boolean found = false;
-        for (UserMedia userMedia : userMediaCatalog.getUserMediaList()) {
+        for (UserMedia userMedia : userMediaCollection.getUserMediaList()) {
             if(userMedia.getMedia().getImdbId().equals(fightClubMovie.getImdbId())) {
                 found = true;
             }
         }
 
         if(!found) {
-            for (UserMediaCatalog mediaCatalog : userMediaCatalog.getSubUserMediaCatalogs()) {
+            for (UserMediaCollection mediaCollection : userMediaCollection.getSubUserMediaCollections()) {
                 if (!found) {
-                    found = isInCatalogOrSubCatalog(fightClubMovie, mediaCatalog);
+                    found = isInCollectionOrSubCollection(fightClubMovie, mediaCollection);
                 }
             }
         }

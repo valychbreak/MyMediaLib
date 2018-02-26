@@ -6,9 +6,9 @@ import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsAdapter;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.Media;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
-import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
+import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.repository.MediaRepository;
-import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
+import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class UserAddFavoriteMediaController extends APIController {
     protected UserMediaRepository userMediaRepository;
 
     @Autowired
-    protected UserMediaCatalogRepository userMediaCatalogRepository;
+    protected UserMediaCollectionRepository userMediaCollectionRepository;
 
     @RequestMapping(value = "/user/favourites/add", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,21 +38,21 @@ public class UserAddFavoriteMediaController extends APIController {
         return new ResponseEntity<>(media, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/favourites/{catalogId}/add", method = RequestMethod.POST,
+    @RequestMapping(value = "/user/favourites/{collectionId}/add", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Media> addFavourite(@PathVariable String catalogId, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
+    public ResponseEntity<Media> addFavourite(@PathVariable String collectionId, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
         User user = getLoggedUser();
-        UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(Long.parseLong(catalogId));
-        Media media = addMedia(mediaDetails, user, userMediaCatalog);
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(Long.parseLong(collectionId));
+        Media media = addMedia(mediaDetails, user, userMediaCollection);
         return new ResponseEntity<>(media, HttpStatus.OK);
     }
 
     private Media addMedia(User user, MediaShortDetails mediaDetails) {
-        UserMediaCatalog rootUserMediaCatalog = user.getRootUserMediaCatalog();
-        return addMedia(mediaDetails, user, rootUserMediaCatalog);
+        UserMediaCollection rootUserMediaCollection = user.getRootUserMediaCollection();
+        return addMedia(mediaDetails, user, rootUserMediaCollection);
     }
 
-    private Media addMedia(MediaShortDetails mediaDetails, User user, UserMediaCatalog userMediaCatalog) {
+    private Media addMedia(MediaShortDetails mediaDetails, User user, UserMediaCollection userMediaCollection) {
         Media media = mediaRepository.findByImdbId(mediaDetails.getImdbId());
 
         if(media == null) {
@@ -68,8 +68,8 @@ public class UserAddFavoriteMediaController extends APIController {
         userMediaRepository.save(userMedia);
 
 
-        userMediaCatalog.getUserMediaList().add(userMedia);
-        userMediaCatalogRepository.save(userMediaCatalog);
+        userMediaCollection.getUserMediaList().add(userMedia);
+        userMediaCollectionRepository.save(userMediaCollection);
         return media;
     }
 }

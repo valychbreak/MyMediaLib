@@ -2,8 +2,8 @@ package com.valychbreak.mymedialib.services;
 
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
-import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
+import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ public class CreateUserService {
 
 
     private UserRepository userRepository;
-    private UserMediaCatalogRepository userMediaCatalogRepository;
+    private UserMediaCollectionRepository userMediaCollectionRepository;
     private UserRoleRepository userRoleRepository;
 
 
     @Autowired
-    public CreateUserService(UserRepository userRepository, UserMediaCatalogRepository userMediaCatalogRepository, UserRoleRepository userRoleRepository) {
+    public CreateUserService(UserRepository userRepository, UserMediaCollectionRepository userMediaCollectionRepository, UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
-        this.userMediaCatalogRepository = userMediaCatalogRepository;
+        this.userMediaCollectionRepository = userMediaCollectionRepository;
         this.userRoleRepository = userRoleRepository;
     }
 
@@ -40,15 +40,15 @@ public class CreateUserService {
 
     public User saveUser(String username, String password, String name, String email, Role role) {
         User user = createUserInstance(username, password, name, email, role);
-        userMediaCatalogRepository.save(user.getRootUserMediaCatalog());
+        userMediaCollectionRepository.save(user.getRootUserMediaCollection());
         userRepository.save(user);
         return user;
     }
 
     public User createUserInstance(String username, String password, String name, String email, Role role) {
-        UserMediaCatalog userMediaCatalog = new UserMediaCatalog(username + "_root_catalog");
+        UserMediaCollection userMediaCollection = new UserMediaCollection(username + "_root_catalog");
         User user = new User(username, password, name, email, role);
-        user.setRootUserMediaCatalog(userMediaCatalog);
+        user.setRootUserMediaCollection(userMediaCollection);
         return user;
     }
 

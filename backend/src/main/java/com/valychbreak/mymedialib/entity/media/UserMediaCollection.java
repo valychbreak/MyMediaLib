@@ -8,8 +8,8 @@ import java.util.List;
  * Created by valych on 5/9/17.
  */
 @Entity
-@Table(name = "user_media_catalog")
-public class UserMediaCatalog {
+@Table(name = "user_media_collection")
+public class UserMediaCollection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,22 +18,22 @@ public class UserMediaCatalog {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "parent_media_catalog")
-    private UserMediaCatalog parentUserMediaCatalog;
+    @JoinColumn(name = "parent_media_collection")
+    private UserMediaCollection parentUserMediaCollection;
 
-    @OneToMany(mappedBy = "parentUserMediaCatalog")
-    private List<UserMediaCatalog> subUserMediaCatalogs = new ArrayList<>();
+    @OneToMany(mappedBy = "parentUserMediaCollection")
+    private List<UserMediaCollection> subUserMediaCollections = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
-            joinColumns = @JoinColumn(name = "user_media_catalog_id"),
+            joinColumns = @JoinColumn(name = "user_media_collection_id"),
             inverseJoinColumns = @JoinColumn(name = "user_media_id")
     )
     private List<UserMedia> userMediaList = new ArrayList<>();
 
-    protected UserMediaCatalog() { }
+    protected UserMediaCollection() { }
 
-    public UserMediaCatalog(String name) {
+    public UserMediaCollection(String name) {
         this.name = name;
     }
 
@@ -53,20 +53,20 @@ public class UserMediaCatalog {
         this.name = name;
     }
 
-    public UserMediaCatalog getParentUserMediaCatalog() {
-        return parentUserMediaCatalog;
+    public UserMediaCollection getParentUserMediaCollection() {
+        return parentUserMediaCollection;
     }
 
-    public void setParentUserMediaCatalog(UserMediaCatalog parentUserMediaCatalog) {
-        this.parentUserMediaCatalog = parentUserMediaCatalog;
+    public void setParentUserMediaCollection(UserMediaCollection parentUserMediaCollection) {
+        this.parentUserMediaCollection = parentUserMediaCollection;
     }
 
-    public List<UserMediaCatalog> getSubUserMediaCatalogs() {
-        return subUserMediaCatalogs;
+    public List<UserMediaCollection> getSubUserMediaCollections() {
+        return subUserMediaCollections;
     }
 
-    public void setSubUserMediaCatalogs(List<UserMediaCatalog> subUserMediaCatalogs) {
-        this.subUserMediaCatalogs = subUserMediaCatalogs;
+    public void setSubUserMediaCollections(List<UserMediaCollection> subUserMediaCollections) {
+        this.subUserMediaCollections = subUserMediaCollections;
     }
 
     public List<UserMedia> getUserMediaList() {

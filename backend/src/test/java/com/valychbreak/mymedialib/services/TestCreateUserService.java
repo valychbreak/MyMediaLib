@@ -6,7 +6,6 @@ import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -79,7 +77,7 @@ public class TestCreateUserService {
         String email = makeUnique("testEmail") + "@t.com";
         User user = createUserService.createUserInstance(username, "test12", "test", email, new Role("role"));
 
-        Assert.assertNotNull(user.getRootUserMediaCatalog());
+        Assert.assertNotNull(user.getRootUserMediaCollection());
     }
 
     private Role createRole(String roleName) {

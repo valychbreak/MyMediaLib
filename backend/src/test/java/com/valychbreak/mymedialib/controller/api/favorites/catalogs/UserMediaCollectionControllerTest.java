@@ -4,11 +4,11 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.ControllerTest;
-import com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTO;
-import com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTOFactory;
+import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTO;
+import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOFactory;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
-import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
+import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
-public class UserMediaCatalogControllerTest extends ControllerTest {
+public class UserMediaCollectionControllerTest extends ControllerTest {
     @Autowired
-    private UserMediaCatalogRepository userMediaCatalogRepository;
+    private UserMediaCollectionRepository userMediaCollectionRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -39,50 +39,50 @@ public class UserMediaCatalogControllerTest extends ControllerTest {
     @Test
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
-    public void getCatalogWithoutMedia() throws Exception {
-        UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(1000L);
+    public void getCollectionWithoutMedia() throws Exception {
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
-        MediaCatalogDTO expectedMediaCatalogDTO = new MediaCatalogDTOFactory().createWithoutMedia(userMediaCatalog);
+        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(userMediaCollection);
         mockMvc.perform(get("/api/catalog/1000").requestAttr("media", "false"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(json(expectedMediaCatalogDTO)));
+                .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
 
     @Test
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
-    public void getCatalogWithMedia() throws Exception {
-        UserMediaCatalog userMediaCatalog = userMediaCatalogRepository.findOne(1000L);
+    public void getCollectionWithMedia() throws Exception {
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
-        MediaCatalogDTO expectedMediaCatalogDTO = new MediaCatalogDTOFactory().createWithMedia(userMediaCatalog);
+        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection);
         mockMvc.perform(get("/api/catalog/1000").requestAttr("media", "true"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(json(expectedMediaCatalogDTO)));
+                .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
 
     @Test
     @WithMockUser(username = "test", roles={"USER"})
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
-    public void getUserRootCatalogWithoutMedia() throws Exception {
+    public void getUserRootCollectionWithoutMedia() throws Exception {
         User user = userRepository.findOne(1000L);
 
-        MediaCatalogDTO expectedMediaCatalogDTO = new MediaCatalogDTOFactory().createWithoutMedia(user.getRootUserMediaCatalog());
+        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(user.getRootUserMediaCollection());
         mockMvc.perform(get("/api/user/catalog/root").requestAttr("media", "false"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(json(expectedMediaCatalogDTO)));
+                .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
 
     @Test
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @WithMockUser(username = "test", roles={"USER"})
     @Transactional
-    public void getUserRootCatalogWithMedia() throws Exception {
+    public void getUserRootCollectionWithMedia() throws Exception {
         User user = userRepository.findOne(1000L);
 
-        MediaCatalogDTO expectedMediaCatalogDTO = new MediaCatalogDTOFactory().createWithoutMedia(user.getRootUserMediaCatalog());
+        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(user.getRootUserMediaCollection());
         mockMvc.perform(get("/api/user/catalog/root").requestAttr("media", "false"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(json(expectedMediaCatalogDTO)));
+                .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
 }

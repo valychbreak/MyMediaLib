@@ -5,9 +5,9 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.google.common.collect.Lists;
 import com.valychbreak.mymedialib.controller.ControllerTest;
-import com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTO;
-import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
-import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
+import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTO;
+import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,7 +18,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.valychbreak.mymedialib.dto.catalog.MediaCatalogDTOBuilder.aMediaCatalogDTOBuilder;
+import static com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,25 +28,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
-public class AddUserMediaCatalogControllerTest extends ControllerTest {
+public class AddUserMediaCollectionControllerTest extends ControllerTest {
 
     @Autowired
-    private UserMediaCatalogRepository userMediaCatalogRepository;
+    private UserMediaCollectionRepository userMediaCollectionRepository;
 
     // TODO: fails when all tests are run, but passes when run alone
     @Test
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
-    public void addMediaCatalog() throws Exception {
-        UserMediaCatalog parentUserMediaCatalog = userMediaCatalogRepository.findOne(1000L);
+    public void addMediaCollection() throws Exception {
+        UserMediaCollection parentUserMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
-        MediaCatalogDTO parentMediaCatalogDTO = aMediaCatalogDTOBuilder().withId(parentUserMediaCatalog.getId()).withName(parentUserMediaCatalog.getName()).build();
-        MediaCatalogDTO expectedMediaCatalog = aMediaCatalogDTOBuilder().withId(1L).withName("New Catalog Name").withParent(parentMediaCatalogDTO).withMediaList(Lists.newArrayList()).withSubCatalogs(Lists.newArrayList()).build();
+        MediaCollectionDTO parentMediaCollectionDTO = aMediaCollectionDTOBuilder().withId(parentUserMediaCollection.getId()).withName(parentUserMediaCollection.getName()).build();
+        MediaCollectionDTO expectedMediaCollection = aMediaCollectionDTOBuilder().withId(1L).withName("New Catalog Name").withParent(parentMediaCollectionDTO).withMediaList(Lists.newArrayList()).withSubCollections(Lists.newArrayList()).build();
 
-        MediaCatalogDTO newMediaCatalog = aMediaCatalogDTOBuilder().withName("New Catalog Name").withParent(parentMediaCatalogDTO).build();
-        mockMvc.perform(post("/api/catalog/add").contentType(MediaType.APPLICATION_JSON).content(json(newMediaCatalog)))
+        MediaCollectionDTO newMediaCollection = aMediaCollectionDTOBuilder().withName("New Catalog Name").withParent(parentMediaCollectionDTO).build();
+        mockMvc.perform(post("/api/catalog/add").contentType(MediaType.APPLICATION_JSON).content(json(newMediaCollection)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(json(expectedMediaCatalog)));
+                .andExpect(content().json(json(expectedMediaCollection)));
     }
 
 }

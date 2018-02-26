@@ -6,9 +6,8 @@ import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.Media;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.repository.MediaRepository;
-import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
+import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
-import com.valychbreak.mymedialib.services.OmdbVideoProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +26,7 @@ public class UserRemoveFavoriteMediaController extends APIController {
     protected UserMediaRepository userMediaRepository;
 
     @Autowired
-    protected UserMediaCatalogRepository userMediaCatalogRepository;
+    protected UserMediaCollectionRepository userMediaCollectionRepository;
 
 
     @RequestMapping(value = "/user/favourites/remove", method = RequestMethod.POST,
@@ -36,15 +35,15 @@ public class UserRemoveFavoriteMediaController extends APIController {
         User user = getLoggedUser();
 
         List<UserMedia> userMediaToRemove = new ArrayList<>();
-        for (UserMedia userMedia : new ArrayList<>(user.getRootUserMediaCatalog().getUserMediaList())) {
+        for (UserMedia userMedia : new ArrayList<>(user.getRootUserMediaCollection().getUserMediaList())) {
             if(userMedia.getMedia().getImdbId().equals(mediaDetails.getImdbId())) {
-                user.getRootUserMediaCatalog().getUserMediaList().remove(userMedia);
+                user.getRootUserMediaCollection().getUserMediaList().remove(userMedia);
                 userMediaToRemove.add(userMedia);
             }
         }
 
         userMediaRepository.delete(userMediaToRemove);
-        userMediaCatalogRepository.save(user.getRootUserMediaCatalog());
+        userMediaCollectionRepository.save(user.getRootUserMediaCollection());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

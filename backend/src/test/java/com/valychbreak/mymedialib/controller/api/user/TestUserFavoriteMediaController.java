@@ -1,24 +1,15 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
-import com.omertron.omdbapi.OMDBException;
-import com.omertron.omdbapi.model.OmdbVideoFull;
 import com.valychbreak.mymedialib.controller.AbstractControllerTest;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.media.UserMedia;
-import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
-import com.valychbreak.mymedialib.repository.UserMediaCatalogRepository;
-import com.valychbreak.mymedialib.services.OmdbVideoProvider;
-import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsAdapter;
+import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +28,7 @@ public class TestUserFavoriteMediaController extends AbstractControllerTest {
     public static final String MEDIA_CONTROLLER_TEST_USER_NAME = "mediaControllerTestUser";
 
     @Autowired
-    private UserMediaCatalogRepository userMediaCatalogRepository;
+    private UserMediaCollectionRepository userMediaCollectionRepository;
 
 
     @Test

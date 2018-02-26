@@ -1,11 +1,8 @@
 package com.valychbreak.mymedialib.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.valychbreak.mymedialib.entity.media.UserMediaCatalog;
-import com.valychbreak.mymedialib.entity.media.UserMedia;
+import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.utils.gson.JsonExclude;
 import org.hibernate.validator.constraints.Email;
 
@@ -38,8 +35,8 @@ public class User {
 
     @JsonExclude
     @ManyToOne
-    @JoinColumn(name = "root_user_media_catalog", nullable = false)
-    private UserMediaCatalog rootUserMediaCatalog;
+    @JoinColumn(name = "root_user_media_collection", nullable = false)
+    private UserMediaCollection rootUserMediaCollection;
 
     protected User() {
     }
@@ -100,12 +97,12 @@ public class User {
         this.role = role;
     }
 
-    public UserMediaCatalog getRootUserMediaCatalog() {
-        return rootUserMediaCatalog;
+    public UserMediaCollection getRootUserMediaCollection() {
+        return rootUserMediaCollection;
     }
 
-    public void setRootUserMediaCatalog(UserMediaCatalog rootUserMediaCatalog) {
-        this.rootUserMediaCatalog = rootUserMediaCatalog;
+    public void setRootUserMediaCollection(UserMediaCollection rootUserMediaCollection) {
+        this.rootUserMediaCollection = rootUserMediaCollection;
     }
 
     @Override
