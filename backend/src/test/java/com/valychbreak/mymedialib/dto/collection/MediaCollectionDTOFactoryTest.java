@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.dto.catalog;
+package com.valychbreak.mymedialib.dto.collection;
 
 import com.google.common.collect.Lists;
 import com.omertron.omdbapi.OMDBException;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
+import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

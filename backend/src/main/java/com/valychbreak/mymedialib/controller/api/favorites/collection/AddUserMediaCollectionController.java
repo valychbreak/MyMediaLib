@@ -1,8 +1,8 @@
-package com.valychbreak.mymedialib.controller.api.favorites.catalogs;
+package com.valychbreak.mymedialib.controller.api.favorites.collection;
 
 import com.valychbreak.mymedialib.controller.api.APIController;
-import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTO;
-import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOFactory;
+import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTO;
+import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOFactory;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.exception.CollectionNotFoundException;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
@@ -22,7 +22,7 @@ public class AddUserMediaCollectionController extends APIController {
         this.userMediaCollectionRepository = userMediaCollectionRepository;
     }
 
-    @RequestMapping(value = "/catalog/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/collection/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCollectionDTO> addMediaCollection(@RequestBody MediaCollectionDTO newMediaCollection) throws Exception {
         Long parentCollectionId = getParentId(newMediaCollection);
         UserMediaCollection parentCollection = userMediaCollectionRepository.findOne(parentCollectionId);

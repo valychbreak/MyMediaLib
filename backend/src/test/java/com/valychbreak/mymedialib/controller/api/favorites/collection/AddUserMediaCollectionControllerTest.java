@@ -1,11 +1,11 @@
-package com.valychbreak.mymedialib.controller.api.favorites.catalogs;
+package com.valychbreak.mymedialib.controller.api.favorites.collection;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.google.common.collect.Lists;
 import com.valychbreak.mymedialib.controller.ControllerTest;
-import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTO;
+import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTO;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
+import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +44,7 @@ public class AddUserMediaCollectionControllerTest extends ControllerTest {
         MediaCollectionDTO expectedMediaCollection = aMediaCollectionDTOBuilder().withId(1L).withName("New Catalog Name").withParent(parentMediaCollectionDTO).withMediaList(Lists.newArrayList()).withSubCollections(Lists.newArrayList()).build();
 
         MediaCollectionDTO newMediaCollection = aMediaCollectionDTOBuilder().withName("New Catalog Name").withParent(parentMediaCollectionDTO).build();
-        mockMvc.perform(post("/api/catalog/add").contentType(MediaType.APPLICATION_JSON).content(json(newMediaCollection)))
+        mockMvc.perform(post("/api/collection/add").contentType(MediaType.APPLICATION_JSON).content(json(newMediaCollection)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollection)));
     }

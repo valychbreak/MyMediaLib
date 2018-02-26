@@ -1,9 +1,9 @@
-package com.valychbreak.mymedialib.controller.api.favorites.catalogs;
+package com.valychbreak.mymedialib.controller.api.favorites.collection;
 
 import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.controller.api.APIController;
-import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTO;
-import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOFactory;
+import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTO;
+import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOFactory;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
@@ -22,7 +22,7 @@ public class UserMediaCollectionController extends APIController {
         this.userMediaCollectionRepository = userMediaCollectionRepository;
     }
 
-    @RequestMapping(value = "/catalog/{id}", method = RequestMethod.GET,
+    @RequestMapping(value = "/collection/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCollectionDTO> getCollection(@PathVariable String id,
                                                             @RequestAttribute(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
@@ -33,7 +33,7 @@ public class UserMediaCollectionController extends APIController {
         return new ResponseEntity<>(collectionDTO, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/catalog/root", method = RequestMethod.GET,
+    @RequestMapping(value = "/user/collection/root", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCollectionDTO> getUserRootCollection(@RequestAttribute(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
 

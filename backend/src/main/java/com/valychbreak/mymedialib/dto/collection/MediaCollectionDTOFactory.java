@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.dto.catalog;
+package com.valychbreak.mymedialib.dto.collection;
 
 import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
+import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
 
 
 public class MediaCollectionDTOFactory {

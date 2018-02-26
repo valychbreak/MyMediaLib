@@ -1,11 +1,11 @@
-package com.valychbreak.mymedialib.controller.api.favorites.catalogs;
+package com.valychbreak.mymedialib.controller.api.favorites.collection;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.ControllerTest;
-import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTO;
-import com.valychbreak.mymedialib.dto.catalog.MediaCollectionDTOFactory;
+import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTO;
+import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOFactory;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
@@ -43,7 +43,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
         MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(userMediaCollection);
-        mockMvc.perform(get("/api/catalog/1000").requestAttr("media", "false"))
+        mockMvc.perform(get("/api/collection/1000").requestAttr("media", "false"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
@@ -55,7 +55,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
         MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection);
-        mockMvc.perform(get("/api/catalog/1000").requestAttr("media", "true"))
+        mockMvc.perform(get("/api/collection/1000").requestAttr("media", "true"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
@@ -68,7 +68,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
         User user = userRepository.findOne(1000L);
 
         MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(user.getRootUserMediaCollection());
-        mockMvc.perform(get("/api/user/catalog/root").requestAttr("media", "false"))
+        mockMvc.perform(get("/api/user/collection/root").requestAttr("media", "false"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
@@ -81,7 +81,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
         User user = userRepository.findOne(1000L);
 
         MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(user.getRootUserMediaCollection());
-        mockMvc.perform(get("/api/user/catalog/root").requestAttr("media", "false"))
+        mockMvc.perform(get("/api/user/collection/root").requestAttr("media", "false"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }

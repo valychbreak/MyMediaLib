@@ -1,4 +1,4 @@
-package com.valychbreak.mymedialib.dto.catalog;
+package com.valychbreak.mymedialib.dto.collection;
 
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 
