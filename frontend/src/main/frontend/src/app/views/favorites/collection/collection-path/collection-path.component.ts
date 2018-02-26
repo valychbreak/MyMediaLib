@@ -3,8 +3,8 @@ import {MediaCollection} from "../../../../shared/favorites/collection/media-col
 
 @Component({
     selector: 'category-path',
-    templateUrl: './category-path.component.html',
-    styleUrls: ['./category-path.component.css']
+    templateUrl: './collection-path.component.html',
+    styleUrls: ['./collection-path.component.css']
 })
 export class CategoryPathComponent implements OnInit {
 

@@ -6,8 +6,8 @@ import {MediaCollectionService} from "../../../../service/media-collection.servi
 
 @Component({
     selector: 'app-new-category-view',
-    templateUrl: './new-category-view.component.html',
-    styleUrls: ['./new-category-view.component.css']
+    templateUrl: './new-collection-view.component.html',
+    styleUrls: ['./new-collection-view.component.css']
 })
 export class NewCategoryViewComponent implements OnInit {
 

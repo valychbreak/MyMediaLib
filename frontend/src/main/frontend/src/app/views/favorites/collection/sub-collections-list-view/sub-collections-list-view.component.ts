@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MediaCollection} from "../../../../shared/favorites/collection/media-collection";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {NewCategoryViewComponent} from "../new-collection-view/new-category-view.component";
+import {NewCategoryViewComponent} from "../new-collection-view/new-collection-view.component";
 
 @Component({
     selector: 'sub-categories-list-view',
-    templateUrl: './sub-categories-list-view.component.html',
-    styleUrls: ['./sub-categories-list-view.component.css']
+    templateUrl: './sub-collections-list-view.component.html',
+    styleUrls: ['./sub-collections-list-view.component.css']
 })
 export class SubCategoriesListViewComponent implements OnInit {
 

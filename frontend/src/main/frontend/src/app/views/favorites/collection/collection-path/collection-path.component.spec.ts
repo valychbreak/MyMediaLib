@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryPathComponent } from './category-path.component';
+import { CategoryPathComponent } from './collection-path.component';
 
 describe('CategoryPathComponent', () => {
   let component: CategoryPathComponent;
