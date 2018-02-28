@@ -38,6 +38,17 @@ export class MovieService {
             .catch(this.handleError);
     }
 
+    searchTvShow(searchString: string, page: number): Promise<MovieSearchResult> {
+        // TODO: use standard methods of building params
+        if (!page) {
+            page = 1;
+        }
+        return this.http.get<MovieSearchResult>("http://localhost:8080/api/tvshow/search?q=" + searchString + "&p=" + page)
+            .toPromise()
+            .then(response => response)
+            .catch(this.handleError);
+    }
+
     getMovie(id: number | string): Promise<Movie> {
         /*return this.getMovies().then(movies => movies[0]);*/
         //return tempMovies[0];

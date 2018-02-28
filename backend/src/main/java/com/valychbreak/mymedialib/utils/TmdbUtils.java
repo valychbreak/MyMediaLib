@@ -41,14 +41,19 @@ public class TmdbUtils {
 
         switch (result.media_type) {
             case TV:
-                TvShow tvShow = requestDetailedTmdbTvShow(tmdb, result.tvShow);
-                media = new MediaFullDetailsTmdbMovieAdapter(tvShow);
+                media = getMediaFullDetailsFromTmdbMovie(tmdb, result.tvShow);
                 break;
             case MOVIE:
                 media = getMediaFullDetailsFromTmdbMovie(tmdb, result.movie);
                 break;
         }
 
+        return media;
+    }
+
+    public static MediaFullDetails getMediaFullDetailsFromTmdbMovie(Tmdb tmdb, BaseTvShow result) throws IOException {
+        TvShow tvShow = requestDetailedTmdbTvShow(tmdb, result);
+        MediaFullDetails media = new MediaFullDetailsTmdbMovieAdapter(tvShow);
         return media;
     }
 
