@@ -45,12 +45,19 @@ public class TmdbUtils {
                 media = new MediaFullDetailsTmdbMovieAdapter(tvShow);
                 break;
             case MOVIE:
-                Movie movie = requestDetailedTmdbTvShow(tmdb, result.movie);
-                //FIXME: get rid of imdbId
-                if(movie != null && StringUtils.isNotBlank(movie.imdb_id) && movie.backdrop_path != null) {
-                    media = new MediaFullDetailsTmdbMovieAdapter(movie);
-                }
+                media = getMediaFullDetailsFromTmdbMovie(tmdb, result.movie);
                 break;
+        }
+
+        return media;
+    }
+
+    public static MediaFullDetails getMediaFullDetailsFromTmdbMovie(Tmdb tmdb, BaseMovie result) throws IOException {
+        MediaFullDetails media = null;
+        Movie movie = requestDetailedTmdbTvShow(tmdb, result);
+        //FIXME: get rid of imdbId
+        if(movie != null && StringUtils.isNotBlank(movie.imdb_id) && movie.backdrop_path != null) {
+            media = new MediaFullDetailsTmdbMovieAdapter(movie);
         }
 
         return media;

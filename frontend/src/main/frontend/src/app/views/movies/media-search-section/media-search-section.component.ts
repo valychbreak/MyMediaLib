@@ -5,11 +5,11 @@ import {MovieService} from "../../../service/movie.service";
 import {SearchComponentSection} from "../../search-component-section";
 
 @Component({
-    selector: 'movie-search-section',
-    templateUrl: './movie-search-section.component.html',
-    styleUrls: ['./movie-search-section.component.css']
+  selector: 'media-search-section',
+  templateUrl: './media-search-section.component.html',
+  styleUrls: ['./media-search-section.component.css']
 })
-export class MovieSearchSectionComponent extends SearchComponentSection<Movie> implements PageOriented, OnInit {
+export class MediaSearchSectionComponent extends SearchComponentSection<Movie> implements PageOriented, OnInit {
     private busy: any;
 
     constructor(private movieService: MovieService) {
@@ -17,12 +17,7 @@ export class MovieSearchSectionComponent extends SearchComponentSection<Movie> i
     }
 
     ngOnInit() {
-
         this.mockData();
-
-        // this.applySearch();
-
-        console.log("ngOnInit called");
     }
 
     private mockData() {
@@ -48,7 +43,7 @@ export class MovieSearchSectionComponent extends SearchComponentSection<Movie> i
             console.log("[Movie] Search is activated");
 
             let page = this.searchResult ? this.searchResult.page : this.searchParams.page;
-            this.busy = this.movieService.searchMovie(this.searchParams.query, page).then(searchResult => {
+            this.busy = this.movieService.searchMedia(this.searchParams.query, page).then(searchResult => {
                 this.searchResult = searchResult;
             });
         }

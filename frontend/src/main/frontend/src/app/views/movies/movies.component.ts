@@ -1,14 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Movie} from "../../shared/movie/movie";
-import {MovieService} from "../../service/movie.service";
-import {Router} from "@angular/router";
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {MovieDetailsModalComponent} from "./movie-details-modal/movie-details-modal.component";
 import {AbstractForm} from "../../base/form";
-import {Person} from "../../shared/person/person";
-import {BasicMovie} from "../../shared/movie/basic-movie";
-import {PeopleService} from "../../service/people.service";
-import {SearchResult} from "../../shared/search/search-result";
 import {SearchParams} from "../../shared/search/search-params";
 
 @Component({

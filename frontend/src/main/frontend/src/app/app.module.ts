@@ -31,6 +31,7 @@ import { CategoryPathComponent } from './views/favorites/collection/collection-p
 import { SubCategoriesListViewComponent } from './views/favorites/collection/sub-collections-list-view/sub-collections-list-view.component';
 import {MediaCollectionService} from "./service/media-collection.service";
 import { NewCategoryViewComponent } from './views/favorites/collection/new-collection-view/new-collection-view.component';
+import { MediaSearchSectionComponent } from './views/movies/media-search-section/media-search-section.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { NewCategoryViewComponent } from './views/favorites/collection/new-colle
         PeopleSearchSectionComponent,
         CategoryPathComponent,
         SubCategoriesListViewComponent,
-        NewCategoryViewComponent
+        NewCategoryViewComponent,
+        MediaSearchSectionComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent,
