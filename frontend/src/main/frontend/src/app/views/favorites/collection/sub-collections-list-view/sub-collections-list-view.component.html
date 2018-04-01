@@ -1,18 +1,34 @@
+<div mdc-typography>
+    <h1 mdc-typography-title mdc-typography-adjust-margin>
+        Collections
+        <button mdc-fab [mini]="true" (click)="openDialog()">
+            <mdc-icon>library_add</mdc-icon>
+        </button>
+    </h1>
+</div>
+
 <div *ngIf="!!currentCategory" class="row">
-    <div class="col-xs-3 text-center m-3">
-        <div class="add-category" (click)="openNewCategoryModalWindow()">
-            <span class="add-sign">+</span>
-        </div>
-        <div class="category-caption">
-            New category
-        </div>
-    </div>
-    <div *ngFor="let category of currentCategory.subCollections" class="col-xs-3 text-center m-3" (click)="goToCollection(category)">
-        <div>
-            <img src="http://via.placeholder.com/100x100?text=Category"/>
-        </div>
-        <div class="category-caption">
-            {{category.name}}
+    <div class="mdc-layout-grid max-width mdc-layout-grid--align-left">
+        <div class="mdc-layout-grid__inner">
+            <div *ngFor="let category of currentCategory.subCollections" class="mdc-layout-grid__cell">
+                <mdc-card class="demo-card--photo">
+                    <mdc-card-primary-action (click)="goToCollection(category)">
+                        <mdc-card-media [rectangle]="true" class="demo-card__media">
+                            <mdc-card-media-content class="demo-card__media-content--with-title">
+                                <div class="demo-card__media-title" mdc-typography-subheading2>{{category.name}}
+                                </div>
+                            </mdc-card-media-content>
+                        </mdc-card-media>
+                    </mdc-card-primary-action>
+                    <mdc-card-actions [icons]="true">
+                        <mdc-icon-toggle iconOn="favorite" iconOff="favorite_border"
+                                         mdcCardAction="icon"></mdc-icon-toggle>
+                        <mdc-icon-toggle iconOn="bookmark" iconOff="bookmark_border"
+                                         mdcCardAction="icon"></mdc-icon-toggle>
+                        <mdc-icon mdcCardAction="icon">share</mdc-icon>
+                    </mdc-card-actions>
+                </mdc-card>
+            </div>
         </div>
     </div>
 </div>

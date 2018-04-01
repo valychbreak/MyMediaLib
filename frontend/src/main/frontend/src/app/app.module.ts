@@ -35,14 +35,15 @@ import { MediaSearchSectionComponent } from './views/movies/media-search-section
 import { TvShowSearchSectionComponent } from './views/movies/tvshow-search-section/tvshow-search-section.component';
 import {
     MdcButtonModule,
-    MdcCardModule,
+    MdcCardModule, MdcDialogModule,
     MdcDrawerModule,
-    MdcFabModule,
+    MdcFabModule, MdcFormFieldModule,
     MdcIconModule, MdcIconToggleModule,
-    MdcListModule, MdcRippleModule,
+    MdcListModule, MdcRippleModule, MdcTextFieldModule,
     MdcToolbarModule
 } from '@angular-mdc/web';
 import { CollectionViewComponent } from './views/favorites/collection/collection-view/collection-view.component';
+import {NewCollectionDialogComponent} from "./views/favorites/collection/new-collection-view/new-collection-dialog.component";
 
 
 @NgModule({
@@ -63,11 +64,13 @@ import { CollectionViewComponent } from './views/favorites/collection/collection
         NewCategoryViewComponent,
         MediaSearchSectionComponent,
         TvShowSearchSectionComponent,
-        CollectionViewComponent
+        CollectionViewComponent,
+        NewCollectionDialogComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent,
-        NewCategoryViewComponent
+        NewCategoryViewComponent,
+        NewCollectionDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -89,6 +92,10 @@ import { CollectionViewComponent } from './views/favorites/collection/collection
         MdcCardModule,
         MdcIconToggleModule,
         MdcRippleModule,
+        MdcFabModule,
+        MdcDialogModule,
+        MdcFormFieldModule,
+        MdcTextFieldModule,
         BrowserModule
     ],
     providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService, {
