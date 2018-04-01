@@ -7,7 +7,6 @@
     {
       "root": "src",
       "outDir": "./dist",
-      "allowAssetsOutsideOutDir": true,
       "assets": [
         "assets",
         "favicon.ico"
@@ -20,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
+        "sass/styles.scss",
         "../node_modules/angular2-busy/build/style/busy.css"
       ],
       "scripts": [],
@@ -53,7 +52,8 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
-    "component": {}
+    "styleExt": "scss",
+    "component": {
+    }
   }
 }

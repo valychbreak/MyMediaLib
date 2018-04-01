@@ -33,6 +33,7 @@ import {MediaCollectionService} from "./service/media-collection.service";
 import { NewCategoryViewComponent } from './views/favorites/collection/new-collection-view/new-collection-view.component';
 import { MediaSearchSectionComponent } from './views/movies/media-search-section/media-search-section.component';
 import { TvShowSearchSectionComponent } from './views/movies/tvshow-search-section/tvshow-search-section.component';
+import {MdcButtonModule, MdcDrawerModule, MdcFabModule, MdcIconModule, MdcListModule, MdcToolbarModule} from '@angular-mdc/web';
 
 
 @NgModule({
@@ -68,7 +69,14 @@ import { TvShowSearchSectionComponent } from './views/movies/tvshow-search-secti
         UsersModule,
         Ng4LoadingSpinnerModule.forRoot(),
         BrowserAnimationsModule,
-        BusyModule
+        BusyModule,
+        MdcButtonModule,
+        MdcFabModule,
+        MdcIconModule,
+        MdcToolbarModule,
+        MdcDrawerModule,
+        MdcListModule,
+        BrowserModule
     ],
     providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService, {
             provide: HTTP_INTERCEPTORS,
