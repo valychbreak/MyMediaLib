@@ -1,5 +1,7 @@
 package com.valychbreak.mymedialib;
 
+import com.valychbreak.mymedialib.testtools.OAuth2TokenHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +9,7 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class MyTestsConfiguration {
+    // For https (SSL). Fixes some problem with tests
     static {
         //for localhost testing only
         javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(

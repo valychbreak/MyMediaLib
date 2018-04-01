@@ -7,7 +7,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -15,14 +16,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = Application.class/*, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT*/)
 @WebAppConfiguration
 @TestPropertySource(locations="classpath:test.properties")
-/*@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)*/
 public abstract class ControllerTest {
     @Autowired
     private WebApplicationContext context;
+
+    /*@Autowired
+    private TestRestTemplate testRestTemplate;*/
+
+
 
     protected MockMvc mockMvc;
 
@@ -30,11 +37,26 @@ public abstract class ControllerTest {
     public void init() throws Exception {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
+                // TODO: use db unit data to create tokens for oauth
+                //.apply(springSecurity())
                 .build();
     }
 
     protected String json(Object object) {
         Gson gson = GsonBuilderTools.getGsonBuilder().create();
         return gson.toJson(object);
+    }
+
+    protected HttpHeaders authHeaders(String username, String password) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "Bearer " + requestAuthorizationToken(username, password));
+
+        return headers;
+    }
+
+    protected String requestAuthorizationToken(String username, String password) throws IOException {
+        //return new OAuth2TokenHelper(testRestTemplate).requestToken(username, password);
+        return null;
     }
 }

@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.Application;
+import com.valychbreak.mymedialib.testtools.OAuth2TokenHelper;
 import org.assertj.core.api.SoftAssertions;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -147,24 +148,6 @@ public class AuthorizationTest {
     }
 
     public String requestToken() throws IOException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
-        map.add("grant_type", "password");
-        map.add("username", TEST_USER);
-        map.add("password", USER_PASSWORD);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        ResponseEntity<String> stringResponseEntity = testRestTemplate.withBasicAuth("gigy", "secret").postForEntity(
-                "/oauth/token",
-                request, String.class);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(stringResponseEntity.getBody());
-        JsonNode accessToken = jsonNode.get("access_token");
-
-        return accessToken.asText();
+        return new OAuth2TokenHelper(testRestTemplate).requestToken(TEST_USER, USER_PASSWORD);
     }
 }
