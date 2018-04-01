@@ -7,6 +7,7 @@ import {FavouritesComponent} from "../views/favorites/favourites.component";
 import {MovieViewComponent} from "../views/movies/movie-details/movie-details.component";
 import {MoviesComponent} from "../views/movies/movies.component";
 import {SignUpComponent} from "../views/auth/sign-up/sign-up.component";
+import {CollectionViewComponent} from "../views/favorites/collection/collection-view/collection-view.component";
 
 const routes: Routes = [
     {
@@ -26,6 +27,10 @@ const routes: Routes = [
     {
         path: 'favourites',
         component: FavouritesComponent,
+    },
+    {
+        path: 'collection/:id',
+        component: CollectionViewComponent,
     },
     {
         path: 'users',

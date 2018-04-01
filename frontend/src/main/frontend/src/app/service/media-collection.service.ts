@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
 @Injectable()
 export class MediaCollectionService {
     static GET_ROOT_CATEGORY_LINK = Config.dataRequestLink + "/user/collection/root";
-    static GET_CATEGORY_LINK = Config.dataRequestLink + "/user/collection/";
+    static GET_CATEGORY_LINK = Config.dataRequestLink + "/collection/";
     static ADD_CATEGORY_LINK = Config.dataRequestLink + "/collection/add";
 
     constructor(private http: HttpClient) {

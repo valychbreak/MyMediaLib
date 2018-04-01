@@ -33,7 +33,16 @@ import {MediaCollectionService} from "./service/media-collection.service";
 import { NewCategoryViewComponent } from './views/favorites/collection/new-collection-view/new-collection-view.component';
 import { MediaSearchSectionComponent } from './views/movies/media-search-section/media-search-section.component';
 import { TvShowSearchSectionComponent } from './views/movies/tvshow-search-section/tvshow-search-section.component';
-import {MdcButtonModule, MdcDrawerModule, MdcFabModule, MdcIconModule, MdcListModule, MdcToolbarModule} from '@angular-mdc/web';
+import {
+    MdcButtonModule,
+    MdcCardModule,
+    MdcDrawerModule,
+    MdcFabModule,
+    MdcIconModule, MdcIconToggleModule,
+    MdcListModule, MdcRippleModule,
+    MdcToolbarModule
+} from '@angular-mdc/web';
+import { CollectionViewComponent } from './views/favorites/collection/collection-view/collection-view.component';
 
 
 @NgModule({
@@ -53,7 +62,8 @@ import {MdcButtonModule, MdcDrawerModule, MdcFabModule, MdcIconModule, MdcListMo
         SubCategoriesListViewComponent,
         NewCategoryViewComponent,
         MediaSearchSectionComponent,
-        TvShowSearchSectionComponent
+        TvShowSearchSectionComponent,
+        CollectionViewComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent,
@@ -76,6 +86,9 @@ import {MdcButtonModule, MdcDrawerModule, MdcFabModule, MdcIconModule, MdcListMo
         MdcToolbarModule,
         MdcDrawerModule,
         MdcListModule,
+        MdcCardModule,
+        MdcIconToggleModule,
+        MdcRippleModule,
         BrowserModule
     ],
     providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService, {
