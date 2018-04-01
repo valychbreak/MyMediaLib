@@ -2,6 +2,8 @@ package com.valychbreak.mymedialib.dto.collection;
 
 import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
+import com.valychbreak.mymedialib.dto.UserDTO;
+import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 
@@ -13,15 +15,26 @@ import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilde
 
 
 public class MediaCollectionDTOFactory {
+
+    @Deprecated
     public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection) throws IOException, OMDBException {
-        return create(userMediaCollection, true, true);
+        return createWithMedia(userMediaCollection, null);
     }
 
+    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection, User owner) throws IOException, OMDBException {
+        return create(userMediaCollection, owner, true, true);
+    }
+
+    @Deprecated
     public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection) throws IOException, OMDBException {
-        return create(userMediaCollection, false, true);
+        return createWithoutMedia(userMediaCollection, null);
     }
 
-    protected MediaCollectionDTO create(UserMediaCollection userMediaCollection, boolean includeMedia, boolean includeSubCategories) throws IOException, OMDBException {
+    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection, User owner) throws IOException, OMDBException {
+        return create(userMediaCollection, owner, false, true);
+    }
+
+    protected MediaCollectionDTO create(UserMediaCollection userMediaCollection, User owner, boolean includeMedia, boolean includeSubCategories) throws IOException, OMDBException {
         List<MediaFullDetailsImpl> mediaList = null;
 
         if(includeMedia) {
@@ -32,26 +45,25 @@ public class MediaCollectionDTOFactory {
         }
 
         List<MediaCollectionDTO> subCollections = null;
-        if (includeSubCategories) {
+        /*if (includeSubCategories) {
             subCollections = new ArrayList<>();
             for (UserMediaCollection subCollection : userMediaCollection.getSubUserMediaCollections()) {
                 MediaCollectionDTO mediaCollectionDTO = create(subCollection, false, true);
                 subCollections.add(mediaCollectionDTO);
             }
-        }
+        }*/
 
         MediaCollectionDTO parentCollectionDTO = null;
 
-        if (userMediaCollection.getParentUserMediaCollection() != null) {
+        /*if (userMediaCollection.getParentUserMediaCollection() != null) {
             parentCollectionDTO = create(userMediaCollection.getParentUserMediaCollection(), false, false);
-        }
+        }*/
 
         return aMediaCollectionDTOBuilder()
                 .withId(userMediaCollection.getId())
                 .withName(userMediaCollection.getName())
-                .withParent(parentCollectionDTO)
                 .withMediaList(mediaList)
-                .withSubCollections(subCollections)
+                .withOwner(new UserDTO(owner))
                 .build();
     }
 }

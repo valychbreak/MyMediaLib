@@ -52,10 +52,10 @@ public class UserAddFavoriteMediaControllerTest extends AbstractControllerTest {
 
         UserMediaCollection rootUserMediaCollection = testUser.getRootUserMediaCollection();
         UserMediaCollection userMediaCollection = new UserMediaCollection("testCat");
-        userMediaCollection.setParentUserMediaCollection(rootUserMediaCollection);
+        //userMediaCollection.setParentUserMediaCollection(rootUserMediaCollection);
         userMediaCollectionRepository.save(userMediaCollection);
 
-        rootUserMediaCollection.getSubUserMediaCollections().add(userMediaCollection);
+        //rootUserMediaCollection.getSubUserMediaCollections().add(userMediaCollection);
 
         userMediaCollectionRepository.save(rootUserMediaCollection);
 
@@ -84,13 +84,13 @@ public class UserAddFavoriteMediaControllerTest extends AbstractControllerTest {
             }
         }
 
-        if(!found) {
+        /*if(!found) {
             for (UserMediaCollection mediaCollection : userMediaCollection.getSubUserMediaCollections()) {
                 if (!found) {
                     found = isInCollectionOrSubCollection(fightClubMovie, mediaCollection);
                 }
             }
-        }
+        }*/
 
         return found;
     }

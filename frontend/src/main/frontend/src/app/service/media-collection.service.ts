@@ -7,6 +7,7 @@ import {HttpClient} from "@angular/common/http";
 @Injectable()
 export class MediaCollectionService {
     static GET_ROOT_CATEGORY_LINK = Config.dataRequestLink + "/user/collection/root";
+    static GET_ALL_COLLECTIONS_LINK = Config.dataRequestLink + "/user/collection/all";
     static GET_CATEGORY_LINK = Config.dataRequestLink + "/collection/";
     static ADD_CATEGORY_LINK = Config.dataRequestLink + "/collection/add";
 
@@ -17,6 +18,12 @@ export class MediaCollectionService {
         return this.http.get<MediaCollection>(MediaCollectionService.GET_ROOT_CATEGORY_LINK)
             .toPromise()
             .then(category => category);
+    }
+
+    getAllCollections(): Promise<MediaCollection[]> {
+        return this.http.get<MediaCollection[]>(MediaCollectionService.GET_ALL_COLLECTIONS_LINK )
+            .toPromise()
+            .then(collections => collections);
     }
 
     getCategory(id: number): Promise<MediaCollection> {

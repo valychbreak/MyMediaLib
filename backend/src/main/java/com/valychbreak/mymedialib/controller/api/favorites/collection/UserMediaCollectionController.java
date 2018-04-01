@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class UserMediaCollectionController extends APIController {
@@ -29,7 +32,7 @@ public class UserMediaCollectionController extends APIController {
         Long collectionId = Long.parseLong(id);
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(collectionId);
 
-        MediaCollectionDTO collectionDTO = getMediaCollectionDTO(userMediaCollection, includeMedia);
+        MediaCollectionDTO collectionDTO = getMediaCollectionDTO(userMediaCollection, includeMedia, getLoggedUser());
         return new ResponseEntity<>(collectionDTO, HttpStatus.OK);
     }
 
@@ -38,18 +41,34 @@ public class UserMediaCollectionController extends APIController {
     public ResponseEntity<MediaCollectionDTO> getUserRootCollection(@RequestAttribute(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
 
         User user = getLoggedUser();
-        MediaCollectionDTO collectionDTO = getMediaCollectionDTO(user.getRootUserMediaCollection(), includeMedia);
+        MediaCollectionDTO collectionDTO = getMediaCollectionDTO(user.getRootUserMediaCollection(), includeMedia, user);
         return new ResponseEntity<>(collectionDTO, HttpStatus.OK);
     }
 
-    private MediaCollectionDTO getMediaCollectionDTO(UserMediaCollection userMediaCollection, String includeMedia) throws IOException, OMDBException {
+    @RequestMapping(value = "/user/collection/all", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MediaCollectionDTO>> getAllUserCollections(@RequestAttribute(value = "media", required = false) String includeMedia, Principal principal) throws IOException, OMDBException {
+
+        User user = userRepository.findFirstByUsername(principal.getName());
+
+        Iterable<UserMediaCollection> userMediaCollections = userMediaCollectionRepository.findAllByOwner(user);
+
+        List<MediaCollectionDTO> collectionDTOList = new ArrayList<>();
+
+        for (UserMediaCollection userMediaCollection : userMediaCollections) {
+            collectionDTOList.add(getMediaCollectionDTO(userMediaCollection, includeMedia, user));
+        }
+        return new ResponseEntity<>(collectionDTOList, HttpStatus.OK);
+    }
+
+    private MediaCollectionDTO getMediaCollectionDTO(UserMediaCollection userMediaCollection, String includeMedia, User user) throws IOException, OMDBException {
         MediaCollectionDTOFactory mediaCollectionDTOFactory = new MediaCollectionDTOFactory();
 
         MediaCollectionDTO collectionDTO;
         if (Boolean.parseBoolean(includeMedia)) {
-            collectionDTO = mediaCollectionDTOFactory.createWithMedia(userMediaCollection);
+            collectionDTO = mediaCollectionDTOFactory.createWithMedia(userMediaCollection, user);
         } else {
-            collectionDTO = mediaCollectionDTOFactory.createWithoutMedia(userMediaCollection);
+            collectionDTO = mediaCollectionDTOFactory.createWithoutMedia(userMediaCollection, user);
         }
         return collectionDTO;
     }

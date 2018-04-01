@@ -1,28 +1,28 @@
 package com.valychbreak.mymedialib.dto.collection;
 
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
+import com.valychbreak.mymedialib.dto.UserDTO;
+import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 
 import java.util.List;
 
 public class MediaCollectionDTO {
     private Long id;
     private String name;
-    private MediaCollectionDTO parent;
-
-    private List<MediaCollectionDTO> subCollections;
 
     // Not using interface here because Gson lib works only with fields
     private List<MediaFullDetailsImpl> mediaList;
 
+    private UserDTO owner;
+
     protected MediaCollectionDTO() {
     }
 
-    public MediaCollectionDTO(Long id, String name, MediaCollectionDTO parent, List<MediaFullDetailsImpl> mediaList, List<MediaCollectionDTO> subCollections) {
+    public MediaCollectionDTO(Long id, String name, List<MediaFullDetailsImpl> mediaList, UserDTO owner) {
         this.id = id;
         this.name = name;
-        this.parent = parent;
-        this.subCollections = subCollections;
         this.mediaList = mediaList;
+        this.owner = owner;
     }
 
     public Long getId() {
@@ -41,14 +41,6 @@ public class MediaCollectionDTO {
         this.name = name;
     }
 
-    public List<MediaCollectionDTO> getSubCollections() {
-        return subCollections;
-    }
-
-    public void setSubCollections(List<MediaCollectionDTO> subCollections) {
-        this.subCollections = subCollections;
-    }
-
     public List<MediaFullDetailsImpl> getMediaList() {
         return mediaList;
     }
@@ -57,12 +49,12 @@ public class MediaCollectionDTO {
         this.mediaList = mediaList;
     }
 
-    public MediaCollectionDTO getParent() {
-        return parent;
+    public UserDTO getOwner() {
+        return owner;
     }
 
-    public void setParent(MediaCollectionDTO parent) {
-        this.parent = parent;
+    public void setOwner(UserDTO owner) {
+        this.owner = owner;
     }
 
     @Override
@@ -74,7 +66,6 @@ public class MediaCollectionDTO {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (subCollections != null ? !subCollections.equals(that.subCollections) : that.subCollections != null) return false;
         return mediaList != null ? mediaList.equals(that.mediaList) : that.mediaList == null;
     }
 
@@ -82,7 +73,6 @@ public class MediaCollectionDTO {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (subCollections != null ? subCollections.hashCode() : 0);
         result = 31 * result + (mediaList != null ? mediaList.hashCode() : 0);
         return result;
     }
@@ -92,7 +82,6 @@ public class MediaCollectionDTO {
         return "MediaCollectionDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", subCollections=" + subCollections +
                 ", mediaList=" + mediaList +
                 '}';
     }

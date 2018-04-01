@@ -36,7 +36,7 @@ public class User {
 
     @JsonExclude
     @ManyToOne
-    @JoinColumn(name = "root_user_media_collection", nullable = false)
+    @JoinColumn(name = "root_user_media_collection", nullable = true)
     private UserMediaCollection rootUserMediaCollection;
 
     protected User() {
@@ -102,6 +102,7 @@ public class User {
         return rootUserMediaCollection;
     }
 
+    @Deprecated
     public void setRootUserMediaCollection(UserMediaCollection rootUserMediaCollection) {
         this.rootUserMediaCollection = rootUserMediaCollection;
     }

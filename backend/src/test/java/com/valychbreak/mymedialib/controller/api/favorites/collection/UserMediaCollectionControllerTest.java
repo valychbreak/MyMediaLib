@@ -12,6 +12,7 @@ import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
@@ -20,8 +21,11 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestExecutionListeners({WithSecurityContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -61,7 +65,23 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "test", roles={"USER"})
+    @DatabaseSetup("/data/db/UserMediaCollectionsForMediaCatalogControllerTest-all-collections.xml")
+    @Transactional
+    public void getAllCollection() throws Exception {
+        User user = userRepository.findFirstByUsername("test");
+
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
+        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection, user);
+        mockMvc.perform(
+                get("/api/user/collection/all").requestAttr("media", "true")
+                        .principal(new TestingAuthenticationToken("test", "test12")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[*].name", containsInAnyOrder("collection 1", "collection 2")));
+    }
+
+    @Test
+    @WithMockUser(username = "test", roles = {"USER"})
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
     public void getUserRootCollectionWithoutMedia() throws Exception {
@@ -75,7 +95,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
 
     @Test
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
-    @WithMockUser(username = "test", roles={"USER"})
+    @WithMockUser(username = "test", roles = {"USER"})
     @Transactional
     public void getUserRootCollectionWithMedia() throws Exception {
         User user = userRepository.findOne(1000L);

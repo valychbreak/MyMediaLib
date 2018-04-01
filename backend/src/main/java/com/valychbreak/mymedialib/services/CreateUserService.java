@@ -46,8 +46,9 @@ public class CreateUserService {
     }
 
     public User createUserInstance(String username, String password, String name, String email, Role role) {
-        UserMediaCollection userMediaCollection = new UserMediaCollection(username + "_root_catalog");
         User user = new User(username, password, name, email, role);
+
+        UserMediaCollection userMediaCollection = new UserMediaCollection(username + "_root_catalog", user);
         user.setRootUserMediaCollection(userMediaCollection);
         return user;
     }

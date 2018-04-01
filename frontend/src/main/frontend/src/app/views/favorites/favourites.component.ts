@@ -49,8 +49,11 @@ export class FavouritesComponent implements OnInit {
     }
 
     private loadRootCategory() {
-        this.categoryService.getRootCategory()
-            .then(category => this.currentCategory = category);
+        this.categoryService.getAllCollections()
+            .then(collections => {
+                this.currentCategory = new MediaCollection();
+                this.currentCategory.subCollections = collections;
+            });
     }
 
     getFavourites() {

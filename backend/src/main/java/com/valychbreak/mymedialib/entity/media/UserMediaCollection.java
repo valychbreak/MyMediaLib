@@ -1,5 +1,7 @@
 package com.valychbreak.mymedialib.entity.media;
 
+import com.valychbreak.mymedialib.entity.User;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +19,6 @@ public class UserMediaCollection {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_media_collection")
-    private UserMediaCollection parentUserMediaCollection;
-
-    @OneToMany(mappedBy = "parentUserMediaCollection")
-    private List<UserMediaCollection> subUserMediaCollections = new ArrayList<>();
-
     @ManyToMany
     @JoinTable(
             joinColumns = @JoinColumn(name = "user_media_collection_id"),
@@ -31,10 +26,20 @@ public class UserMediaCollection {
     )
     private List<UserMedia> userMediaList = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "owner_user_id")
+    private User owner;
+
     protected UserMediaCollection() { }
 
+    @Deprecated
     public UserMediaCollection(String name) {
         this.name = name;
+    }
+
+    public UserMediaCollection(String name, User owner) {
+        this.name = name;
+        this.owner = owner;
     }
 
     public Long getId() {
@@ -53,27 +58,19 @@ public class UserMediaCollection {
         this.name = name;
     }
 
-    public UserMediaCollection getParentUserMediaCollection() {
-        return parentUserMediaCollection;
-    }
-
-    public void setParentUserMediaCollection(UserMediaCollection parentUserMediaCollection) {
-        this.parentUserMediaCollection = parentUserMediaCollection;
-    }
-
-    public List<UserMediaCollection> getSubUserMediaCollections() {
-        return subUserMediaCollections;
-    }
-
-    public void setSubUserMediaCollections(List<UserMediaCollection> subUserMediaCollections) {
-        this.subUserMediaCollections = subUserMediaCollections;
-    }
-
     public List<UserMedia> getUserMediaList() {
         return userMediaList;
     }
 
     public void setUserMediaList(List<UserMedia> userMediaList) {
         this.userMediaList = userMediaList;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }
