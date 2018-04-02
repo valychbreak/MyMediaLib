@@ -98,6 +98,7 @@ public class User {
         this.role = role;
     }
 
+    @Deprecated
     public UserMediaCollection getRootUserMediaCollection() {
         return rootUserMediaCollection;
     }

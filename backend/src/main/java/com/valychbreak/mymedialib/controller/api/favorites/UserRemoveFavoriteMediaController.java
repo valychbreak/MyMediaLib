@@ -35,15 +35,16 @@ public class UserRemoveFavoriteMediaController extends APIController {
         User user = getLoggedUser();
 
         List<UserMedia> userMediaToRemove = new ArrayList<>();
-        for (UserMedia userMedia : new ArrayList<>(user.getRootUserMediaCollection().getUserMediaList())) {
+        List<UserMedia> allUserMediaList = userMediaRepository.findByUser(user);
+        for (UserMedia userMedia : new ArrayList<>(allUserMediaList)) {
             if(userMedia.getMedia().getImdbId().equals(mediaDetails.getImdbId())) {
-                user.getRootUserMediaCollection().getUserMediaList().remove(userMedia);
+                //user.getRootUserMediaCollection().getUserMediaList().remove(userMedia);
                 userMediaToRemove.add(userMedia);
             }
         }
 
         userMediaRepository.delete(userMediaToRemove);
-        userMediaCollectionRepository.save(user.getRootUserMediaCollection());
+        //userMediaCollectionRepository.save(user.getRootUserMediaCollection());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

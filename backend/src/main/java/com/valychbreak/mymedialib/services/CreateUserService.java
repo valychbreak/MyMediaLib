@@ -40,17 +40,12 @@ public class CreateUserService {
 
     public User saveUser(String username, String password, String name, String email, Role role) {
         User user = createUserInstance(username, password, name, email, role);
-        userMediaCollectionRepository.save(user.getRootUserMediaCollection());
         userRepository.save(user);
         return user;
     }
 
     public User createUserInstance(String username, String password, String name, String email, Role role) {
-        User user = new User(username, password, name, email, role);
-
-        UserMediaCollection userMediaCollection = new UserMediaCollection(username + "_root_catalog", user);
-        user.setRootUserMediaCollection(userMediaCollection);
-        return user;
+        return new User(username, password, name, email, role);
     }
 
     private Role getRole(String userRoleName) {

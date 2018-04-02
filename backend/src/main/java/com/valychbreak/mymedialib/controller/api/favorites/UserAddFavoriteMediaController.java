@@ -38,15 +38,6 @@ public class UserAddFavoriteMediaController extends APIController {
         return new ResponseEntity<>(media, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/favourites/{collectionId}/add", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Media> addFavourite(@PathVariable String collectionId, @RequestBody MediaShortDetailsAdapter mediaDetails) throws Exception {
-        User user = getLoggedUser();
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(Long.parseLong(collectionId));
-        Media media = addMedia(mediaDetails, user, userMediaCollection);
-        return new ResponseEntity<>(media, HttpStatus.OK);
-    }
-
     private Media addMedia(User user, MediaShortDetails mediaDetails) {
         UserMediaCollection rootUserMediaCollection = user.getRootUserMediaCollection();
         return addMedia(mediaDetails, user, rootUserMediaCollection);
@@ -66,10 +57,6 @@ public class UserAddFavoriteMediaController extends APIController {
         userMedia.setAddingDate(new Date());
 
         userMediaRepository.save(userMedia);
-
-
-        userMediaCollection.getUserMediaList().add(userMedia);
-        userMediaCollectionRepository.save(userMediaCollection);
         return media;
     }
 }

@@ -28,11 +28,13 @@ public class UserMediaCollectionController extends APIController {
     @RequestMapping(value = "/collection/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCollectionDTO> getCollection(@PathVariable String id,
-                                                            @RequestAttribute(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
+                                                            @RequestAttribute(value = "media", required = false) String includeMedia, Principal principal) throws IOException, OMDBException {
+        User loggedUser = getUserFromPrincipal(principal);
+
         Long collectionId = Long.parseLong(id);
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(collectionId);
 
-        MediaCollectionDTO collectionDTO = getMediaCollectionDTO(userMediaCollection, includeMedia, getLoggedUser());
+        MediaCollectionDTO collectionDTO = getMediaCollectionDTO(userMediaCollection, includeMedia, loggedUser);
         return new ResponseEntity<>(collectionDTO, HttpStatus.OK);
     }
 

@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.security.Principal;
 
 /**
  * Created by valych on 9/16/17.
@@ -30,5 +30,14 @@ public abstract class APIController {
         String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal()).getUsername();
         return userRepository.findFirstByUsername(username);
+    }
+
+    protected User getUserFromPrincipal(Principal principal) {
+        Assert.notNull(principal);
+
+        User loggedUser = userRepository.findFirstByUsername(principal.getName());
+        Assert.notNull(loggedUser);
+
+        return loggedUser;
     }
 }

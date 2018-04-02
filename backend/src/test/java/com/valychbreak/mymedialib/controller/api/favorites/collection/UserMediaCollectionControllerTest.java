@@ -13,7 +13,6 @@ import com.valychbreak.mymedialib.repository.UserRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -24,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestExecutionListeners({WithSecurityContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
@@ -46,8 +43,12 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
     public void getCollectionWithoutMedia() throws Exception {
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
-        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(userMediaCollection);
-        mockMvc.perform(get("/api/collection/1000").requestAttr("media", "false"))
+        User user = userRepository.findFirstByUsername("test");
+        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(userMediaCollection, user);
+
+        mockMvc.perform(
+                get("/api/collection/1000").requestAttr("media", "false")
+                        .principal(new TestingAuthenticationToken("test", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
@@ -58,8 +59,12 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
     public void getCollectionWithMedia() throws Exception {
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
-        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection);
-        mockMvc.perform(get("/api/collection/1000").requestAttr("media", "true"))
+        User user = userRepository.findFirstByUsername("test");
+        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection, user);
+
+        mockMvc.perform(
+                get("/api/collection/1000").requestAttr("media", "true")
+                        .principal(new TestingAuthenticationToken("test", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
@@ -68,41 +73,12 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
     @DatabaseSetup("/data/db/UserMediaCollectionsForMediaCatalogControllerTest-all-collections.xml")
     @Transactional
     public void getAllCollection() throws Exception {
-        User user = userRepository.findFirstByUsername("test");
 
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
-        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection, user);
         mockMvc.perform(
                 get("/api/user/collection/all").requestAttr("media", "true")
                         .principal(new TestingAuthenticationToken("test", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[*].name", containsInAnyOrder("collection 1", "collection 2")));
-    }
-
-    @Test
-    @WithMockUser(username = "test", roles = {"USER"})
-    @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
-    @Transactional
-    public void getUserRootCollectionWithoutMedia() throws Exception {
-        User user = userRepository.findOne(1000L);
-
-        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(user.getRootUserMediaCollection());
-        mockMvc.perform(get("/api/user/collection/root").requestAttr("media", "false"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(json(expectedMediaCollectionDTO)));
-    }
-
-    @Test
-    @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
-    @WithMockUser(username = "test", roles = {"USER"})
-    @Transactional
-    public void getUserRootCollectionWithMedia() throws Exception {
-        User user = userRepository.findOne(1000L);
-
-        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(user.getRootUserMediaCollection());
-        mockMvc.perform(get("/api/user/collection/root").requestAttr("media", "false"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(json(expectedMediaCollectionDTO)));
     }
 }

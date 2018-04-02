@@ -1,8 +1,8 @@
 package com.valychbreak.mymedialib.services;
 
 import com.valychbreak.mymedialib.Application;
-import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.Role;
+import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import org.junit.Assert;
@@ -69,15 +69,6 @@ public class TestCreateUserService {
         User dbUser = userRepository.findFirstByUsername(username);
 
         Assert.assertEquals(user, dbUser);
-    }
-
-    @Test
-    public void testCreateUserInstance() throws Exception {
-        String username = makeUnique("test");
-        String email = makeUnique("testEmail") + "@t.com";
-        User user = createUserService.createUserInstance(username, "test12", "test", email, new Role("role"));
-
-        Assert.assertNotNull(user.getRootUserMediaCollection());
     }
 
     private Role createRole(String roleName) {
