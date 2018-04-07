@@ -39,7 +39,7 @@ import {
     MdcDrawerModule,
     MdcFabModule, MdcFormFieldModule,
     MdcIconModule, MdcIconToggleModule,
-    MdcListModule, MdcRippleModule, MdcTextFieldModule,
+    MdcListModule, MdcMenuModule, MdcRippleModule, MdcTextFieldModule,
     MdcToolbarModule
 } from '@angular-mdc/web';
 import { CollectionViewComponent } from './views/favorites/collection/collection-view/collection-view.component';
@@ -96,6 +96,7 @@ import {NewCollectionDialogComponent} from "./views/favorites/collection/new-col
         MdcDialogModule,
         MdcFormFieldModule,
         MdcTextFieldModule,
+        MdcMenuModule,
         BrowserModule
     ],
     providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService, {

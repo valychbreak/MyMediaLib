@@ -1,0 +1,11 @@
+<dataset>
+    <user_role id="1000" role="USER_ROLE" />
+
+    <user_media_collection id="1000" name="New Media Collection" />
+
+    <users id="1000" username="test" first_name="Test1" email="test1@t.com" password="test12" user_role_id="1000"
+           root_user_media_collection="1000"/>
+
+    <media id="100" imdb_id="tt999999" title="New Super-Cool Movie" />
+    <user_media id="100" media_id="100" user_id="1000" adding_date="2017-06-12 21:47:30"/>
+</dataset>

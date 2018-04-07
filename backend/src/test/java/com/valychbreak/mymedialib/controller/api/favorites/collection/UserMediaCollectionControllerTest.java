@@ -63,7 +63,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
         MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection, user);
 
         mockMvc.perform(
-                get("/api/collection/1000").requestAttr("media", "true")
+                get("/api/collection/1000").param("media", "true")
                         .principal(new TestingAuthenticationToken("test", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedMediaCollectionDTO)));
@@ -75,7 +75,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
     public void getAllCollection() throws Exception {
 
         mockMvc.perform(
-                get("/api/user/collection/all").requestAttr("media", "true")
+                get("/api/user/collection/all").param("media", "true")
                         .principal(new TestingAuthenticationToken("test", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))

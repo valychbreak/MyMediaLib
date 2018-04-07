@@ -2,6 +2,8 @@ package com.valychbreak.mymedialib.data.movie.impl;
 
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 
+import java.util.Objects;
+
 /**
  * Created by valych on 4/29/17.
  */

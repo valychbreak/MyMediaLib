@@ -28,7 +28,7 @@ public class UserMediaCollectionController extends APIController {
     @RequestMapping(value = "/collection/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCollectionDTO> getCollection(@PathVariable String id,
-                                                            @RequestAttribute(value = "media", required = false) String includeMedia, Principal principal) throws IOException, OMDBException {
+                                                            @RequestParam(value = "media", required = false) String includeMedia, Principal principal) throws IOException, OMDBException {
         User loggedUser = getUserFromPrincipal(principal);
 
         Long collectionId = Long.parseLong(id);
@@ -40,7 +40,7 @@ public class UserMediaCollectionController extends APIController {
 
     @RequestMapping(value = "/user/collection/root", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MediaCollectionDTO> getUserRootCollection(@RequestAttribute(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
+    public ResponseEntity<MediaCollectionDTO> getUserRootCollection(@RequestParam(value = "media", required = false) String includeMedia) throws IOException, OMDBException {
 
         User user = getLoggedUser();
         MediaCollectionDTO collectionDTO = getMediaCollectionDTO(user.getRootUserMediaCollection(), includeMedia, user);
@@ -49,7 +49,7 @@ public class UserMediaCollectionController extends APIController {
 
     @RequestMapping(value = "/user/collection/all", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MediaCollectionDTO>> getAllUserCollections(@RequestAttribute(value = "media", required = false) String includeMedia, Principal principal) throws IOException, OMDBException {
+    public ResponseEntity<List<MediaCollectionDTO>> getAllUserCollections(@RequestParam(value = "media", required = false) String includeMedia, Principal principal) throws IOException, OMDBException {
 
         User user = userRepository.findFirstByUsername(principal.getName());
 

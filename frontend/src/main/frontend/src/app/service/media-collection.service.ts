@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {MediaCollection} from "../shared/favorites/collection/media-collection";
 import {Config} from "../config/config";
 import {HttpClient} from "@angular/common/http";
+import {Movie} from "../shared/movie/movie";
 
 @Injectable()
 export class MediaCollectionService {
@@ -36,5 +37,11 @@ export class MediaCollectionService {
         return this.http.post<MediaCollection>(MediaCollectionService.ADD_CATEGORY_LINK, newCategory)
             .toPromise()
             .then(category => category);
+    }
+
+    addMediaToCategory(media: Movie, collection: MediaCollection) {
+        return this.http.post(Config.dataRequestLink + "/collection/" + collection.id + "/add-media", {imdbId: media.imdbId, title: media.title})
+            .toPromise()
+            .then(response => response);
     }
 }

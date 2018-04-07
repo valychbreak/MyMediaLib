@@ -1,13 +1,49 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
-            {{movie.title}}
+        <div class="page-header">
+            <h1>{{movie.title}}
             <small>{{movie.type}}</small>
+            </h1>
 
             <hr/>
 
-            <div class="movie-actions">
-                <div class="btn-group float-left" role="group" aria-label="Basic example">
+            <div class="demo-container">
+                <!--<div class="demo-content&#45;&#45;row">
+                    <mdc-icon-toggle [(ngModel)]="isOn" [disabled]="isDisabled" [primary]="isPrimary" [secondary]="isAccent" iconOn="favorite"
+                                     iconOff="favorite_border" labelOn="Add to Favorites" labelOff="Remove from Favorites">
+                    </mdc-icon-toggle>
+                    Test 123
+                    <mdc-icon-toggle [(ngModel)]="isOn" [disabled]="isDisabled" [primary]="isPrimary" [secondary]="isAccent" iconOn="favorite"
+                                     iconOff="favorite_border" labelOn="Add to Favorites" labelOff="Remove from Favorites">
+                    </mdc-icon-toggle>
+
+                    <button mdc-button [icon]="true"><mdc-icon>add</mdc-icon>Add</button>
+                </div>-->
+
+                <div class="demo-content--row">
+                    <div *ngIf="!movie.isFavourite" (click)="addToFavourites(movie)">
+                    <button mdc-button [icon]="true">
+                        <mdc-icon>favorite_border</mdc-icon>
+                        Add to Favorites
+                    </button>
+                    </div>
+                    <div *ngIf="movie.isFavourite" (click)="removeFromFavourites(movie)">
+                    <button mdc-button [icon]="true">
+                        <mdc-icon>favorite</mdc-icon>
+                        Remove from Favorites
+                    </button>
+                    </div>
+
+                    <div mdc-menu-anchor>
+                        <button mdc-button [icon]="true" (click)="menu.open()">
+                            <mdc-icon>add</mdc-icon>Add to...
+                        </button>
+                        <mdc-menu #menu (select)="handleMenuSelect($event)" [anchorCorner]="top-end">
+                            <mdc-menu-item *ngFor="let collection of mediaCollections" [id]="collection.id">{{collection.name}}</mdc-menu-item>
+                        </mdc-menu>
+                    </div>
+                </div>
+                <!--<div class="btn-group float-left" role="group" aria-label="Basic example">
                     <button *ngIf="!movie.isFavourite" class="btn btn-secondary" (click)="addToFavourites(movie)">Add to
                         favourites &nbsp; <i class="fa fa-star-o fa-lg" aria-hidden="true"></i></button>
                     <button *ngIf="movie.isFavourite" class="btn btn-secondary" (click)="removeFromFavourites(movie)">
@@ -16,9 +52,9 @@
                                                                                aria-hidden="true"></i></button>
                     <button class="btn btn-secondary">Share &nbsp;<i class="fa fa-share-alt fa-lg"
                                                                      aria-hidden="true"></i></button>
-                </div>
+                </div>-->
             </div>
-        </h1>
+        </div>
     </div>
 </div>
 <!-- /.row -->
