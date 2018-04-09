@@ -4,21 +4,25 @@ import {MovieDetailsModalComponent} from "../movie-details-modal/movie-details-m
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
 import {ImageUtils} from "../../utils/image-utils";
+import {UserFavouritesService} from "../../../service/user-favourites.service";
 
 @Component({
     selector: 'app-movie-short-view',
     templateUrl: './movie-short-view.component.html',
-    styleUrls: ['./movie-short-view.component.css']
+    styleUrls: ['./movie-short-view.component.scss']
 })
 export class MovieShortViewComponent implements OnInit {
 
     @Input()
     movie: Movie;
 
-    constructor(private router: Router, private modalService: NgbModal) {
+    isOn: boolean;
+
+    constructor(private router: Router, private modalService: NgbModal, private userFavouritesService: UserFavouritesService) {
     }
 
     ngOnInit() {
+        this.isOn = this.movie.isFavourite;
     }
 
     getImage(imagePath: string): string {
@@ -32,6 +36,28 @@ export class MovieShortViewComponent implements OnInit {
 
     gotoMoviePage(movie: Movie) {
         this.router.navigate(['/movie', movie.imdbId])
+    }
+
+    onFavoriteToggleChange(previousState: boolean) {
+        if (previousState) {
+            this.removeFromFavourites(this.movie);
+        } else {
+            this.addToFavourites(this.movie);
+        }
+    }
+
+    addToFavourites(movie: Movie) {
+        movie.isFavourite = true;
+        this.userFavouritesService.addMedia(movie).then(response => {
+            console.log("Successfully added " + movie.title + " media to favorites")
+        });
+    }
+
+    removeFromFavourites(movie: Movie) {
+        movie.isFavourite = false;
+        this.userFavouritesService.removeMedia(movie).then(response => {
+            console.log("Successfully removed " + movie.title + " media from favorites")
+        });
     }
 
 }

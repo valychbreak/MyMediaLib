@@ -13,6 +13,7 @@ import com.valychbreak.mymedialib.utils.TmdbUtils;
 
 import javax.persistence.*;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Created by Valeriy on 3/18/2017.
@@ -78,5 +79,21 @@ public class Media {
         com.uwetrottmann.tmdb2.entities.Media mediaBy = new TmdbMediaProvider().getMediaBy(imdbId);
         MediaFullDetailsImpl media = (MediaFullDetailsImpl) TmdbUtils.getMediaFullDetailsFromTmdbMedia(APIController.TMDB_INSTANCE, mediaBy);
         return media;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Media media = (Media) o;
+        return Objects.equals(id, media.id) &&
+                Objects.equals(imdbId, media.imdbId) &&
+                Objects.equals(title, media.title);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, imdbId, title);
     }
 }

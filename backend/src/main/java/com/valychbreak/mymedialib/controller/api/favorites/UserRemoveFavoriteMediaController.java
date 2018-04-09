@@ -5,6 +5,7 @@ import com.valychbreak.mymedialib.data.movie.impl.MediaShortDetailsImpl;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.Media;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
+import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.repository.MediaRepository;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
@@ -15,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class UserRemoveFavoriteMediaController extends APIController {
@@ -41,6 +44,11 @@ public class UserRemoveFavoriteMediaController extends APIController {
                 //user.getRootUserMediaCollection().getUserMediaList().remove(userMedia);
                 userMediaToRemove.add(userMedia);
             }
+        }
+
+        Set<UserMediaCollection> userMediaCollections = new HashSet<>(userMediaCollectionRepository.findAllByOwner(user));
+        for (UserMediaCollection userMediaCollection : userMediaCollections) {
+            userMediaCollection.getUserMediaList().removeAll(userMediaToRemove);
         }
 
         userMediaRepository.delete(userMediaToRemove);

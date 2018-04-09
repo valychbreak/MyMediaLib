@@ -4,6 +4,7 @@ import com.valychbreak.mymedialib.entity.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by Valeriy on 3/18/2017.
@@ -57,5 +58,21 @@ public class UserMedia {
 
     public void setMedia(Media media) {
         this.media = media;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserMedia userMedia = (UserMedia) o;
+        return Objects.equals(id, userMedia.id) &&
+                Objects.equals(user, userMedia.user) &&
+                Objects.equals(media, userMedia.media);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, user, media);
     }
 }
