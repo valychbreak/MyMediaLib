@@ -10,12 +10,12 @@
 <div *ngIf="!!currentCategory" class="row">
     <div class="mdc-layout-grid max-width mdc-layout-grid--align-left">
         <div class="mdc-layout-grid__inner">
-            <div *ngFor="let category of currentCategory.subCollections" class="mdc-layout-grid__cell">
+            <div *ngFor="let collection of currentCategory.subCollections" class="mdc-layout-grid__cell">
                 <mdc-card class="demo-card--photo">
-                    <mdc-card-primary-action (click)="goToCollection(category)">
+                    <mdc-card-primary-action (click)="goToCollection(collection)">
                         <mdc-card-media [rectangle]="true" class="demo-card__media">
                             <mdc-card-media-content class="demo-card__media-content--with-title">
-                                <div class="demo-card__media-title" mdc-typography-subheading2>{{category.name}}
+                                <div class="demo-card__media-title" mdc-typography-subheading2>{{collection.name}}
                                 </div>
                             </mdc-card-media-content>
                         </mdc-card-media>
@@ -25,7 +25,7 @@
                                          mdcCardAction="icon"></mdc-icon-toggle>
                         <mdc-icon mdcCardAction="icon">mode_edit</mdc-icon>
                         <mdc-icon mdcCardAction="icon">share</mdc-icon>
-                        <mdc-icon mdcCardAction="icon">delete</mdc-icon>
+                        <mdc-icon mdcCardAction="icon" (click)="removeCollection(collection)">delete</mdc-icon>
                     </mdc-card-actions>
                 </mdc-card>
             </div>

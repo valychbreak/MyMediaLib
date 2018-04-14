@@ -35,4 +35,8 @@ export class SubCategoriesListViewComponent implements OnInit {
         this.router.navigate(['/collection', collection.id]);
     }
 
+    removeCollection(collection: MediaCollection) {
+        console.log("removed collection " + collection.id);
+    }
+
 }
