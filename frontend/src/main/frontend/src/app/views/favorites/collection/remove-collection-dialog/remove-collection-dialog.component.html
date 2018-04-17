@@ -1,0 +1,16 @@
+<mdc-dialog>
+    <mdc-dialog-header>
+        <mdc-dialog-header-title>
+            Collection removal confirmation
+        </mdc-dialog-header-title>
+    </mdc-dialog-header>
+    <mdc-dialog-body>
+        Are you sure you want to remove collection '{{collection.name}}'?
+        <br/>
+        Media inside: {{collection.mediaList?.length}}
+    </mdc-dialog-body>
+    <mdc-dialog-footer>
+        <button mdc-dialog-button [cancel]="true">Cancel</button>
+        <button mdc-dialog-button [accept]="true" (click)="removeCollection()">Remove</button>
+    </mdc-dialog-footer>
+</mdc-dialog>

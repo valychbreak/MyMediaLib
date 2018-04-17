@@ -44,4 +44,10 @@ export class MediaCollectionService {
             .toPromise()
             .then(response => response);
     }
+
+    removeCollection(collection: MediaCollection): Promise<any> {
+        return this.http.post(Config.dataRequestLink + "/collection/" + collection.id + "/remove", null)
+            .toPromise()
+            .then(response => response);
+    }
 }

@@ -44,6 +44,7 @@ import {
 } from '@angular-mdc/web';
 import { CollectionViewComponent } from './views/favorites/collection/collection-view/collection-view.component';
 import {NewCollectionDialogComponent} from "./views/favorites/collection/new-collection-view/new-collection-dialog.component";
+import { RemoveCollectionDialogComponent } from './views/favorites/collection/remove-collection-dialog/remove-collection-dialog.component';
 
 
 @NgModule({
@@ -65,12 +66,14 @@ import {NewCollectionDialogComponent} from "./views/favorites/collection/new-col
         MediaSearchSectionComponent,
         TvShowSearchSectionComponent,
         CollectionViewComponent,
-        NewCollectionDialogComponent
+        NewCollectionDialogComponent,
+        RemoveCollectionDialogComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent,
         NewCategoryViewComponent,
-        NewCollectionDialogComponent
+        NewCollectionDialogComponent,
+        RemoveCollectionDialogComponent
     ],
     imports: [
         BrowserModule,

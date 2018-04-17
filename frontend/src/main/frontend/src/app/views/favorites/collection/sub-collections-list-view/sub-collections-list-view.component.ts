@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MediaCollection} from "../../../../shared/favorites/collection/media-collection";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {NewCategoryViewComponent} from "../new-collection-view/new-collection-view.component";
 import {Router} from "@angular/router";
 import {MdcDialog} from "@angular-mdc/web";
 import {NewCollectionDialogComponent} from "../new-collection-view/new-collection-dialog.component";
+import {RemoveCollectionDialogComponent} from "../remove-collection-dialog/remove-collection-dialog.component";
 
 @Component({
     selector: 'sub-categories-list-view',
@@ -36,7 +36,22 @@ export class SubCategoriesListViewComponent implements OnInit {
     }
 
     removeCollection(collection: MediaCollection) {
-        console.log("removed collection " + collection.id);
+        const dialogRef = this.dialog.open(RemoveCollectionDialogComponent, {
+            escapeToClose: true,
+            clickOutsideToClose: true
+        });
+
+        dialogRef.componentInstance.collection = collection;
+        dialogRef.componentInstance.onSuccessfulRemoval = (collection: MediaCollection) => {
+            console.log("Removed collection from UI " + collection.id);
+
+            let index: number = this.currentCategory.subCollections.indexOf(collection);
+            this.currentCategory.subCollections.splice(index, 1);
+        };
+
+        dialogRef.afterClosed().toPromise().then(result => {
+            //
+        })
     }
 
 }
