@@ -1,34 +1,56 @@
-<div mdc-typography>
-    <h1 mdc-typography-title mdc-typography-adjust-margin>
+<div class="mat-typography">
+    <h1 class="mat-display-2">
         Collections
-        <button mdc-fab [mini]="true" (click)="openNewCollectionDialog()">
-            <mdc-icon>library_add</mdc-icon>
+        <button mat-mini-fab (click)="openNewCollectionDialog()">
+            <mat-icon>library_add</mat-icon>
         </button>
     </h1>
 </div>
 
-<div *ngIf="!!currentCategory" class="row">
-    <div class="mdc-layout-grid max-width mdc-layout-grid--align-left">
-        <div class="mdc-layout-grid__inner">
-            <div *ngFor="let collection of currentCategory.subCollections" class="mdc-layout-grid__cell">
-                <mdc-card class="demo-card--photo">
-                    <mdc-card-primary-action (click)="goToCollection(collection)">
-                        <mdc-card-media [rectangle]="true" class="demo-card__media">
-                            <mdc-card-media-content class="demo-card__media-content--with-title">
-                                <div class="demo-card__media-title" mdc-typography-subheading2>{{collection.name}}
-                                </div>
-                            </mdc-card-media-content>
-                        </mdc-card-media>
-                    </mdc-card-primary-action>
-                    <mdc-card-actions [icons]="true">
-                        <mdc-icon-toggle iconOn="favorite" iconOff="favorite_border"
-                                         mdcCardAction="icon"></mdc-icon-toggle>
-                        <mdc-icon mdcCardAction="icon">mode_edit</mdc-icon>
-                        <mdc-icon mdcCardAction="icon">share</mdc-icon>
-                        <mdc-icon mdcCardAction="icon" (click)="confirmCollectionRemoval(collection)">delete</mdc-icon>
-                    </mdc-card-actions>
-                </mdc-card>
-            </div>
-        </div>
-    </div>
+<div *ngIf="!!currentCategory">
+    <mat-grid-list [cols]="currentCategory.subCollections?.length">
+        <mat-grid-tile *ngFor="let collection of currentCategory.subCollections">
+            <mat-card class="demo-card--photo">
+                <div (click)="goToCollection(collection)">
+                    <mat-card-header>
+                        <mat-card-title>{{collection.name}}</mat-card-title>
+                        <mat-card-subtitle>Media: 32</mat-card-subtitle>
+                    </mat-card-header>
+
+                    <mat-card-content>
+                        Collection description
+                    </mat-card-content>
+                </div>
+                <mat-card-actions>
+                    <button mat-icon-button>
+                        <mat-icon>favorite</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>mode_edit</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>share</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="confirmCollectionRemoval(collection)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-card-actions>
+                <!--<mdc-card-primary-action (click)="goToCollection(collection)">
+                    <mdc-card-media [rectangle]="true" class="demo-card__media">
+                        <mdc-card-media-content class="demo-card__media-content&#45;&#45;with-title">
+                            <div class="demo-card__media-title" mdc-typography-subheading2>{{collection.name}}
+                            </div>
+                        </mdc-card-media-content>
+                    </mdc-card-media>
+                </mdc-card-primary-action>
+                <mdc-card-actions [icons]="true">
+                    <mdc-icon-toggle iconOn="favorite" iconOff="favorite_border"
+                                     mdcCardAction="icon"></mdc-icon-toggle>
+                    <mdc-icon mdcCardAction="icon">mode_edit</mdc-icon>
+                    <mdc-icon mdcCardAction="icon">share</mdc-icon>
+                    <mdc-icon mdcCardAction="icon" (click)="confirmCollectionRemoval(collection)">delete</mdc-icon>
+                </mdc-card-actions>-->
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
 </div>
