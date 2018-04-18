@@ -1,20 +1,14 @@
-<mdc-dialog>
-    <mdc-dialog-header>
-        <mdc-dialog-header-title>
-            Create new collection
-        </mdc-dialog-header-title>
-    </mdc-dialog-header>
-    <mdc-dialog-body>
-        Input your new collection name
-        <form [formGroup]="demoForm" id="demoForm" (ngSubmit)="createNewCategory()">
-            <mdc-text-field #demoformInput formControlName="collectionName" label="Collection name" maxlength="32" [helperText]="demoformHelper" [required]="true"></mdc-text-field>
-            <mdc-text-field-helper-text #demoformHelper="mdcHelperText" [validation]="true" [persistent]="false">
-                <span *ngIf="demoForm.controls['collectionName'].errors?.required">Username is required</span>
-            </mdc-text-field-helper-text>
-        </form>
-    </mdc-dialog-body>
-    <mdc-dialog-footer>
-        <button mdc-dialog-button [cancel]="true">Cancel</button>
-        <button mdc-dialog-button [accept]="true" (click)="createNewCategory()">Create</button>
-    </mdc-dialog-footer>
-</mdc-dialog>
+<h2 mat-dialog-title>Delete all</h2>
+<mat-dialog-content>
+    Input your new collection name
+    <br/>
+    <mat-form-field>
+        <input matInput placeholder="Collection name" [formControl]="collectionName" required>
+        <mat-error *ngIf="collectionName.invalid">Test error</mat-error>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-button [mat-dialog-close]="collectionName.value">Create</button>
+</mat-dialog-actions>

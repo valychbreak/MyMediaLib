@@ -4,11 +4,13 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
-$mdc-theme-primary: #464a4c; // Purple 500
+/*$mdc-theme-primary: #464a4c; // Purple 500
 $mdc-theme-secondary: #ffab40; // Orange A200
 $mdc-theme-background: #fff; // White
 //@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-@import "../../node_modules/@angular-mdc/theme/material";
+@import "../../node_modules/@angular-mdc/theme/material";*/
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 body {
   /*font-family: 'Poppins', sans-serif;*/

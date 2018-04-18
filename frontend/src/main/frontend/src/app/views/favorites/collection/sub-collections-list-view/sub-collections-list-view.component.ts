@@ -2,9 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MediaCollection} from "../../../../shared/favorites/collection/media-collection";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
-import {MdcDialog} from "@angular-mdc/web";
 import {NewCollectionDialogComponent} from "../new-collection-view/new-collection-dialog.component";
 import {RemoveCollectionDialogComponent} from "../remove-collection-dialog/remove-collection-dialog.component";
+import {MatDialog} from "@angular/material";
+import {MediaCollectionService} from "../../../../service/media-collection.service";
 
 @Component({
     selector: 'sub-categories-list-view',
@@ -16,42 +17,59 @@ export class SubCategoriesListViewComponent implements OnInit {
     @Input()
     private currentCategory: MediaCollection;
 
-    constructor(private modalService: NgbModal, private router: Router, private dialog: MdcDialog) {
+    constructor(private modalService: NgbModal, private router: Router, private dialog: MatDialog,
+                private mediaCollectionService: MediaCollectionService) {
     }
 
     ngOnInit() {
     }
 
-    openDialog() {
+    openNewCollectionDialog() {
         const dialogRef = this.dialog.open(NewCollectionDialogComponent, {
-            escapeToClose: true,
-            clickOutsideToClose: true
+            data: {collection: this.currentCategory}
         });
 
-        dialogRef.componentInstance.parentCategory = this.currentCategory;
+        dialogRef.afterClosed().toPromise()
+            .then(newCollectionName => this.createNewCollection(newCollectionName));
+    }
+
+    confirmCollectionRemoval(collection: MediaCollection) {
+        const dialogRef = this.dialog.open(RemoveCollectionDialogComponent, {
+            data: {collection: collection}
+        });
+
+        dialogRef.afterClosed().toPromise()
+            .then(collectionToRemove => this.removeCollection(collectionToRemove));
     }
 
     goToCollection(collection: MediaCollection) {
         this.router.navigate(['/collection', collection.id]);
     }
 
-    removeCollection(collection: MediaCollection) {
-        const dialogRef = this.dialog.open(RemoveCollectionDialogComponent, {
-            escapeToClose: true,
-            clickOutsideToClose: true
-        });
+    private createNewCollection(result) {
+        if (result != "") {
+            let collectionName = result as string;
+            let newCategory = new MediaCollection();
+            newCategory.name = collectionName;
 
-        dialogRef.componentInstance.collection = collection;
-        dialogRef.componentInstance.onSuccessfulRemoval = (collection: MediaCollection) => {
-            console.log("Removed collection from UI " + collection.id);
+            this.mediaCollectionService.addNewCategory(newCategory).then(category => {
+                console.log("MediaCollection returned:");
+                console.log(category);
 
-            let index: number = this.currentCategory.subCollections.indexOf(collection);
-            this.currentCategory.subCollections.splice(index, 1);
-        };
-
-        dialogRef.afterClosed().toPromise().then(result => {
-            //
-        })
+                this.currentCategory.subCollections.push(category);
+            });
+        }
     }
 
+    private removeCollection(result) {
+        if (result != "") {
+            let collectionToRemove = result as MediaCollection;
+            this.mediaCollectionService.removeCollection(collectionToRemove)
+                .then(() => {
+                    console.log("Removed collection from UI " + collectionToRemove.id);
+                    let index: number = this.currentCategory.subCollections.indexOf(collectionToRemove);
+                    this.currentCategory.subCollections.splice(index, 1);
+                });
+        }
+    }
 }

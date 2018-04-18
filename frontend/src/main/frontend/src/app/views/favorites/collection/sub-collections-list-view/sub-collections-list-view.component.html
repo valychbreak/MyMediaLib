@@ -1,7 +1,7 @@
 <div mdc-typography>
     <h1 mdc-typography-title mdc-typography-adjust-margin>
         Collections
-        <button mdc-fab [mini]="true" (click)="openDialog()">
+        <button mdc-fab [mini]="true" (click)="openNewCollectionDialog()">
             <mdc-icon>library_add</mdc-icon>
         </button>
     </h1>
@@ -25,7 +25,7 @@
                                          mdcCardAction="icon"></mdc-icon-toggle>
                         <mdc-icon mdcCardAction="icon">mode_edit</mdc-icon>
                         <mdc-icon mdcCardAction="icon">share</mdc-icon>
-                        <mdc-icon mdcCardAction="icon" (click)="removeCollection(collection)">delete</mdc-icon>
+                        <mdc-icon mdcCardAction="icon" (click)="confirmCollectionRemoval(collection)">delete</mdc-icon>
                     </mdc-card-actions>
                 </mdc-card>
             </div>

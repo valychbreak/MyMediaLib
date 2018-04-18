@@ -23,16 +23,16 @@ import {PeopleService} from "./service/people.service";
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthenticationInterceptor} from "./interceptor/authentication-interceptor";
-import { MovieSearchSectionComponent } from './views/movies/movie-search-section/movie-search-section.component';
-import { PeopleSearchSectionComponent } from './views/people/people-search-section/people-search-section.component';
+import {MovieSearchSectionComponent} from './views/movies/movie-search-section/movie-search-section.component';
+import {PeopleSearchSectionComponent} from './views/people/people-search-section/people-search-section.component';
 import {BusyModule} from "angular2-busy";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { CategoryPathComponent } from './views/favorites/collection/collection-path/collection-path.component';
-import { SubCategoriesListViewComponent } from './views/favorites/collection/sub-collections-list-view/sub-collections-list-view.component';
+import {CategoryPathComponent} from './views/favorites/collection/collection-path/collection-path.component';
+import {SubCategoriesListViewComponent} from './views/favorites/collection/sub-collections-list-view/sub-collections-list-view.component';
 import {MediaCollectionService} from "./service/media-collection.service";
-import { NewCategoryViewComponent } from './views/favorites/collection/new-collection-view/new-collection-view.component';
-import { MediaSearchSectionComponent } from './views/movies/media-search-section/media-search-section.component';
-import { TvShowSearchSectionComponent } from './views/movies/tvshow-search-section/tvshow-search-section.component';
+import {NewCategoryViewComponent} from './views/favorites/collection/new-collection-view/new-collection-view.component';
+import {MediaSearchSectionComponent} from './views/movies/media-search-section/media-search-section.component';
+import {TvShowSearchSectionComponent} from './views/movies/tvshow-search-section/tvshow-search-section.component';
 import {
     MdcButtonModule,
     MdcCardModule, MdcDialogModule,
@@ -42,9 +42,11 @@ import {
     MdcListModule, MdcMenuModule, MdcRippleModule, MdcTextFieldModule,
     MdcToolbarModule
 } from '@angular-mdc/web';
-import { CollectionViewComponent } from './views/favorites/collection/collection-view/collection-view.component';
+import {CollectionViewComponent} from './views/favorites/collection/collection-view/collection-view.component';
 import {NewCollectionDialogComponent} from "./views/favorites/collection/new-collection-view/new-collection-dialog.component";
-import { RemoveCollectionDialogComponent } from './views/favorites/collection/remove-collection-dialog/remove-collection-dialog.component';
+import {RemoveCollectionDialogComponent} from './views/favorites/collection/remove-collection-dialog/remove-collection-dialog.component';
+import {CustomMaterialModule} from "./custom-material.module";
+import {MAT_DIALOG_DEFAULT_OPTIONS, MAT_LABEL_GLOBAL_OPTIONS} from "@angular/material";
 
 
 @NgModule({
@@ -100,13 +102,18 @@ import { RemoveCollectionDialogComponent } from './views/favorites/collection/re
         MdcFormFieldModule,
         MdcTextFieldModule,
         MdcMenuModule,
+        CustomMaterialModule,
         BrowserModule
     ],
-    providers: [PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService, {
+    providers: [
+        PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService,
+        {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthenticationInterceptor,
             multi: true,
-        }
+        },
+        {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+        {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}
     ],
     bootstrap: [AppComponent]
 })
