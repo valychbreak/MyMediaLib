@@ -7,6 +7,13 @@
     </h1>
 </div>
 
+<div class="hero mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+        <div class="mdc-layout-grid__cell">tes 1</div>
+        <div class="mdc-layout-grid__cell">tes 2</div>
+        <div class="mdc-layout-grid__cell">tes 3</div>
+    </div>
+</div>
 <div *ngIf="!!currentCategory">
     <mat-grid-list [cols]="currentCategory.subCollections?.length">
         <mat-grid-tile *ngFor="let collection of currentCategory.subCollections">
