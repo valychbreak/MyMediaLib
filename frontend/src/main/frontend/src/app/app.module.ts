@@ -47,6 +47,7 @@ import {NewCollectionDialogComponent} from "./views/favorites/collection/new-col
 import {RemoveCollectionDialogComponent} from './views/favorites/collection/remove-collection-dialog/remove-collection-dialog.component';
 import {CustomMaterialModule} from "./custom-material.module";
 import {MAT_DIALOG_DEFAULT_OPTIONS, MAT_LABEL_GLOBAL_OPTIONS} from "@angular/material";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -103,7 +104,8 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MAT_LABEL_GLOBAL_OPTIONS} from "@angular/mat
         MdcTextFieldModule,
         MdcMenuModule,
         CustomMaterialModule,
-        BrowserModule
+        BrowserModule,
+        FlexLayoutModule
     ],
     providers: [
         PeopleService, MovieService, LoginService, UserFavouritesService, AccountEventsService, MediaCollectionService,

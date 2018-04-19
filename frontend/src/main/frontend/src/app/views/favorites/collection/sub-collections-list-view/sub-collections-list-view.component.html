@@ -1,22 +1,19 @@
-<div class="mat-typography">
-    <h1 class="mat-display-2">
-        Collections
-        <button mat-mini-fab (click)="openNewCollectionDialog()">
-            <mat-icon>library_add</mat-icon>
-        </button>
-    </h1>
-</div>
-
-<div class="hero mdc-layout-grid">
-    <div class="mdc-layout-grid__inner">
-        <div class="mdc-layout-grid__cell">tes 1</div>
-        <div class="mdc-layout-grid__cell">tes 2</div>
-        <div class="mdc-layout-grid__cell">tes 3</div>
+<div class="collections-block-header">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1em">
+        <div>
+            <span class="mat-display-1">Collections</span>
+        </div>
+        <div>
+            <button mat-mini-fab (click)="openNewCollectionDialog()">
+                <mat-icon>library_add</mat-icon>
+            </button>
+        </div>
     </div>
 </div>
+
 <div *ngIf="!!currentCategory">
-    <mat-grid-list [cols]="currentCategory.subCollections?.length">
-        <mat-grid-tile *ngFor="let collection of currentCategory.subCollections">
+    <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="1em">
+        <div *ngFor="let collection of currentCategory.subCollections">
             <mat-card class="demo-card--photo">
                 <div (click)="goToCollection(collection)">
                     <mat-card-header>
@@ -42,22 +39,7 @@
                         <mat-icon>delete</mat-icon>
                     </button>
                 </mat-card-actions>
-                <!--<mdc-card-primary-action (click)="goToCollection(collection)">
-                    <mdc-card-media [rectangle]="true" class="demo-card__media">
-                        <mdc-card-media-content class="demo-card__media-content&#45;&#45;with-title">
-                            <div class="demo-card__media-title" mdc-typography-subheading2>{{collection.name}}
-                            </div>
-                        </mdc-card-media-content>
-                    </mdc-card-media>
-                </mdc-card-primary-action>
-                <mdc-card-actions [icons]="true">
-                    <mdc-icon-toggle iconOn="favorite" iconOff="favorite_border"
-                                     mdcCardAction="icon"></mdc-icon-toggle>
-                    <mdc-icon mdcCardAction="icon">mode_edit</mdc-icon>
-                    <mdc-icon mdcCardAction="icon">share</mdc-icon>
-                    <mdc-icon mdcCardAction="icon" (click)="confirmCollectionRemoval(collection)">delete</mdc-icon>
-                </mdc-card-actions>-->
             </mat-card>
-        </mat-grid-tile>
-    </mat-grid-list>
+        </div>
+    </div>
 </div>
