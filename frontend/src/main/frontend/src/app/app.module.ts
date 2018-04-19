@@ -33,15 +33,6 @@ import {MediaCollectionService} from "./service/media-collection.service";
 import {NewCategoryViewComponent} from './views/favorites/collection/new-collection-view/new-collection-view.component';
 import {MediaSearchSectionComponent} from './views/movies/media-search-section/media-search-section.component';
 import {TvShowSearchSectionComponent} from './views/movies/tvshow-search-section/tvshow-search-section.component';
-import {
-    MdcButtonModule,
-    MdcCardModule, MdcDialogModule,
-    MdcDrawerModule,
-    MdcFabModule, MdcFormFieldModule,
-    MdcIconModule, MdcIconToggleModule,
-    MdcListModule, MdcMenuModule, MdcRippleModule, MdcTextFieldModule,
-    MdcToolbarModule
-} from '@angular-mdc/web';
 import {CollectionViewComponent} from './views/favorites/collection/collection-view/collection-view.component';
 import {NewCollectionDialogComponent} from "./views/favorites/collection/new-collection-view/new-collection-dialog.component";
 import {RemoveCollectionDialogComponent} from './views/favorites/collection/remove-collection-dialog/remove-collection-dialog.component';
@@ -89,20 +80,6 @@ import {FlexLayoutModule} from "@angular/flex-layout";
         Ng4LoadingSpinnerModule.forRoot(),
         BrowserAnimationsModule,
         BusyModule,
-        MdcButtonModule,
-        MdcFabModule,
-        MdcIconModule,
-        MdcToolbarModule,
-        MdcDrawerModule,
-        MdcListModule,
-        MdcCardModule,
-        MdcIconToggleModule,
-        MdcRippleModule,
-        MdcFabModule,
-        MdcDialogModule,
-        MdcFormFieldModule,
-        MdcTextFieldModule,
-        MdcMenuModule,
         CustomMaterialModule,
         BrowserModule,
         FlexLayoutModule
