@@ -21,13 +21,13 @@
                 </div>
             </div>
             <div class="demo-content--row">
-                <mdc-icon-toggle [(ngModel)]="isOn" [(on)]="isOn" [primary]="true" iconOn="favorite"
-                                 iconOff="favorite_border" labelOn="Add to Favorites"
-                                 labelOff="Remove from Favorites" (change)="onFavoriteToggleChange(isOn)">
-                </mdc-icon-toggle>
+                <button mat-icon-button (click)="onFavoriteToggleChange(isMediaFavorite)">
+                    <mat-icon>{{isMediaFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
+                </button>
 
-                <mdc-icon-toggle [primary]="true" iconOn="share" iconOff="share">
-                </mdc-icon-toggle>
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
             </div>
             <div class="ratings">
                 <p class="float-right">{{movie.reviews}} reviews</p>

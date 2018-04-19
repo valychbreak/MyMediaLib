@@ -16,13 +16,13 @@ export class MovieShortViewComponent implements OnInit {
     @Input()
     movie: Movie;
 
-    isOn: boolean;
+    isMediaFavorite: boolean;
 
     constructor(private router: Router, private modalService: NgbModal, private userFavouritesService: UserFavouritesService) {
     }
 
     ngOnInit() {
-        this.isOn = this.movie.isFavourite;
+        this.isMediaFavorite = this.movie.isFavourite;
     }
 
     getImage(imagePath: string): string {
@@ -44,6 +44,8 @@ export class MovieShortViewComponent implements OnInit {
         } else {
             this.addToFavourites(this.movie);
         }
+
+        this.isMediaFavorite = !this.isMediaFavorite;
     }
 
     addToFavourites(movie: Movie) {
