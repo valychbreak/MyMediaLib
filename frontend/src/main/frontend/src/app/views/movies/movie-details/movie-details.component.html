@@ -8,51 +8,32 @@
             <hr/>
 
             <div class="demo-container">
-                <!--<div class="demo-content&#45;&#45;row">
-                    <mdc-icon-toggle [(ngModel)]="isMediaFavorite" [disabled]="isDisabled" [primary]="isPrimary" [secondary]="isAccent" iconOn="favorite"
-                                     iconOff="favorite_border" labelOn="Add to Favorites" labelOff="Remove from Favorites">
-                    </mdc-icon-toggle>
-                    Test 123
-                    <mdc-icon-toggle [(ngModel)]="isMediaFavorite" [disabled]="isDisabled" [primary]="isPrimary" [secondary]="isAccent" iconOn="favorite"
-                                     iconOff="favorite_border" labelOn="Add to Favorites" labelOff="Remove from Favorites">
-                    </mdc-icon-toggle>
-
-                    <button mdc-button [icon]="true"><mdc-icon>add</mdc-icon>Add</button>
-                </div>-->
-
                 <div class="demo-content--row">
-                    <div *ngIf="!movie.isFavourite" (click)="addToFavourites(movie)">
-                    <button mdc-button [icon]="true">
-                        <mdc-icon>favorite_border</mdc-icon>
-                        Add to Favorites
-                    </button>
-                    </div>
-                    <div *ngIf="movie.isFavourite" (click)="removeFromFavourites(movie)">
-                    <button mdc-button [icon]="true">
-                        <mdc-icon>favorite</mdc-icon>
-                        Remove from Favorites
-                    </button>
-                    </div>
+                    <div *ngIf="movie.isFavourite; then remove_from_fav else add_to_fav"></div>
 
-                    <div mdc-menu-anchor>
-                        <button mdc-button [icon]="true" (click)="menu.open()">
-                            <mdc-icon>add</mdc-icon>Add to...
+                    <ng-template #add_to_fav>
+                        <button mat-raised-button (click)="addToFavourites(movie)">
+                            Add to favorites
                         </button>
-                        <mdc-menu #menu (select)="handleMenuSelect($event)" [anchorCorner]="top-end">
-                            <mdc-menu-item *ngFor="let collection of mediaCollections" [id]="collection.id">{{collection.name}}</mdc-menu-item>
-                        </mdc-menu>
-                    </div>
+                    </ng-template>
+
+                    <ng-template #remove_from_fav>
+                        <button mat-raised-button (click)="removeFromFavourites(movie)">
+                            Remove from favorites
+                        </button>
+                    </ng-template>
+
+                    <button mat-icon-button [matMenuTriggerFor]="collectionsMenu">
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                    <mat-menu #collectionsMenu="matMenu">
+                        <button mat-menu-item *ngFor="let collection of mediaCollections" (click)="handleMenuSelect(collection)">
+                            <mat-icon>dialpad</mat-icon>
+                            <span>{{collection.name}}</span>
+                        </button>
+                    </mat-menu>
                 </div>
-                <!--<div class="btn-group float-left" role="group" aria-label="Basic example">
-                    <button *ngIf="!movie.isFavourite" class="btn btn-secondary" (click)="addToFavourites(movie)">Add to
-                        favourites &nbsp; <i class="fa fa-star-o fa-lg" aria-hidden="true"></i></button>
-                    <button *ngIf="movie.isFavourite" class="btn btn-secondary" (click)="removeFromFavourites(movie)">
-                        Remove from favourites &nbsp; <i class="fa fa-star fa-lg" aria-hidden="true"></i></button>
-                    <button class="btn btn-secondary disabled">Move...&nbsp;<i class="fa fa-arrow-right"
-                                                                               aria-hidden="true"></i></button>
-                    <button class="btn btn-secondary">Share &nbsp;<i class="fa fa-share-alt fa-lg"
-                                                                     aria-hidden="true"></i></button>
-                </div>-->
             </div>
         </div>
     </div>

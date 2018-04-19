@@ -21,12 +21,6 @@ export class MovieViewComponent extends AbstractMovieDetails implements OnInit {
     }
 
     ngOnInit() {
-        /*let id = +this.route.snapshot.params['id'];
-        if(!isNaN(id)) {
-          console.log(id);
-          this.movieService.getMovie(id)
-            .then((movie: Movie) => this.movie = movie);
-        }*/
         let id = this.route.snapshot.params['id'];
         this.movieService.getMovieByImdbId(id)
             .then((movie: Movie) => this.movie = movie);
@@ -35,8 +29,7 @@ export class MovieViewComponent extends AbstractMovieDetails implements OnInit {
             .then(collections => this.mediaCollections = collections)
     }
 
-    handleMenuSelect(event: { index: number, item: HTMLElement }) {
-        let mediaCollection = this.mediaCollections[event.index];
+    handleMenuSelect(mediaCollection: MediaCollection) {
 
         this.mediaCollectionService.addMediaToCategory(this.movie, mediaCollection)
             .then(response => {
