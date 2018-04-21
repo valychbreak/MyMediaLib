@@ -1,43 +1,39 @@
-<div class="m-2">
-    <div class="row">
-        <h1>Search media</h1>
-    </div>
+<div class="mat-title">Search media</div>
 
-    <hr/>
+<hr/>
 
-    <div class="row">
-        <form #f="ngForm" (ngSubmit)="submitSearch(f.value, f.valid)" class="form-inline w-100" novalidate>
-            <input id="query" type="text" class="form-control col-8 mb-5 mr-sm-2 mb-sm-0"
-                   name="query" [(ngModel)]="searchParams.query"
-                   placeholder="Start typing..."
-                   #query="ngModel" required>
-            <button type="submit" class="btn btn-outline-secondary">Search</button>
-        </form>
-    </div>
+<div class="container-row">
+    <form #f="ngForm" (ngSubmit)="submitSearch(f.value, f.valid)" class="form-inline w-100" novalidate>
+        <input id="query" type="text" class="form-control col-8 mb-5 mr-sm-2 mb-sm-0"
+               name="query" [(ngModel)]="searchParams.query"
+               placeholder="Start typing..."
+               #query="ngModel" required>
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </form>
+</div>
 
-    <div class="row mt-3">
-        <ngb-tabset class="w-100">
-            <ngb-tab id="tab1" title="All">
-                <ng-template ngbTabContent>
-                    <media-search-section [searchParams]="searchParams"></media-search-section>
-                </ng-template>
-            </ngb-tab>
+<div class="container-row mt-3">
+    <ngb-tabset class="w-100">
+        <ngb-tab id="tab1" title="All">
+            <ng-template ngbTabContent>
+                <media-search-section [searchParams]="searchParams"></media-search-section>
+            </ng-template>
+        </ngb-tab>
 
-            <ngb-tab id="tab2" title="Movies">
-                <ng-template ngbTabContent>
-                    <movie-search-section [searchParams]="searchParams"></movie-search-section>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab id="tab3" title="TV Shows">
-                <ng-template ngbTabContent>
-                    <tvshow-search-section [searchParams]="searchParams"></tvshow-search-section>
-                </ng-template>
-            </ngb-tab>
-            <ngb-tab id="tab4" title="People">
-                <ng-template ngbTabContent>
-                    <app-people-search-section [searchParams]="searchParams"></app-people-search-section>
-                </ng-template>
-            </ngb-tab>
-        </ngb-tabset>
-    </div>
+        <ngb-tab id="tab2" title="Movies">
+            <ng-template ngbTabContent>
+                <movie-search-section [searchParams]="searchParams"></movie-search-section>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab3" title="TV Shows">
+            <ng-template ngbTabContent>
+                <tvshow-search-section [searchParams]="searchParams"></tvshow-search-section>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab4" title="People">
+            <ng-template ngbTabContent>
+                <app-people-search-section [searchParams]="searchParams"></app-people-search-section>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
 </div>

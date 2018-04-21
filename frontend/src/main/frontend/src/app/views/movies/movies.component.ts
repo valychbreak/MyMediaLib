@@ -5,7 +5,7 @@ import {SearchParams} from "../../shared/search/search-params";
 @Component({
     selector: 'app-movie',
     templateUrl: 'movies.component.html',
-    styleUrls: ['movies.component.css']
+    styleUrls: ['movies.component.scss']
 })
 export class MoviesComponent extends AbstractForm implements OnInit {
     searchParams: SearchParams;

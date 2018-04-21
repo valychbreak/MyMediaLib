@@ -1,7 +1,32 @@
+<mat-card class="media-card--block">
+    <mat-card-title-group (click)="onSelectMovie(movie)">
+        <mat-card-title>{{movie.title}} (2018)</mat-card-title>
+        <mat-card-subtitle>{{movie.genre}}</mat-card-subtitle>
+    </mat-card-title-group>
+
+    <img mat-card-image [src]="getImage(movie.imagePath)" alt="" (click)="onSelectMovie(movie)"/>
+
+    <mat-card-content>
+        {{movie.description}}
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-icon-button (click)="onFavoriteToggleChange(isMediaFavorite)">
+            <mat-icon>{{isMediaFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon>share</mat-icon>
+        </button>
+        <button mat-icon-button (click)="gotoMoviePage(movie)">
+            <mat-icon>subject</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>
+
+<!--
 <div class="demo-container">
     <div class="movie-view-block">
         <div class="thumbnail">
-            <div class="demo-content--row">
+            <div class="demo-content&#45;&#45;row">
                 <div class="hovereffect" (click)="onSelectMovie(movie)">
                     <img class="img-fluid" height="200" [src]="getImage(movie.imagePath)" alt="">
                     <div class="overlay">
@@ -16,11 +41,11 @@
                     </div>
                 </div>
                 <div class="caption">
-                    <!--<span class="movie header" >{{movie.title}}</span> ({{movie.duration}} mins.)-->
+                    &lt;!&ndash;<span class="movie header" >{{movie.title}}</span> ({{movie.duration}} mins.)&ndash;&gt;
                     <p>{{movie.shortDescription}}</p>
                 </div>
             </div>
-            <div class="demo-content--row">
+            <div class="demo-content&#45;&#45;row">
                 <button mat-icon-button (click)="onFavoriteToggleChange(isMediaFavorite)">
                     <mat-icon>{{isMediaFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
                 </button>
@@ -32,13 +57,13 @@
             <div class="ratings">
                 <p class="float-right">{{movie.reviews}} reviews</p>
                 <p>
-                    <!--<span *ngFor="let star of [1, 2, 3, 4, 5];">
+                    &lt;!&ndash;<span *ngFor="let star of [1, 2, 3, 4, 5];">
                       <span *ngIf="star <= movie.stars" class="glyphicons glyphicons-star" >1</span>
                       <span *ngIf="star > movie.stars" class="glyphicons glyphicons-star-empty" >0</span>
-                    </span>-->
+                    </span>&ndash;&gt;
                     <ngb-rating [(rate)]="movie.stars" [max]="5" readonly="true"></ngb-rating>
                 </p>
             </div>
         </div>
     </div>
-</div>
+</div>-->
