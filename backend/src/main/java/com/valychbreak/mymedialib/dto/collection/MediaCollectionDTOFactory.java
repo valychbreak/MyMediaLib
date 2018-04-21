@@ -1,11 +1,12 @@
 package com.valychbreak.mymedialib.dto.collection;
 
-import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.services.media.MediaDetailsProvider;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,50 +15,42 @@ import java.util.List;
 import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
 
 
+@Service
 public class MediaCollectionDTOFactory {
 
+    private MediaDetailsProvider mediaDetailsProvider;
+
+    public MediaCollectionDTOFactory(MediaDetailsProvider mediaDetailsProvider) {
+        this.mediaDetailsProvider = mediaDetailsProvider;
+    }
+
     @Deprecated
-    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection) throws IOException, OMDBException {
+    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection) throws IOException {
         return createWithMedia(userMediaCollection, null);
     }
 
-    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection, User owner) throws IOException, OMDBException {
-        return create(userMediaCollection, owner, true, true);
+    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection, User owner) throws IOException {
+        return create(userMediaCollection, owner, true);
     }
 
     @Deprecated
-    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection) throws IOException, OMDBException {
+    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection) throws IOException {
         return createWithoutMedia(userMediaCollection, null);
     }
 
-    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection, User owner) throws IOException, OMDBException {
-        return create(userMediaCollection, owner, false, true);
+    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection, User owner) throws IOException {
+        return create(userMediaCollection, owner, false);
     }
 
-    protected MediaCollectionDTO create(UserMediaCollection userMediaCollection, User owner, boolean includeMedia, boolean includeSubCategories) throws IOException, OMDBException {
+    protected MediaCollectionDTO create(UserMediaCollection userMediaCollection, User owner, boolean includeMedia) throws IOException {
         List<MediaFullDetailsImpl> mediaList = null;
 
         if(includeMedia) {
             mediaList = new ArrayList<>();
             for (UserMedia userMedia : userMediaCollection.getUserMediaList()) {
-                mediaList.add((MediaFullDetailsImpl) userMedia.getMedia().getDetails());
+                mediaList.add((MediaFullDetailsImpl) mediaDetailsProvider.getDetails(userMedia.getMedia()));
             }
         }
-
-        List<MediaCollectionDTO> subCollections = null;
-        /*if (includeSubCategories) {
-            subCollections = new ArrayList<>();
-            for (UserMediaCollection subCollection : userMediaCollection.getSubUserMediaCollections()) {
-                MediaCollectionDTO mediaCollectionDTO = create(subCollection, false, true);
-                subCollections.add(mediaCollectionDTO);
-            }
-        }*/
-
-        MediaCollectionDTO parentCollectionDTO = null;
-
-        /*if (userMediaCollection.getParentUserMediaCollection() != null) {
-            parentCollectionDTO = create(userMediaCollection.getParentUserMediaCollection(), false, false);
-        }*/
 
         return aMediaCollectionDTOBuilder()
                 .withId(userMediaCollection.getId())

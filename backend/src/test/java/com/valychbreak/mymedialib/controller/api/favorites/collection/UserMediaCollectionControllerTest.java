@@ -36,6 +36,8 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MediaCollectionDTOFactory mediaCollectionDTOFactory;
 
     @Test
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
@@ -44,7 +46,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
         User user = userRepository.findFirstByUsername("test");
-        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithoutMedia(userMediaCollection, user);
+        MediaCollectionDTO expectedMediaCollectionDTO = mediaCollectionDTOFactory.createWithoutMedia(userMediaCollection, user);
 
         mockMvc.perform(
                 get("/api/collection/1000").requestAttr("media", "false")
@@ -60,7 +62,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
         UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
 
         User user = userRepository.findFirstByUsername("test");
-        MediaCollectionDTO expectedMediaCollectionDTO = new MediaCollectionDTOFactory().createWithMedia(userMediaCollection, user);
+        MediaCollectionDTO expectedMediaCollectionDTO = mediaCollectionDTOFactory.createWithMedia(userMediaCollection, user);
 
         mockMvc.perform(
                 get("/api/collection/1000").param("media", "true")
