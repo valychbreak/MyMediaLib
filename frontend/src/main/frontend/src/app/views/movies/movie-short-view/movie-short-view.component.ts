@@ -62,4 +62,12 @@ export class MovieShortViewComponent implements OnInit {
         });
     }
 
+    getMediaRating(media: Movie): string {
+        if (media.stars > 0) {
+            return media.stars + "/10";
+        } else {
+            return "Not rated"
+        }
+    }
+
 }

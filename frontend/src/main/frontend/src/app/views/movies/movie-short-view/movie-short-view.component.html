@@ -10,16 +10,26 @@
         <div class="movie-description">{{movie.description | slice: 0:100}}...</div>
         <a href="javascript:void(0)" (click)="onSelectMovie(movie)">Show more</a>
     </mat-card-content>
-    <mat-card-actions align="end">
-        <button mat-icon-button (click)="onFavoriteToggleChange(isMediaFavorite)">
-            <mat-icon>{{isMediaFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
-        </button>
-        <button mat-icon-button>
-            <mat-icon>share</mat-icon>
-        </button>
-        <button mat-icon-button (click)="gotoMoviePage(movie)">
-            <mat-icon>subject</mat-icon>
-        </button>
+    <mat-card-actions align="start">
+        <div class="media-action--container">
+            <div class="media-action--container">
+                <button mat-button>
+                    {{getMediaRating(movie)}}
+                </button>
+            </div>
+
+            <div class="media-action--container">
+                <button mat-icon-button (click)="onFavoriteToggleChange(isMediaFavorite)">
+                    <mat-icon>{{isMediaFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
+                <button mat-icon-button (click)="gotoMoviePage(movie)">
+                    <mat-icon>subject</mat-icon>
+                </button>
+            </div>
+        </div>
     </mat-card-actions>
 </mat-card>
 

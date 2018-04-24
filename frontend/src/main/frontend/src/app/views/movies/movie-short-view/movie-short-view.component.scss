@@ -137,3 +137,12 @@
 .movie-description {
 
 }
+
+.media-action--container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.media-action--item {
+  display: inline-flex;
+}

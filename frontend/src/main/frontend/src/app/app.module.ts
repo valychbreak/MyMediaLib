@@ -36,7 +36,7 @@ import {TvShowSearchSectionComponent} from './views/movies/tvshow-search-section
 import {CollectionViewComponent} from './views/favorites/collection/collection-view/collection-view.component';
 import {NewCollectionDialogComponent} from "./views/favorites/collection/new-collection-view/new-collection-dialog.component";
 import {RemoveCollectionDialogComponent} from './views/favorites/collection/remove-collection-dialog/remove-collection-dialog.component';
-import {CustomMaterialModule} from "./custom-material.module";
+import {CustomMaterialModule} from "./utils/material/custom-material.module";
 import {MAT_DIALOG_DEFAULT_OPTIONS, MAT_LABEL_GLOBAL_OPTIONS} from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
 
