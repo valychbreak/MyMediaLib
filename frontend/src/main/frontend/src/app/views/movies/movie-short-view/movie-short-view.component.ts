@@ -70,4 +70,13 @@ export class MovieShortViewComponent implements OnInit {
         }
     }
 
+    getTitleFontSize(length: number) {
+        let maxSymbols = 17;
+        if (length > maxSymbols) {
+            //return 1 - (length - maxSymbols) * 0.03;
+            return 0.65;
+        } else {
+            return 1;
+        }
+    }
 }

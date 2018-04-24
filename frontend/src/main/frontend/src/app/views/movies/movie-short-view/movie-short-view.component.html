@@ -1,6 +1,6 @@
 <mat-card class="media-card--block">
     <mat-card-title-group (click)="onSelectMovie(movie)">
-        <mat-card-title>{{movie.title}} (2018)</mat-card-title>
+        <mat-card-title><span [ngStyle]="{'font-size.em':getTitleFontSize(movie.title.length)}">{{movie.title}} (2018)</span></mat-card-title>
         <mat-card-subtitle>{{movie.genre}}</mat-card-subtitle>
     </mat-card-title-group>
 
