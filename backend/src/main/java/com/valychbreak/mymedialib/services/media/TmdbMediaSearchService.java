@@ -1,8 +1,13 @@
 package com.valychbreak.mymedialib.services.media;
 
 import com.uwetrottmann.tmdb2.Tmdb;
+import com.uwetrottmann.tmdb2.entities.BaseMovie;
+import com.uwetrottmann.tmdb2.entities.Media;
 import com.uwetrottmann.tmdb2.entities.MediaResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
+import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
+import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsAdapter;
+import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsTmdbMovieAdapter;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
@@ -35,6 +40,16 @@ public class TmdbMediaSearchService implements MediaSearchService {
         MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
         List<MediaFullDetails> mediaSearchResults = convertMedia(movieResults);
         return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
+    }
+
+    public SearchResult<Media> searchBasic(SearchParams searchParams) throws IOException {
+        MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
+        List<Media> mediaSearchResults = convertMediaBasic(movieResults);
+        return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
+    }
+
+    private List<Media> convertMediaBasic(MediaResultsPage movieResults) {
+        return movieResults.results;
     }
 
     private List<MediaFullDetails> convertMedia(MediaResultsPage movieResults) {
