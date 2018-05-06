@@ -1,30 +1,41 @@
 package com.valychbreak.mymedialib.controller.api.media;
 
-import com.valychbreak.mymedialib.controller.AbstractControllerTest;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.valychbreak.mymedialib.controller.ControllerTest;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
-import com.valychbreak.mymedialib.services.TmdbMediaProvider;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
-import com.valychbreak.mymedialib.utils.TmdbUtils;
-import com.valychbreak.mymedialib.utils.gson.GsonBuilderTools;
 import org.junit.Test;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by valych on 9/16/17.
  */
 // TODO: use manually created MediaFullDetails objects to compare with API ones
-public class MediaDetailsControllerTest extends AbstractControllerTest {
+@TestExecutionListeners({WithSecurityContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class})
+@DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
+@DatabaseSetup(value = "/data/db/common/TestUser.xml", type = DatabaseOperation.INSERT)
+public class MediaDetailsControllerTest extends ControllerTest {
     @Test
     public void getMediaDetailsByImdbIdOfMovie() throws Exception {
         MediaFullDetails fightClubMovie = MediaUtils.getMediaShortDetailsBy("tt0137523");
 
-        mockMvc.perform(get("/api/media/details/tt0137523"))
+        mockMvc.perform(
+                get("/api/media/details/tt0137523")
+                        .principal(new TestingAuthenticationToken("test_user", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(fightClubMovie)));
     }
@@ -33,7 +44,9 @@ public class MediaDetailsControllerTest extends AbstractControllerTest {
     public void getMediaDetailsByImdbIdOfTvShow() throws Exception {
         MediaFullDetails friendsTVSeries = MediaUtils.getMediaShortDetailsBy("tt0108778");
 
-        mockMvc.perform(get("/api/media/details/tt0108778"))
+        mockMvc.perform(
+                get("/api/media/details/tt0108778")
+                        .principal(new TestingAuthenticationToken("test_user", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(friendsTVSeries)));
     }
