@@ -22,7 +22,7 @@ import java.util.Date;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations= "classpath:test.yml")
 public class TestCreateUserService {
     @Autowired
     private UserRoleRepository userRoleRepository;

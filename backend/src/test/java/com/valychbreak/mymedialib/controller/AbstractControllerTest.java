@@ -19,9 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by valych on 4/28/17.
  */
@@ -29,7 +26,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations= "classpath:test.yml")
 public abstract class AbstractControllerTest {
 
     public static final String ADMIN_ROLE_NAME = "ADMIN";
