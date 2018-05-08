@@ -2,6 +2,7 @@
     <user_role id="10" role="USER"/>
     <user_role id="11" role="ADMIN"/>
 
-    <user_media_collection id="1000" name="root" owner="1000"/>
     <users id="1000" username="test_user" first_name="Test" email="testuser1@t.com" password="test12" user_role_id="10"/>
+
+    <user_media_collection id="1000" name="root" owner_user_id="1000"/>
 </dataset>

@@ -22,10 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class/*, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT*/)
+@SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 @TestPropertySource(locations= "classpath:test.yml")
-public class AbstractControllerSecurityTest {
+public abstract class AbstractControllerSecurityTest {
+
+    public static final String CLIENT_ID = "gigy";
 
     @Autowired
     protected WebApplicationContext webapp;
@@ -48,9 +50,9 @@ public class AbstractControllerSecurityTest {
         return gson.toJson(object);
     }
 
-    protected RequestPostProcessor bearerToken(final String clientid) {
+    protected RequestPostProcessor bearerToken(String username, String password) {
         return mockRequest -> {
-            OAuth2AccessToken token = helper.createAccessToken(clientid, "test_user", "test12");
+            OAuth2AccessToken token = helper.createAccessToken(CLIENT_ID, username, password);
             mockRequest.addHeader("Authorization", "Bearer " + token.getValue());
             return mockRequest;
         };

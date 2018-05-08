@@ -1,6 +1,8 @@
 package com.valychbreak.mymedialib.controller.api.media;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.AbstractControllerSecurityTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,16 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by valych on 9/16/17.
- */
-// TODO: use manually created MediaFullDetails objects to compare with API ones
+
 @TestExecutionListeners({WithSecurityContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
-//@DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
-//@DatabaseSetup(value = "/data/db/common/TestUser.xml", type = DatabaseOperation.INSERT)
+@DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
+@DatabaseSetup(value = "/data/db/common/TestUser.xml")
 @TestPropertySource(locations = "classpath:test.yml")
 public class MediaDetailsControllerSecurityTest extends AbstractControllerSecurityTest {
 
@@ -49,9 +48,9 @@ public class MediaDetailsControllerSecurityTest extends AbstractControllerSecuri
 
     @Test
     public void returnsMediaDetailsWhenUserAuthorized() throws Exception {
-        RequestPostProcessor bearerToken = bearerToken("gigy");
         mockMvc.perform(
-                get("/api/media/details/tt0137523").with(bearerToken))
+                get("/api/media/details/tt0137523")
+                        .with(bearerToken("test_user", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", notNullValue()));
     }
