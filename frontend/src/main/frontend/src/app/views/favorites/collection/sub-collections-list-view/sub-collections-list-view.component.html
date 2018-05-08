@@ -15,17 +15,17 @@
     <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="1em">
         <div *ngFor="let collection of currentCategory.subCollections">
             <mat-card class="demo-card--photo">
-                <div (click)="goToCollection(collection)">
-                    <mat-card-header>
+                <div >
+                    <mat-card-title-group class="card-header--cursor" (click)="goToCollection(collection)">
                         <mat-card-title>{{collection.name}}</mat-card-title>
                         <mat-card-subtitle>Media: 32</mat-card-subtitle>
-                    </mat-card-header>
+                    </mat-card-title-group>
 
                     <mat-card-content>
                         Collection description
                     </mat-card-content>
                 </div>
-                <mat-card-actions>
+                <mat-card-actions align="end">
                     <button mat-icon-button>
                         <mat-icon>favorite</mat-icon>
                     </button>
