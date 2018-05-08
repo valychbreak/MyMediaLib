@@ -86,19 +86,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new SimpleCORSFilter(), BasicAuthenticationFilter.class);
-                //.cors();
-        /*http.anonymous().authorities("ROLE_ANONYMOUS").and()
-                .requestMatchers().antMatchers("/login", "/oauth/authorize")
-                .and().antMatcher("/**")
-                .authorizeRequests()
-                .antMatchers("/", "/login**", "/webjars/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated().and().exceptionHandling()
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/#test")).and().logout()
-                .logoutSuccessUrl("/").permitAll().and().csrf().disable()
-                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);*/
     }
 
     @Bean

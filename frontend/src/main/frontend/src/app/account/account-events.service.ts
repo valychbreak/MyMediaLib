@@ -25,6 +25,8 @@ export class AccountEventsService extends Subject<any> {
     }
 
     logout(account: any) {
+        this.clearToken();
+
         if (account) {
             account.authenticated = false;
             super.next(account);

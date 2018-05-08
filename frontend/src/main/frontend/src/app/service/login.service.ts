@@ -47,8 +47,7 @@ export class LoginService {
     }
 
     logout(contactServer: boolean) {
-        localStorage.removeItem(LoginService.LOGGED_USER_KEY);
-
+        //localStorage.removeItem(LoginService.LOGGED_USER_KEY);
         if (contactServer) {
             this.http.get(LoginService.logoutURL)
                 .toPromise().then(response => {

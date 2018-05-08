@@ -22,6 +22,9 @@ import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,12 +33,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,6 +53,12 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
+
+    @Autowired
+    private ConsumerTokenServices consumerTokenServices;
 
     @Autowired
     public AuthenticationController(UserRepository userRepository, AuthenticationService authenticationService) {
@@ -168,12 +176,10 @@ public class AuthenticationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/logout123", method = RequestMethod.GET)
-    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        SecurityContextHolder.getContext().setAuthentication(null);
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-        Cookie someCookie = new Cookie(AuthenticationService.APP_COOKIE, "");
-        someCookie.setPath("/");
-        response.addCookie(someCookie);
+    @RequestMapping("/logout")
+    public void logout(Principal principal) {
+        OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) principal;
+        OAuth2AccessToken accessToken = authorizationServerTokenServices.getAccessToken(oAuth2Authentication);
+        consumerTokenServices.revokeToken(accessToken.getValue());
     }
 }
