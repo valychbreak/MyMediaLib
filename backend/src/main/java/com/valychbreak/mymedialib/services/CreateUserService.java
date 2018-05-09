@@ -2,11 +2,10 @@ package com.valychbreak.mymedialib.services;
 
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,33 +18,35 @@ public class CreateUserService {
     private UserRepository userRepository;
     private UserMediaCollectionRepository userMediaCollectionRepository;
     private UserRoleRepository userRoleRepository;
+    private PasswordEncoder passwordEncoder;
 
 
-    @Autowired
-    public CreateUserService(UserRepository userRepository, UserMediaCollectionRepository userMediaCollectionRepository, UserRoleRepository userRoleRepository) {
+    public CreateUserService(UserRepository userRepository, UserMediaCollectionRepository userMediaCollectionRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMediaCollectionRepository = userMediaCollectionRepository;
         this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public User saveSimpleUser(String username, String password, String name, String email) {
+    public User createSimpleUser(String username, String password, String name, String email) {
         Role role = getRole(Role.USER_ROLE_NAME);
-        return saveUser(username, password, name, email, role);
+        return createUser(username, password, name, email, role);
     }
 
-    public User saveAdminUser(String username, String password, String name, String email) {
+    public User createAdminUser(String username, String password, String name, String email) {
         Role role = getRole(Role.ADMIN_ROLE_NAME);
-        return saveUser(username, password, name, email, role);
+        return createUser(username, password, name, email, role);
     }
 
-    public User saveUser(String username, String password, String name, String email, Role role) {
+    public User createUser(String username, String password, String name, String email, Role role) {
         User user = createUserInstance(username, password, name, email, role);
         userRepository.save(user);
         return user;
     }
 
     public User createUserInstance(String username, String password, String name, String email, Role role) {
-        return new User(username, password, name, email, role);
+        String encodedPassword = passwordEncoder.encode(password);
+        return new User(username, encodedPassword, name, email, role);
     }
 
     private Role getRole(String userRoleName) {

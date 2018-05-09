@@ -6,7 +6,6 @@ import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import com.valychbreak.mymedialib.services.CreateUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class RegisterUserController extends APIController {
     public ResponseEntity<User> addUser(@RequestBody User user) throws Exception {
         Role role = userRoleRepository.findByRole(Role.USER_ROLE_NAME);
         user.setRole(role);
-        User createdUser = createUserService.saveUser(user.getUsername(), user.getPassword(),
+        User createdUser = createUserService.createUser(user.getUsername(), user.getPassword(),
                 user.getName(), user.getEmail(), user.getRole());
         return new ResponseEntity<>(createdUser, HttpStatus.OK);
     }

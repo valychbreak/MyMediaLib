@@ -31,10 +31,6 @@ public class ApplicationFirstRunSetup {
         if(userRoleRepository.count() == 0) {
             createBasicRoles();
         }
-
-        /*if(userRepository.count() == 0) {
-            createAdminUser();
-        }*/
     }
 
     private void createBasicRoles() {
@@ -49,6 +45,6 @@ public class ApplicationFirstRunSetup {
 
     private void createAdminUser() {
         Role adminRole = userRoleRepository.findByRole(Role.ADMIN_ROLE_NAME);
-        createUserService.saveUser("test", "test12","Admin test", "test@t.com", adminRole);
+        createUserService.createUser("test", "test12","Admin test", "test@t.com", adminRole);
     }
 }

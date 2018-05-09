@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static com.valychbreak.mymedialib.entity.Role.ADMIN_ROLE_NAME;
+import static com.valychbreak.mymedialib.entity.Role.USER_ROLE_NAME;
+
 /**
  * Created by valych on 4/28/17.
  */
@@ -28,10 +31,6 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 @TestPropertySource(locations= "classpath:test.yml")
 public abstract class AbstractControllerTest {
-
-    public static final String ADMIN_ROLE_NAME = "ADMIN";
-    public static final String USER_ROLE_NAME = "USER";
-
 
     protected User adminUser;
     protected User user;
@@ -62,15 +61,15 @@ public abstract class AbstractControllerTest {
     }
 
     private void initRoles() {
-        Role adminRole = userRoleRepository.findByRole(Role.ADMIN_ROLE_NAME);
-        Role role = userRoleRepository.findByRole(Role.USER_ROLE_NAME);
+        Role adminRole = userRoleRepository.findByRole(ADMIN_ROLE_NAME);
+        Role role = userRoleRepository.findByRole(USER_ROLE_NAME);
 
         if (adminRole == null) {
-            userRoleRepository.save(new Role(Role.ADMIN_ROLE_NAME));
+            userRoleRepository.save(new Role(ADMIN_ROLE_NAME));
         }
 
         if (role == null) {
-            userRoleRepository.save(new Role(Role.USER_ROLE_NAME));
+            userRoleRepository.save(new Role(USER_ROLE_NAME));
         }
     }
 
@@ -102,7 +101,7 @@ public abstract class AbstractControllerTest {
     }
 
     protected User createUserInDb(String username, String password, String name, String email, Role role) {
-        User user = createUserService.saveUser(username, password, name, email, role);
+        User user = createUserService.createUser(username, password, name, email, role);
         return user;
     }
 
