@@ -117,6 +117,6 @@ public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
     }
 
     private String requestToken() {
-        return oAuth2TestHelper.createAccessToken(TEST_USER, USER_PASSWORD).getValue();
+        return oAuth2TestHelper.createAccessToken(TEST_USER, USER_PASSWORD, "ROLE_USER").getValue();
     }
 }

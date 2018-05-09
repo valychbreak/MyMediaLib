@@ -1,6 +1,6 @@
 <dataset>
-    <user_role id="10" role="USER"/>
-    <user_role id="11" role="ADMIN"/>
+    <user_role id="10" role="ROLE_USER"/>
+    <user_role id="11" role="ROLE_ADMIN"/>
 
     <users id="1000" username="test_user" first_name="Test" email="testuser1@t.com" password="test12" user_role_id="10"/>
 

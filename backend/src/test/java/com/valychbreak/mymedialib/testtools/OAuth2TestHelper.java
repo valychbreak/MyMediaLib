@@ -3,6 +3,7 @@ package com.valychbreak.mymedialib.testtools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -13,10 +14,7 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class OAuth2TestHelper {
@@ -28,10 +26,17 @@ public class OAuth2TestHelper {
     @Autowired
     AuthorizationServerTokenServices tokenservice;
 
-    public OAuth2AccessToken createAccessToken(String username, String password) {
+
+    public OAuth2AccessToken createAccessToken(String username, String password, String... roles) {
         // Look up authorities, resourceIds and scopes based on clientId
         ClientDetails client = clientDetailsService.loadClientByClientId(CLIENT_ID);
-        Collection<GrantedAuthority> authorities = client.getAuthorities();
+
+
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+
         Set<String> resourceIds = client.getResourceIds();
         Set<String> scopes = client.getScope();
 

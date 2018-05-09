@@ -20,7 +20,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/api/signin2").anonymous()
                 .antMatchers("/api/user/add").permitAll()
-                .anyRequest().authenticated()/*.and().headers().frameOptions().disable()*/;//.and().cors();
+                .anyRequest().hasRole("USER")/*.and().headers().frameOptions().disable()*/;//.and().cors();
         // @formatter:on
     }
 

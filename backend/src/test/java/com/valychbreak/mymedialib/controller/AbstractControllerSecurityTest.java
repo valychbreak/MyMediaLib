@@ -49,8 +49,12 @@ public abstract class AbstractControllerSecurityTest {
     }
 
     protected RequestPostProcessor bearerToken(String username, String password) {
+        return bearerToken(username, password,  "ROLE_USER");
+    }
+
+    protected RequestPostProcessor bearerToken(String username, String password, String... roles) {
         return mockRequest -> {
-            OAuth2AccessToken token = helper.createAccessToken(username, password);
+            OAuth2AccessToken token = helper.createAccessToken(username, password, roles);
             mockRequest.addHeader("Authorization", "Bearer " + token.getValue());
             return mockRequest;
         };
