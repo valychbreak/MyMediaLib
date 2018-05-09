@@ -4,18 +4,23 @@ import com.valychbreak.mymedialib.dto.LoginDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.AccessTokenRequest;
+import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +38,7 @@ public class AuthenticationService {
     /**
      * Fixes the issue with cycle dependency with SecurityConfig
      */
-    /*@Autowired*/
+    @Autowired
     private AuthenticationManager authenticationManager;
 
 
@@ -64,9 +69,41 @@ public class AuthenticationService {
         return user;
     }
 
-    public void tokenAuthentication(String username){
-        UserDetails details = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(details, details.getPassword(), details.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authToken);
+    public OAuth2AccessToken obtainOAuth2AccessToken(String username, String password) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        // TODO: is there any way to get rid of setting auth to global context?
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+
+        OAuth2AccessToken accessToken = restTemplate(username, password).getAccessToken();
+
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return accessToken;
+    }
+
+    public OAuth2RestTemplate restTemplate(String username, String password) {
+        AccessTokenRequest atr = new DefaultAccessTokenRequest();
+
+        OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(resource(username, password), new DefaultOAuth2ClientContext(atr));
+        return oAuth2RestTemplate;
+    }
+
+    protected OAuth2ProtectedResourceDetails resource(String username, String password) {
+
+        ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
+
+        List scopes = new ArrayList<String>(2);
+        scopes.add("write");
+        scopes.add("read");
+        resource.setAccessTokenUri("http://localhost:8080/oauth/token");
+        resource.setClientId("gigy");
+        resource.setClientSecret("secret");
+        resource.setGrantType("password");
+        resource.setScope(scopes);
+
+        resource.setUsername(username);
+        resource.setPassword(password);
+
+        return resource;
     }
 }

@@ -24,13 +24,13 @@ public class MyUserDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
 
-    //get user from the database, via Hibernate
+
     @Autowired
     public MyUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    /*@Transactional(readOnly=true)*/
+
     @Override
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
@@ -47,8 +47,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     }
 
-    // Converts com.valychbreak.mymedialib.entity.User user to
-    // org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(com.valychbreak.mymedialib.entity.User user,
                                             List<GrantedAuthority> authorities) {
         return new User(user.getUsername(), user.getPassword(),
@@ -57,14 +55,10 @@ public class MyUserDetailsService implements UserDetailsService {
 
     private List<GrantedAuthority> buildUserAuthority(Role role) {
 
-        Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> setAuths = new HashSet<>();
+        setAuths.add(new SimpleGrantedAuthority(role.getRole()));
 
-        // Build user's authorities
-        //for (Role role : userRoles) {
-            setAuths.add(new SimpleGrantedAuthority(role.getRole()));
-        //}
-
-        List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
+        List<GrantedAuthority> Result = new ArrayList<>(setAuths);
 
         return Result;
     }
