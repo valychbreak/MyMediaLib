@@ -20,7 +20,9 @@
       "prefix": "app",
       "styles": [
         "sass/styles.scss",
-        "../node_modules/angular2-busy/build/style/busy.css"
+        "../node_modules/angular2-busy/build/style/busy.css",
+        "assets/bootstrap/css/bootstrap.css",
+        "assets/font-awesome-4.7.0/css/font-awesome.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
