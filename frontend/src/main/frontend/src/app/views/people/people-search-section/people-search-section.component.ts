@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SearchComponentSection} from "../../search-component-section";
-import {SearchParams} from "../../../shared/search/search-params";
 import {PeopleService} from "../../../service/people.service";
 import {Person} from "../../../shared/person/person";
 import {BasicMovie} from "../../../shared/movie/basic-movie";
+import {SearchResult} from "../../../shared/search/search-result";
 
 @Component({
     selector: 'app-people-search-section',
@@ -17,7 +17,7 @@ export class PeopleSearchSectionComponent extends SearchComponentSection<Person>
     }
 
     ngOnInit() {
-        this.mockData();
+        //this.mockData();
     }
 
     private mockData() {
@@ -51,29 +51,11 @@ export class PeopleSearchSectionComponent extends SearchComponentSection<Person>
         return basicMovie;
     }
 
-    onPageChange(): void {
-        this.applySearch();
+    doSearch(query: string, page: number): Promise<SearchResult<Person>> {
+        return this.peopleService.searchPeople(this.searchParams.query, page).then(searchResult => {
+            return this.searchResult = searchResult;
+        });
     }
 
-    applySearch() {
-        if (this.searchParams && this.searchParams.query) {
-            console.log("[People] Search is activated");
 
-            let page = this.searchResult ? this.searchResult.page : this.searchParams.page;
-            this.peopleService.searchPeople(this.searchParams.query, page).then(searchResult => {
-                this.searchResult = searchResult;
-            });
-        }
-    }
-
-    @Input()
-    set searchParams(searchParams: SearchParams) {
-        this.setSearchParams(searchParams);
-
-        this.applySearch();
-    }
-
-    get searchParams(): SearchParams {
-        return this.getSearchParams()
-    }
 }

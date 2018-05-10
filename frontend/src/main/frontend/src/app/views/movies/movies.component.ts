@@ -23,7 +23,7 @@ export class MoviesComponent extends AbstractForm implements OnInit {
     submitSearch(searchParams: SearchParams, isValid: boolean): void {
         this.searchParams = new SearchParams();
         this.searchParams.query = searchParams.query;
-        this.searchParams.page = searchParams.page;
+        this.searchParams.page = 1;
     }
 
 }

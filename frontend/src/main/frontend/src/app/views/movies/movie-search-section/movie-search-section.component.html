@@ -1,21 +1,21 @@
 <div class="row">
     <div class="col-12 justify-content-center">
         <ngb-pagination [pageSize]="1" [(collectionSize)]="searchResult.totalPages"
-                        [(page)]="searchResult.page" (pageChange)="onPageChange()"
+                        [(page)]="this.page"(pageChange)="onPageChange()"
                         [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
 
         </ngb-pagination>
     </div>
 </div>
-<div class="row">
-    <div *ngFor="let movie of searchResult.items" class="col-xs-12 col-sm-4 col-lg-3">
+<div fxLayout="row wrap" fxLayoutGap="1.5em">
+    <div *ngFor="let movie of searchResult.items" class="mb-3">
         <app-movie-short-view [movie]="movie"></app-movie-short-view>
     </div>
-    <div [ngBusy]="busy"></div>
+    <div [ngBusy]="busyLoading"></div>
 </div>
 <div class="col-12 justify-content-center">
     <ngb-pagination [pageSize]="1" [(collectionSize)]="searchResult.totalPages"
-                    [(page)]="searchResult.page" (pageChange)="onPageChange()"
+                    [(page)]="this.page"(pageChange)="onPageChange()"
                     [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
 
     </ngb-pagination>

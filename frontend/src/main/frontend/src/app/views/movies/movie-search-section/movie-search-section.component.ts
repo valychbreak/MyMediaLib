@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SearchParams} from "../../../shared/search/search-params";
+import {Component, OnInit} from '@angular/core';
 import {Movie} from "../../../shared/movie/movie";
 import {MovieService} from "../../../service/movie.service";
 import {SearchComponentSection} from "../../search-component-section";
+import {SearchResult} from "../../../shared/search/search-result";
 
 @Component({
     selector: 'movie-search-section',
@@ -10,19 +10,13 @@ import {SearchComponentSection} from "../../search-component-section";
     styleUrls: ['./movie-search-section.component.css']
 })
 export class MovieSearchSectionComponent extends SearchComponentSection<Movie> implements PageOriented, OnInit {
-    private busy: any;
 
     constructor(private movieService: MovieService) {
         super();
     }
 
     ngOnInit() {
-
         this.mockData();
-
-        // this.applySearch();
-
-        console.log("ngOnInit called");
     }
 
     private mockData() {
@@ -38,30 +32,9 @@ export class MovieSearchSectionComponent extends SearchComponentSection<Movie> i
         this.searchResult.items = [movie, movie2];
     }
 
-
-    onPageChange(): void {
-        this.applySearch();
-    }
-
-    applySearch() {
-        if (this.searchParams && this.searchParams.query) {
-            console.log("[Movie] Search is activated");
-
-            let page = this.searchResult ? this.searchResult.page : this.searchParams.page;
-            this.busy = this.movieService.searchMovie(this.searchParams.query, page).then(searchResult => {
-                this.searchResult = searchResult;
-            });
-        }
-    }
-
-    @Input()
-    set searchParams(searchParams: SearchParams) {
-        this.setSearchParams(searchParams);
-
-        this.applySearch();
-    }
-
-    get searchParams(): SearchParams {
-        return this.getSearchParams()
+    doSearch(query: string, page: number): Promise<SearchResult<Movie>> {
+        return this.movieService.searchMovie(this.searchParams.query, page).then(searchResult => {
+            return this.searchResult = searchResult;
+        });
     }
 }
