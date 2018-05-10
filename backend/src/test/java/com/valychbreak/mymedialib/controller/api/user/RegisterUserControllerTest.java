@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
+@DatabaseSetup(value = "/data/db/BasicRolesDataset.xml")
 public class RegisterUserControllerTest extends ControllerTest {
 
     @Autowired
@@ -35,7 +36,6 @@ public class RegisterUserControllerTest extends ControllerTest {
     private UserRepository userRepository;
 
     @Test
-    @DatabaseSetup(value = "/data/db/BasicRolesDataset.xml")
     public void addUser() throws Exception {
         Role role = getUserRole();
         User newUser = new User("username1", "password2", "User name", "useremail@t.com", role);
@@ -46,6 +46,6 @@ public class RegisterUserControllerTest extends ControllerTest {
     }
 
     private Role getUserRole() {
-        return userRoleRepository.findByRole("USER");
+        return userRoleRepository.findByRole(Role.USER_ROLE_NAME);
     }
 }

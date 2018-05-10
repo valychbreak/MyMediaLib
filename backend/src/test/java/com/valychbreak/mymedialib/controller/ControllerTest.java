@@ -19,9 +19,9 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.IOException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class/*, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT*/)
+@SpringBootTest(classes = Application.class)
 @WebAppConfiguration
-@TestPropertySource(locations= "classpath:test.yml")
+@TestPropertySource(locations= "classpath:application.yml")
 public abstract class ControllerTest {
     @Autowired
     private WebApplicationContext context;

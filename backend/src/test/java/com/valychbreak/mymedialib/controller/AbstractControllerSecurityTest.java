@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
-@TestPropertySource(locations = "classpath:test.yml")
+@TestPropertySource(locations = "classpath:application.yml")
 public abstract class AbstractControllerSecurityTest {
 
     @Autowired

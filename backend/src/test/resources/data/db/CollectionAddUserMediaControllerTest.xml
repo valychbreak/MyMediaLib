@@ -3,5 +3,5 @@
 
     <user_media_collection id="1000" name="New Media Collection" />
 
-    <users id="1000" username="test" first_name="Test1" email="test1@t.com" password="test12" user_role_id="1000"/>
+    <users id="1000" username="test" first_name="Test1" email="test1@t.com" password="$2a$10$Z3XoPdQzwWfSrf0aytT78eg/cKr0.6OMAmUIH6TzOU5ok40iUqCWm" user_role_id="1000"/>
 </dataset>

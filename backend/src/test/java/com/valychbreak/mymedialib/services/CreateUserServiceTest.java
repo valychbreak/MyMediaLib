@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class
 })
-@TestPropertySource(locations= "classpath:test.yml")
+@TestPropertySource(locations= "classpath:application.yml")
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 public class CreateUserServiceTest {
     @Autowired

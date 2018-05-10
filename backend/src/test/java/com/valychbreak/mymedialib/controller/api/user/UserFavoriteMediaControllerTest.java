@@ -4,17 +4,14 @@ import com.valychbreak.mymedialib.controller.AbstractControllerTest;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -23,13 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by valych on 4/29/17.
  */
-public class TestUserFavoriteMediaController extends AbstractControllerTest {
-
-    public static final String MEDIA_CONTROLLER_TEST_USER_NAME = "mediaControllerTestUser";
-
-    @Autowired
-    private UserMediaCollectionRepository userMediaCollectionRepository;
-
+public class UserFavoriteMediaControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockUser(username = "getFavouritesUser", roles={"USER"})

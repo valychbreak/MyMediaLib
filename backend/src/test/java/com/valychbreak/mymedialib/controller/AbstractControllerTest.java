@@ -29,7 +29,7 @@ import static com.valychbreak.mymedialib.entity.Role.USER_ROLE_NAME;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
-@TestPropertySource(locations= "classpath:test.yml")
+@TestPropertySource(locations= "classpath:application.yml")
 public abstract class AbstractControllerTest {
 
     protected User adminUser;
