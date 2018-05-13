@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface UserMediaRepository extends CrudRepository<UserMedia, Long> {
     List<UserMedia> findByUser(User user);
+    boolean existsByUserAndMediaImdbId(User user, String imdbId);
 }

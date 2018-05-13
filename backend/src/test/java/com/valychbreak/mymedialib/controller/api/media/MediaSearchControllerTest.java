@@ -7,7 +7,7 @@ import com.valychbreak.mymedialib.controller.ControllerTest;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.Test;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -15,7 +15,8 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
@@ -23,25 +24,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
-@DatabaseSetup(value = "/data/db/common/TestUser.xml", type = DatabaseOperation.DELETE_ALL)
+@DatabaseSetup(value = "/data/db/MediaSearchControllerTest.xml")
 public class MediaSearchControllerTest extends ControllerTest {
     @Test
-    @WithMockUser(username = "user", roles={"USER"})
     public void mediaSearch() throws Exception {
 
-        mockMvc.perform(get("/api/media/search?q=batman"))
+        mockMvc.perform(
+                get("/api/media/search?q=batman").principal(new TestingAuthenticationToken("test", "test12"))
+                        .principal(new TestingAuthenticationToken("test_user", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(20)));
     }
 
     @Test
-    @WithMockUser(username = "user", roles={"USER"})
     public void mediaSearchWithPage() throws Exception {
 
-        mockMvc.perform(get("/api/media/search").param("q", "batman").param("p", "3"))
+        mockMvc.perform(
+                get("/api/media/search").param("q", "batman").param("p", "3")
+                        .principal(new TestingAuthenticationToken("test_user", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page", is(3)))
                 .andExpect(jsonPath("$.items", hasSize(getItemsSizeMatcher())));
+    }
+
+    @Test
+    public void favoriteMediaIsMarkedAsFavorite() throws Exception {
+
+        mockMvc.perform(
+                get("/api/media/search").param("q", "Spider-Man 3")
+                        .principal(new TestingAuthenticationToken("test_user", "test12")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.items[*].isFavourite", containsInAnyOrder(true, false)));
     }
 
     // Fixes temporary problem with size: it can be less 20 sometimes (when the item doesn't have a poster)

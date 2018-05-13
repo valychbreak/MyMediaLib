@@ -18,6 +18,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
@@ -34,6 +36,7 @@ public abstract class ControllerTest {
                 .webAppContextSetup(context)
                 // TODO: use db unit data to create tokens for oauth
                 //.apply(springSecurity())
+                .alwaysDo(print())
                 .build();
     }
 

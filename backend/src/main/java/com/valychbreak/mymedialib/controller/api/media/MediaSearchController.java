@@ -2,6 +2,7 @@ package com.valychbreak.mymedialib.controller.api.media;
 
 import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
+import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.services.media.MediaSearchService;
 import com.valychbreak.mymedialib.services.utils.SearchParamsBuilder;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.security.Principal;
 
 /**
  * Created by valych on 9/16/17.
@@ -32,13 +34,15 @@ public class MediaSearchController extends MediaController {
     @RequestMapping(value = "/media/search", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
     public ResponseEntity<SearchResult<MediaFullDetails>> advancedMediaSearch(@RequestParam(value = "q") String searchTerm,
                                                                       @RequestParam(value = "year", required = false) Integer year,
-                                                                      @RequestParam(value = "p", required = false) Integer page
-    ) throws OMDBException, IOException {
+                                                                      @RequestParam(value = "p", required = false) Integer page,
+                                                                              Principal principal
+    ) throws IOException {
 
+        User loggedUser = getUserFromPrincipal(principal);
         SearchParamsBuilder searchParamsBuilder = new SearchParamsBuilder();
         searchParamsBuilder.withQuery(searchTerm).withPage(page);
 
-        SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(searchParamsBuilder.build());
+        SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(searchParamsBuilder.build(), loggedUser);
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 }

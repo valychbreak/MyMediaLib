@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 // TODO: rewrite test as DefaultTvShowSearchServiceTest
-public class DefaultMovieSearchServiceTest {
+public class TmdbMovieSearchServiceTest {
 
     @Mock
     private Tmdb tmdb;
@@ -35,7 +35,7 @@ public class DefaultMovieSearchServiceTest {
     @Mock
     private SearchService searchService;
 
-    private DefaultMovieSearchService movieSearchService;
+    private TmdbMovieSearchService movieSearchService;
 
     @Mock
     private MoviesService movieService;
@@ -48,7 +48,7 @@ public class DefaultMovieSearchServiceTest {
         setupTmdbMovieService();
         setupTmdbSearchService();
 
-        movieSearchService = new DefaultMovieSearchService(tmdb);
+        movieSearchService = new TmdbMovieSearchService(tmdb);
     }
 
     @Test

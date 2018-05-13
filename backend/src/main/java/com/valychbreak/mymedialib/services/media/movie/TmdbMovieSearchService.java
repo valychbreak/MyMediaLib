@@ -1,10 +1,10 @@
-package com.valychbreak.mymedialib.services.media.tvshow;
+package com.valychbreak.mymedialib.services.media.movie;
 
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
-import com.uwetrottmann.tmdb2.entities.BaseTvShow;
+import com.uwetrottmann.tmdb2.entities.Media;
+import com.uwetrottmann.tmdb2.entities.MediaResultsPage;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
@@ -19,21 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DefaultTvShowSearchService implements TvShowSearchService {
-
+public class TmdbMovieSearchService implements MovieSearchService {
     private Tmdb tmdb;
 
     @Autowired
-    public DefaultTvShowSearchService(Tmdb tmdb) {
+    public TmdbMovieSearchService(Tmdb tmdb) {
         this.tmdb = tmdb;
     }
 
     @Override
     public SearchResult<MediaFullDetails> search(SearchParams searchParams) throws IOException {
-        TvShowResultsPage movieResults = searchMedia(searchParams, tmdb);
+
+        MovieResultsPage movieResults = searchMedia(searchParams, tmdb);
 
         List<MediaFullDetails> mediaSearchResults = new ArrayList<>();
-        for (BaseTvShow result : movieResults.results) {
+        for (BaseMovie result : movieResults.results) {
             // TODO: get rid of static methods - no way to create unit tests
             MediaFullDetails media = TmdbUtils.getMediaFullDetailsFromTmdbMovie(tmdb, result);
 
@@ -47,8 +47,8 @@ public class DefaultTvShowSearchService implements TvShowSearchService {
         return searchResultFactory.create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
     }
 
-    private TvShowResultsPage searchMedia(SearchParams searchParams, Tmdb tmdb) throws IOException {
-        Call<TvShowResultsPage> call = tmdb.searchService().tv(searchParams.getQuery(), searchParams.getPage(), null, null, null);
+    private MovieResultsPage searchMedia(SearchParams searchParams, Tmdb tmdb) throws IOException {
+        Call<MovieResultsPage> call = tmdb.searchService().movie(searchParams.getQuery(), searchParams.getPage(), null, null, null, null, null);
         return call.execute().body();
     }
 }

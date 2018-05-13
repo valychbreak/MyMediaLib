@@ -1,12 +1,9 @@
 package com.valychbreak.mymedialib.services.media.tvshow;
 
 import com.uwetrottmann.tmdb2.Tmdb;
-import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
-import com.uwetrottmann.tmdb2.services.MoviesService;
 import com.uwetrottmann.tmdb2.services.SearchService;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
-import com.valychbreak.mymedialib.services.media.movie.DefaultMovieSearchService;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchParamsBuilder;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
@@ -25,7 +22,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultTvShowSearchServiceTest {
+public class TmdbTvShowSearchServiceTest {
 
     private static final int TOTAL_PAGES = 5;
     private static final int TOTAL_RESULTS = 100;
@@ -37,14 +34,14 @@ public class DefaultTvShowSearchServiceTest {
     @Mock
     private SearchService searchService;
 
-    private DefaultTvShowSearchService tvShowSearchService;
+    private TmdbTvShowSearchService tvShowSearchService;
 
     @Before
     public void setUp() throws Exception {
         when(tmdb.searchService()).thenReturn(searchService);
         setupTmdbSearchService();
 
-        tvShowSearchService = new DefaultTvShowSearchService(tmdb);
+        tvShowSearchService = new TmdbTvShowSearchService(tmdb);
     }
 
     @Test

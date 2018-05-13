@@ -1,13 +1,10 @@
 package com.valychbreak.mymedialib.services.media;
 
 import com.uwetrottmann.tmdb2.Tmdb;
-import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.Media;
 import com.uwetrottmann.tmdb2.entities.MediaResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
-import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
-import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsAdapter;
-import com.valychbreak.mymedialib.data.movie.adapters.MediaShortDetailsTmdbMovieAdapter;
+import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
@@ -24,25 +21,28 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+// TODO: remove favorite determination logic and move it to controller
 public class TmdbMediaSearchService implements MediaSearchService {
     private static final Logger LOG = LoggerFactory.getLogger(TmdbMediaSearchService.class);
 
     private Tmdb tmdb;
     private TmdbService tmdbService;
+    private UserMediaService userMediaService;
 
-    public TmdbMediaSearchService(Tmdb tmdb, TmdbService tmdbService) {
+    public TmdbMediaSearchService(Tmdb tmdb, TmdbService tmdbService, UserMediaService userMediaService) {
         this.tmdb = tmdb;
         this.tmdbService = tmdbService;
+        this.userMediaService = userMediaService;
     }
 
     @Override
-    public SearchResult<MediaFullDetails> search(SearchParams searchParams) throws IOException {
+    public SearchResult<MediaFullDetails> search(SearchParams searchParams, User user) throws IOException {
         MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
-        List<MediaFullDetails> mediaSearchResults = convertMedia(movieResults);
+        List<MediaFullDetails> mediaSearchResults = convertMedia(movieResults, user);
         return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
     }
 
-    public SearchResult<Media> searchBasic(SearchParams searchParams) throws IOException {
+    public SearchResult<Media> searchBasic(SearchParams searchParams, User user) throws IOException {
         MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
         List<Media> mediaSearchResults = convertMediaBasic(movieResults);
         return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
@@ -52,7 +52,7 @@ public class TmdbMediaSearchService implements MediaSearchService {
         return movieResults.results;
     }
 
-    private List<MediaFullDetails> convertMedia(MediaResultsPage movieResults) {
+    private List<MediaFullDetails> convertMedia(MediaResultsPage movieResults, User user) {
         Stream<MediaFullDetails> stream = movieResults.results.parallelStream()
                 .map(tmdbMedia -> {
                     try {
@@ -63,7 +63,10 @@ public class TmdbMediaSearchService implements MediaSearchService {
                     return Optional.<MediaFullDetails>empty();
                 })
                 .filter(Optional::isPresent)
-                .map(Optional::get);
+                .map(Optional::get)
+                .peek(mediaFullDetails -> {
+                    mediaFullDetails.setFavourite(userMediaService.isUserFavorite(user, mediaFullDetails));
+                });
 
         return stream.collect(Collectors.toList());
     }
