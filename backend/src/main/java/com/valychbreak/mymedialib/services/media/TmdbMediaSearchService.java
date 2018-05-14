@@ -63,10 +63,7 @@ public class TmdbMediaSearchService implements MediaSearchService {
                     return Optional.<MediaFullDetails>empty();
                 })
                 .filter(Optional::isPresent)
-                .map(Optional::get)
-                .peek(mediaFullDetails -> {
-                    mediaFullDetails.setFavourite(userMediaService.isUserFavorite(user, mediaFullDetails));
-                });
+                .map(Optional::get);
 
         return stream.collect(Collectors.toList());
     }

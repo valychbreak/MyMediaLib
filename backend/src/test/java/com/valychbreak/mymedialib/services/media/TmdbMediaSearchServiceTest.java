@@ -5,8 +5,8 @@ import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.Media;
 import com.uwetrottmann.tmdb2.entities.MediaResultsPage;
+import com.uwetrottmann.tmdb2.services.SearchService;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
-import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
@@ -39,6 +39,9 @@ public class TmdbMediaSearchServiceTest {
     private Tmdb tmdb;
 
     @Mock
+    private SearchService searchService;
+
+    @Mock
     private TmdbService tmdbService;
 
     @Mock
@@ -65,34 +68,13 @@ public class TmdbMediaSearchServiceTest {
         MediaFullDetailsImpl mockedMediaDetails = createMediaFullDetails("Test tvshow", "tt12345678", false);
         when(userMediaService.isUserFavorite(any(User.class), eq(mockedMediaDetails))).thenReturn(true);
         when(tmdbService.getMediaDetails(any(Media.class))).thenReturn(Optional.of(mockedMediaDetails));
-        mockTmdbSearchService(mediaResultsPage);
+        when(tmdb.searchService()).thenReturn(searchService);
+        mockTmdbSearchService(searchService, mediaResultsPage);
 
         SearchParams searchParams = new SearchParamsBuilder().withQuery("Test tvshow").build();
         SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(searchParams, mock(User.class));
         Collection<MediaFullDetails> mediaFullDetails = searchResult.getItems();
-        assertThat(Iterables.getFirst(mediaFullDetails, null).isFavourite()).isTrue();
-    }
-
-    @Test
-    public void searchSetsFavoriteToFalseWhenNotInFavorites() throws Exception {
-
-        BaseTvShow baseTvShow = aBaseTvShowBuilder().setId(1).setName("Test tvshow").createBaseTvShow();
-        Media media = new TmdbMediaFactory().createMedia(baseTvShow);
-
-        MediaResultsPage mediaResultsPage = new MediaResultsPage();
-        mediaResultsPage.results = Arrays.asList(media);
-        mediaResultsPage.total_pages = 1;
-        mediaResultsPage.total_results = 1;
-
-        MediaFullDetailsImpl mockedMediaDetails = createMediaFullDetails("Test tvshow", "tt12345678", true);
-        when(userMediaService.isUserFavorite(any(User.class), any(MediaShortDetails.class))).thenReturn(false);
-        when(tmdbService.getMediaDetails(any(Media.class))).thenReturn(Optional.of(mockedMediaDetails));
-        mockTmdbSearchService(mediaResultsPage);
-
-        SearchParams searchParams = new SearchParamsBuilder().withQuery("Test tvshow").build();
-        SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(searchParams, mock(User.class));
-        Collection<MediaFullDetails> mediaFullDetails = searchResult.getItems();
-        assertThat(Iterables.getFirst(mediaFullDetails, null).isFavourite()).isFalse();
+        assertThat(Iterables.getFirst(mediaFullDetails, null)).isNotNull();
     }
 
     private MediaFullDetailsImpl createMediaFullDetails(String title, String imdbId, boolean isFavourite) {

@@ -1,12 +1,12 @@
 package com.valychbreak.mymedialib.controller.api.media;
 
-import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.services.media.MediaSearchService;
+import com.valychbreak.mymedialib.services.media.UserMediaService;
 import com.valychbreak.mymedialib.services.utils.SearchParamsBuilder;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by valych on 9/16/17.
@@ -25,10 +27,12 @@ import java.security.Principal;
 public class MediaSearchController extends MediaController {
 
     private MediaSearchService mediaSearchService;
+    private UserMediaService userMediaService;
 
-    @Autowired
-    public MediaSearchController(MediaSearchService mediaSearchService) {
+
+    public MediaSearchController(MediaSearchService mediaSearchService, UserMediaService userMediaService) {
         this.mediaSearchService = mediaSearchService;
+        this.userMediaService = userMediaService;
     }
 
     @RequestMapping(value = "/media/search", produces = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.GET)
@@ -43,6 +47,13 @@ public class MediaSearchController extends MediaController {
         searchParamsBuilder.withQuery(searchTerm).withPage(page);
 
         SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(searchParamsBuilder.build(), loggedUser);
-        return new ResponseEntity<>(searchResult, HttpStatus.OK);
+
+        List<MediaFullDetails> processedMediaFullDetails = searchResult.getItems().parallelStream().peek(mediaFullDetails -> {
+            boolean isFavorite = userMediaService.isUserFavorite(loggedUser, mediaFullDetails);
+            mediaFullDetails.setFavourite(isFavorite);
+        }).collect(Collectors.toList());
+
+        SearchResult<MediaFullDetails> mediaFullDetailsSearchResult = new SearchResultFactory().create(searchResult.getPage(), searchResult.getTotalPages(), searchResult.getTotalResults(), processedMediaFullDetails);
+        return new ResponseEntity<>(mediaFullDetailsSearchResult, HttpStatus.OK);
     }
 }
