@@ -27,7 +27,7 @@ public class TmdbMediaSearchService2MethodsComparisonTest {
     public void fullMethodPerformanceTest() throws IOException {
         long initialTime = System.currentTimeMillis();
         SearchParams batman = new SearchParamsBuilder().withQuery("batman").withPage(1).withItemsPerPage(20).build();
-        SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(batman, null);
+        SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(batman);
         System.out.println("It took " + (System.currentTimeMillis() - initialTime) + " to find " + searchResult.getItems().size() + " media with full details");
     }
 
@@ -35,7 +35,7 @@ public class TmdbMediaSearchService2MethodsComparisonTest {
     public void basicMethodPerformanceTest() throws IOException {
         long initialTime = System.currentTimeMillis();
         SearchParams batman = new SearchParamsBuilder().withQuery("batman").withPage(1).withItemsPerPage(20).build();
-        SearchResult<Media> searchResult = mediaSearchService.searchBasic(batman, null);
+        SearchResult<Media> searchResult = mediaSearchService.searchBasic(batman);
         System.out.println("It took " + (System.currentTimeMillis() - initialTime) + " to find " + searchResult.getItems().size() + " media with full details");
     }
 }

@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-// TODO: remove favorite determination logic and move it to controller
 public class TmdbMediaSearchService implements MediaSearchService {
     private static final Logger LOG = LoggerFactory.getLogger(TmdbMediaSearchService.class);
 
@@ -36,13 +35,13 @@ public class TmdbMediaSearchService implements MediaSearchService {
     }
 
     @Override
-    public SearchResult<MediaFullDetails> search(SearchParams searchParams, User user) throws IOException {
+    public SearchResult<MediaFullDetails> search(SearchParams searchParams) throws IOException {
         MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
-        List<MediaFullDetails> mediaSearchResults = convertMedia(movieResults, user);
+        List<MediaFullDetails> mediaSearchResults = convertMedia(movieResults);
         return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
     }
 
-    public SearchResult<Media> searchBasic(SearchParams searchParams, User user) throws IOException {
+    public SearchResult<Media> searchBasic(SearchParams searchParams) throws IOException {
         MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
         List<Media> mediaSearchResults = convertMediaBasic(movieResults);
         return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
@@ -52,7 +51,7 @@ public class TmdbMediaSearchService implements MediaSearchService {
         return movieResults.results;
     }
 
-    private List<MediaFullDetails> convertMedia(MediaResultsPage movieResults, User user) {
+    private List<MediaFullDetails> convertMedia(MediaResultsPage movieResults) {
         Stream<MediaFullDetails> stream = movieResults.results.parallelStream()
                 .map(tmdbMedia -> {
                     try {

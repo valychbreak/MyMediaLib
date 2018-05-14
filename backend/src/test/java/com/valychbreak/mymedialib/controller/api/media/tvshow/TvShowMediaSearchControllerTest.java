@@ -23,13 +23,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup(value = "/data/db/TvShowSearchControllerTest.xml")
-public class TvShowSearchControllerTest extends ControllerTest {
+public class TvShowMediaSearchControllerTest extends ControllerTest {
 
     @Test
     public void movieSearch() throws Exception {
 
         mockMvc.perform(
-                get("/api/tvshow/search").param("q", "ba")
+                get("/api/media/search").param("q", "ba").param("media-type", "tvshow")
                         .principal(new TestingAuthenticationToken("test_user", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(20)))
@@ -40,7 +40,7 @@ public class TvShowSearchControllerTest extends ControllerTest {
     public void movieSearchSetsFavoriteToTrue() throws Exception {
 
         mockMvc.perform(
-                get("/api/tvshow/search").param("q", "The Big Bang Theory")
+                get("/api/media/search").param("q", "The Big Bang Theory").param("media-type", "tvshow")
                         .principal(new TestingAuthenticationToken("test_user", "test12")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items[*].isFavourite", contains(true)));

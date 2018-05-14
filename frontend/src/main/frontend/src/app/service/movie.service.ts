@@ -16,7 +16,8 @@ export class MovieService {
 
         let params = new HttpParams()
             .append("q", searchString)
-            .append("p", page.toString());
+            .append("p", page.toString())
+            .append("media-type", "media");
 
         return this.http.get<MovieSearchResult>("http://localhost:8080/api/media/search", { params: params })
             .toPromise()
@@ -31,9 +32,10 @@ export class MovieService {
 
         let params = new HttpParams()
             .append("q", searchString)
-            .append("p", page.toString());
+            .append("p", page.toString())
+            .append("media-type", "movie");
 
-        return this.http.get<MovieSearchResult>("http://localhost:8080/api/movie/search", { params: params })
+        return this.http.get<MovieSearchResult>("http://localhost:8080/api/media/search", { params: params })
             .toPromise()
             .then(response => response)
             .catch(this.handleError);
@@ -46,9 +48,10 @@ export class MovieService {
 
         let params = new HttpParams()
             .append("q", searchString)
-            .append("p", page.toString());
+            .append("p", page.toString())
+            .append("media-type", "tvshow");
 
-        return this.http.get<MovieSearchResult>("http://localhost:8080/api/tvshow/search", { params: params })
+        return this.http.get<MovieSearchResult>("http://localhost:8080/api/media/search", { params: params })
             .toPromise()
             .then(response => response)
             .catch(this.handleError);

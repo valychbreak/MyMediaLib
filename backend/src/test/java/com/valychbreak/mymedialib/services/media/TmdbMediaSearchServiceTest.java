@@ -72,7 +72,7 @@ public class TmdbMediaSearchServiceTest {
         mockTmdbSearchService(searchService, mediaResultsPage);
 
         SearchParams searchParams = new SearchParamsBuilder().withQuery("Test tvshow").build();
-        SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(searchParams, mock(User.class));
+        SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(searchParams);
         Collection<MediaFullDetails> mediaFullDetails = searchResult.getItems();
         assertThat(Iterables.getFirst(mediaFullDetails, null)).isNotNull();
     }
