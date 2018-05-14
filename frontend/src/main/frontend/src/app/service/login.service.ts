@@ -10,8 +10,6 @@ import {AccessToken} from "../shared/AccessToken";
 
 @Injectable()
 export class LoginService {
-    static authenticateURL = Config.hostLink + "/oauth/token";
-    static isLoggedURL = Config.dataRequestLink + "/islogged";
     static signinURL = Config.hostLink + "/api/signin";
     static logoutURL = Config.dataRequestLink + "/logout";
 
@@ -23,10 +21,6 @@ export class LoginService {
 
     authenticate(username: string, password: string): Promise<AccessToken> {
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
-        let body = new HttpParams();
-        body.append("grant_type", "password");
-        body.append('username', username);
-        body.append('password', password);
         return this.http.post<AccessToken>(LoginService.signinURL, {"username" : username, "password": password}, {headers})
             .toPromise()
             .then(response => {
@@ -50,11 +44,6 @@ export class LoginService {
 
     isAuthenticated() {
         return !!localStorage.getItem(LoginService.LOGGED_USER_KEY);
-    }
-
-    checkIsAuthenticatedOnServer(): Promise<boolean> {
-        return this.http.get(LoginService.isLoggedURL)
-            .toPromise().then(response => response == "true")
     }
 
     requestUser(): Promise<any> {

@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import {Injectable} from "@angular/core";
 import {Config} from "../config/config";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {PeopleSearchResult} from "../shared/search/result/people-search-result";
 
 @Injectable()
@@ -16,7 +16,12 @@ export class PeopleService {
         if (!page) {
             page = 1;
         }
-        return this.http.get<PeopleSearchResult>(PeopleService.peopleURL + "/search?q=" + searchString + "&p=" + page)
+
+        let params = new HttpParams()
+            .append("q", searchString)
+            .append("p", page.toString());
+
+        return this.http.get<PeopleSearchResult>(PeopleService.peopleURL + "/search", { params: params })
             .toPromise()
             .then(response => response)
             .catch(this.handleError);
