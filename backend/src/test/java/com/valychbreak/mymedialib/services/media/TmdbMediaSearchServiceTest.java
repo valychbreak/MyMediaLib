@@ -29,7 +29,6 @@ import static com.valychbreak.mymedialib.testtools.tmdb.TmdbEntityMockHelper.moc
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,7 +50,7 @@ public class TmdbMediaSearchServiceTest {
 
     @Before
     public void setup() {
-        mediaSearchService = new TmdbMediaSearchService(tmdb, tmdbService, userMediaService);
+        mediaSearchService = new TmdbMediaSearchService(tmdb, tmdbService);
     }
 
     @Test

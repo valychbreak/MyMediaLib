@@ -4,7 +4,6 @@ import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.Media;
 import com.uwetrottmann.tmdb2.entities.MediaResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
-import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
@@ -26,12 +25,10 @@ public class TmdbMediaSearchService implements MediaSearchService {
 
     private Tmdb tmdb;
     private TmdbService tmdbService;
-    private UserMediaService userMediaService;
 
-    public TmdbMediaSearchService(Tmdb tmdb, TmdbService tmdbService, UserMediaService userMediaService) {
+    public TmdbMediaSearchService(Tmdb tmdb, TmdbService tmdbService) {
         this.tmdb = tmdb;
         this.tmdbService = tmdbService;
-        this.userMediaService = userMediaService;
     }
 
     @Override
@@ -57,7 +54,7 @@ public class TmdbMediaSearchService implements MediaSearchService {
                     try {
                         return tmdbService.getMediaDetails(tmdbMedia);
                     } catch (IOException e) {
-                        LOG.error("Media was not added", e);
+                        logMediaDetailsLoadingError(tmdbMedia, e);
                     }
                     return Optional.<MediaFullDetails>empty();
                 })
@@ -70,5 +67,16 @@ public class TmdbMediaSearchService implements MediaSearchService {
     private MediaResultsPage searchMedia(SearchParams searchParams, Tmdb tmdb) throws IOException {
         Call<MediaResultsPage> call = tmdb.searchService().multi(searchParams.getQuery(), searchParams.getPage(), null, null, null);
         return call.execute().body();
+    }
+
+    private void logMediaDetailsLoadingError(Media tmdbMedia, IOException e) {
+        String mediaTitle = "Unknown";
+        if (tmdbMedia.movie != null) {
+            mediaTitle = tmdbMedia.movie.title;
+        } else if (tmdbMedia.tvShow != null) {
+            mediaTitle = tmdbMedia.tvShow.name;
+        }
+
+        LOG.error("There was a problem with getting details of media '" + mediaTitle + "'", e);
     }
 }
