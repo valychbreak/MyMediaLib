@@ -1,5 +1,6 @@
 package com.valychbreak.mymedialib.controller.api.media;
 
+import com.valychbreak.mymedialib.data.MediaSearchType;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.exception.MyMediaLibException;
@@ -7,6 +8,7 @@ import com.valychbreak.mymedialib.services.media.MediaSearchService;
 import com.valychbreak.mymedialib.services.media.UserMediaService;
 import com.valychbreak.mymedialib.services.media.movie.MovieSearchService;
 import com.valychbreak.mymedialib.services.media.tvshow.TvShowSearchService;
+import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchParamsBuilder;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
@@ -51,26 +53,47 @@ public class MediaSearchController extends MediaController {
     ) throws IOException, MyMediaLibException {
 
         User loggedUser = getUserFromPrincipal(principal);
-        SearchParamsBuilder searchParamsBuilder = new SearchParamsBuilder();
-        searchParamsBuilder.withQuery(searchTerm).withPage(page);
 
-        SearchResult<MediaFullDetails> searchResult = null;
-        if (mediaType.equalsIgnoreCase("MEDIA")) {
-            searchResult = mediaSearchService.search(searchParamsBuilder.build());
-        } else if (mediaType.equalsIgnoreCase("MOVIE")) {
-            searchResult = movieSearchService.search(searchParamsBuilder.build());
-        } else if (mediaType.equalsIgnoreCase("TVSHOW")) {
-            searchResult = tvShowSearchService.search(searchParamsBuilder.build());
-        } else {
-            throw new MyMediaLibException("Media-type parameter " + mediaType + " was not mapped to any existing type");
-        }
+        SearchParams searchParams = new SearchParamsBuilder()
+                .withQuery(searchTerm)
+                .withPage(page)
+                .build();
 
-        List<MediaFullDetails> processedMediaFullDetails = searchResult.getItems().parallelStream().peek(mediaFullDetails -> {
-            boolean isFavorite = userMediaService.isUserFavorite(loggedUser, mediaFullDetails);
-            mediaFullDetails.setFavourite(isFavorite);
-        }).collect(Collectors.toList());
+        SearchResult<MediaFullDetails> searchResult = performSearch(mediaType, searchParams);
+        List<MediaFullDetails> processedMediaFullDetails = getEnrichedMediaFullDetails(searchResult, loggedUser);
 
         SearchResult<MediaFullDetails> mediaFullDetailsSearchResult = new SearchResultFactory().create(searchResult.getPage(), searchResult.getTotalPages(), searchResult.getTotalResults(), processedMediaFullDetails);
         return new ResponseEntity<>(mediaFullDetailsSearchResult, HttpStatus.OK);
+    }
+
+    private List<MediaFullDetails> getEnrichedMediaFullDetails(SearchResult<MediaFullDetails> searchResult, User loggedUser) {
+        return searchResult.getItems().parallelStream().peek(mediaFullDetails -> {
+                boolean isFavorite = userMediaService.isUserFavorite(loggedUser, mediaFullDetails);
+                mediaFullDetails.setFavourite(isFavorite);
+            }).collect(Collectors.toList());
+    }
+
+    private SearchResult<MediaFullDetails> performSearch(String mediaType, SearchParams searchParams) throws IOException, MyMediaLibException {
+        SearchResult<MediaFullDetails> searchResult;
+        MediaSearchType mediaSearchType = MediaSearchType.get(mediaType);
+
+        switch (mediaSearchType) {
+            case MEDIA:
+                searchResult = mediaSearchService.search(searchParams);
+                break;
+
+            case MOVIE:
+                searchResult = movieSearchService.search(searchParams);
+                break;
+
+            case TVSHOW:
+                searchResult = tvShowSearchService.search(searchParams);
+                break;
+
+            default:
+                throw new MyMediaLibException("Media-type parameter " + mediaType + " was not mapped to any existing type");
+        }
+
+        return searchResult;
     }
 }

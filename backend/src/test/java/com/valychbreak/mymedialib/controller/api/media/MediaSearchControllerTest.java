@@ -14,6 +14,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.NestedServletException;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -63,6 +64,20 @@ public class MediaSearchControllerTest extends ControllerTest {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("q", "Spider-Man 3");
         params.add("media-type", "media");
+
+        mockMvc.perform(
+                get("/api/media/search").params(params)
+                        .principal(new TestingAuthenticationToken("test_user", "test12")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.items[*].isFavourite", containsInAnyOrder(true, false)));
+    }
+
+    // TODO: refactor this - it shouldn't throw an exception. It should return an error
+    @Test(expected = NestedServletException.class)
+    public void throwsExceptionWhenUnknownMediaType() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("q", "Spider-Man 3");
+        params.add("media-type", "some-unknown-media-type");
 
         mockMvc.perform(
                 get("/api/media/search").params(params)
