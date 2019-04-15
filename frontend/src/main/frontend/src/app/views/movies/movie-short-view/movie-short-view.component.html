@@ -1,0 +1,80 @@
+<mat-card class="media-card--block">
+    <mat-card-title-group (click)="onSelectMovie(movie)">
+        <mat-card-title><span [ngStyle]="{'font-size.em':getTitleFontSize(movie.title.length)}">{{movie.title}} (2018)</span></mat-card-title>
+        <mat-card-subtitle>{{movie.genre}}</mat-card-subtitle>
+    </mat-card-title-group>
+
+    <img mat-card-image [src]="getImage(movie.imagePath)" alt="" (click)="onSelectMovie(movie)"/>
+
+    <mat-card-content>
+        <div class="movie-description">{{movie.description | slice: 0:100}}...</div>
+        <a href="javascript:void(0)" (click)="onSelectMovie(movie)">Show more</a>
+    </mat-card-content>
+    <mat-card-actions align="start">
+        <div class="media-action--container">
+            <div class="media-action--container">
+                <button mat-button>
+                    {{getMediaRating(movie)}}
+                </button>
+            </div>
+
+            <div class="media-action--container">
+                <button mat-icon-button (click)="onFavoriteToggleChange(isMediaFavorite)">
+                    <mat-icon>{{isMediaFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
+                <button mat-icon-button (click)="gotoMoviePage(movie)">
+                    <mat-icon>subject</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card-actions>
+</mat-card>
+
+<!--
+<div class="demo-container">
+    <div class="movie-view-block">
+        <div class="thumbnail">
+            <div class="demo-content&#45;&#45;row">
+                <div class="hovereffect" (click)="onSelectMovie(movie)">
+                    <img class="img-fluid" height="200" [src]="getImage(movie.imagePath)" alt="">
+                    <div class="overlay">
+                        <div class="overlay-header">{{movie.title}}</div>
+                        <div class="overlay-body">
+                            <span>Rating: {{movie.stars}}/10</span>
+                            <span>{{movie.genre}}</span>
+                            <button class="btn btn-success info">Click for details</button>
+                            <button class="btn btn-default info" (click)="gotoMoviePage(movie)">Open page &nbsp;<i
+                                    class="fa fa-external-link fa-lg" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="caption">
+                    &lt;!&ndash;<span class="movie header" >{{movie.title}}</span> ({{movie.duration}} mins.)&ndash;&gt;
+                    <p>{{movie.shortDescription}}</p>
+                </div>
+            </div>
+            <div class="demo-content&#45;&#45;row">
+                <button mat-icon-button (click)="onFavoriteToggleChange(isMediaFavorite)">
+                    <mat-icon>{{isMediaFavorite ? 'favorite' : 'favorite_border'}}</mat-icon>
+                </button>
+
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
+            </div>
+            <div class="ratings">
+                <p class="float-right">{{movie.reviews}} reviews</p>
+                <p>
+                    &lt;!&ndash;<span *ngFor="let star of [1, 2, 3, 4, 5];">
+                      <span *ngIf="star <= movie.stars" class="glyphicons glyphicons-star" >1</span>
+                      <span *ngIf="star > movie.stars" class="glyphicons glyphicons-star-empty" >0</span>
+                    </span>&ndash;&gt;
+                    <ngb-rating [(rate)]="movie.stars" [max]="5" readonly="true"></ngb-rating>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>-->

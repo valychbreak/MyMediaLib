@@ -1,0 +1,70 @@
+/*!
+ * Start Bootstrap - Shop Homepage (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+/*$mdc-theme-primary: #464a4c; // Purple 500
+$mdc-theme-secondary: #ffab40; // Orange A200
+$mdc-theme-background: #fff; // White
+//@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@import "../../node_modules/@angular-mdc/theme/material";*/
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+body {
+  /*font-family: 'Poppins', sans-serif;*/
+  padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+  /*color: rgba(255, 255, 255, 0.8);*/
+  color: #464a4c;
+}
+
+.slide-image {
+  width: 100%;
+}
+
+.carousel-holder {
+  margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+  border-radius: 4px;
+}
+
+.caption {
+  height: 130px;
+  overflow: hidden;
+}
+
+.caption h4 {
+  white-space: nowrap;
+}
+
+.thumbnail img {
+  width: 100%;
+}
+
+.ratings {
+  padding-right: 10px;
+  padding-left: 10px;
+  color: #d17581;
+}
+
+.thumbnail {
+  padding: 0;
+}
+
+.thumbnail .caption-full {
+  padding: 9px;
+  color: #333;
+}
+
+footer {
+  margin: 50px 0;
+}
+
+.justify-content-center {
+  display: flex !important;
+  justify-content: center !important;
+}

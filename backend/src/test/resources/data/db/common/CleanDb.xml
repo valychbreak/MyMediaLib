@@ -1,0 +1,9 @@
+<dataset>
+    <!-- IMPORTANT note: tables to remove are specified in reversed order -->
+    <user_role />
+    <users />
+    <media />
+    <user_media />
+    <user_media_collection />
+    <user_media_collection_user_media_list />
+</dataset>

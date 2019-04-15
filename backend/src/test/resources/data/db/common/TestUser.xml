@@ -1,0 +1,8 @@
+<dataset>
+    <user_role id="10" role="ROLE_USER"/>
+    <user_role id="11" role="ROLE_ADMIN"/>
+
+    <users id="1000" username="test_user" first_name="Test" email="testuser1@t.com" password="$2a$10$Z3XoPdQzwWfSrf0aytT78eg/cKr0.6OMAmUIH6TzOU5ok40iUqCWm" user_role_id="10"/>
+
+    <user_media_collection id="1000" name="root" owner_user_id="1000"/>
+</dataset>

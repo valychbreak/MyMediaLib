@@ -1,0 +1,13 @@
+<div mdc-typography>
+    <h1 mdc-typography-title mdc-typography-adjust-margin>
+        {{collection.name}}
+    </h1>
+
+    <div class="mdc-layout-grid max-width mdc-layout-grid--align-left">
+        <div class="mdc-layout-grid__inner">
+            <div *ngFor="let media of collection.mediaList" class="mdc-layout-grid__cell">
+                <app-movie-short-view [movie]="media"></app-movie-short-view>
+            </div>
+        </div>
+    </div>
+</div>

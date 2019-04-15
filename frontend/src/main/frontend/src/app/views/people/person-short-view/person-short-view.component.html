@@ -1,0 +1,12 @@
+<div class="row people-view-block">
+    <div class="col-sm-4 p-0">
+        <img class="img-fluid" [src]="getImage(person.image)"/>
+    </div>
+    <div class="col-sm-8">
+        <div class="people-title">{{person.name}}</div>
+        <div class="mt-3 people-known-for">
+            Known for:
+            <span *ngFor="let movie of person.knownFor">{{movie.title}} ({{movie.releaseDate}}), </span>
+        </div>
+    </div>
+</div>

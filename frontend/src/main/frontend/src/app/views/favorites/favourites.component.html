@@ -1,0 +1,18 @@
+<h1>Your library</h1>
+<hr/>
+<div class="row">
+    <div class="col-sm-12">
+        <category-path [currentCategory]="currentCategory"></category-path>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <sub-categories-list-view [currentCategory]="currentCategory"></sub-categories-list-view>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div *ngFor="let favourite of favouriteMedia" class="col-md-4">
+        <app-movie-short-view [movie]="favourite"></app-movie-short-view>
+    </div>
+</div>

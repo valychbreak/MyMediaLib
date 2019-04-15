@@ -1,0 +1,4 @@
+
+interface PageOriented {
+    onPageChange(): void;
+}

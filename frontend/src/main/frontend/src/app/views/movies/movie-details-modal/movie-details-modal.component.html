@@ -1,0 +1,119 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{movie.title}}
+        <small>{{movie.type}}</small>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                <div class="movie-actions">
+                    <div class="btn-group float-left" role="group" aria-label="Basic example">
+                        <button *ngIf="!movie.isFavourite" class="btn btn-secondary" (click)="addToFavourites(movie)">
+                            Add to favourites &nbsp; <i class="fa fa-star-o fa-lg" aria-hidden="true"></i></button>
+                        <button *ngIf="movie.isFavourite" class="btn btn-secondary"
+                                (click)="removeFromFavourites(movie)">Remove from favourites &nbsp; <i
+                                class="fa fa-star fa-lg" aria-hidden="true"></i></button>
+
+                        <button class="btn btn-secondary">Share &nbsp;<i class="fa fa-share-alt fa-lg"
+                                                                         aria-hidden="true"></i></button>
+                    </div>
+                    <button class="btn btn-secondary float-right" (click)="gotoMoviePage()">Open movie page &nbsp;<i
+                            class="fa fa-external-link fa-lg" aria-hidden="true"></i></button>
+                </div>
+            </h1>
+        </div>
+    </div>
+
+    <hr/>
+    <!-- /.row -->
+
+    <!-- Portfolio Item Row -->
+    <div class="row">
+
+        <div class="col-md-5">
+            <div class="thumbnail">
+                <img class="img-responsive" [src]="movie.imagePath" alt="">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Producers</h3>
+            <p>Work in progress...</p>
+            <h3>Cast</h3>
+            <ul>
+                <li>Ernest Borgnine Picture Ernest Borgnine as Coley Trimble</li>
+                <li>Lee Marvin Picture Lee Marvin as Hector David</li>
+                <li>Spencer Tracy Picture Spencer Tracy as John J. Macreedy</li>
+                <li>ne Francis Picture Anne Francis as Liz Wirth</li>
+                <!--<li>Name: {{movie.title}}</li>
+                <li>Duration: {{movie.duration}}</li>
+                <li>Rating: {{movie.stars}}/5</li>
+                <li>Reviews: {{movie.reviews}}</li>-->
+            </ul>
+        </div>
+
+    </div>
+    <!-- /.row -->
+    <hr/>
+
+    <div class="col-md-10">
+        <h3>Movie details</h3>
+        <div class="row">
+            <ul>
+                <li>Name: {{movie.title}}</li>
+                <li>Genre: {{movie.genre}}</li>
+                <li>Duration: {{movie.duration}}</li>
+                <li>Rating: {{movie.stars}}/10</li>
+                <li>Reviews: {{movie.reviews}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="col-md-10">
+        <h3>Description</h3>
+        <p class="row">{{movie.description}}</p>
+    </div>
+
+    <hr/>
+    <!-- Related Projects Row -->
+    <div class="row">
+
+        <div class="col-lg-12">
+            <h3 class="page-header">Related Movies</h3>
+        </div>
+
+        <div class="col-sm-3">
+            <a href="#">
+                <img class="img-responsive portfolio-item" style="width: 100%" src="http://placehold.it/100x150" alt="">
+            </a>
+        </div>
+
+        <div class="col-sm-3">
+            <a href="#">
+                <img class="img-responsive portfolio-item" style="width: 100%" src="http://placehold.it/100x150" alt="">
+            </a>
+        </div>
+
+        <!--<div class="col-sm-3 col-xs-6">
+          <a href="#">
+            <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+          </a>
+        </div>
+
+        <div class="col-sm-3 col-xs-6">
+          <a href="#">
+            <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+          </a>
+        </div>-->
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+</div>

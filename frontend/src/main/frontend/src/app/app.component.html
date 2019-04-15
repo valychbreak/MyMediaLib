@@ -1,0 +1,158 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse bg-darker">
+    <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse"
+            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-brand">
+        <button class="btn btn-secondary bg-inverse" (click)="toggleSidebar()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        MovieLib
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/movies" routerLinkActive="active">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Settings</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/favourites" routerLinkActive="active">Favourites</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/signin" routerLinkActive="active">
+                    <span *ngIf="!isAuthenticated()">Sign in</span>
+                    <span *ngIf="isAuthenticated()">Profile</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/movies" routerLinkActive="active">Contacts</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/movies" routerLinkActive="active">About</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Help</a>
+            </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<div class="wrapper">
+    <nav id="sidebar" class="bg-inverse" [class.active]="getSidebarToggle()">
+        <div class="sidebar-header">
+            <h3>MediaLib</h3>
+            <strong>ML</strong>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/movies">
+                    <i class="fa fa-search fa-lg"></i>
+                    <span class="nav-item-title">Search media</span>
+                </a>
+            </li>
+
+            <hr/>
+
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                    <i class="fa fa-home fa-lg"></i>
+                    <span class="nav-item-title"># Grouped item</span>
+                </a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li><a>Home 1</a></li>
+                    <li><a href="#">Home 2</a></li>
+                    <li><a href="#">Home 3</a></li>
+                </ul>
+            </li>
+
+            <li routerLinkActive="active">
+                <a routerLink="/favourites">
+                    <i class="fa fa-star-o fa-lg"></i>
+                    <span class="nav-item-title">Favorites</span>
+                </a>
+            </li>
+
+            <li routerLinkActive="active">
+                <a routerLink="/users">
+                    <i class="fa fa-users fa-lg"></i>
+                    <span class="nav-item-title">Users</span>
+                </a>
+            </li>
+
+            <li routerLinkActive="active">
+                <a>
+                    <i class="fa fa-cog fa-lg"></i>
+                    <span class="nav-item-title">Settings</span>
+                </a>
+            </li>
+
+            <li routerLinkActive="active">
+                <a routerLink="/signin">
+                    <i class="fa fa-sign-in fa-lg"></i>
+                    <span class="nav-item-title">
+                    <span *ngIf="!isAuthenticated()">Sign in</span>
+                    <span *ngIf="isAuthenticated()">Profile</span>
+                </span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li>
+            <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+        </ul>
+    </nav>
+    <div id="content">
+        <!-- Page Content -->
+        <ng4-loading-spinner> </ng4-loading-spinner>
+        <div class="test">
+            <div class="row">
+                <ng-template ngbModalContainer></ng-template>
+                <div class="col-sm-12" style="">
+                    <div class="content-block">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+        <div class="container">
+
+            <hr/>
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!--Copyright here-->
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

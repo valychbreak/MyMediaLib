@@ -1,0 +1,168 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h1>{{movie.title}}
+            <small>{{movie.type}}</small>
+            </h1>
+
+            <hr/>
+
+            <div class="demo-container">
+                <div class="demo-content--row">
+                    <div *ngIf="movie.isFavourite; then remove_from_fav else add_to_fav"></div>
+
+                    <ng-template #add_to_fav>
+                        <button mat-raised-button (click)="addToFavourites(movie)">
+                            Add to favorites
+                        </button>
+                    </ng-template>
+
+                    <ng-template #remove_from_fav>
+                        <button mat-raised-button (click)="removeFromFavourites(movie)">
+                            Remove from favorites
+                        </button>
+                    </ng-template>
+
+                    <button mat-icon-button [matMenuTriggerFor]="collectionsMenu">
+                        <mat-icon>add</mat-icon>
+                    </button>
+
+                    <mat-menu #collectionsMenu="matMenu">
+                        <button mat-menu-item *ngFor="let collection of mediaCollections" (click)="handleMenuSelect(collection)">
+                            <mat-icon>dialpad</mat-icon>
+                            <span>{{collection.name}}</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+
+<hr/>
+
+<!-- Portfolio Item Row -->
+<div class="row">
+
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <img class="img-responsive" [src]="movie.imagePath" alt="">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>Movie Information</h3>
+                <ul>
+                    <li>Name: {{movie.title}}</li>
+                    <li>Duration: {{movie.duration}}</li>
+                    <li>Rating: {{movie.stars}}/10</li>
+                    <li>Reviews: {{movie.reviews}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <h3>Producers</h3>
+        <p>Work in progress...</p>
+        <h3>Cast</h3>
+        <ul>
+            <li>Ernest Borgnine Picture Ernest Borgnine as Coley Trimble</li>
+            <li>Lee Marvin Picture Lee Marvin as Hector David</li>
+            <li>Spencer Tracy Picture Spencer Tracy as John J. Macreedy</li>
+            <li>ne Francis Picture Anne Francis as Liz Wirth</li>
+            <!--<li>Name: {{movie.title}}</li>
+            <li>Duration: {{movie.duration}}</li>
+            <li>Rating: {{movie.stars}}/5</li>
+            <li>Reviews: {{movie.reviews}}</li>-->
+        </ul>
+    </div>
+
+</div>
+
+<hr/>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Description</h3>
+        <p class="row">{{movie.description}}</p>
+    </div>
+</div>
+<!-- /.row -->
+
+<hr/>
+
+<!-- Related Projects Row -->
+<div class="row">
+
+    <div class="col-lg-12">
+        <h3 class="page-header">Related Movies</h3>
+    </div>
+
+    <div class="col-sm-3">
+        <a href="#">
+            <img class="img-responsive portfolio-item" style="width: 100%" src="http://placehold.it/100x150" alt="">
+        </a>
+    </div>
+
+    <div class="col-sm-3">
+        <a href="#">
+            <img class="img-responsive portfolio-item" style="width: 100%" src="http://placehold.it/100x150" alt="">
+        </a>
+    </div>
+</div>
+
+<hr>
+
+<div class="well">
+
+    <div class="text-right">
+        <a class="btn btn-success">Leave a Review</a>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star-empty"></span>
+            Anonymous
+            <span class="pull-right">10 days ago</span>
+            <p>Amazing!!</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star-empty"></span>
+            Anonymous
+            <span class="pull-right">12 days ago</span>
+            <p>The best movie I've ever seen</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star"></span>
+            <span class="glyphicon glyphicon-star-empty"></span>
+            <span class="glyphicon glyphicon-star-empty"></span>
+            Anonymous
+            <span class="pull-right">15 days ago</span>
+            <p>It's good, but I've seen better.</p>
+        </div>
+    </div>
+</div>

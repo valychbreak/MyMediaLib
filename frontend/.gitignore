@@ -1,22 +1,22 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
+src/main/frontend/dist
+src/main/frontend/tmp
 
 # dependencies
-/node_modules
-/bower_components
+src/main/frontend/node
+src/main/frontend/node_modules
+src/main/frontend/bower_components
 
 # IDEs and editors
-.idea/
+/.idea
 /.vscode
 .project
 .classpath
 .c9/
 *.launch
 .settings/
-*.iml
 
 # misc
 /.sass-cache

@@ -1,0 +1,11 @@
+<dataset>
+    <user_role id="1000" role="USER_ROLE" />
+
+    <users id="1000" username="test" first_name="Test1" email="test1@t.com" password="$2a$10$Z3XoPdQzwWfSrf0aytT78eg/cKr0.6OMAmUIH6TzOU5ok40iUqCWm" user_role_id="1000"/>
+    <user_media_collection id="1000" name="collection 1" owner_user_id="1000"/>
+    <user_media_collection id="1001" name="collection 2" owner_user_id="1000"/>
+
+    <media id="100" imdb_id="tt0137523" title="Unknown" />
+    <user_media id="100" media_id="100" user_id="1000" adding_date="2017-06-12 21:47:30"/>
+    <user_media_collection_user_media_list user_media_collection_id="1000" user_media_id="100" />
+</dataset>

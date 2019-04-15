@@ -1,0 +1,9 @@
+<nav *ngIf="isCategoryDefined()" aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" *ngFor="let category of getAllParentCategories()"
+            [ngClass]="{'active': isCurrentCategory(category)}" aria-current="page">
+            <a *ngIf="!isCurrentCategory(category); else categoryNameNoLink" href="#">{{category.name}}</a>
+            <ng-template #categoryNameNoLink>{{category.name}}</ng-template>
+        </li>
+    </ol>
+</nav>
