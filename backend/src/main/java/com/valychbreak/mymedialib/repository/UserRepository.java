@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by valych on 2/25/17.
  */
-public interface UserRepository extends CustomCrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
      List<User> findByUsername(String username);
      User findFirstByUsername(String username);
      List<User> findByUsernameAndPassword(String username, String password);
