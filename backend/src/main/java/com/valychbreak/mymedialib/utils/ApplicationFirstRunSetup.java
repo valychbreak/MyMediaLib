@@ -40,7 +40,7 @@ public class ApplicationFirstRunSetup {
         roles.add(adminRole);
         roles.add(role);
 
-        userRoleRepository.save(roles);
+        userRoleRepository.saveAll(roles);
     }
 
     private void createAdminUser() {

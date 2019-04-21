@@ -5,6 +5,7 @@ import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTO;
 import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOFactory;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.exception.CollectionNotFoundException;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +36,13 @@ public class UserMediaCollectionController extends APIController {
     @RequestMapping(value = "/collection/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCollectionDTO> getCollection(@PathVariable String id,
-                                                            @RequestParam(value = "media", required = false) String includeMedia, Principal principal) throws IOException {
+                                                            @RequestParam(value = "media", required = false) String includeMedia,
+                                                            Principal principal) throws IOException, CollectionNotFoundException {
         User loggedUser = getUserFromPrincipal(principal);
 
         Long collectionId = Long.parseLong(id);
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(collectionId);
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findById(collectionId)
+                .orElseThrow(() -> new CollectionNotFoundException(collectionId));
 
         MediaCollectionDTO collectionDTO = getMediaCollectionDTO(userMediaCollection, includeMedia, loggedUser);
         return new ResponseEntity<>(collectionDTO, HttpStatus.OK);

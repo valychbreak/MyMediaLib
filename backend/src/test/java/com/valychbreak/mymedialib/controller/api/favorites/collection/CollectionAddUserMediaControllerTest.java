@@ -60,7 +60,7 @@ public class CollectionAddUserMediaControllerTest extends ControllerTest {
 
         User user = userRepository.findFirstByUsername("test");
 
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findById(1000L).orElse(null);
         assertThat(userMediaCollection.getUserMediaList()).hasSize(1);
 
         List<UserMedia> userFavorites = userMediaRepository.findByUser(user);
@@ -81,7 +81,7 @@ public class CollectionAddUserMediaControllerTest extends ControllerTest {
 
         User user = userRepository.findFirstByUsername("test");
 
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findById(1000L).orElse(null);
         assertThat(userMediaCollection.getUserMediaList()).hasSize(1);
 
         List<UserMedia> userFavorites = userMediaRepository.findByUser(user);

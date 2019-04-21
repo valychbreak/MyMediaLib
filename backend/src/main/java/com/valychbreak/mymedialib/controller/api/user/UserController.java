@@ -5,6 +5,7 @@ import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
+import com.valychbreak.mymedialib.exception.MyMediaLibException;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import com.valychbreak.mymedialib.services.CreateUserService;
@@ -41,7 +42,7 @@ public class UserController extends APIController {
             roles.add(adminRole);
             roles.add(role);
 
-            userRoleRepository.save(roles);
+            userRoleRepository.saveAll(roles);
         }
 
         return new ResponseEntity<>(roles, HttpStatus.OK);
@@ -56,11 +57,12 @@ public class UserController extends APIController {
     }
 
     @RequestMapping(value = "/user/details/{userIdOrUsername}")
-    public ResponseEntity<UserDetailsDTO> getUserDetails(@PathVariable String userIdOrUsername) {
+    public ResponseEntity<UserDetailsDTO> getUserDetails(@PathVariable String userIdOrUsername) throws MyMediaLibException {
         User user = null;
         try {
             long id = Long.parseLong(userIdOrUsername);
-            user = userRepository.findOne(id);
+            user = userRepository.findById(id)
+                    .orElseThrow(() -> new MyMediaLibException("User with [username/id: " + userIdOrUsername + "was not found"));
         } catch (NumberFormatException e) {
             user = userRepository.findFirstByUsername(userIdOrUsername);
         }

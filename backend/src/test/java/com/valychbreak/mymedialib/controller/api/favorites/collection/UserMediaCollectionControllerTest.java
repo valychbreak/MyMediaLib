@@ -43,7 +43,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
     public void getCollectionWithoutMedia() throws Exception {
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findById(1000L).orElse(null);
 
         User user = userRepository.findFirstByUsername("test");
         MediaCollectionDTO expectedMediaCollectionDTO = mediaCollectionDTOFactory.createWithoutMedia(userMediaCollection, user);
@@ -59,7 +59,7 @@ public class UserMediaCollectionControllerTest extends ControllerTest {
     @DatabaseSetup("/data/db/UserMediaCatalogsForMediaCatalogControllerTest.xml")
     @Transactional
     public void getCollectionWithMedia() throws Exception {
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(1000L);
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findById(1000L).orElse(null);
 
         User user = userRepository.findFirstByUsername("test");
         MediaCollectionDTO expectedMediaCollectionDTO = mediaCollectionDTOFactory.createWithMedia(userMediaCollection, user);

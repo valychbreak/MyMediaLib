@@ -4,6 +4,10 @@ public class CollectionNotFoundException extends MyMediaLibException {
     public CollectionNotFoundException() {
     }
 
+    public CollectionNotFoundException(Long collectionId) {
+        super("Collection [id: " + collectionId + " was not found");
+    }
+
     public CollectionNotFoundException(String message) {
         super(message);
     }
