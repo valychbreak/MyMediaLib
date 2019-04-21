@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -24,8 +25,6 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
 
 	@Autowired
 	private DataSource dataSource;
@@ -36,8 +35,10 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 	@Value("${gigy.oauth.tokenTimeout:3600}")
 	private int expiration;
 
-	public OAuth2Config() {
+	private AuthenticationManager authenticationManager;
 
+	public OAuth2Config(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
 	}
 
 	@Override
