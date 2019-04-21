@@ -9,6 +9,6 @@ import java.util.Collection;
 /**
  * Created by valyc on 5/12/2017.
  */
-public interface UserMediaCollectionRepository extends CrudRepository<UserMediaCollection, Long> {
+public interface UserMediaCollectionRepository extends CustomCrudRepository<UserMediaCollection, Long> {
     Collection<UserMediaCollection> findAllByOwner(User owner);
 }
