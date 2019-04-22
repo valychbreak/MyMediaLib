@@ -50,13 +50,21 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
-				/*.withClient("gigy").secret("secret").accessTokenValiditySeconds(expiration)
-				.scopes("read", "write").authorizedGrantTypes("password", "refresh_token").resourceIds(RESOURCE_ID);*/
+		clients.jdbc(dataSource)
+                .passwordEncoder(passwordEncoder)
+                .withClient("gigy")
+                .secret("secret")
+                .accessTokenValiditySeconds(expiration)
+				.scopes("read", "write")
+                .authorizedGrantTypes("password", "refresh_token")
+                .resourceIds(RESOURCE_ID);
 	}
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-		security.addTokenEndpointAuthenticationFilter(new SimpleCORSFilter());
+		security
+				.tokenKeyAccess("permitAll()")
+				.checkTokenAccess("isAuthenticated()")
+				.addTokenEndpointAuthenticationFilter(new SimpleCORSFilter());
 	}
 }

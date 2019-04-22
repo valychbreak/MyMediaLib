@@ -27,9 +27,6 @@ import java.util.List;
  */
 @RestController
 @EnableOAuth2Client
-@EnableAuthorizationServer
-//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-//@Import(AuthenticationManagerConfiguration.class)
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
