@@ -27,6 +27,8 @@ public class OAuth2TestHelper {
     AuthorizationServerTokenServices tokenservice;
 
 
+    @Deprecated
+    // Check OAuthMvcTest#obtainAccessToken how to get a token
     public OAuth2AccessToken createAccessToken(String username, String password, String... roles) {
         // Look up authorities, resourceIds and scopes based on clientId
         ClientDetails client = clientDetailsService.loadClientByClientId(CLIENT_ID);
