@@ -21,6 +21,7 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Install PostgresSQL locally or use remote DB (modify application.yml in backend project according to your db)
  - Setup new database according to application.yml in backend project
  - Run schema.sql and data.sql in backend project against created DB
+ - Run: mvn spring-boot:run
  
 ### With docker (<TODO: automate everything using docker compose/stack deploy>)
  - Run: docker stack deploy -c stack.yml postgres
@@ -29,5 +30,5 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Create user "dbuser" with password "dbtest"
  - Create database "mymedialib"
  - Run schema.sql and data.sql in backend project against created DB
- - Кun: docker run mymedialib
+ - Кun: docker run -p 8080:8080 mymedialib
 
