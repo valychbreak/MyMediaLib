@@ -44,7 +44,7 @@ public class DefaultPeopleServiceTest {
     public void setUp() throws Exception {
         when(tmdb.searchService()).thenReturn(searchService);
         Call<PersonResultsPage> mockedCall = mock(Call.class);
-        when(searchService.person(eq("Brad"), any(Integer.class), any(Boolean.class), any(String.class))).thenReturn(mockedCall);
+        when(searchService.person(eq("Brad"), any(Integer.class), eq(null), eq(null))).thenReturn(mockedCall);
 
         PersonResultsPage personResultsPage = new PersonResultsPage();
         personResultsPage.total_results = 100;
