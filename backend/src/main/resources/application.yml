@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost/mymedialib
+    url: jdbc:postgresql://host.docker.internal:5432/mymedialib
     username: dbuser
     password: dbtest
     driver-class-name: org.postgresql.Driver
