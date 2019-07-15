@@ -13,7 +13,8 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Install JDK 12
  - Install maven 3.\*.\*
  - Execute: mvn clean install -DskipTests
- - (Optional) Run: docker build -t mymedialib ./backend
+ - Copy .../frontend/src/main/frontend/dist to .../backend/src/main/resources/static
+ - (Optional) Run: docker build -t valychbreak/mymedialib ./backend
  
 ## Run
 
@@ -23,12 +24,11 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Run schema.sql and data.sql in backend project against created DB
  - Run: mvn spring-boot:run
  
-### With docker (<TODO: automate everything using docker compose/stack deploy>)
- - Run: docker stack deploy -c stack.yml postgres
- - Wait for deployment
+### With docker
+ - Run: docker stack deploy -c backend/stack.yml mymedialib
  - Goto http://localhost:3333/. Login with pgadmin4@pgadmin.org and admin
  - Create user "dbuser" with password "dbtest"
  - Create database "mymedialib"
  - Run schema.sql and data.sql in backend project against created DB
- - Кun: docker run -p 8080:8080 mymedialib
+ - Restart mymedialib service
 
