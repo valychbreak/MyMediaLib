@@ -22,10 +22,9 @@ services:
       PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
       PGADMIN_DEFAULT_PASSWORD: admin
 
-# TODO: add script for waiting for postgres db to be up and running
-#  mymedialib:
-#    image: valychbreak/mymedialib
-#    depends_on:
-#      - postgres
-#    ports:
-#      - 8080:8080
+  mymedialib:
+    image: mymedialib
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080

@@ -1,5 +1,8 @@
-FROM openjdk:12.0.1-jdk-oracle
+FROM openjdk:13-jdk-alpine
+
 VOLUME /tmp
 ARG JAR_FILE=./target/MyMediaLib.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+COPY ./wait-postgres.sh wait-postgres.sh
+
+ENTRYPOINT ["sh", "wait-postgres.sh"]
