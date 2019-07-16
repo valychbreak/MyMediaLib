@@ -3,19 +3,23 @@ package com.valychbreak.mymedialib.controller;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.valychbreak.mymedialib.Application;
 import com.valychbreak.mymedialib.testtools.OAuth2TestHelper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -28,37 +32,40 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@WebAppConfiguration
+@TestPropertySource(locations = "classpath:application.yml")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup("/data/db/common/TestUser.xml")
-public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
-
-    private static final String CLIENT_ID = "gigy";
-    private static final String CLIENT_SECRET = "secret";
-    private static final String CONTENT_TYPE = "application/json;charset=UTF-8";
+public class OAuth2AuthorizationTest {
 
     private static final String TEST_USER = "test_user";
     private static final String USER_PASSWORD = "test12";
 
-    @Autowired
     private OAuth2TestHelper oAuth2TestHelper;
 
     @Autowired
     private WebApplicationContext context;
 
-    private MockMvc mvc;
+    private MockMvc mockMvc;
 
     @Before
     public void prepare() {
-        this.mvc = MockMvcBuilders
+        this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+
+        oAuth2TestHelper = new OAuth2TestHelper();
+        oAuth2TestHelper.setMockMvc(mockMvc);
     }
 
     @Test
@@ -67,7 +74,7 @@ public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer " + requestToken());
 
-        mvc.perform(get("/api/users/search").param("q", "test").headers(headers))
+        mockMvc.perform(get("/api/users/search").param("q", "test").headers(headers))
                 .andExpect(status().isOk());
     }
 
@@ -77,7 +84,7 @@ public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer BBasdf123-asdfasdf");
 
-        mvc.perform(get("/api/users/search").requestAttr("q", "test").headers(headers))
+        mockMvc.perform(get("/api/users/search").requestAttr("q", "test").headers(headers))
                 .andDo(print())
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("invalid_token"))
@@ -121,29 +128,6 @@ public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
     }
 
     private String requestToken() throws Exception {
-        return obtainAccessToken(TEST_USER, USER_PASSWORD);
-    }
-
-
-
-    private String obtainAccessToken(String username, String password) throws Exception {
-        final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant_type", "password");
-        params.add("client_id", CLIENT_ID);
-        params.add("username", username);
-        params.add("password", password);
-
-        ResultActions result = mockMvc.perform(post("/oauth/token")
-                .params(params)
-                .with(httpBasic(CLIENT_ID, CLIENT_SECRET))
-                .accept(CONTENT_TYPE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(CONTENT_TYPE));
-
-        String resultString = result.andReturn().getResponse().getContentAsString();
-
-        JacksonJsonParser jsonParser = new JacksonJsonParser();
-        return jsonParser.parseMap(resultString).get("access_token").toString();
-
+        return oAuth2TestHelper.obtainAccessToken(TEST_USER, USER_PASSWORD);
     }
 }
