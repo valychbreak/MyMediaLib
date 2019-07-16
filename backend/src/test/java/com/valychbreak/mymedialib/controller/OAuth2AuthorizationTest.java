@@ -6,6 +6,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.Application;
 import com.valychbreak.mymedialib.testtools.OAuth2TestHelper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
-@DatabaseSetup("/data/db/common/TestUser.xml")
+@DatabaseSetup("/data/db/OAuth2AuthorizationTest.xml")
 public class OAuth2AuthorizationTest {
 
     private static final String TEST_USER = "test_user";
@@ -79,6 +80,12 @@ public class OAuth2AuthorizationTest {
     }
 
     @Test
+    public void shouldReturnUnauthorizedWhenAccessAPIWithoutAccessToken() throws Exception {
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     public void shouldReturnUnauthorizedStatusWithErrorWhenTokenIsInvalid() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -89,6 +96,17 @@ public class OAuth2AuthorizationTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("invalid_token"))
                 .andExpect(jsonPath("$.error_description").value("Invalid access token: BBasdf123-asdfasdf"));
+    }
+
+    @Test
+    public void forbiddenToAccessWhenInvalidRole() throws Exception {
+        final String accessToken = oAuth2TestHelper.obtainAccessToken("user_with_invalid_role", "test12");
+
+        mockMvc.perform(
+                get("/api/users")
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isForbidden());
+
     }
 
     @Test

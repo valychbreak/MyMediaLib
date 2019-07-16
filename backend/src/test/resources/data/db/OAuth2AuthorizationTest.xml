@@ -1,0 +1,10 @@
+<dataset>
+    <user_role id="10" role="ROLE_USER"/>
+    <user_role id="11" role="ROLE_ADMIN"/>
+    <user_role id="12" role="ROLE_INVALID"/>
+
+    <users id="1000" username="test_user" first_name="Test" email="testuser1@t.com" password="$2a$10$Z3XoPdQzwWfSrf0aytT78eg/cKr0.6OMAmUIH6TzOU5ok40iUqCWm"
+           user_role_id="10"/>
+    <users id="1001" username="user_with_invalid_role" first_name="TestInvalid" email="testuser2@t.com" password="$2a$10$Z3XoPdQzwWfSrf0aytT78eg/cKr0.6OMAmUIH6TzOU5ok40iUqCWm"
+           user_role_id="12"/>
+</dataset>
