@@ -1,11 +1,6 @@
 package com.valychbreak.mymedialib;
 
-import com.valychbreak.mymedialib.testtools.OAuth2TokenHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class MyTestsConfiguration {
@@ -24,10 +19,4 @@ public class MyTestsConfiguration {
                     }
                 });
     }
-
-    /*@Bean
-    @Primary
-    public TestRestTemplate testRestTemplate() {
-        return new TestRestTemplate(TestRestTemplate.HttpClientOption.ENABLE_REDIRECTS, TestRestTemplate.HttpClientOption.ENABLE_COOKIES);
-    }*/
 }
