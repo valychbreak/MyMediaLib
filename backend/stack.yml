@@ -4,9 +4,8 @@ services:
 
   postgres:
     image: postgres
-    restart: always
     volumes:
-      - /Users/valych/Documents/Development/MyMediaLib/backend/postgres_remove_tmp:/var/lib/postgresql/data
+      - /Users/valych/postgresql/data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgres
     ports:
