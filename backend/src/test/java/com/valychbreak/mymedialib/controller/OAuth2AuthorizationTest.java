@@ -64,8 +64,7 @@ public class OAuth2AuthorizationTest {
                 .apply(springSecurity())
                 .build();
 
-        oAuth2AccessTokenProvider = new OAuth2AccessTokenProvider();
-        oAuth2AccessTokenProvider.setMockMvc(mockMvc);
+        oAuth2AccessTokenProvider = new OAuth2AccessTokenProvider(mockMvc);
     }
 
     @Test

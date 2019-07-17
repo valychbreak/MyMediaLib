@@ -40,8 +40,7 @@ public abstract class AbstractControllerSecurityTest {
                 .alwaysDo(print())
                 .build();
 
-        accessTokenProvider = new OAuth2AccessTokenProvider();
-        accessTokenProvider.setMockMvc(mockMvc);
+        accessTokenProvider = new OAuth2AccessTokenProvider(mockMvc);
     }
 
     protected String json(Object object) {
