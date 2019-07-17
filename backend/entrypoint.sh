@@ -24,4 +24,4 @@ done
 
 echo "Host was successfully found. Running the app..."
 
-java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+java -jar /app.jar
