@@ -28,10 +28,8 @@ public class RemoveUserMediaCollectionController extends APIController {
     public ResponseEntity removeCollection(@PathVariable("id") Long collectionId) throws CollectionNotFoundException {
         Assert.notNull(collectionId);
 
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(collectionId);
-        if (userMediaCollection == null) {
-            throw new CollectionNotFoundException();
-        }
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findById(collectionId)
+                .orElseThrow(() -> new CollectionNotFoundException(collectionId));
 
         userMediaCollectionRepository.delete(userMediaCollection);
         return new ResponseEntity(HttpStatus.OK);

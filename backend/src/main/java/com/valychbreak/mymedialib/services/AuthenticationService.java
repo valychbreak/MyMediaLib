@@ -6,6 +6,7 @@ import com.valychbreak.mymedialib.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,17 +36,14 @@ public class AuthenticationService {
     private UserRepository userRepository;
     private UserDetailsService userDetailsService;
 
-    /**
-     * Fixes the issue with cycle dependency with SecurityConfig
-     */
-    @Autowired
     private AuthenticationManager authenticationManager;
 
 
     @Autowired
-    public AuthenticationService(UserRepository userRepository, UserDetailsService userDetailsService) {
+    public AuthenticationService(UserRepository userRepository, UserDetailsService userDetailsService, AuthenticationConfiguration authenticationConfiguration) throws Exception {
         this.userRepository = userRepository;
         this.userDetailsService = userDetailsService;
+        this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
     }
 
     public User authenticate(LoginDTO loginDTO, HttpServletResponse response) {

@@ -6,13 +6,13 @@ import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.Media;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.exception.CollectionNotFoundException;
 import com.valychbreak.mymedialib.repository.MediaRepository;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -34,11 +34,13 @@ public class CollectionAddUserMediaController extends APIController {
 
     @RequestMapping(value = "/collection/{id}/add-media", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity addMediaToCollection(@PathVariable("id") Long collectionId, @RequestBody MediaShortDetailsImpl mediaShortDetails, Principal principal) {
+    public ResponseEntity addMediaToCollection(@PathVariable("id") Long collectionId,
+                                               @RequestBody MediaShortDetailsImpl mediaShortDetails,
+                                               Principal principal) throws CollectionNotFoundException {
         User loggedUser = getUserFromPrincipal(principal);
 
-        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findOne(collectionId);
-        Assert.notNull(userMediaCollection);
+        UserMediaCollection userMediaCollection = userMediaCollectionRepository.findById(collectionId)
+                .orElseThrow(() -> new CollectionNotFoundException(collectionId));
 
         // TODO: Copied from UserFavoriteMediaController. Create service for creating a media + user media
         Media media = getExistingMediaOrCreateNew(mediaShortDetails);

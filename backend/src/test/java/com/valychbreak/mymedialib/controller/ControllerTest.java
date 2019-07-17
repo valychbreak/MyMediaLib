@@ -20,6 +20,10 @@ import java.io.IOException;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+/**
+ * @deprecated Use AbstractControllerSecurityTest class instead
+ */
+@Deprecated
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
@@ -34,8 +38,6 @@ public abstract class ControllerTest {
     public void init() throws Exception {
         this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
-                // TODO: use db unit data to create tokens for oauth
-                //.apply(springSecurity())
                 .alwaysDo(print())
                 .build();
     }
@@ -54,7 +56,6 @@ public abstract class ControllerTest {
     }
 
     protected String requestAuthorizationToken(String username, String password) throws IOException {
-        //return new OAuth2TokenHelper(testRestTemplate).requestToken(username, password);
         return null;
     }
 }

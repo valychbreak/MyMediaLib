@@ -66,7 +66,7 @@ public class UserControllerTest extends ControllerTest {
     @Test
     @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
     public void getUserDetailsById() throws Exception {
-        User user = userRepository.findOne(1000L);
+        User user = userRepository.findById(1000L).orElse(null);
         UserDetailsDTO expectedDetails = new UserDetailsDTO(user);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/user/details/1000"))
                 .andExpect(status().isOk())
@@ -77,7 +77,7 @@ public class UserControllerTest extends ControllerTest {
     @Test
     @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
     public void getUserDetailsByUsername() throws Exception {
-        User user = userRepository.findOne(1002L);
+        User user = userRepository.findById(1002L).orElse(null);
         UserDetailsDTO expectedDetails = new UserDetailsDTO(user);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/user/details/test2"))
                 .andExpect(status().isOk())

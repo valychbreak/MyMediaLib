@@ -51,7 +51,7 @@ public class UserRemoveFavoriteMediaController extends APIController {
             userMediaCollection.getUserMediaList().removeAll(userMediaToRemove);
         }
 
-        userMediaRepository.delete(userMediaToRemove);
+        userMediaRepository.deleteAll(userMediaToRemove);
         //userMediaCollectionRepository.save(user.getRootUserMediaCollection());
         return new ResponseEntity<>(HttpStatus.OK);
     }

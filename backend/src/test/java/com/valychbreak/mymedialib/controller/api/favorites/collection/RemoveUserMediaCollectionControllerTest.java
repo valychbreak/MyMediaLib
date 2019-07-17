@@ -46,7 +46,7 @@ public class RemoveUserMediaCollectionControllerTest extends ControllerTest {
         mockMvc.perform(post("/api/collection/1000/remove"))
                 .andExpect(status().isOk());
 
-        UserMediaCollection removedCollection = userMediaCollectionRepository.findOne(1000L);
+        UserMediaCollection removedCollection = userMediaCollectionRepository.findById(1000L).orElse(null);
         assertThat(removedCollection).isNull();
 
         User user = userRepository.findFirstByUsername("test");

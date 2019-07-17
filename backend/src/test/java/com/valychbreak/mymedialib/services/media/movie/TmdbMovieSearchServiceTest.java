@@ -21,6 +21,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -94,8 +95,7 @@ public class TmdbMovieSearchServiceTest {
 
         Call<MovieResultsPage> mockedCall = mock(Call.class);
         when(mockedCall.execute()).thenReturn(response);
-        when(searchService.movie(any(String.class), any(Integer.class), any(String.class), any(Boolean.class),
-                any(Integer.class), any(Integer.class), any(String.class)))
+        when(searchService.movie(any(String.class), any(Integer.class), eq(null), eq(null), eq(null), eq(null), eq(null)))
                 .thenReturn(mockedCall);
     }
 
@@ -114,7 +114,7 @@ public class TmdbMovieSearchServiceTest {
 
         Call<Movie> mockedMovieCall = mock(Call.class);
         when(mockedMovieCall.execute()).thenReturn(movieResponse);
-        when(movieService.summary(any(Integer.class), any(String.class), any(AppendToResponse.class))).thenReturn(mockedMovieCall);
+        when(movieService.summary(any(Integer.class), eq(null), any(AppendToResponse.class))).thenReturn(mockedMovieCall);
     }
 
 }

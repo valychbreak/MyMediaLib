@@ -20,8 +20,11 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+
+    </properties>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -61,6 +64,12 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
+            <version>2.3.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <version>2.1.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -79,7 +88,7 @@
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator</artifactId>
+            <artifactId>webjars-locator-core</artifactId>
         </dependency>
 
         <dependency>
@@ -112,7 +121,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.omertron/API-OMDB -->
         <dependency>
             <groupId>com.omertron</groupId>
             <artifactId>API-OMDB</artifactId>
@@ -139,7 +147,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -151,7 +158,6 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -165,11 +171,6 @@
         </dependency>
 
     </dependencies>
-
-    <properties>
-        <spring.version>4.3.6.RELEASE</spring.version>
-    </properties>
-
 
     <build>
         <finalName>MyMediaLib</finalName>
