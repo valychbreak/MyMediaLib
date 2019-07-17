@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
 public class TmdbEntityMockHelper {
     public static void mockTmdbSearchService(SearchService searchService, MediaResultsPage mediaResultsPage) throws IOException {
         Call<MediaResultsPage> call = mock(Call.class);
-        //when(searchService.multi(any(String.class), any(Integer.class), any(String.class), any(Boolean.class), any(String.class))).thenReturn(call);
         when(searchService.multi(any(String.class), any(Integer.class), eq(null), eq(null), eq(null))).thenReturn(call);
 
         Response<MediaResultsPage> response = Response.success(mediaResultsPage);
