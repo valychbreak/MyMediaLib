@@ -5,3 +5,5 @@ INSERT INTO oauth_client_details
 VALUES
     ('gigy', '$2a$10$IEfwBgnqu9XMR0G6FEUob.b7toYdiEqhe1QXfnrr7M0yKzHQjiBfC', 'resource-id', 'read,write', 'password, refresh_token', null, null, 3600, 3600, null, true) 
     ON CONFLICT DO NOTHING;
+
+-- gigy:secret
