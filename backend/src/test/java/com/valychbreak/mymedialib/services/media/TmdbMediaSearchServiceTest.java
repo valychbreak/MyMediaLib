@@ -65,7 +65,6 @@ public class TmdbMediaSearchServiceTest {
         mediaResultsPage.total_results = 1;
 
         MediaFullDetailsImpl mockedMediaDetails = createMediaFullDetails("Test tvshow", "tt12345678", false);
-        when(userMediaService.isUserFavorite(any(User.class), eq(mockedMediaDetails))).thenReturn(true);
         when(tmdbService.getMediaDetails(any(Media.class))).thenReturn(Optional.of(mockedMediaDetails));
         when(tmdb.searchService()).thenReturn(searchService);
         mockTmdbSearchService(searchService, mediaResultsPage);

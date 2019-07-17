@@ -49,7 +49,7 @@ public class TmdbTvShowSearchServiceTest {
         SearchParams searchParams = new SearchParamsBuilder().withPage(CURRENT_PAGE).withQuery("Batman returns").build();
         SearchResult<MediaFullDetails> searchResult = tvShowSearchService.search(searchParams);
 
-        verify(searchService, times(1)).tv(eq("Batman returns"), eq(CURRENT_PAGE), any(String.class), any(Integer.class), any(String.class));
+        verify(searchService, times(1)).tv(eq("Batman returns"), eq(CURRENT_PAGE), eq(null), eq(null), eq(null));
         assertThat(searchResult.getTotalPages()).isEqualTo(TOTAL_PAGES);
         assertThat(searchResult.getTotalResults()).isEqualTo(TOTAL_RESULTS);
         assertThat(searchResult.getPage()).isEqualTo(CURRENT_PAGE);
@@ -62,7 +62,7 @@ public class TmdbTvShowSearchServiceTest {
         tvShowResultsPage.total_results = TOTAL_RESULTS;
         Call<TvShowResultsPage> mockedCall = mock(Call.class);
         when(mockedCall.execute()).thenReturn(Response.success(tvShowResultsPage));
-        when(searchService.tv(any(String.class), any(Integer.class), any(String.class), any(Integer.class), any(String.class)))
+        when(searchService.tv(any(String.class), any(Integer.class), eq(null), eq(null), eq(null)))
                 .thenReturn(mockedCall);
     }
 }

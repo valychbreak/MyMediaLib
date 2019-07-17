@@ -3,16 +3,22 @@ package com.valychbreak.mymedialib.controller;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.valychbreak.mymedialib.testtools.OAuth2TestHelper;
+import com.valychbreak.mymedialib.Application;
+import com.valychbreak.mymedialib.testtools.OAuth2AccessTokenProvider;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
@@ -29,51 +35,61 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+@WebAppConfiguration
+@TestPropertySource(locations = "classpath:application.yml")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
-@DatabaseSetup("/data/db/common/TestUser.xml")
-public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
+@DatabaseSetup("/data/db/OAuth2AuthorizationTest.xml")
+public class OAuth2AuthorizationTest {
 
     private static final String TEST_USER = "test_user";
     private static final String USER_PASSWORD = "test12";
 
-    @Autowired
-    private OAuth2TestHelper oAuth2TestHelper;
+    private OAuth2AccessTokenProvider oAuth2AccessTokenProvider;
 
     @Autowired
     private WebApplicationContext context;
 
-    private MockMvc mvc;
+    private MockMvc mockMvc;
 
     @Before
-    public void prepare() throws Exception {
-        this.mvc = MockMvcBuilders
+    public void prepare() {
+        this.mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+
+        oAuth2AccessTokenProvider = new OAuth2AccessTokenProvider(mockMvc);
     }
 
     @Test
-    public void simpleAccessTestApplyingToken() throws Exception {
+    public void shouldReturnStatusOkWhenHasValidToken() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer " + requestToken());
 
-        mvc.perform(get("/api/users/search").param("q", "test").headers(headers))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("*.password").doesNotExist());
+        mockMvc.perform(get("/api/users/search").param("q", "test").headers(headers))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void errorWhenTokenIsInvalid() throws Exception {
+    public void shouldReturnUnauthorizedWhenAccessAPIWithoutAccessToken() throws Exception {
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void shouldReturnUnauthorizedStatusWithErrorWhenTokenIsInvalid() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer BBasdf123-asdfasdf");
 
-        mvc.perform(get("/api/users/search").requestAttr("q", "test").headers(headers))
+        mockMvc.perform(get("/api/users/search").requestAttr("q", "test").headers(headers))
                 .andDo(print())
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("invalid_token"))
@@ -81,7 +97,18 @@ public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void returnsToken() throws Exception {
+    public void forbiddenToAccessWhenInvalidRole() throws Exception {
+        final String accessToken = oAuth2AccessTokenProvider.obtainAccessToken("user_with_invalid_role", "test12");
+
+        mockMvc.perform(
+                get("/api/users")
+                        .header("Authorization", "Bearer " + accessToken))
+                .andExpect(status().isForbidden());
+
+    }
+
+    @Test
+    public void shouldCreateNewTokenOnRequest() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -100,23 +127,23 @@ public class OAuth2AuthorizationTest extends AbstractControllerSecurityTest {
     }
 
     @Test
-    public void returnsUnauthorizedForBadCredentials() throws Exception {
+    public void shouldReturnBadRequestForBadCredentials() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
         map.add("username", "WrongUsername");
-        map.add("password", "worngPassword");
+        map.add("password", "wrongPassword");
 
         mockMvc.perform(post("/oauth/token").with(httpBasic("gigy","secret"))
                 .headers(headers).params(map))
-                .andExpect(status().is(400))
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error", is("invalid_grant")))
                 .andExpect(jsonPath("$.error_description", is("Bad credentials")));
     }
 
-    private String requestToken() {
-        return oAuth2TestHelper.createAccessToken(TEST_USER, USER_PASSWORD, "ROLE_USER").getValue();
+    private String requestToken() throws Exception {
+        return oAuth2AccessTokenProvider.obtainAccessToken(TEST_USER, USER_PASSWORD);
     }
 }
