@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Component
-public class OAuth2TestHelper {
+public class OAuth2AccessTokenProvider {
 
     private static final String CLIENT_ID = "gigy";
     private static final String CLIENT_SECRET = "secret";

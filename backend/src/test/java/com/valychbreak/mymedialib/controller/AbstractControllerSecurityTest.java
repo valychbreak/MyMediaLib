@@ -2,13 +2,12 @@ package com.valychbreak.mymedialib.controller;
 
 import com.google.gson.Gson;
 import com.valychbreak.mymedialib.Application;
-import com.valychbreak.mymedialib.testtools.OAuth2TestHelper;
+import com.valychbreak.mymedialib.testtools.OAuth2AccessTokenProvider;
 import com.valychbreak.mymedialib.utils.gson.GsonBuilderTools;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -30,8 +29,7 @@ public abstract class AbstractControllerSecurityTest {
     @Autowired
     protected WebApplicationContext webapp;
 
-    @Autowired
-    protected OAuth2TestHelper helper;
+    protected OAuth2AccessTokenProvider accessTokenProvider;
 
     protected MockMvc mockMvc;
 
@@ -41,6 +39,9 @@ public abstract class AbstractControllerSecurityTest {
                 .apply(springSecurity())
                 .alwaysDo(print())
                 .build();
+
+        accessTokenProvider = new OAuth2AccessTokenProvider();
+        accessTokenProvider.setMockMvc(mockMvc);
     }
 
     protected String json(Object object) {
@@ -49,13 +50,14 @@ public abstract class AbstractControllerSecurityTest {
     }
 
     protected RequestPostProcessor bearerToken(String username, String password) {
-        return bearerToken(username, password,  "ROLE_USER");
-    }
-
-    protected RequestPostProcessor bearerToken(String username, String password, String... roles) {
         return mockRequest -> {
-            OAuth2AccessToken token = helper.createAccessToken(username, password, roles);
-            mockRequest.addHeader("Authorization", "Bearer " + token.getValue());
+            String token;
+            try {
+                token = accessTokenProvider.obtainAccessToken(username, password);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to obtain an access token", e);
+            }
+            mockRequest.addHeader("Authorization", "Bearer " + token);
             return mockRequest;
         };
     }

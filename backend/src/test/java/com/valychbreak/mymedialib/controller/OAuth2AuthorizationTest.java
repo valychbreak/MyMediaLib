@@ -4,9 +4,8 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.Application;
-import com.valychbreak.mymedialib.testtools.OAuth2TestHelper;
+import com.valychbreak.mymedialib.testtools.OAuth2AccessTokenProvider;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class OAuth2AuthorizationTest {
     private static final String TEST_USER = "test_user";
     private static final String USER_PASSWORD = "test12";
 
-    private OAuth2TestHelper oAuth2TestHelper;
+    private OAuth2AccessTokenProvider oAuth2AccessTokenProvider;
 
     @Autowired
     private WebApplicationContext context;
@@ -65,8 +64,8 @@ public class OAuth2AuthorizationTest {
                 .apply(springSecurity())
                 .build();
 
-        oAuth2TestHelper = new OAuth2TestHelper();
-        oAuth2TestHelper.setMockMvc(mockMvc);
+        oAuth2AccessTokenProvider = new OAuth2AccessTokenProvider();
+        oAuth2AccessTokenProvider.setMockMvc(mockMvc);
     }
 
     @Test
@@ -100,7 +99,7 @@ public class OAuth2AuthorizationTest {
 
     @Test
     public void forbiddenToAccessWhenInvalidRole() throws Exception {
-        final String accessToken = oAuth2TestHelper.obtainAccessToken("user_with_invalid_role", "test12");
+        final String accessToken = oAuth2AccessTokenProvider.obtainAccessToken("user_with_invalid_role", "test12");
 
         mockMvc.perform(
                 get("/api/users")
@@ -146,6 +145,6 @@ public class OAuth2AuthorizationTest {
     }
 
     private String requestToken() throws Exception {
-        return oAuth2TestHelper.obtainAccessToken(TEST_USER, USER_PASSWORD);
+        return oAuth2AccessTokenProvider.obtainAccessToken(TEST_USER, USER_PASSWORD);
     }
 }
