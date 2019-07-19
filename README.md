@@ -21,7 +21,7 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
 ### Without docker
  - Install PostgresSQL locally or use remote DB (modify application.yml in backend project according to your db)
  - Setup new database according to application.yml in backend project
- - Run schema.sql and data.sql in backend project against created DB
+ - From ./backend, run: ```mvn flyway:migrate -Dflyway.url=<db_url> -Dflyway.user=<db_user> -Dflyway.password=<user_password>```
  - Run: ```mvn spring-boot:run```
  
 ### With docker
@@ -29,6 +29,6 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Goto http://localhost:3333/. Login with pgadmin4@pgadmin.org and admin
  - Create user "dbuser" with password "dbtest"
  - Create database "mymedialib"
- - Run schema.sql and data.sql in backend project against created DB
+ - From .../backend project, run: ```mvn flyway:migrate -Dflyway.url=<db_url> -Dflyway.user=<db_user> -Dflyway.password=<user_password>```
  - Restart mymedialib service
 
