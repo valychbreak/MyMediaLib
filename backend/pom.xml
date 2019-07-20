@@ -196,7 +196,7 @@
                             <resources>
                                 <resource>
                                     <directory>${basedir}/../frontend/src/main/frontend/dist</directory>
-                                    <filtering>true</filtering>
+                                    <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>
