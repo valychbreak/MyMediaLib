@@ -26,6 +26,7 @@ src/main/frontend/bower_components
 npm-debug.log
 testem.log
 /typings
+src/main/frontend/package-lock.json
 
 # e2e
 /e2e/*.js
