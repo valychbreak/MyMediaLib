@@ -21,7 +21,7 @@ jobs:
       before_script:
         - psql -c 'create database "mymedialib-test";' -U postgres
         - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password=
-      script: mvn -pl backend install -DskipTests
+      script: mvn -pl backend test -Pintegration-tests
 
     - stage: Release
       install:
