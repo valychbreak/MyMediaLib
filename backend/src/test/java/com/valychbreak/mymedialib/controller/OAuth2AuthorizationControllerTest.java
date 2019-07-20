@@ -45,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup("/data/db/OAuth2AuthorizationTest.xml")
-public class OAuth2AuthorizationTest {
+public class OAuth2AuthorizationControllerTest {
 
     private static final String TEST_USER = "test_user";
     private static final String USER_PASSWORD = "test12";
