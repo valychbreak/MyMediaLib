@@ -31,6 +31,6 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Goto http://localhost:3333/. Login with pgadmin4@pgadmin.org and admin
  - Create user "dbuser" with password "dbtest"
  - Create database "mymedialib"
- - From .../backend project, run: ```mvn flyway:baseline flyway:migrate -Dflyway.url=<db_url> -Dflyway.user=<db_user> -Dflyway.password=<user_password>```
+ - From ```backend/``` project, run: ```mvn flyway:baseline flyway:migrate -Dflyway.url=<db_url> -Dflyway.user=<db_user> -Dflyway.password=<user_password>```
  - Restart mymedialib service
 
