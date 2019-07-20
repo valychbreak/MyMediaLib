@@ -9,9 +9,6 @@ CREATE SEQUENCE public.user_role_id_seq
     MAXVALUE 9223372036854775807
     CACHE 1;
 
-ALTER SEQUENCE public.user_role_id_seq
-    OWNER TO dbuser;
-
 
 -- SEQUENCE: public.users_id_seq
 
@@ -23,9 +20,6 @@ CREATE SEQUENCE public.users_id_seq
     MINVALUE 1
     MAXVALUE 9223372036854775807
     CACHE 1;
-
-ALTER SEQUENCE public.users_id_seq
-    OWNER TO dbuser;
 
 
 -- Table: public.user_role
@@ -42,10 +36,6 @@ CREATE TABLE public.user_role
         OIDS = FALSE
     )
     TABLESPACE pg_default;
-
-ALTER TABLE public.user_role
-    OWNER to dbuser;
-
 
 
 -- Table: public.users
@@ -76,9 +66,6 @@ CREATE TABLE public.users
     )
     TABLESPACE pg_default;
 
-ALTER TABLE public.users
-    OWNER to dbuser;
-
 
 -- Table: public.media
 
@@ -97,9 +84,6 @@ CREATE TABLE public.media
         OIDS = FALSE
     )
     TABLESPACE pg_default;
-
-ALTER TABLE public.media
-    OWNER to dbuser;
 
 
 -- Table: public.user_media
@@ -127,10 +111,6 @@ CREATE TABLE public.user_media
     )
     TABLESPACE pg_default;
 
-ALTER TABLE public.user_media
-    OWNER to dbuser;
-
-
 
 -- Table: public.user_media_collection
 
@@ -152,8 +132,6 @@ CREATE TABLE public.user_media_collection
     )
     TABLESPACE pg_default;
 
-ALTER TABLE public.user_media_collection
-    OWNER to dbuser;
 
 ALTER TABLE public.users
     ADD CONSTRAINT fk18m96b2663jpfficcwtr4oweq FOREIGN KEY (root_user_media_collection)
@@ -183,6 +161,3 @@ CREATE TABLE public.user_media_collection_user_media_list
         OIDS = FALSE
     )
     TABLESPACE pg_default;
-
-ALTER TABLE public.user_media_collection_user_media_list
-    OWNER to dbuser;
