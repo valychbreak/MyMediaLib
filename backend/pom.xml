@@ -21,7 +21,7 @@
     </parent>
 
     <properties>
-<!--        <flyway.plugin.version>5.2.4</flyway.plugin.version>-->
+
     </properties>
 
     <dependencies>
