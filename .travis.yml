@@ -9,5 +9,5 @@ jobs:
   include:
     - stage: test
       script: mvn -pl backend package -DskipTests
-    - # stage: test -- not required
+    - stage: integration test
       script: mvn -pl backend install -DskipTests
