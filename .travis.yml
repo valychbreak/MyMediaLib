@@ -8,7 +8,7 @@ install: mvn -pl backend install -DskipTests=true -Dmaven.javadoc.skip=true -B -
 jobs:
   include:
     - stage: Unit Tests
-      script: mvn -pl backend test
+      script: mvn -pl backend test -B -V
 
     - stage: Integration Tests
       install: skip
