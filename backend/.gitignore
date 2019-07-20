@@ -1,5 +1,6 @@
 # Properties file
 src/main/resources/application.yml
+src/test/resources/application.yml
 
 # Frontend compiled files
 src/main/resources/static
