@@ -1,15 +1,15 @@
 spring:
   datasource:
-    url: jdbc:postgresql://host.docker.internal:1111/mymedialib
+    url: jdbc:postgresql://localhost:1111/mymedialib-test-flyway2
     username: dbuser
     password: dbtest
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL82Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 
 local:
