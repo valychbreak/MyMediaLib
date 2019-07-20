@@ -9,6 +9,12 @@ jobs:
   include:
     - stage: test
       script: mvn -pl backend package -DskipTests
+
     - stage: integration test
       install: skip
       script: mvn -pl backend install -DskipTests
+
+    - stage: Release
+      install:
+       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      script: skip
