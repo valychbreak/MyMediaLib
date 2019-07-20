@@ -4,4 +4,10 @@ jdk:
   - openjdk12
 
 install: mvn -pl backend install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-script: mvn -pl backend package -DskipTests
+
+jobs:
+  include:
+    - stage: test
+      script: mvn -pl backend package -DskipTests
+    - # stage: test -- not required
+      script: mvn -pl backend install -DskipTests
