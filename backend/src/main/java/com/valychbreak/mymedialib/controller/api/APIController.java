@@ -20,11 +20,14 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/api")
 public abstract class APIController {
-    public static final Tmdb TMDB_INSTANCE = new Tmdb("01e924145da414b33cdc651619bb694b");
+    @Deprecated
+    public static Tmdb TMDB_INSTANCE;
     public static final Logger LOG = LoggerFactory.getLogger(MediaController.class);
 
     @Autowired
     protected UserRepository userRepository;
+
+    protected Tmdb tmdb;
 
     protected User getLoggedUser() {
         String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
@@ -39,5 +42,13 @@ public abstract class APIController {
         Assert.notNull(loggedUser);
 
         return loggedUser;
+    }
+
+    @Autowired
+    @Deprecated
+    public void setTmdb(Tmdb tmdb) {
+        this.tmdb = tmdb;
+
+        TMDB_INSTANCE = tmdb;
     }
 }

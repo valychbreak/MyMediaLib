@@ -1,3 +1,7 @@
+tmdb:
+  api:
+    key: api_key
+
 spring:
   datasource:
     url: jdbc:postgresql://host.docker.internal:1111/mymedialib
