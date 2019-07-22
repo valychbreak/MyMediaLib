@@ -13,6 +13,7 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Install JDK 12
  - Install maven 3.\*.\*
  - Copy ```backend/src/main/resources/application.yml.template``` to ```backend/src/main/resources/application.yml```, change db properties if needed
+ - In copied file, provide your own ```tmdb.api.key``` property
  - Execute: ```mvn clean install -DskipTests```
  - Copy ```frontend/src/main/frontend/dist``` to ```backend/src/main/resources/static```
  - Execute from ```backend/```: ```mvn clean install -DskipTests``` 
@@ -34,3 +35,10 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - From ```backend/``` project, run: ```mvn flyway:baseline flyway:migrate -Dflyway.url=<db_url> -Dflyway.user=<db_user> -Dflyway.password=<user_password>```
  - Restart mymedialib service
 
+## Testing 
+
+### Backend
+ - Copy ```backend/src/test/resources/application.yml.template``` file as ```application.yml```, change properties if needed (DB)
+ - In copied file, provide your own ```tmdb.api.key``` property
+ - Run unit tests: ```mvn -pl backend test```
+ - Run integration tests: ```mvn -pl backend -Pintegration-tests```
