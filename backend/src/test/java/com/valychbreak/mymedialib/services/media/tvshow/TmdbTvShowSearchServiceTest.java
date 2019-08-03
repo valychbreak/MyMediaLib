@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -46,7 +46,11 @@ public class TmdbTvShowSearchServiceTest {
 
     @Test
     public void search() throws Exception {
-        SearchParams searchParams = new SearchParamsBuilder().withPage(CURRENT_PAGE).withQuery("Batman returns").build();
+        SearchParams searchParams = new SearchParamsBuilder()
+                .withPage(CURRENT_PAGE)
+                .withQuery("Batman returns")
+                .build();
+
         SearchResult<MediaFullDetails> searchResult = tvShowSearchService.search(searchParams);
 
         verify(searchService, times(1)).tv(eq("Batman returns"), eq(CURRENT_PAGE), eq(null), eq(null), eq(null));
