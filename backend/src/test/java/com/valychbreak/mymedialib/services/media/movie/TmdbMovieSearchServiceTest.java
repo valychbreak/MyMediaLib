@@ -39,10 +39,10 @@ public class TmdbMovieSearchServiceTest {
     @Mock
     private SearchService searchService;
 
-    private TmdbMovieSearchService movieSearchService;
-
     @Mock
     private TmdbService tmdbService;
+
+    private TmdbMovieSearchService movieSearchService;
 
     @Before
     public void setUp() {
@@ -54,7 +54,6 @@ public class TmdbMovieSearchServiceTest {
     @Test
     public void search() throws Exception {
         setupTmdbSearchService(TOTAL_PAGES, TOTAL_RESULTS);
-        when(tmdbService.getMovieDetails(any(BaseMovie.class))).thenReturn(mock(MediaFullDetails.class));
 
         SearchParams searchParams = new SearchParamsBuilder()
                 .withPage(CURRENT_PAGE)
