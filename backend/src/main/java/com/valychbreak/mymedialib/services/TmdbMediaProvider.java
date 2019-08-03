@@ -1,11 +1,14 @@
 package com.valychbreak.mymedialib.services;
 
 import com.uwetrottmann.tmdb2.Tmdb;
-import com.uwetrottmann.tmdb2.entities.*;
+import com.uwetrottmann.tmdb2.entities.FindResults;
+import com.uwetrottmann.tmdb2.entities.Media;
+import com.uwetrottmann.tmdb2.entities.Movie;
+import com.uwetrottmann.tmdb2.entities.TvShow;
 import com.uwetrottmann.tmdb2.enumerations.ExternalSource;
 import com.uwetrottmann.tmdb2.enumerations.MediaType;
-import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.utils.TmdbUtils;
+import org.springframework.stereotype.Component;
 import retrofit2.Call;
 
 import java.io.IOException;
@@ -13,9 +16,15 @@ import java.io.IOException;
 /**
  * Created by valych on 6/2/17.
  */
+@Component
 public class TmdbMediaProvider {
+    private Tmdb tmdb;
+
+    public TmdbMediaProvider(Tmdb tmdb) {
+        this.tmdb = tmdb;
+    }
+
     public Movie getMovieBy(String imdbId) throws IOException {
-        Tmdb tmdb = APIController.TMDB_INSTANCE;
         Call<FindResults> call = tmdb.findService().find(imdbId, ExternalSource.IMDB_ID, null);
         FindResults body = call.execute().body();
         Movie movie = body.movie_results.get(0);
@@ -25,7 +34,6 @@ public class TmdbMediaProvider {
     }
 
     public Media getMediaBy(String imdbId) throws IOException {
-        Tmdb tmdb = APIController.TMDB_INSTANCE;
         Call<FindResults> call = tmdb.findService().find(imdbId, ExternalSource.IMDB_ID, null);
         FindResults body = call.execute().body();
 

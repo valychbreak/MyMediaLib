@@ -62,25 +62,6 @@ public class Media {
         this.title = title;
     }
 
-    @JsonIgnore
-    @Transient
-    @Deprecated
-    public MediaShortDetails getShortDetails() throws OMDBException, IOException {
-        Movie movie = new TmdbMediaProvider().getMovieBy(imdbId);
-        MediaShortDetails media = new MediaShortDetailsTmdbMovieAdapter(movie);
-        return media;
-    }
-
-    @JsonIgnore
-    @Transient
-    @Deprecated
-    public MediaFullDetails getDetails() throws OMDBException, IOException {
-        //OmdbVideoFull omdbVideo = new OmdbVideoProvider().getOmdbVideo(imdbId);
-        com.uwetrottmann.tmdb2.entities.Media mediaBy = new TmdbMediaProvider().getMediaBy(imdbId);
-        MediaFullDetailsImpl media = (MediaFullDetailsImpl) TmdbUtils.getMediaFullDetailsFromTmdbMedia(APIController.TMDB_INSTANCE, mediaBy);
-        return media;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

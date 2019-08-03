@@ -1,16 +1,19 @@
 package com.valychbreak.mymedialib.controller.api.favorites;
 
-import com.omertron.omdbapi.OMDBException;
 import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.valychbreak.mymedialib.services.TmdbMediaProvider;
+import com.valychbreak.mymedialib.utils.TmdbUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,10 +26,11 @@ import java.util.List;
 public class UserFavoriteMediaController extends APIController {
 
     private UserMediaRepository userMediaRepository;
+    private TmdbMediaProvider tmdbMediaProvider;
 
-    @Autowired
-    public UserFavoriteMediaController(UserMediaRepository userMediaRepository) {
+    public UserFavoriteMediaController(UserMediaRepository userMediaRepository, TmdbMediaProvider tmdbMediaProvider) {
         this.userMediaRepository = userMediaRepository;
+        this.tmdbMediaProvider = tmdbMediaProvider;
     }
 
     @RequestMapping(value = "/user/favourites", method = RequestMethod.GET,
@@ -44,10 +48,11 @@ public class UserFavoriteMediaController extends APIController {
         return new ResponseEntity<>(mediaList, HttpStatus.OK);
     }
 
-    private List<MediaFullDetails> getUserFavouriteMedia(User user) throws OMDBException, IOException {
-        List<MediaFullDetails> mediaList = new ArrayList<>();//user.getAllFavorites();
+    private List<MediaFullDetails> getUserFavouriteMedia(User user) throws IOException {
+        List<MediaFullDetails> mediaList = new ArrayList<>();
         for (UserMedia userMedia : userMediaRepository.findByUser(user)) {
-            MediaFullDetails details = userMedia.getMedia().getDetails();
+            com.uwetrottmann.tmdb2.entities.Media mediaBy = tmdbMediaProvider.getMediaBy(userMedia.getMedia().getImdbId());
+            MediaFullDetails details = TmdbUtils.getMediaFullDetailsFromTmdbMedia(tmdb, mediaBy);
             details.setFavourite(true);
             mediaList.add(details);
         }

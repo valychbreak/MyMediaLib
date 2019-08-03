@@ -18,6 +18,12 @@ import java.io.IOException;
 
 @Service
 public class TmbdMediaDetailsProvider implements MediaDetailsProvider {
+    private Tmdb tmdb;
+
+    public TmbdMediaDetailsProvider(Tmdb tmdb) {
+        this.tmdb = tmdb;
+    }
+
     @Override
     public MediaShortDetails getShortDetails(Media media) {
         return null;
@@ -27,7 +33,6 @@ public class TmbdMediaDetailsProvider implements MediaDetailsProvider {
     public MediaFullDetails getDetails(Media media) throws IOException {
         String imdbId = media.getImdbId();
 
-        Tmdb tmdb = APIController.TMDB_INSTANCE;
         Call<FindResults> call = tmdb.findService().find(imdbId, ExternalSource.IMDB_ID, null);
         FindResults body = call.execute().body();
 
