@@ -17,10 +17,10 @@ import retrofit2.Call;
 import java.io.IOException;
 
 @Service
-public class TmbdMediaDetailsProvider implements MediaDetailsProvider {
+public class TmdbMediaDetailsProvider implements MediaDetailsProvider {
     private Tmdb tmdb;
 
-    public TmbdMediaDetailsProvider(Tmdb tmdb) {
+    public TmdbMediaDetailsProvider(Tmdb tmdb) {
         this.tmdb = tmdb;
     }
 
