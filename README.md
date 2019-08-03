@@ -6,7 +6,7 @@ Stack:
  - Angular 5
  - Docker
  
-Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbreak/mymedialib
+Docker images: https://hub.docker.com/r/valychbreak/mymedialib
 
 ## Build
 
