@@ -5,18 +5,17 @@ import com.uwetrottmann.tmdb2.entities.FindResults;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 import com.uwetrottmann.tmdb2.enumerations.ExternalSource;
-import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
 import com.valychbreak.mymedialib.entity.media.Media;
 import com.valychbreak.mymedialib.utils.TmdbUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import retrofit2.Call;
 
 import java.io.IOException;
 
-@Service
+@Component
 public class TmdbMediaDetailsProvider implements MediaDetailsProvider {
     private Tmdb tmdb;
 
