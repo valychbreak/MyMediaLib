@@ -13,7 +13,7 @@ Docker images: https://cloud.docker.com/u/valychbreak/repository/docker/valychbr
  - Install JDK 12
  - Install maven 3.\*.\*
  - Copy ```backend/src/main/resources/application.yml.template``` to ```backend/src/main/resources/application.yml```, change db properties if needed
- - In copied file, provide your own ```tmdb.api.key``` property
+ - In copied file, provide your own ```tmdb.api.key``` property value
  - Execute: ```mvn clean install -DskipTests```
  - Copy ```frontend/src/main/frontend/dist``` to ```backend/src/main/resources/static```
  - Execute from ```backend/```: ```mvn clean install -DskipTests``` 
