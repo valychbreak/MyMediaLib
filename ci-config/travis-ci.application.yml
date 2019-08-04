@@ -1,12 +1,16 @@
+tmdb:
+  api:
+    key: api_key
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost/mymedialib-test
-    username: dbuser
-    password: dbtest
+    username: postgres
+    password:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL82Dialect

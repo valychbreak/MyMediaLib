@@ -1,4 +1,4 @@
 <dataset>
-    <user_role id="10" role="ROLE_USER"/>
-    <user_role id="11" role="ROLE_ADMIN"/>
+    <user_role id="1" role="ROLE_USER"/>
+    <user_role id="2" role="ROLE_ADMIN"/>
 </dataset>

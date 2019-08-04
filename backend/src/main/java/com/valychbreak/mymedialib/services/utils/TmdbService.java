@@ -6,6 +6,8 @@ import com.uwetrottmann.tmdb2.enumerations.AppendToResponseItem;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 
@@ -14,6 +16,8 @@ import java.util.Optional;
 
 @Service
 public class TmdbService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TmdbService.class);
+
     private Tmdb tmdb;
 
     public TmdbService(Tmdb tmdb) {
@@ -36,14 +40,14 @@ public class TmdbService {
     }
 
     public MediaFullDetails getTvShowDetails(BaseTvShow result) throws IOException {
-        TvShow tvShow = requestDetailedTmdbTvShow(tmdb, result);
+        TvShow tvShow = requestDetailedTmdbTvShow(result);
         MediaFullDetails media = new MediaFullDetailsTmdbMovieAdapter(tvShow);
         return media;
     }
 
     public MediaFullDetails getMovieDetails(BaseMovie result) throws IOException {
         MediaFullDetails media = null;
-        Movie movie = requestDetailedTmdbMovie(tmdb, result);
+        Movie movie = requestDetailedTmdbMovie(result);
         //FIXME: get rid of imdbId
         if(movie != null && StringUtils.isNotBlank(movie.imdb_id) && movie.backdrop_path != null) {
             media = new MediaFullDetailsTmdbMovieAdapter(movie);
@@ -52,12 +56,36 @@ public class TmdbService {
         return media;
     }
 
-    private Movie requestDetailedTmdbMovie(Tmdb tmdb, BaseMovie result) throws IOException {
+    public Movie requestDetailedTmdbMovie(BaseMovie result) throws IOException {
+        Movie movie = null;
+        try {
+            movie = requestTmdbMovie(tmdb, result);
+        } catch(IllegalStateException e) {
+            LOGGER.warn("TMDB API call failed. Retrying...", e);
+            movie = requestTmdbMovie(tmdb, result);
+        }
+
+        return movie;
+    }
+
+    public TvShow requestDetailedTmdbTvShow(BaseTvShow result) throws IOException {
+        TvShow tvShow;
+        try {
+            tvShow = requestTmdbTvShow(tmdb, result);
+        } catch(IllegalStateException e) {
+            LOGGER.warn("TMDB API call failed. Retrying...", e);
+            tvShow = requestTmdbTvShow(tmdb, result);
+        }
+
+        return tvShow;
+    }
+
+    private Movie requestTmdbMovie(Tmdb tmdb, BaseMovie result) throws IOException {
         Call<Movie> summary = tmdb.moviesService().summary(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
         return summary.execute().body();
     }
 
-    private TvShow requestDetailedTmdbTvShow(Tmdb tmdb, BaseTvShow result) throws IOException {
+    private TvShow requestTmdbTvShow(Tmdb tmdb, BaseTvShow result) throws IOException {
         Call<TvShow> summary = tmdb.tvService().tv(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
         return summary.execute().body();
     }

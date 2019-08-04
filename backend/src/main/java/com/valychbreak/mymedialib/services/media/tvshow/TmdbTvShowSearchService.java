@@ -1,15 +1,13 @@
 package com.valychbreak.mymedialib.services.media.tvshow;
 
 import com.uwetrottmann.tmdb2.Tmdb;
-import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.uwetrottmann.tmdb2.entities.TvShowResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
-import com.valychbreak.mymedialib.utils.TmdbUtils;
+import com.valychbreak.mymedialib.services.utils.TmdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -22,10 +20,12 @@ import java.util.List;
 public class TmdbTvShowSearchService implements TvShowSearchService {
 
     private Tmdb tmdb;
+    private TmdbService tmdbService;
 
     @Autowired
-    public TmdbTvShowSearchService(Tmdb tmdb) {
+    public TmdbTvShowSearchService(Tmdb tmdb, TmdbService tmdbService) {
         this.tmdb = tmdb;
+        this.tmdbService = tmdbService;
     }
 
     @Override
@@ -34,8 +34,7 @@ public class TmdbTvShowSearchService implements TvShowSearchService {
 
         List<MediaFullDetails> mediaSearchResults = new ArrayList<>();
         for (BaseTvShow result : movieResults.results) {
-            // TODO: get rid of static methods - no way to create unit tests
-            MediaFullDetails media = TmdbUtils.getMediaFullDetailsFromTmdbMovie(tmdb, result);
+            MediaFullDetails media = tmdbService.getTvShowDetails(result);
 
             if(media != null) {
                 mediaSearchResults.add(media);

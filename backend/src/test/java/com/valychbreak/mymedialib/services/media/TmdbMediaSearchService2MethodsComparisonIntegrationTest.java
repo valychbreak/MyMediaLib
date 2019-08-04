@@ -18,7 +18,7 @@ import java.io.IOException;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
-public class TmdbMediaSearchService2MethodsComparisonTest {
+public class TmdbMediaSearchService2MethodsComparisonIntegrationTest {
 
     @Autowired
     private TmdbMediaSearchService mediaSearchService;

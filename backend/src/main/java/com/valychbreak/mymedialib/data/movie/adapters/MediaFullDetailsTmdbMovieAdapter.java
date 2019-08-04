@@ -7,7 +7,6 @@ import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 
 import java.util.List;
 
-import static com.valychbreak.mymedialib.utils.TmdbUtils.TMDB_IMAGE_BASE_URL;
 import static com.valychbreak.mymedialib.utils.TmdbUtils.getPosterImageLink;
 
 /**

@@ -175,6 +175,43 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Setup for Unit tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Test</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/*Integration*</exclude>
+                        <exclude>**/*Controller*Test*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <!-- Setup for Integration tests -->
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludes>none</excludes>
+                            <includes>
+                                <include>**/*Integration*Test*</include>
+                                <include>**/*Controller*Test*</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

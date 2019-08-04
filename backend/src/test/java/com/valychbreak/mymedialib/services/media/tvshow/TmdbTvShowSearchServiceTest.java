@@ -7,11 +7,12 @@ import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchParamsBuilder;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
+import com.valychbreak.mymedialib.services.utils.TmdbService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -34,6 +35,9 @@ public class TmdbTvShowSearchServiceTest {
     @Mock
     private SearchService searchService;
 
+    @Mock
+    private TmdbService tmdbService;
+
     private TmdbTvShowSearchService tvShowSearchService;
 
     @Before
@@ -41,12 +45,16 @@ public class TmdbTvShowSearchServiceTest {
         when(tmdb.searchService()).thenReturn(searchService);
         setupTmdbSearchService();
 
-        tvShowSearchService = new TmdbTvShowSearchService(tmdb);
+        tvShowSearchService = new TmdbTvShowSearchService(tmdb, tmdbService);
     }
 
     @Test
     public void search() throws Exception {
-        SearchParams searchParams = new SearchParamsBuilder().withPage(CURRENT_PAGE).withQuery("Batman returns").build();
+        SearchParams searchParams = new SearchParamsBuilder()
+                .withPage(CURRENT_PAGE)
+                .withQuery("Batman returns")
+                .build();
+
         SearchResult<MediaFullDetails> searchResult = tvShowSearchService.search(searchParams);
 
         verify(searchService, times(1)).tv(eq("Batman returns"), eq(CURRENT_PAGE), eq(null), eq(null), eq(null));

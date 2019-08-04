@@ -4,9 +4,9 @@ tmdb:
 
 spring:
   datasource:
-    url: jdbc:postgresql://host.docker.internal:1111/mymedialib
-    username: dbuser
-    password: dbtest
+    url: jdbc:postgresql://localhost/mymedialib-test
+    username: postgres
+    password:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

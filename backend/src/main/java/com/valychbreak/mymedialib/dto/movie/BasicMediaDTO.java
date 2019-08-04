@@ -4,12 +4,8 @@ import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.BaseTvShow;
 import com.uwetrottmann.tmdb2.entities.Media;
 import com.valychbreak.mymedialib.utils.TmdbUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
-
-import static com.valychbreak.mymedialib.utils.TmdbUtils.TMDB_IMAGE_BASE_URL;
-import static com.valychbreak.mymedialib.utils.TmdbUtils.getPosterImageLink;
 
 public class BasicMediaDTO {
     private String title;

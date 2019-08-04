@@ -2,15 +2,12 @@ package com.valychbreak.mymedialib.services.media.movie;
 
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.BaseMovie;
-import com.uwetrottmann.tmdb2.entities.Media;
-import com.uwetrottmann.tmdb2.entities.MediaResultsPage;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
-import com.valychbreak.mymedialib.utils.TmdbUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.valychbreak.mymedialib.services.utils.TmdbService;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
 
@@ -21,10 +18,11 @@ import java.util.List;
 @Service
 public class TmdbMovieSearchService implements MovieSearchService {
     private Tmdb tmdb;
+    private TmdbService tmdbService;
 
-    @Autowired
-    public TmdbMovieSearchService(Tmdb tmdb) {
+    public TmdbMovieSearchService(Tmdb tmdb, TmdbService tmdbService) {
         this.tmdb = tmdb;
+        this.tmdbService = tmdbService;
     }
 
     @Override
@@ -34,8 +32,7 @@ public class TmdbMovieSearchService implements MovieSearchService {
 
         List<MediaFullDetails> mediaSearchResults = new ArrayList<>();
         for (BaseMovie result : movieResults.results) {
-            // TODO: get rid of static methods - no way to create unit tests
-            MediaFullDetails media = TmdbUtils.getMediaFullDetailsFromTmdbMovie(tmdb, result);
+            MediaFullDetails media = tmdbService.getMovieDetails(result);
 
             if(media != null) {
                 mediaSearchResults.add(media);

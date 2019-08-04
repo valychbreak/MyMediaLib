@@ -1,0 +1,33 @@
+language: java
+
+jdk:
+  - openjdk12
+
+install: mvn -pl backend install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+jobs:
+  include:
+    - stage: Unit Tests
+      script: mvn -pl backend test -B -V
+
+    - stage: Integration Tests
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get --yes remove postgresql\*
+        - sudo apt-get install -y postgresql-11 postgresql-client-11
+        - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
+        - sudo service postgresql restart 11
+        - cp ci-config/travis-ci.application.yml backend/src/test/resources/application.yml
+      install: skip
+      before_script:
+        - psql -c 'create database "mymedialib-test";' -U postgres
+        - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
+      script: mvn -pl backend test -Pintegration-tests -Dtmdb.api.key=$TMDB_API_KEY -B -V
+
+    - stage: Release
+      install:
+       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      script: skip
+
+addons:
+  postgresql: "11"
