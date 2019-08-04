@@ -6,7 +6,7 @@ import com.uwetrottmann.tmdb2.entities.Media;
 
 import java.util.Date;
 
-import static com.valychbreak.mymedialib.utils.TmdbUtils.TMDB_IMAGE_BASE_URL;
+import static com.valychbreak.mymedialib.utils.TmdbUtils.getPosterImageLink;
 
 public class BasicMediaDTO {
     private Integer id;
@@ -42,7 +42,7 @@ public class BasicMediaDTO {
 
     private void init(BaseMovie baseMovie) {
         title = baseMovie.title;
-        posterImage = TMDB_IMAGE_BASE_URL + baseMovie.poster_path;
+        posterImage = getPosterImageLink(baseMovie.poster_path);
         overview = baseMovie.overview;
         releaseDate = baseMovie.release_date;
         mediaType = baseMovie.media_type;
@@ -50,7 +50,7 @@ public class BasicMediaDTO {
 
     private void init(BaseTvShow baseTvShow) {
         title = baseTvShow.name;
-        posterImage = TMDB_IMAGE_BASE_URL + baseTvShow.poster_path;
+        posterImage = getPosterImageLink(baseTvShow.poster_path);
         overview = baseTvShow.overview;
         releaseDate = baseTvShow.first_air_date;
         mediaType = baseTvShow.media_type;
