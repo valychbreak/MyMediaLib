@@ -1,6 +1,4 @@
 <dataset>
     <users id="1000" username="test_user" first_name="Test" email="testuser1@t.com" password="$2a$10$Z3XoPdQzwWfSrf0aytT78eg/cKr0.6OMAmUIH6TzOU5ok40iUqCWm" user_role_id="1"/>
     <users id="1001" username="another_user" first_name="Tomas" email="example@t.com" password="$2a$10$Z3XoPdQzwWfSrf0aytT78eg/cKr0.6OMAmUIH6TzOU5ok40iUqCWm" user_role_id="1"/>
-
-    <user_media />
 </dataset>
