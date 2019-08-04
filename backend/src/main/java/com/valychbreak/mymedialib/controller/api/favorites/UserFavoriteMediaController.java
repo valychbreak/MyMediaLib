@@ -5,8 +5,7 @@ import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
-import com.valychbreak.mymedialib.services.TmdbMediaProvider;
-import com.valychbreak.mymedialib.utils.TmdbUtils;
+import com.valychbreak.mymedialib.services.media.MediaDetailsProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +25,11 @@ import java.util.List;
 public class UserFavoriteMediaController extends APIController {
 
     private UserMediaRepository userMediaRepository;
-    private TmdbMediaProvider tmdbMediaProvider;
+    private MediaDetailsProvider mediaDetailsProvider;
 
-    public UserFavoriteMediaController(UserMediaRepository userMediaRepository, TmdbMediaProvider tmdbMediaProvider) {
+    public UserFavoriteMediaController(UserMediaRepository userMediaRepository, MediaDetailsProvider mediaDetailsProvider) {
         this.userMediaRepository = userMediaRepository;
-        this.tmdbMediaProvider = tmdbMediaProvider;
+        this.mediaDetailsProvider = mediaDetailsProvider;
     }
 
     @RequestMapping(value = "/user/favourites", method = RequestMethod.GET,
@@ -51,8 +50,7 @@ public class UserFavoriteMediaController extends APIController {
     private List<MediaFullDetails> getUserFavouriteMedia(User user) throws IOException {
         List<MediaFullDetails> mediaList = new ArrayList<>();
         for (UserMedia userMedia : userMediaRepository.findByUser(user)) {
-            com.uwetrottmann.tmdb2.entities.Media mediaBy = tmdbMediaProvider.getMediaBy(userMedia.getMedia().getImdbId());
-            MediaFullDetails details = TmdbUtils.getMediaFullDetailsFromTmdbMedia(tmdb, mediaBy);
+            MediaFullDetails details = mediaDetailsProvider.getDetails(userMedia.getMedia());
             details.setFavourite(true);
             mediaList.add(details);
         }

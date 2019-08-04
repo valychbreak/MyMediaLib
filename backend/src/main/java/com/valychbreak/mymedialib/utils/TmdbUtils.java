@@ -24,18 +24,30 @@ public class TmdbUtils {
         }
     }
 
+    /**
+     * Use MediaDetailsProvider or TmdbService classes
+     */
+    @Deprecated
     public static Movie requestDetailedTmdbTvShow(Tmdb tmdb, BaseMovie result) throws IOException {
 
         Call<Movie> summary = tmdb.moviesService().summary(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
         return summary.execute().body();
     }
 
+    /**
+     * Use MediaDetailsProvider or TmdbService classes
+     */
+    @Deprecated
     public static TvShow requestDetailedTmdbTvShow(Tmdb tmdb, BaseTvShow result) throws IOException {
 
         Call<TvShow> summary = tmdb.tvService().tv(result.id, null, new AppendToResponse(AppendToResponseItem.EXTERNAL_IDS));
         return summary.execute().body();
     }
 
+    /**
+     * Use MediaDetailsProvider or TmdbService classes
+     */
+    @Deprecated
     public static MediaFullDetails getMediaFullDetailsFromTmdbMedia(Tmdb tmdb, Media result) throws IOException {
         MediaFullDetails media = null;
 
@@ -51,12 +63,20 @@ public class TmdbUtils {
         return media;
     }
 
+    /**
+     * Use MediaDetailsProvider or TmdbService classes
+     */
+    @Deprecated
     public static MediaFullDetails getMediaFullDetailsFromTmdbMovie(Tmdb tmdb, BaseTvShow result) throws IOException {
         TvShow tvShow = requestDetailedTmdbTvShow(tmdb, result);
         MediaFullDetails media = new MediaFullDetailsTmdbMovieAdapter(tvShow);
         return media;
     }
 
+    /**
+     * Use MediaDetailsProvider or TmdbService classes
+     */
+    @Deprecated
     public static MediaFullDetails getMediaFullDetailsFromTmdbMovie(Tmdb tmdb, BaseMovie result) throws IOException {
         MediaFullDetails media = null;
         Movie movie = requestDetailedTmdbTvShow(tmdb, result);

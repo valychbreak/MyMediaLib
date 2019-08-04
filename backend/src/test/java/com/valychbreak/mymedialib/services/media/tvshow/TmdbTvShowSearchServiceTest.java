@@ -7,6 +7,7 @@ import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchParamsBuilder;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
+import com.valychbreak.mymedialib.services.utils.TmdbService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,9 @@ public class TmdbTvShowSearchServiceTest {
     @Mock
     private SearchService searchService;
 
+    @Mock
+    private TmdbService tmdbService;
+
     private TmdbTvShowSearchService tvShowSearchService;
 
     @Before
@@ -41,7 +45,7 @@ public class TmdbTvShowSearchServiceTest {
         when(tmdb.searchService()).thenReturn(searchService);
         setupTmdbSearchService();
 
-        tvShowSearchService = new TmdbTvShowSearchService(tmdb);
+        tvShowSearchService = new TmdbTvShowSearchService(tmdb, tmdbService);
     }
 
     @Test
