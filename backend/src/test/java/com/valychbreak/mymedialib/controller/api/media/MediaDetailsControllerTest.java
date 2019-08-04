@@ -7,6 +7,7 @@ import com.valychbreak.mymedialib.controller.ControllerTest;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
@@ -18,10 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by valych on 9/16/17.
- */
-// TODO: use manually created MediaFullDetails objects to compare with API ones
 @TestExecutionListeners({WithSecurityContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
@@ -29,9 +26,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup(value = "/data/db/common/TestUser.xml", type = DatabaseOperation.INSERT)
 public class MediaDetailsControllerTest extends ControllerTest {
+
+    @Autowired
+    private MediaUtils mediaUtils;
+
     @Test
     public void getMediaDetailsByImdbIdOfMovie() throws Exception {
-        MediaFullDetails fightClubMovie = MediaUtils.getMediaShortDetailsBy("tt0137523");
+        MediaFullDetails fightClubMovie = mediaUtils.getMediaFullDetailsBy("tt0137523");
 
         mockMvc.perform(
                 get("/api/media/details/tt0137523")
@@ -42,7 +43,7 @@ public class MediaDetailsControllerTest extends ControllerTest {
 
     @Test
     public void getMediaDetailsByImdbIdOfTvShow() throws Exception {
-        MediaFullDetails friendsTVSeries = MediaUtils.getMediaShortDetailsBy("tt0108778");
+        MediaFullDetails friendsTVSeries = mediaUtils.getMediaFullDetailsBy("tt0108778");
 
         mockMvc.perform(
                 get("/api/media/details/tt0108778")

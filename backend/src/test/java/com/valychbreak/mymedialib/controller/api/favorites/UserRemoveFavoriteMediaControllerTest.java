@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,13 +23,16 @@ public class UserRemoveFavoriteMediaControllerTest extends AbstractControllerTes
     @Autowired
     private UserMediaRepository userMediaRepository;
 
+    @Autowired
+    private MediaUtils mediaUtils;
+
     @Test
     @WithMockUser(username = "removeFavouritesUser", roles = "USER")
     public void removeFavourite() throws Exception {
         User testUser = createUserInDb("removeFavouritesUser");
 
-        MediaFullDetails spiderManMovie = MediaUtils.getMediaShortDetailsBy("tt0145487");
-        MediaFullDetails friendsTVSeries = MediaUtils.getMediaShortDetailsBy("tt0108778");
+        MediaFullDetails spiderManMovie = mediaUtils.getMediaFullDetailsBy("tt0145487");
+        MediaFullDetails friendsTVSeries = mediaUtils.getMediaFullDetailsBy("tt0108778");
 
         List<MediaShortDetails> favouriteMedia = Arrays.asList(spiderManMovie, friendsTVSeries);
         addToFavourites(testUser, favouriteMedia);

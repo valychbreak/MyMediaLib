@@ -8,6 +8,7 @@ import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.testtools.MediaUtils;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -19,21 +20,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by valych on 4/29/17.
- */
+
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup(value = "/data/db/BasicRolesDataset.xml")
 @DatabaseSetup(value = "/data/db/UserFavoriteMediaControllerTest.xml")
 public class UserFavoriteMediaControllerTest extends AbstractControllerTest {
+
+    @Autowired
+    private MediaUtils mediaUtils;
 
     @Test
     @WithMockUser(username = "test_user", roles={"USER"})
     public void getUserFavoritesWithMovieAndTVShow() throws Exception {
         User testUser = userRepository.findFirstByUsername("test_user");
 
-        MediaFullDetails fightClubMovie = MediaUtils.getMediaShortDetailsBy("tt0137523");
-        MediaFullDetails friendsTVSeries = MediaUtils.getMediaShortDetailsBy("tt0108778");
+        MediaFullDetails fightClubMovie = mediaUtils.getMediaFullDetailsBy("tt0137523");
+        MediaFullDetails friendsTVSeries = mediaUtils.getMediaFullDetailsBy("tt0108778");
 
         List<MediaShortDetails> favouriteMedia = Arrays.asList(fightClubMovie, friendsTVSeries);
         addToFavourites(testUser, favouriteMedia);
@@ -49,8 +51,8 @@ public class UserFavoriteMediaControllerTest extends AbstractControllerTest {
     public void userCanSeeAnotherUserFavoritesMoviesAndTVShows() throws Exception {
         User userWithFavorites = userRepository.findFirstByUsername("another_user");
 
-        MediaFullDetails fightClubMovie = MediaUtils.getMediaShortDetailsBy("tt0137523");
-        MediaFullDetails friendsTVSeries = MediaUtils.getMediaShortDetailsBy("tt0108778");
+        MediaFullDetails fightClubMovie = mediaUtils.getMediaFullDetailsBy("tt0137523");
+        MediaFullDetails friendsTVSeries = mediaUtils.getMediaFullDetailsBy("tt0108778");
 
         List<MediaShortDetails> favouriteMedia = Arrays.asList(fightClubMovie, friendsTVSeries);
         addToFavourites(userWithFavorites, favouriteMedia);
