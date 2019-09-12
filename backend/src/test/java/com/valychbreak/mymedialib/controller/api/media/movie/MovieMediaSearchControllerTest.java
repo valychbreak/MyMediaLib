@@ -13,9 +13,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,7 +52,7 @@ public class MovieMediaSearchControllerTest extends ControllerTest {
                 get("/api/media/search").params(params)
                         .principal(new TestingAuthenticationToken("test_user", "test12")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.items[*].isFavourite", contains(true, false)));
+                .andExpect(jsonPath("$.items[*].isFavourite", everyItem(isOneOf(true, false))));
     }
 
 }
