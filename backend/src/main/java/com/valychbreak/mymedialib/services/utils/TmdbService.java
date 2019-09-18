@@ -60,7 +60,7 @@ public class TmdbService {
         Movie movie = null;
         try {
             movie = requestTmdbMovie(tmdb, result);
-        } catch(IllegalStateException e) {
+        } catch(IllegalStateException | IOException e) {
             LOGGER.warn("TMDB API call failed. Retrying...", e);
             movie = requestTmdbMovie(tmdb, result);
         }
@@ -72,7 +72,7 @@ public class TmdbService {
         TvShow tvShow;
         try {
             tvShow = requestTmdbTvShow(tmdb, result);
-        } catch(IllegalStateException e) {
+        } catch(IllegalStateException | IOException e) {
             LOGGER.warn("TMDB API call failed. Retrying...", e);
             tvShow = requestTmdbTvShow(tmdb, result);
         }
