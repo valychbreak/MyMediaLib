@@ -1,12 +1,12 @@
 package com.valychbreak.mymedialib.controller;
 
-import com.valychbreak.mymedialib.dto.LoginDTO;
 import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
-import com.valychbreak.mymedialib.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,13 +14,11 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -31,7 +29,6 @@ import java.util.List;
 @RequestMapping("/api")
 public class AuthenticationController {
     private UserRepository userRepository;
-    private AuthenticationService authenticationService;
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
@@ -40,9 +37,8 @@ public class AuthenticationController {
     private ConsumerTokenServices consumerTokenServices;
 
     @Autowired
-    public AuthenticationController(UserRepository userRepository, AuthenticationService authenticationService) {
+    public AuthenticationController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.authenticationService = authenticationService;
     }
 
     @RequestMapping(value = "/principal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,12 +50,6 @@ public class AuthenticationController {
         } else {
             throw new UsernameNotFoundException("User principal is not found");
         }
-    }
-
-    @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public ResponseEntity<OAuth2AccessToken> authenticate2(@RequestBody LoginDTO loginDTO) throws IOException {
-        OAuth2AccessToken accessToken = authenticationService.obtainOAuth2AccessToken(loginDTO.getUsername(), loginDTO.getPassword());
-        return new ResponseEntity<>(accessToken, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/islogged", method = RequestMethod.GET)

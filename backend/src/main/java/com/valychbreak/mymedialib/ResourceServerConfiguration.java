@@ -18,7 +18,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 //.antMatcher("/oauth/**")
                 .authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
-                .antMatchers("/api/signin").anonymous()
                 .antMatchers("/api/user/add").permitAll()
                 .anyRequest().hasRole("USER")/*.and().headers().frameOptions().disable()*/;//.and().cors();
         // @formatter:on
