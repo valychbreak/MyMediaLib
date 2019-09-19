@@ -5,13 +5,13 @@ import {User} from "../shared/users/user";
 import {Config} from "../config/config";
 import {AccountEventsService} from "../account/account-events.service";
 import {Account} from "../account/account";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AccessToken} from "../shared/AccessToken";
 
 @Injectable()
 export class LoginService {
-    static signinURL = Config.hostLink + "/api/signin";
-    static logoutURL = Config.dataRequestLink + "/logout";
+    static SIGN_IN_URL = Config.hostLink + "/oauth/token";
+    static LOGOUT_URL = Config.dataRequestLink + "/logout";
 
     static LOGGED_USER_KEY = "loggedUserKey";
 
@@ -20,8 +20,19 @@ export class LoginService {
     }
 
     authenticate(username: string, password: string): Promise<AccessToken> {
-        let headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post<AccessToken>(LoginService.signinURL, {"username" : username, "password": password}, {headers})
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic ' + btoa("gigy:secret")
+        });
+
+        let httpOptions = {headers: headers};
+
+        let urlSearchParams = new URLSearchParams();
+        urlSearchParams.append("grant_type", "password");
+        urlSearchParams.append("username", username);
+        urlSearchParams.append("password", password);
+
+        return this.http.post<AccessToken>(LoginService.SIGN_IN_URL, urlSearchParams.toString(), httpOptions)
             .toPromise()
             .then(response => {
                 let accessToken = response as AccessToken;
@@ -34,7 +45,7 @@ export class LoginService {
 
     logout(contactServer: boolean) {
         if (contactServer) {
-            this.http.get(LoginService.logoutURL)
+            this.http.get(LoginService.LOGOUT_URL)
                 .toPromise().then(response => {
                 console.log("logged out");
                 this.accountEventsService.logout(new Account());
