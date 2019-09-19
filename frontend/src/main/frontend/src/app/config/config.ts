@@ -1,4 +1,4 @@
 export class Config {
-    static hostLink = "http://localhost:8080";
-    static dataRequestLink = "http://localhost:8080/api";
+    static HOST_LINK = "http://localhost:8080";
+    static DATA_REQUEST_LINK = "http://localhost:8080/api";
 }

@@ -10,8 +10,9 @@ import {AccessToken} from "../shared/AccessToken";
 
 @Injectable()
 export class LoginService {
-    static SIGN_IN_URL = Config.hostLink + "/oauth/token";
-    static LOGOUT_URL = Config.dataRequestLink + "/logout";
+    static SIGN_IN_URL = Config.HOST_LINK + "/oauth/token";
+    static LOGOUT_URL = Config.DATA_REQUEST_LINK + "/logout";
+    static USER_DATA_LINK = Config.DATA_REQUEST_LINK + "/principal";
 
     static LOGGED_USER_KEY = "loggedUserKey";
 
@@ -58,7 +59,7 @@ export class LoginService {
     }
 
     requestUser(): Promise<any> {
-        return this.http.get<any>(Config.dataRequestLink + "/principal",{/*responseType: 'text'*/})
+        return this.http.get<any>(LoginService.USER_DATA_LINK,{/*responseType: 'text'*/})
             .toPromise()
             .then(response => response)
     }

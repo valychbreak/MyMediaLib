@@ -7,15 +7,12 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class UserFavouritesService {
-    static usersURL = Config.dataRequestLink + "/users";
-    static addMedia = Config.dataRequestLink + "/user/add";
-
 
     constructor(private http: HttpClient, private userService: UserService, private loginService: LoginService) {
     }
 
     getFavourites(): Promise<Movie[]> {
-        return this.http.get<Movie[]>(Config.dataRequestLink + "/user/favourites")
+        return this.http.get<Movie[]>(Config.DATA_REQUEST_LINK + "/user/favourites")
             .toPromise()
             .then(response => response)
             .catch(this.handleError);
@@ -24,7 +21,7 @@ export class UserFavouritesService {
     addMedia(movie: Movie): Promise<Movie> {
         let username = this.loginService.getLoggedUsername();
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post<Movie>(Config.dataRequestLink + "/user/favourites/add", movie, {headers})
+        return this.http.post<Movie>(Config.DATA_REQUEST_LINK + "/user/favourites/add", movie, {headers})
             .toPromise()
             .then(response => response)
     }
@@ -32,13 +29,13 @@ export class UserFavouritesService {
     removeMedia(movie: Movie): Promise<Movie> {
         let username = this.loginService.getLoggedUsername();
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post<Movie>(Config.dataRequestLink + "/user/favourites/remove", movie, {headers})
+        return this.http.post<Movie>(Config.DATA_REQUEST_LINK + "/user/favourites/remove", movie, {headers})
             .toPromise()
             .then(response => response)
     }
 
     getUserFavourites(username: string): Promise<Movie[]> {
-        return this.http.get<Movie[]>(Config.dataRequestLink + "/user/" + username + "/favourites")
+        return this.http.get<Movie[]>(Config.DATA_REQUEST_LINK + "/user/" + username + "/favourites")
             .toPromise()
             .then(response => response)
             .catch(this.handleError);

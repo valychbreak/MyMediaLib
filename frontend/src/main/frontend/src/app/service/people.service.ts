@@ -6,7 +6,7 @@ import {PeopleSearchResult} from "../shared/search/result/people-search-result";
 
 @Injectable()
 export class PeopleService {
-    static peopleURL = Config.dataRequestLink + "/people";
+    static PEOPLE_URL = Config.DATA_REQUEST_LINK + "/people";
 
 
     constructor(private http: HttpClient) {
@@ -21,7 +21,7 @@ export class PeopleService {
             .append("q", searchString)
             .append("p", page.toString());
 
-        return this.http.get<PeopleSearchResult>(PeopleService.peopleURL + "/search", { params: params })
+        return this.http.get<PeopleSearchResult>(PeopleService.PEOPLE_URL + "/search", { params: params })
             .toPromise()
             .then(response => response)
             .catch(this.handleError);

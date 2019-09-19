@@ -36,7 +36,7 @@ export class SignInComponent implements OnInit {
     }*/
 
     checkAuthentication() {
-        this.http.get(Config.dataRequestLink + "/islogged/test")
+        this.http.get(Config.DATA_REQUEST_LINK + "/islogged/test")
             .toPromise()
             .then(response => {
                 console.log("response: " + response);
