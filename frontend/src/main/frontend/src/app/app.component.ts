@@ -1,24 +1,27 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {LoginService} from "./service/login.service";
-import {Observable} from "rxjs";
 import {AccountEventsService} from "./account/account-events.service";
 import {UserAppSetings} from "./config/user-app-settings";
+import {User} from "./shared/users/user";
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     title = 'app works!';
+    user: User;
 
     constructor(router: Router, private loginService: LoginService, private accountEventsService: AccountEventsService) {
-        /*accountEventsService.subscribe((account) => {
+        accountEventsService.subscribe((account) => {
             if (!account.authenticated) {
-                this.loginService.logout(false);
+                this.user = null;
+            } else {
+                this.updateUser();
             }
-        });*/
+        });
 
         router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
@@ -42,8 +45,16 @@ export class AppComponent {
         });*/
     }
 
+    private updateUser() {
+        this.user = this.accountEventsService.getUser();
+    }
+
+    ngOnInit(): void {
+        this.updateUser();
+    }
+
     isAuthenticated(): boolean {
-        return this.loginService.isAuthenticated();
+        return this.user != null;
     }
 
     getSidebarToggle(): boolean {

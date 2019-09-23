@@ -4,6 +4,7 @@ import {LoginService} from "../../../service/login.service";
 import {HttpClient} from "@angular/common/http";
 import {AccountEventsService} from "../../../account/account-events.service";
 import {UserCredentials} from "../../../shared/users/user-credentials";
+import {Account} from "../../../account/account";
 
 @Component({
     selector: 'app-sign-in',
@@ -35,6 +36,7 @@ export class SignInComponent implements OnInit {
                 this.loginService.requestUser()
                     .then(user => {
                         this.accountEventsService.saveUser(user);
+                        this.accountEventsService.loginSuccess(new Account());
                         this.user = user;
                     })
                     .catch(error => {

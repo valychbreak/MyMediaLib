@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
 import {AccessToken} from "../shared/AccessToken";
 import {User} from "../shared/users/user";
+import {Account} from "./account";
 
 @Injectable()
 export class AccountEventsService extends Subject<any> {
@@ -16,7 +17,7 @@ export class AccountEventsService extends Subject<any> {
         this.authenticated = false;
     }
 
-    loginSuccess(account: any) {
+    loginSuccess(account: Account) {
         if (account) {
             account.authenticated = true;
             super.next(account);
@@ -24,7 +25,7 @@ export class AccountEventsService extends Subject<any> {
         this.authenticated = true;
     }
 
-    logout(account: any) {
+    logout(account: Account) {
         this.clearToken();
 
         if (account) {
