@@ -37,7 +37,6 @@ export class LoginService {
             .toPromise()
             .then(response => {
                 let accessToken = response as AccessToken;
-                console.log(accessToken);
                 this.accountEventsService.saveToken(accessToken);
                 return accessToken;
             })
