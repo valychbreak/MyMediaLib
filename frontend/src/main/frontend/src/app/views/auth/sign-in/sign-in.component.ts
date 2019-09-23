@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../../../shared/users/user";
 import {LoginService} from "../../../service/login.service";
-import {Config} from "../../../config/config";
 import {HttpClient} from "@angular/common/http";
 import {AccountEventsService} from "../../../account/account-events.service";
 import {UserCredentials} from "../../../shared/users/user-credentials";
@@ -26,21 +25,6 @@ export class SignInComponent implements OnInit {
         this.user = null;
 
         this.updateUserDetails();
-
-        //this.checkAuthenticationStatus();
-    }
-
-    /*private checkAuthenticationStatus() {
-      this.loginService.isAuthenticatedPromise()
-          .then(data => this.isUserAuthenticated = data)
-    }*/
-
-    checkAuthentication() {
-        this.http.get(Config.DATA_REQUEST_LINK + "/islogged/test")
-            .toPromise()
-            .then(response => {
-                console.log("response: " + response);
-            })
     }
 
     save(userModel: UserCredentials, isValid: boolean) {
@@ -48,8 +32,6 @@ export class SignInComponent implements OnInit {
 
         if (isValid) {
             this.loginService.authenticate(userModel.username, userModel.password).then(accessToken => {
-                //console.log("User on login: " + user.username);
-                console.log("access token: " + accessToken.access_token);
                 this.loginService.requestUser()
                     .then(user => {
                         this.accountEventsService.saveUser(user);
@@ -59,8 +41,6 @@ export class SignInComponent implements OnInit {
                         this.user = null;
                         return Promise.reject(error.message || error);
                     });
-
-                //this.checkAuthenticationStatus();
             }).catch(this.handleError);
         }
     }
@@ -75,7 +55,7 @@ export class SignInComponent implements OnInit {
 
     logout() {
         this.loginService.logout(true);
-        //this.checkAuthenticationStatus();
+        this.user = null;
     }
 
     getLoggedUserName() {
