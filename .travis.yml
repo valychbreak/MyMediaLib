@@ -7,11 +7,11 @@ install: mvn -pl backend install -DskipTests=true -Dmaven.javadoc.skip=true -B -
 
 jobs:
   include:
-    - stage: Unit Tests
+    - stage: "Tests"
+      name: "Unit Tests"
       script: mvn -pl backend test -B -V
 
-    - stage: Integration Tests
-      before_install:
+    - before_install:
         - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
         - sudo apt-get update
         - sudo apt-get --yes remove postgresql\*
@@ -24,6 +24,7 @@ jobs:
         - psql -c 'create database "mymedialib-test";' -U postgres
         - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
       script: mvn -pl backend test -Pintegration-tests -Dtmdb.api.key=$TMDB_API_KEY -B -V
+      name: "Integration Tests"
 
     - stage: Release
       install:
