@@ -4,6 +4,7 @@ import {LoginService} from "./service/login.service";
 import {AccountEventsService} from "./account/account-events.service";
 import {UserAppSetings} from "./config/user-app-settings";
 import {User} from "./shared/users/user";
+import {RelativeNavigationLink} from "./config/relative-navigation-link";
 
 @Component({
     selector: 'app-root',
@@ -11,10 +12,9 @@ import {User} from "./shared/users/user";
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    title = 'app works!';
     user: User;
 
-    constructor(router: Router, private loginService: LoginService, private accountEventsService: AccountEventsService) {
+    constructor(private router: Router, private loginService: LoginService, private accountEventsService: AccountEventsService) {
         accountEventsService.subscribe((account) => {
             if (!account.authenticated) {
                 this.user = null;
@@ -55,6 +55,13 @@ export class AppComponent implements OnInit {
 
     isAuthenticated(): boolean {
         return this.user != null;
+    }
+
+    logout() {
+        this.loginService.logout(true);
+        this.user = null;
+
+        this.router.navigateByUrl(RelativeNavigationLink.SIGN_IN);
     }
 
     getSidebarToggle(): boolean {

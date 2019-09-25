@@ -5,6 +5,8 @@ import {HttpClient} from "@angular/common/http";
 import {AccountEventsService} from "../../../account/account-events.service";
 import {UserCredentials} from "../../../shared/users/user-credentials";
 import {Account} from "../../../account/account";
+import {Router} from "@angular/router";
+import {RelativeNavigationLink} from "../../../config/relative-navigation-link";
 
 @Component({
     selector: 'app-sign-in',
@@ -16,7 +18,10 @@ export class SignInComponent implements OnInit {
     userCredentials: UserCredentials;
     user: User;
 
-    constructor(private loginService: LoginService, private http: HttpClient, private accountEventsService: AccountEventsService) {
+    constructor(private loginService: LoginService,
+                private http: HttpClient,
+                private accountEventsService: AccountEventsService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -38,6 +43,8 @@ export class SignInComponent implements OnInit {
                         this.accountEventsService.saveUser(user);
                         this.accountEventsService.loginSuccess(new Account());
                         this.user = user;
+
+                        this.router.navigateByUrl(RelativeNavigationLink.MOVIES)
                     })
                     .catch(error => {
                         this.user = null;
@@ -49,19 +56,6 @@ export class SignInComponent implements OnInit {
 
     private updateUserDetails() {
         this.user = this.accountEventsService.getUser();
-    }
-
-    isAuthenticated() {
-        return this.user != null;
-    }
-
-    logout() {
-        this.loginService.logout(true);
-        this.user = null;
-    }
-
-    getLoggedUserName() {
-        return this.user == null ? "Anonymous" : this.user.username;
     }
 
     private handleError(error: any) {
