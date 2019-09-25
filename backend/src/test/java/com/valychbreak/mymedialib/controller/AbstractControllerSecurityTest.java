@@ -45,7 +45,7 @@ public abstract class AbstractControllerSecurityTest {
 
     protected MockMvc mockMvc;
 
-    private OAuth2AccessTokenProvider accessTokenProvider;
+    protected OAuth2AccessTokenProvider accessTokenProvider;
 
     @Before
     public void before() {
