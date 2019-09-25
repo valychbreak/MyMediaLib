@@ -31,6 +31,10 @@ export class SignInComponent implements OnInit {
         this.user = null;
 
         this.updateUserDetails();
+
+        if (this.user != null) {
+            this.router.navigateByUrl(RelativeNavigationLink.MOVIES);
+        }
     }
 
     save(userModel: UserCredentials, isValid: boolean) {
