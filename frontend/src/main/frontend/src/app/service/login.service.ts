@@ -12,7 +12,7 @@ import {AccessToken} from "../shared/AccessToken";
 export class LoginService {
     static SIGN_IN_URL = Config.HOST_LINK + "/oauth/token";
     static LOGOUT_URL = Config.DATA_REQUEST_LINK + "/logout";
-    static USER_DATA_LINK = Config.DATA_REQUEST_LINK + "/principal";
+    static USER_DATA_LINK = Config.DATA_REQUEST_LINK + "/user/principal";
 
     static LOGGED_USER_KEY = "loggedUserKey";
 

@@ -41,17 +41,6 @@ public class AuthenticationController {
         this.userRepository = userRepository;
     }
 
-    @RequestMapping(value = "/principal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> getPrincipal(Authentication authentication) {
-        if (authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
-            String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
-            User firstByUsername = userRepository.findFirstByUsername(username);
-            return new ResponseEntity<>(new UserDTO(firstByUsername), HttpStatus.OK);
-        } else {
-            throw new UsernameNotFoundException("User principal is not found");
-        }
-    }
-
     @RequestMapping(value = "/islogged", method = RequestMethod.GET)
     public ResponseEntity<Boolean> authenticate(HttpServletResponse response) {
         Object credentials = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
