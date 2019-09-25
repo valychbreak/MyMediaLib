@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 
-/**
- * Created by valych on 2/26/17.
- */
 @RestController
 @RequestMapping("/api")
 public class AuthenticationController {
