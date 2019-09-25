@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup(value = "/data/db/common/TestUser.xml")
-public class AuthenticationControllerTest extends AbstractControllerSecurityTest {
+public class LogoutControllerTest extends AbstractControllerSecurityTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

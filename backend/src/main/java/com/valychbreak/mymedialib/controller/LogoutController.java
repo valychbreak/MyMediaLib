@@ -11,12 +11,12 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api")
-public class AuthenticationController {
+public class LogoutController {
 
     private AuthorizationServerTokenServices authorizationServerTokenServices;
     private ConsumerTokenServices consumerTokenServices;
 
-    public AuthenticationController(AuthorizationServerTokenServices authorizationServerTokenServices, ConsumerTokenServices consumerTokenServices) {
+    public LogoutController(AuthorizationServerTokenServices authorizationServerTokenServices, ConsumerTokenServices consumerTokenServices) {
         this.authorizationServerTokenServices = authorizationServerTokenServices;
         this.consumerTokenServices = consumerTokenServices;
     }
