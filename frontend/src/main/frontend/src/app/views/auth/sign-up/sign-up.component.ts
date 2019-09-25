@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractForm} from "../../../base/form";
 import {User} from "../../../shared/users/user";
 import {UserService} from "../../../service/user.service";
+import {Router} from "@angular/router";
+import {RelativeNavigationLink} from "../../../config/relative-navigation-link";
 
 @Component({
     selector: 'app-sign-up',
@@ -12,7 +14,7 @@ export class SignUpComponent extends AbstractForm implements OnInit {
 
     user: User;
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private router: Router) {
         super();
     }
 
@@ -25,7 +27,9 @@ export class SignUpComponent extends AbstractForm implements OnInit {
         if (isValid) {
             this.userService.addUser(userModel)
                 .then(user => {
-                    console.log("User was created successfully. " + user);
+                    console.log("User was registered successfully");
+
+                    this.router.navigateByUrl(RelativeNavigationLink.SIGN_IN);
                 })
         }
     }
