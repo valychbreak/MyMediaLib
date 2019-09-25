@@ -39,6 +39,7 @@ import {RemoveCollectionDialogComponent} from './views/favorites/collection/remo
 import {CustomMaterialModule} from "./utils/material/custom-material.module";
 import {MAT_DIALOG_DEFAULT_OPTIONS, MAT_LABEL_GLOBAL_OPTIONS} from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { ProfileComponent } from './views/auth/profile/profile.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
         TvShowSearchSectionComponent,
         CollectionViewComponent,
         NewCollectionDialogComponent,
-        RemoveCollectionDialogComponent
+        RemoveCollectionDialogComponent,
+        ProfileComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent,

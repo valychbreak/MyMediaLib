@@ -50,7 +50,7 @@
         <form *ngIf="isAuthenticated()" class="form-inline mt-2 mt-md-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            <button routerLink="/signin" class="btn btn-outline-primary my-2 my-sm-0 mx-2">Profile</button>
+            <button routerLink="/profile" class="btn btn-outline-primary my-2 my-sm-0 mx-2">Profile</button>
             <button (click)="logout()" class="btn btn-outline-danger my-2 my-sm-0">Logout</button>
         </form>
         <div *ngIf="!isAuthenticated()" class="form-inline mt-2 mt-md-0">
