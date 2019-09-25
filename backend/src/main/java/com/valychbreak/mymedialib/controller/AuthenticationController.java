@@ -1,26 +1,13 @@
 package com.valychbreak.mymedialib.controller;
 
-import com.valychbreak.mymedialib.dto.UserDTO;
-import com.valychbreak.mymedialib.entity.User;
-import com.valychbreak.mymedialib.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
-import java.util.List;
 
 /**
  * Created by valych on 2/26/17.
@@ -28,33 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class AuthenticationController {
-    private UserRepository userRepository;
 
-    @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
-
-    @Autowired
     private ConsumerTokenServices consumerTokenServices;
 
-    @Autowired
-    public AuthenticationController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @RequestMapping(value = "/islogged", method = RequestMethod.GET)
-    public ResponseEntity<Boolean> authenticate(HttpServletResponse response) {
-        Object credentials = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(credentials);
-
-        boolean result = false;
-        try {
-            String username = ((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-            List<User> users = userRepository.findByUsername(username);
-            result = users.size() > 0; //SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
-        } catch (ClassCastException e) {
-
-        }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public AuthenticationController(AuthorizationServerTokenServices authorizationServerTokenServices, ConsumerTokenServices consumerTokenServices) {
+        this.authorizationServerTokenServices = authorizationServerTokenServices;
+        this.consumerTokenServices = consumerTokenServices;
     }
 
     @RequestMapping("/logout")
