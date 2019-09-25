@@ -7,6 +7,7 @@ import {UserCredentials} from "../../../shared/users/user-credentials";
 import {Account} from "../../../account/account";
 import {Router} from "@angular/router";
 import {RelativeNavigationLink} from "../../../config/relative-navigation-link";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'app-sign-in',
@@ -15,13 +16,19 @@ import {RelativeNavigationLink} from "../../../config/relative-navigation-link";
 })
 export class SignInComponent implements OnInit {
     title: string;
+    signInForm: FormGroup;
+    invalidCredentials: boolean;
+
     userCredentials: UserCredentials;
     user: User;
 
     constructor(private loginService: LoginService,
                 private http: HttpClient,
                 private accountEventsService: AccountEventsService,
-                private router: Router) {
+                private router: Router,
+                private formBuilder: FormBuilder) {
+
+        this.createSignInForm();
     }
 
     ngOnInit() {
@@ -30,6 +37,7 @@ export class SignInComponent implements OnInit {
         this.userCredentials = new UserCredentials();
         this.user = null;
 
+        this.resetErrors();
         this.updateUserDetails();
 
         if (this.user != null) {
@@ -37,8 +45,20 @@ export class SignInComponent implements OnInit {
         }
     }
 
-    save(userModel: UserCredentials, isValid: boolean) {
-        console.log(userModel, isValid);
+    createSignInForm() {
+        this.signInForm = this.formBuilder.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        })
+    }
+
+    resetErrors() {
+        this.invalidCredentials = false;
+    }
+
+    onSubmit() {
+        let userModel = this.signInForm.value as UserCredentials;
+        let isValid = this.signInForm.valid;
 
         if (isValid) {
             this.loginService.authenticate(userModel.username, userModel.password).then(accessToken => {
@@ -54,7 +74,9 @@ export class SignInComponent implements OnInit {
                         this.user = null;
                         return Promise.reject(error.message || error);
                     });
-            }).catch(this.handleError);
+            }).catch((error) => {
+                this.showInvalidCredentialsError();
+            });
         }
     }
 
@@ -62,9 +84,8 @@ export class SignInComponent implements OnInit {
         this.user = this.accountEventsService.getUser();
     }
 
-    private handleError(error: any) {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+    private showInvalidCredentialsError() {
+        this.invalidCredentials = true;
     }
 
     inputHasErrors(input) {
