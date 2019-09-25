@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
+import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {LoginService} from "./service/login.service";
 import {AccountEventsService} from "./account/account-events.service";
 import {UserAppSetings} from "./config/user-app-settings";
@@ -23,26 +23,20 @@ export class AppComponent implements OnInit {
             }
         });
 
-        router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                console.log(event.url);
+        router.events.subscribe(e => {
+            if (e instanceof NavigationStart) {
+                if (!this.isAuthenticated() && (e.url != '/signin' && e.url != '/signup')) {
+                    console.log("User is not authenticated. Redirecting to /signin");
+                    router.navigate(['/signin']);
+                }
             }
         });
-        /*router.events.subscribe(e => {
-          //console.log(e.url);
-          /!*if(!this.isAuthenticated() && (e.url != '/signin' && e.url != '/signup')) {
-            this.loginService.checkAuthOnServer().subscribe(data => {
-              let result: boolean;
-              result = data == "true";
-              if (!result) {
-                router.navigate(['/signin']);
-              }
-            });
-          }*!/
-          if(!this.isAuthenticated() && (e.url != '/signin' && e.url != '/signup')) {
-            router.navigate(['/signin']);
-          }
-        });*/
+
+        router.events.subscribe(e => {
+            if (e instanceof NavigationEnd) {
+                console.log("Successfully navigated to " + e.url);
+            }
+        });
     }
 
     private updateUser() {
