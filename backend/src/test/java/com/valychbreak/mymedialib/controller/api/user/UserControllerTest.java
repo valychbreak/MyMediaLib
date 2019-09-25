@@ -1,6 +1,5 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.AbstractControllerWithoutSecurityTest;
@@ -11,10 +10,6 @@ import com.valychbreak.mymedialib.repository.UserRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +18,7 @@ import static com.valychbreak.mymedialib.testtools.TestUtils.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Created by valych on 4/28/17.
- */
 
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class,
-        TransactionalTestExecutionListener.class,
-        DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup(value = "/data/db/UsersForUserControlTest.xml")
 public class UserControllerTest extends AbstractControllerWithoutSecurityTest {
