@@ -15,7 +15,7 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     getUsers(): Promise<User[]> {
-        return this.http.get<User[]>(UserService.USERS_URL) //"http://localhost:4200/app/data/users.json"
+        return this.http.get<User[]>(UserService.USERS_URL)
             .toPromise()
             .then(response => response)
             .catch(this.handleError);

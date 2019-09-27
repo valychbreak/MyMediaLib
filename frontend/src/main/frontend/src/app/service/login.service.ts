@@ -58,7 +58,7 @@ export class LoginService {
     }
 
     requestUser(): Promise<any> {
-        return this.http.get<any>(LoginService.USER_DATA_LINK,{/*responseType: 'text'*/})
+        return this.http.get<any>(LoginService.USER_DATA_LINK)
             .toPromise()
             .then(response => response)
     }
