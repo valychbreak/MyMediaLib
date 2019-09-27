@@ -6,9 +6,9 @@ import {Movie} from "../shared/movie/movie";
 
 @Injectable()
 export class MediaCollectionService {
-    static GET_ALL_COLLECTIONS_LINK = Config.dataRequestLink + "/user/collection/all";
-    static GET_CATEGORY_LINK = Config.dataRequestLink + "/collection/";
-    static ADD_CATEGORY_LINK = Config.dataRequestLink + "/collection/add";
+    static GET_ALL_COLLECTIONS_LINK = Config.DATA_REQUEST_LINK + "/user/collection/all";
+    static GET_CATEGORY_LINK = Config.DATA_REQUEST_LINK + "/collection/";
+    static ADD_CATEGORY_LINK = Config.DATA_REQUEST_LINK + "/collection/add";
 
     constructor(private http: HttpClient) {
     }
@@ -37,7 +37,7 @@ export class MediaCollectionService {
     }
 
     addMediaToCategory(media: Movie, collection: MediaCollection) {
-        return this.http.post(Config.dataRequestLink + "/collection/" + collection.id + "/add-media", {
+        return this.http.post(Config.DATA_REQUEST_LINK + "/collection/" + collection.id + "/add-media", {
             imdbId: media.imdbId,
             title: media.title
         })
@@ -46,7 +46,7 @@ export class MediaCollectionService {
     }
 
     removeCollection(collection: MediaCollection): Promise<any> {
-        return this.http.post(Config.dataRequestLink + "/collection/" + collection.id + "/remove", null)
+        return this.http.post(Config.DATA_REQUEST_LINK + "/collection/" + collection.id + "/remove", null)
             .toPromise()
             .then(response => response);
     }

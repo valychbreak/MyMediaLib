@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../../../shared/users/user";
 import {LoginService} from "../../../service/login.service";
-import {Config} from "../../../config/config";
 import {HttpClient} from "@angular/common/http";
 import {AccountEventsService} from "../../../account/account-events.service";
 import {UserCredentials} from "../../../shared/users/user-credentials";
+import {Account} from "../../../account/account";
+import {Router} from "@angular/router";
+import {RelativeNavigationLink} from "../../../config/relative-navigation-link";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'app-sign-in',
@@ -13,10 +16,19 @@ import {UserCredentials} from "../../../shared/users/user-credentials";
 })
 export class SignInComponent implements OnInit {
     title: string;
+    signInForm: FormGroup;
+    invalidCredentials: boolean;
+
     userCredentials: UserCredentials;
     user: User;
 
-    constructor(private loginService: LoginService, private http: HttpClient, private accountEventsService: AccountEventsService) {
+    constructor(private loginService: LoginService,
+                private http: HttpClient,
+                private accountEventsService: AccountEventsService,
+                private router: Router,
+                private formBuilder: FormBuilder) {
+
+        this.createSignInForm();
     }
 
     ngOnInit() {
@@ -25,43 +37,46 @@ export class SignInComponent implements OnInit {
         this.userCredentials = new UserCredentials();
         this.user = null;
 
+        this.resetErrors();
         this.updateUserDetails();
 
-        //this.checkAuthenticationStatus();
+        if (this.user != null) {
+            this.router.navigateByUrl(RelativeNavigationLink.MOVIES);
+        }
     }
 
-    /*private checkAuthenticationStatus() {
-      this.loginService.isAuthenticatedPromise()
-          .then(data => this.isUserAuthenticated = data)
-    }*/
-
-    checkAuthentication() {
-        this.http.get(Config.dataRequestLink + "/islogged/test")
-            .toPromise()
-            .then(response => {
-                console.log("response: " + response);
-            })
+    createSignInForm() {
+        this.signInForm = this.formBuilder.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        })
     }
 
-    save(userModel: UserCredentials, isValid: boolean) {
-        console.log(userModel, isValid);
+    resetErrors() {
+        this.invalidCredentials = false;
+    }
+
+    onSubmit() {
+        let userModel = this.signInForm.value as UserCredentials;
+        let isValid = this.signInForm.valid;
 
         if (isValid) {
             this.loginService.authenticate(userModel.username, userModel.password).then(accessToken => {
-                //console.log("User on login: " + user.username);
-                console.log("access token: " + accessToken.access_token);
                 this.loginService.requestUser()
                     .then(user => {
                         this.accountEventsService.saveUser(user);
+                        this.accountEventsService.loginSuccess(new Account());
                         this.user = user;
+
+                        this.router.navigateByUrl(RelativeNavigationLink.MOVIES)
                     })
                     .catch(error => {
                         this.user = null;
                         return Promise.reject(error.message || error);
                     });
-
-                //this.checkAuthenticationStatus();
-            }).catch(this.handleError);
+            }).catch((error) => {
+                this.showInvalidCredentialsError();
+            });
         }
     }
 
@@ -69,22 +84,8 @@ export class SignInComponent implements OnInit {
         this.user = this.accountEventsService.getUser();
     }
 
-    isAuthenticated() {
-        return this.user != null;
-    }
-
-    logout() {
-        this.loginService.logout(true);
-        //this.checkAuthenticationStatus();
-    }
-
-    getLoggedUserName() {
-        return this.user == null ? "Anonymous" : this.user.username;
-    }
-
-    private handleError(error: any) {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+    private showInvalidCredentialsError() {
+        this.invalidCredentials = true;
     }
 
     inputHasErrors(input) {

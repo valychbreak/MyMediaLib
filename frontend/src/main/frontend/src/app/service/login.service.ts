@@ -5,13 +5,14 @@ import {User} from "../shared/users/user";
 import {Config} from "../config/config";
 import {AccountEventsService} from "../account/account-events.service";
 import {Account} from "../account/account";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AccessToken} from "../shared/AccessToken";
 
 @Injectable()
 export class LoginService {
-    static signinURL = Config.hostLink + "/api/signin";
-    static logoutURL = Config.dataRequestLink + "/logout";
+    static SIGN_IN_URL = Config.HOST_LINK + "/oauth/token";
+    static LOGOUT_URL = Config.DATA_REQUEST_LINK + "/logout";
+    static USER_DATA_LINK = Config.DATA_REQUEST_LINK + "/user/principal";
 
     static LOGGED_USER_KEY = "loggedUserKey";
 
@@ -20,12 +21,22 @@ export class LoginService {
     }
 
     authenticate(username: string, password: string): Promise<AccessToken> {
-        let headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post<AccessToken>(LoginService.signinURL, {"username" : username, "password": password}, {headers})
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic ' + btoa("gigy:secret")
+        });
+
+        let httpOptions = {headers: headers};
+
+        let urlSearchParams = new URLSearchParams();
+        urlSearchParams.append("grant_type", "password");
+        urlSearchParams.append("username", username);
+        urlSearchParams.append("password", password);
+
+        return this.http.post<AccessToken>(LoginService.SIGN_IN_URL, urlSearchParams.toString(), httpOptions)
             .toPromise()
             .then(response => {
                 let accessToken = response as AccessToken;
-                console.log(accessToken);
                 this.accountEventsService.saveToken(accessToken);
                 return accessToken;
             })
@@ -34,7 +45,7 @@ export class LoginService {
 
     logout(contactServer: boolean) {
         if (contactServer) {
-            this.http.get(LoginService.logoutURL)
+            this.http.get(LoginService.LOGOUT_URL)
                 .toPromise().then(response => {
                 console.log("logged out");
                 this.accountEventsService.logout(new Account());
@@ -47,7 +58,7 @@ export class LoginService {
     }
 
     requestUser(): Promise<any> {
-        return this.http.get<any>(Config.dataRequestLink + "/principal",{/*responseType: 'text'*/})
+        return this.http.get<any>(LoginService.USER_DATA_LINK)
             .toPromise()
             .then(response => response)
     }

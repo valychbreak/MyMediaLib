@@ -3,16 +3,15 @@ package com.valychbreak.mymedialib.controller.api.user;
 import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.dto.UserDetailsDTO;
-import com.valychbreak.mymedialib.entity.Role;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.exception.MyMediaLibException;
 import com.valychbreak.mymedialib.repository.UserRepository;
-import com.valychbreak.mymedialib.repository.UserRoleRepository;
-import com.valychbreak.mymedialib.services.CreateUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,29 +22,23 @@ import java.util.List;
  */
 @RestController
 public class UserController extends APIController {
-    private UserRoleRepository userRoleRepository;
-
 
     @Autowired
-    public UserController(UserRepository userRepository, UserRoleRepository userRoleRepository, CreateUserService createUserService) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
     }
 
-    @RequestMapping(value = "/initroles", produces = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET)
-    public ResponseEntity<List<Role>> initRoles() {
-        List<Role> roles = new ArrayList<>();
-        if(userRoleRepository.count() == 0) {
-            Role adminRole = new Role("ADMIN");
-            Role role = new Role("USER");
-            roles.add(adminRole);
-            roles.add(role);
+    @RequestMapping(value = "/user/principal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> getPrincipal(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
 
-            userRoleRepository.saveAll(roles);
+        if (principal instanceof org.springframework.security.core.userdetails.User) {
+            String username = ((org.springframework.security.core.userdetails.User) principal).getUsername();
+            User firstByUsername = userRepository.findFirstByUsername(username);
+            return new ResponseEntity<>(new UserDTO(firstByUsername), HttpStatus.OK);
+        } else {
+            throw new UsernameNotFoundException("User principal is not found");
         }
-
-        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE},
@@ -58,7 +51,7 @@ public class UserController extends APIController {
 
     @RequestMapping(value = "/user/details/{userIdOrUsername}")
     public ResponseEntity<UserDetailsDTO> getUserDetails(@PathVariable String userIdOrUsername) throws MyMediaLibException {
-        User user = null;
+        User user;
         try {
             long id = Long.parseLong(userIdOrUsername);
             user = userRepository.findById(id)

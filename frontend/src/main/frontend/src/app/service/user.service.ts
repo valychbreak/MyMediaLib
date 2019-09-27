@@ -8,15 +8,14 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class UserService {
-    static usersURL = Config.dataRequestLink + "/users";
-    static createUserURL = Config.dataRequestLink + "/user/add";
+    static USERS_URL = Config.DATA_REQUEST_LINK + "/users";
+    static CREATE_USER_URL = Config.DATA_REQUEST_LINK + "/user/add";
 
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getUsers(): Promise<User[]> {
-        return this.http.get<User[]>(UserService.usersURL) //"http://localhost:4200/app/data/users.json"
+        return this.http.get<User[]>(UserService.USERS_URL)
             .toPromise()
             .then(response => response)
             .catch(this.handleError);
@@ -29,13 +28,13 @@ export class UserService {
 
     addUser(user: User): Promise<User> {
         let headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post<User>(UserService.createUserURL, user, {headers})
+        return this.http.post<User>(UserService.CREATE_USER_URL, user, {headers})
             .toPromise()
             .then(response => response)
     }
 
     getUserFavourites(username: string): Promise<Movie[]> {
-        return this.http.get<Movie[]>(Config.dataRequestLink + "/user/favourites")
+        return this.http.get<Movie[]>(Config.DATA_REQUEST_LINK + "/user/favourites")
             .toPromise()
             .then(response => response)
             .catch(this.handleError);

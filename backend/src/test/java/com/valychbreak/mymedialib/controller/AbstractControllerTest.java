@@ -28,18 +28,15 @@ import org.springframework.web.context.WebApplicationContext;
 import static com.valychbreak.mymedialib.entity.Role.ADMIN_ROLE_NAME;
 import static com.valychbreak.mymedialib.entity.Role.USER_ROLE_NAME;
 
-/**
- * Created by valych on 4/28/17.
- */
 @Deprecated
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 @TestPropertySource(locations= "classpath:application.yml")
-@TestExecutionListeners({WithSecurityContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class,
-        TransactionalTestExecutionListener.class,
-        DbUnitTestExecutionListener.class})
+@TestExecutionListeners(
+        value = {DbUnitTestExecutionListener.class},
+        mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
+)
 public abstract class AbstractControllerTest {
 
     protected User adminUser;

@@ -33,11 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     OAuth2ClientContext oauth2ClientContext;
 
-    @RequestMapping({ "/user", "/me" })
-    public Principal user(Principal principal) {
-        return principal;
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /*http
@@ -109,37 +104,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setTokenServices(tokenServices);
         return filter;
     }
-/*
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        *//*auth.userDetailsService(inMemoryUserDetailsManager());*//*
-        auth.userDetailsService(userDetailsService);
-    }
-
-    private XAuthTokenConfigurer authTokenConfigurer(){
-        return new XAuthTokenConfigurer(authenticationService);
-    }*/
-
-
-    /**
-     * Fixes the issue with cycle dependency with AuthenticationService
-     * (authenticationService -> authenticationManager -> Security config -> authenticationService)
-    @Autowired
-    public void setAuthenticationService(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }*/
-    /*@Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        List<UserDetails> userDetailsList = new ArrayList<>();
-        for (User user : userRepository.findAll()) {
-            userDetailsList.add(new UserDetailsImpl(user.getUsername(), user.getPassword()));
-        }
-        return new InMemoryUserDetailsManager(userDetailsList);
-    }*/
 }
