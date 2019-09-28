@@ -14,7 +14,7 @@ export abstract class SearchComponentSection<T> implements PageOriented {
         if (!this.searchResult) {
             this.searchResult = new SearchResult();
             this.searchResult.page = 1;
-            this.searchResult.totalPages = 1;
+            this.searchResult.totalPages = Infinity;
         }
     }
 
@@ -23,13 +23,13 @@ export abstract class SearchComponentSection<T> implements PageOriented {
     }
 
     protected applySearch() {
-        if (this.searchParams && this.searchParams.query) {
+        if (this._searchParams && this._searchParams.query) {
             console.log("[Search] Start searching...");
 
-            let page = this.getPage(this.searchParams, this.searchResult);
-            this.busyLoading = this.doSearch(this.searchParams.query, page);
+            let page = this.getPage(this._searchParams, this.searchResult);
+            this.busyLoading = this.doSearch(this._searchParams.query, page);
 
-            this._previousSearchQuery = this.searchParams.query;
+            this._previousSearchQuery = this._searchParams.query;
         }
     }
 
@@ -44,16 +44,16 @@ export abstract class SearchComponentSection<T> implements PageOriented {
     }
 
     get page(): number {
-        return this.searchParams.page;
+        return this._searchParams.page;
     }
 
     set page(pageNumber: number) {
-        this.searchParams.page = pageNumber;
+        this._searchParams.page = pageNumber;
     }
 
     @Input()
     set searchParams(searchParams: SearchParams) {
-         this._searchParams = searchParams;
+        this._searchParams = searchParams;
         this.applySearch();
     }
 

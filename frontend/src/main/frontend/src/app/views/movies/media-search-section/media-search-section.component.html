@@ -1,22 +1,26 @@
-<div class="row">
-  <div class="col-12 justify-content-center">
-    <ngb-pagination [pageSize]="1" [(collectionSize)]="searchResult.totalPages"
-                    [(page)]="this.page" (pageChange)="onPageChange()"
-                    [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+<ng-container *ngTemplateOutlet="pagination"></ng-container>
 
-    </ngb-pagination>
-  </div>
-</div>
 <div fxLayout="row wrap" fxLayoutGap="1.5em">
   <div *ngFor="let movie of searchResult.items" class="mb-3">
     <app-movie-short-view [movie]="movie"></app-movie-short-view>
   </div>
   <div [ngBusy]="busyLoading"></div>
 </div>
-<div class="col-12 justify-content-center">
-  <ngb-pagination [pageSize]="1" [(collectionSize)]="searchResult.totalPages"
-                  [(page)]="this.page" (pageChange)="onPageChange()"
-                  [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
 
-  </ngb-pagination>
-</div>
+<ng-container *ngTemplateOutlet="pagination"></ng-container>
+
+<ng-template #pagination>
+  <div class="row" *ngIf="searchResult.items">
+    <div class="col-12 justify-content-center">
+      <ngb-pagination [(page)]="this.page"
+                      (pageChange)="onPageChange()"
+                      [(collectionSize)]="searchResult.totalPages"
+                      [pageSize]="1"
+                      [maxSize]="5"
+                      [rotate]="true"
+                      [boundaryLinks]="true">
+
+      </ngb-pagination>
+    </div>
+  </div>
+</ng-template>
