@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
         accountEventsService.subscribe((account) => {
             if (!account.authenticated) {
                 this.user = null;
+                this.navigateToSignInPage();
             } else {
                 this.updateUser();
             }
@@ -55,6 +56,10 @@ export class AppComponent implements OnInit {
         this.loginService.logout(true);
         this.user = null;
 
+        this.navigateToSignInPage();
+    }
+
+    private navigateToSignInPage() {
         this.router.navigateByUrl(RelativeNavigationLink.SIGN_IN);
     }
 
