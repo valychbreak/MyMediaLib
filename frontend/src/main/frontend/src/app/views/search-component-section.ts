@@ -4,7 +4,6 @@ import {Input} from "@angular/core";
 
 export abstract class SearchComponentSection<T> implements PageOriented {
     private _searchParams: SearchParams;
-    private _previousSearchQuery: string;
 
     protected searchResult: SearchResult<T>;
     protected busyLoading: any;
@@ -26,21 +25,8 @@ export abstract class SearchComponentSection<T> implements PageOriented {
         if (this._searchParams && this._searchParams.query) {
             console.log("[Search] Start searching...");
 
-            let page = this.getPage(this._searchParams, this.searchResult);
-            this.busyLoading = this.doSearch(this._searchParams.query, page);
-
-            this._previousSearchQuery = this._searchParams.query;
+            this.busyLoading = this.doSearch(this._searchParams.query, this.page);
         }
-    }
-
-    private getPage(searchParams: SearchParams, searchResult: SearchResult<T>) {
-        /*if (searchResult && searchParams.query === this._previousSearchQuery) {
-            return searchResult.page;
-        } else {
-            return searchParams.page;
-        }*/
-
-        return searchParams.page;
     }
 
     get page(): number {
