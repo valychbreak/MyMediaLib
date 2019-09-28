@@ -32,15 +32,14 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             console.log(caught);
             if (error.status === 403) {
                 console.log('Unauthorized request:', error.message);
-                this.accountEventsService.logout(new Account());
             }
 
             if (error.status == 401) {
                 if (error.error.error == "invalid_token") {
                     this.accountEventsService.clearToken();
+                    this.accountEventsService.logout(new Account());
+
                     console.log("Token cleared");
-                } else {
-                    this.accountEventsService.clearToken();
                 }
             }
             return Observable.throw(error);
