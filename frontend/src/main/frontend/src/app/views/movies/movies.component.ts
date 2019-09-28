@@ -45,10 +45,10 @@ export class MoviesComponent extends AbstractForm implements OnInit {
 
         if (searchQuery) {
             searchParams.query = searchQuery;
-
-            let page = parseInt(pageParam);
-            searchParams.page = !isNaN(page) ? page : 1;
         }
+
+        let page = parseInt(pageParam);
+        searchParams.page = searchQuery && !isNaN(page) ? page : 1;
 
         return searchParams;
     }
