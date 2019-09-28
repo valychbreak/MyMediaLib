@@ -4,6 +4,7 @@ import {PeopleService} from "../../../service/people.service";
 import {Person} from "../../../shared/person/person";
 import {BasicMovie} from "../../../shared/movie/basic-movie";
 import {SearchResult} from "../../../shared/search/search-result";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-people-search-section',
@@ -12,8 +13,8 @@ import {SearchResult} from "../../../shared/search/search-result";
 })
 export class PeopleSearchSectionComponent extends SearchComponentSection<Person> implements PageOriented, OnInit {
 
-    constructor(private peopleService: PeopleService) {
-        super();
+    constructor(private peopleService: PeopleService, router: Router, activatedRoute: ActivatedRoute) {
+        super(router, activatedRoute);
     }
 
     ngOnInit() {

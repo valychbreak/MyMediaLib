@@ -1,6 +1,7 @@
 import {SearchParams} from "../shared/search/search-params";
 import {SearchResult} from "../shared/search/search-result";
 import {Input} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
 
 export abstract class SearchComponentSection<T> implements PageOriented {
     private _searchParams: SearchParams;
@@ -9,7 +10,7 @@ export abstract class SearchComponentSection<T> implements PageOriented {
     protected busyLoading: any;
 
 
-    protected constructor() {
+    protected constructor(private router: Router, private activatedRoute: ActivatedRoute) {
         if (!this.searchResult) {
             this.searchResult = new SearchResult();
             this.searchResult.page = 1;
@@ -18,6 +19,7 @@ export abstract class SearchComponentSection<T> implements PageOriented {
     }
 
     onPageChange(): void {
+        this.router.navigate([], {relativeTo: this.activatedRoute, queryParams: {p: this.page}, queryParamsHandling: "merge"});
         this.applySearch();
     }
 

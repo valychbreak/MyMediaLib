@@ -3,6 +3,7 @@ import {Movie} from "../../../shared/movie/movie";
 import {MovieService} from "../../../service/movie.service";
 import {SearchComponentSection} from "../../search-component-section";
 import {SearchResult} from "../../../shared/search/search-result";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'media-search-section',
@@ -11,8 +12,8 @@ import {SearchResult} from "../../../shared/search/search-result";
 })
 export class MediaSearchSectionComponent extends SearchComponentSection<Movie> implements OnInit {
 
-    constructor(private movieService: MovieService) {
-        super();
+    constructor(private movieService: MovieService, router: Router, activatedRoute: ActivatedRoute) {
+        super(router, activatedRoute);
     }
 
     ngOnInit() {
