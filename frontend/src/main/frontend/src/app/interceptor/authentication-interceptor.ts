@@ -32,7 +32,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
             console.log(caught);
             if (error.status === 403) {
                 console.log('Unauthorized request:', error.message);
-                // this.accountEventsService.logout(new Account());
             }
 
             if (error.status == 401) {
