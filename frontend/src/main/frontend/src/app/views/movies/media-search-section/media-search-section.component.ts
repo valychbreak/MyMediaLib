@@ -16,20 +16,7 @@ export class MediaSearchSectionComponent extends SearchComponentSection<Movie> i
     }
 
     ngOnInit() {
-        //this.mockData();
-    }
 
-    private mockData() {
-        let movie = new Movie();
-        movie.title = "Fight club";
-        movie.genre = "Action";
-        movie.imagePath = "https://image.tmdb.org/t/p/w320/ejYIW1enUcGJ9GS3Bs34mtONwWS.jpg";
-
-        let movie2 = new Movie();
-        movie2.title = "Fight club 1234";
-        movie2.genre = "Action";
-        movie2.imagePath = "";
-        this.searchResult.items = [movie, movie2];
     }
 
     doSearch(query: string, page: number): Promise<SearchResult<Movie>> {
