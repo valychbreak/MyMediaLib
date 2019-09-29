@@ -26,6 +26,10 @@ jobs:
         - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
       script: mvn -pl backend test -Pintegration-tests -Dtmdb.api.key=$TMDB_API_KEY -B -V
 
+    - name: "Sonar analysis"
+      script: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=valychbreak_MyMediaLib
+      #   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=valychbreak_MyMediaLib
+
     - stage: Release
       install:
        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
@@ -33,3 +37,7 @@ jobs:
 
 addons:
   postgresql: "11"
+  sonarcloud:
+    organization: "valychbreak"
+    token:
+      secure: $SONAR_TOKEN
