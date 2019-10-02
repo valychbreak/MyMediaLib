@@ -28,7 +28,7 @@ public class UserController extends APIController {
         this.userRepository = userRepository;
     }
 
-    @RequestMapping(value = "/user/principal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/user/principal", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getPrincipal(Authentication authentication) {
         Object principal = authentication.getPrincipal();
 
@@ -41,15 +41,14 @@ public class UserController extends APIController {
         }
     }
 
-    @RequestMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.GET)
+    @GetMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> userDTOList = new ArrayList<>();
         userRepository.findAll().forEach(user -> userDTOList.add(new UserDTO(user)));
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/details/{userIdOrUsername}")
+    @GetMapping(value = "/user/details/{userIdOrUsername}")
     public ResponseEntity<UserDetailsDTO> getUserDetails(@PathVariable String userIdOrUsername) throws MyMediaLibException {
         User user;
         try {
