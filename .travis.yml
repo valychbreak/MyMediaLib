@@ -30,7 +30,7 @@ jobs:
       before_script:
         - git fetch --unshallow
         - git fetch --no-tags https://github.com/valychbreak/MyMediaLib.git +refs/heads/master:refs/remotes/origin/master
-      script: mvn clean verify sonar:sonar -Pcoverage -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
+      script: mvn clean verify sonar:sonar -Pcoverage -Pintegration-tests -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
       #   - mvn -pl backend clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=valychbreak_MyMediaLib
 
     - stage: Release
