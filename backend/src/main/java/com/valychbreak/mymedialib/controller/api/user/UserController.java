@@ -2,7 +2,6 @@ package com.valychbreak.mymedialib.controller.api.user;
 
 import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.dto.UserDTO;
-import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.exception.MyMediaLibException;
 import com.valychbreak.mymedialib.repository.UserRepository;
@@ -12,14 +11,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by valych on 2/25/17.
- */
+import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
+
 @RestController
 public class UserController extends APIController {
 
@@ -35,7 +35,7 @@ public class UserController extends APIController {
         if (principal instanceof org.springframework.security.core.userdetails.User) {
             String username = ((org.springframework.security.core.userdetails.User) principal).getUsername();
             User firstByUsername = userRepository.findFirstByUsername(username);
-            return new ResponseEntity<>(new UserDTO(firstByUsername), HttpStatus.OK);
+            return new ResponseEntity<>(aUserDtoBuilderFromUser(firstByUsername).build(), HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("User principal is not found");
         }
@@ -44,12 +44,12 @@ public class UserController extends APIController {
     @GetMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> userDTOList = new ArrayList<>();
-        userRepository.findAll().forEach(user -> userDTOList.add(new UserDTO(user)));
+        userRepository.findAll().forEach(user -> userDTOList.add(aUserDtoBuilderFromUser(user).build()));
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/user/details/{userIdOrUsername}")
-    public ResponseEntity<UserDetailsDTO> getUserDetails(@PathVariable String userIdOrUsername) throws MyMediaLibException {
+    public ResponseEntity<UserDTO> getUserDetails(@PathVariable String userIdOrUsername) throws MyMediaLibException {
         User user;
         try {
             long id = Long.parseLong(userIdOrUsername);
@@ -59,7 +59,7 @@ public class UserController extends APIController {
             user = userRepository.findFirstByUsername(userIdOrUsername);
         }
 
-        UserDetailsDTO userDetailsDTO = new UserDetailsDTO(user);
-        return new ResponseEntity<>(userDetailsDTO, HttpStatus.OK);
+        UserDTO userDTO = aUserDtoBuilderFromUser(user).build();
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 }

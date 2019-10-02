@@ -20,6 +20,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import java.util.Arrays;
 import java.util.List;
 
+import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -44,7 +45,10 @@ public class UserSearchControllerTest extends ControllerTest {
 
         HttpHeaders headers = authHeaders("username3", "test12");
 
-        List<UserDTO> expectedResult = Arrays.asList(new UserDTO(user1), new UserDTO(user2));
+        UserDTO expectedUserOneDto = aUserDtoBuilderFromUser(user1).build();
+        UserDTO expectedUserTwoDto = aUserDtoBuilderFromUser(user2).build();
+
+        List<UserDTO> expectedResult = Arrays.asList(expectedUserOneDto, expectedUserTwoDto);
         mockMvc.perform(get("/api/users/search").param("q", "test").headers(headers))
                 .andExpect(status().isOk())
                 .andExpect(content().json(json(expectedResult), false))

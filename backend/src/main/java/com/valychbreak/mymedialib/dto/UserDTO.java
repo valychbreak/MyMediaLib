@@ -1,21 +1,11 @@
 package com.valychbreak.mymedialib.dto;
 
-import com.valychbreak.mymedialib.entity.User;
-
 public class UserDTO {
     private Long id;
     private String username;
     private String name;
     private String email;
     private Long roleId;
-
-    public UserDTO (User user) {
-        id = user.getId();
-        username = user.getUsername();
-        name = user.getName();
-        email = user.getEmail();
-        roleId = user.getRole().getId();
-    }
 
     public Long getId() {
         return id;

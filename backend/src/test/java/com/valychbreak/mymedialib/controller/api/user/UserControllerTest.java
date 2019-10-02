@@ -4,7 +4,6 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.AbstractControllerWithoutSecurityTest;
 import com.valychbreak.mymedialib.dto.UserDTO;
-import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import org.junit.Test;
@@ -14,6 +13,7 @@ import org.springframework.http.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
 import static com.valychbreak.mymedialib.testtools.TestUtils.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -30,7 +30,7 @@ public class UserControllerTest extends AbstractControllerWithoutSecurityTest {
     public void getAllUsers() throws Exception {
         Iterable<User> allUsers = userRepository.findAll();
         List<UserDTO> userDTOList = new ArrayList<>();
-        allUsers.forEach(user -> userDTOList.add(new UserDTO(user)));
+        allUsers.forEach(user -> userDTOList.add(aUserDtoBuilderFromUser(user).build()));
         String expectedResult = json(userDTOList);
 
         mockMvc.perform(get("/api/users"))
@@ -51,7 +51,7 @@ public class UserControllerTest extends AbstractControllerWithoutSecurityTest {
     @Test
     public void getUserDetailsById() throws Exception {
         User user = userRepository.findById(1000L).orElse(null);
-        UserDetailsDTO expectedDetails = new UserDetailsDTO(user);
+        UserDTO expectedDetails = aUserDtoBuilderFromUser(user).build();
 
         mockMvc.perform(get("/api/user/details/1000"))
                 .andExpect(status().isOk())
@@ -62,7 +62,7 @@ public class UserControllerTest extends AbstractControllerWithoutSecurityTest {
     @Test
     public void getUserDetailsByUsername() throws Exception {
         User user = userRepository.findById(1002L).orElse(null);
-        UserDetailsDTO expectedDetails = new UserDetailsDTO(user);
+        UserDTO expectedDetails = aUserDtoBuilderFromUser(user).build();
 
         mockMvc.perform(get("/api/user/details/test2"))
                 .andExpect(status().isOk())
