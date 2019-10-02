@@ -76,7 +76,7 @@
                                     <destFile>${sonar.jacoco.reportPaths}</destFile>
                                 </configuration>
                             </execution>
-                            <!-- Integration-tests executed with failsafe-plugin -->
+                            <!-- Integration-tests -->
                             <execution>
                                 <id>agent-for-it</id>
                                 <phase>package</phase>

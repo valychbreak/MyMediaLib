@@ -27,11 +27,29 @@ jobs:
       script: mvn -pl backend test -Pintegration-tests -Dtmdb.api.key=$TMDB_API_KEY -B -V
 
     - name: "Sonar analysis"
+      before_install:
+        - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+        - sudo apt-get update
+        - sudo apt-get --yes remove postgresql\*
+        - sudo apt-get install -y postgresql-11 postgresql-client-11
+        - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
+        - sudo service postgresql restart 11
+        - cp ci-config/travis-ci.application.yml backend/src/test/resources/application.yml
+      install: skip
       before_script:
+        - psql -c 'create database "mymedialib-test";' -U postgres
+        - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
+
+        # (sonar warning) Enabling more detailed info for sonar analysis
         - git fetch --unshallow
+
+        # (sonar warning) Manually fetching master branch since it's not fetched automatically
         - git fetch --no-tags https://github.com/valychbreak/MyMediaLib.git +refs/heads/master:refs/remotes/origin/master
-      script: mvn clean verify sonar:sonar -Pcoverage -Pintegration-tests -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
-      #   - mvn -pl backend clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=valychbreak_MyMediaLib
+      script:
+        # Generating coverage report for Unit tests
+        - mvn clean package sonar:sonar -Pcoverage -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
+        # Generating coverage report for Integration tests
+        - mvn package sonar:sonar -Pcoverage -Pintegration-tests -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
 
     - stage: Release
       install:
