@@ -17,6 +17,12 @@
             <artifactId>mymedialib-backend</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.valychbreak</groupId>
+            <artifactId>mymedialib-frontend</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <properties>
