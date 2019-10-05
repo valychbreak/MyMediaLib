@@ -46,10 +46,8 @@ jobs:
         # (sonar warning) Manually fetching master branch since it's not fetched automatically
         - git fetch --no-tags https://github.com/valychbreak/MyMediaLib.git +refs/heads/master:refs/remotes/origin/master
       script:
-        # Generating coverage report for Unit tests
-        - mvn clean package sonar:sonar -Pcoverage -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
-        # Generating coverage report for Integration tests
-        - mvn package sonar:sonar -Pcoverage -Pintegration-tests -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
+        # Generating coverage report for All tests
+        - mvn clean package sonar:sonar -Pcoverage -Pall-tests -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
 
     - stage: Release
       install:

@@ -23,17 +23,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Test coverage path of unit tests -->
-        <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
-        <!-- Test coverage path of integration tests -->
-        <sonar.jacoco.itReportPath>${project.basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
-        <sonar.language>java</sonar.language>
+        <sonar-plugin.version>3.6.1.1688</sonar-plugin.version>
+        <jacoco-plugin.version>0.8.4</jacoco-plugin.version>
+
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     </properties>
 
     <modules>
         <module>frontend</module>
         <module>backend</module>
+        <module>test-coverage-report</module>
     </modules>
 
     <build>
@@ -42,56 +41,29 @@
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.6.0.1398</version>
+                    <version>${sonar-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.4</version>
+                    <version>${jacoco-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>
 
-    <profiles>
-        <profile>
-            <id>coverage</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <executions>
-                            <!-- Unit-tests -->
-                            <execution>
-                                <id>agent-for-ut</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                                <configuration>
-                                    <append>true</append>
-                                    <destFile>${sonar.jacoco.reportPaths}</destFile>
-                                </configuration>
-                            </execution>
-                            <!-- Integration-tests -->
-                            <execution>
-                                <id>agent-for-it</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>prepare-agent-integration</goal>
-                                </goals>
-                                <configuration>
-                                    <append>true</append>
-                                    <destFile>${sonar.jacoco.itReportPath}</destFile>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
