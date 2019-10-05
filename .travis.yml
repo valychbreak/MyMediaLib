@@ -47,11 +47,11 @@ jobs:
         - git fetch --no-tags https://github.com/valychbreak/MyMediaLib.git +refs/heads/master:refs/remotes/origin/master
       script:
         # Generating coverage report for All tests
-        - mvn clean package sonar:sonar -Pcoverage -Pall-tests -Dsonar.projectKey=valychbreak_MyMediaLib -Dsonar.login=$SONAR_TOKEN
+        - mvn clean package sonar:sonar -Pcoverage -Pall-tests -Dsonar.projectKey=valychbreak_MyMediaLib
 
-    - stage: Release
+    - stage: Build
       install:
-       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       script: skip
 
 addons:
@@ -59,4 +59,4 @@ addons:
   sonarcloud:
     organization: "valychbreak"
     token:
-      secure: $SONAR_TOKEN
+      secure: "XwBtFIPVJyDT9N8CPWmtFVvRUpj8WjBT9olEqLsxUtSejgJz3W/JZ3M0zBIH2z2fbgOtjolIzjIOGEfZOxOYav7uXnHdggXno+1NCeWHKcPf8YgC0/5pjLt+qHSaHHdg/zcAHwp6dOKQ0zCroct4D78xEr8jzSEGny9hpNhWKCdgCd+3siSPMjjJi1tdIMFBKYFVoelYVcdheqQ7ZdT45b4rfhv+qlNC/eV3Wqfsygp5VAu52W2H6hfrkn2vD9t2XIsKTu0/hF+VGCjqJUeuhk1p0x42bUxYKSY6wDENXPQmRnTxaO3bxYGKanCv4DsQy/iNPACo6gAtQJPsdXKIBYYlyZLw2GSXSMka1/ftTjEIViP18+qDGUSlOyYiiKDXaG2OZklL9Jk0IphW2IYy3lv+TF7exXtgcmunCrTm53LyWOhFa/MOyFH6hwx7jny/IrRF1sm4sZh/GXKchWInGADp0FWQ8ZfyoZFVq2LDKknMPbnH0PrHdt1fAn7qrlvjmKjdaDXBxQzRv7HaFxF/jKQCRGOnC+aEiCQ+415dOjZiAD+yA9njOvdOO6anEAM9uj1sdPjpwujPkiK7QZ96kmWAfhyTmFD0watTnyiXMiJvXBh54N/ThrtupQ3IrM46+fJSkNY9s13kCZmjNYks0pZRdagIF61RfApWAOnH+BM="
