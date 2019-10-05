@@ -47,7 +47,7 @@ jobs:
         - git fetch --no-tags https://github.com/valychbreak/MyMediaLib.git +refs/heads/master:refs/remotes/origin/master
       script:
         # Generating coverage report for All tests
-        - mvn clean package sonar:sonar -Pcoverage -Pall-tests -Dsonar.projectKey=valychbreak_MyMediaLib
+        - mvn clean package sonar:sonar -Pcoverage -Pall-tests
 
     - stage: Build
       install:
