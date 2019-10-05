@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
 
@@ -33,9 +34,12 @@ public class UserController extends APIController {
         Object principal = authentication.getPrincipal();
 
         if (principal instanceof org.springframework.security.core.userdetails.User) {
+
             String username = ((org.springframework.security.core.userdetails.User) principal).getUsername();
             User firstByUsername = userRepository.findFirstByUsername(username);
-            return new ResponseEntity<>(aUserDtoBuilderFromUser(firstByUsername).build(), HttpStatus.OK);
+
+            UserDTO userDTO = aUserDtoBuilderFromUser(firstByUsername).build();
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("User principal is not found");
         }
@@ -43,8 +47,12 @@ public class UserController extends APIController {
 
     @GetMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<UserDTO>> getUsers() {
-        List<UserDTO> userDTOList = new ArrayList<>();
-        userRepository.findAll().forEach(user -> userDTOList.add(aUserDtoBuilderFromUser(user).build()));
+
+        Iterable<User> allUsers = userRepository.findAll();
+        List<UserDTO> userDTOList = StreamSupport.stream(allUsers.spliterator(), false)
+                .map((user) -> aUserDtoBuilderFromUser(user).build())
+                .collect(Collectors.toList());
+
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 

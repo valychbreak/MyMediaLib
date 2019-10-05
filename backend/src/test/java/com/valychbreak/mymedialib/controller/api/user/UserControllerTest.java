@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
 import static com.valychbreak.mymedialib.testtools.TestUtils.json;
@@ -29,8 +31,10 @@ public class UserControllerTest extends AbstractControllerWithoutSecurityTest {
     @Test
     public void getAllUsers() throws Exception {
         Iterable<User> allUsers = userRepository.findAll();
-        List<UserDTO> userDTOList = new ArrayList<>();
-        allUsers.forEach(user -> userDTOList.add(aUserDtoBuilderFromUser(user).build()));
+        List<UserDTO> userDTOList = StreamSupport.stream(allUsers.spliterator(), false)
+                .map((user) -> aUserDtoBuilderFromUser(user).build())
+                .collect(Collectors.toList());
+
         String expectedResult = json(userDTOList);
 
         mockMvc.perform(get("/api/users"))
