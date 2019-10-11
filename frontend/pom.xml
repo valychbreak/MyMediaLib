@@ -14,6 +14,12 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <sonar.sources>src/main/frontend</sonar.sources>
+        <sonar.exclusions>**/node_modules/**,**/*.spec.ts,**/assets/**</sonar.exclusions>
+        <sonar.typescript.node>${project.basedir}/src/main/frontend/node/node</sonar.typescript.node>
+    </properties>
+
     <build>
         <plugins>
             <plugin>

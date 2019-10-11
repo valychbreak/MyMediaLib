@@ -26,10 +26,37 @@ jobs:
         - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
       script: mvn -pl backend test -Pintegration-tests -Dtmdb.api.key=$TMDB_API_KEY -B -V
 
-    - stage: Release
+    - name: "Sonar analysis"
+      before_install:
+        - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+        - sudo apt-get update
+        - sudo apt-get --yes remove postgresql\*
+        - sudo apt-get install -y postgresql-11 postgresql-client-11
+        - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
+        - sudo service postgresql restart 11
+        - cp ci-config/travis-ci.application.yml backend/src/test/resources/application.yml
+      install: skip
+      before_script:
+        - psql -c 'create database "mymedialib-test";' -U postgres
+        - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
+
+        # (sonar warning) Enabling more detailed info for sonar analysis
+        - git fetch --unshallow
+
+        # (sonar warning) Manually fetching master branch since it's not fetched automatically
+        - git fetch --no-tags https://github.com/valychbreak/MyMediaLib.git +refs/heads/master:refs/remotes/origin/master
+      script:
+        # Generating coverage report for All tests
+        - mvn clean package sonar:sonar -Pcoverage -Pall-tests
+
+    - stage: Build
       install:
-       - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       script: skip
 
 addons:
   postgresql: "11"
+  sonarcloud:
+    organization: "valychbreak"
+    token:
+      secure: "XwBtFIPVJyDT9N8CPWmtFVvRUpj8WjBT9olEqLsxUtSejgJz3W/JZ3M0zBIH2z2fbgOtjolIzjIOGEfZOxOYav7uXnHdggXno+1NCeWHKcPf8YgC0/5pjLt+qHSaHHdg/zcAHwp6dOKQ0zCroct4D78xEr8jzSEGny9hpNhWKCdgCd+3siSPMjjJi1tdIMFBKYFVoelYVcdheqQ7ZdT45b4rfhv+qlNC/eV3Wqfsygp5VAu52W2H6hfrkn2vD9t2XIsKTu0/hF+VGCjqJUeuhk1p0x42bUxYKSY6wDENXPQmRnTxaO3bxYGKanCv4DsQy/iNPACo6gAtQJPsdXKIBYYlyZLw2GSXSMka1/ftTjEIViP18+qDGUSlOyYiiKDXaG2OZklL9Jk0IphW2IYy3lv+TF7exXtgcmunCrTm53LyWOhFa/MOyFH6hwx7jny/IrRF1sm4sZh/GXKchWInGADp0FWQ8ZfyoZFVq2LDKknMPbnH0PrHdt1fAn7qrlvjmKjdaDXBxQzRv7HaFxF/jKQCRGOnC+aEiCQ+415dOjZiAD+yA9njOvdOO6anEAM9uj1sdPjpwujPkiK7QZ96kmWAfhyTmFD0watTnyiXMiJvXBh54N/ThrtupQ3IrM46+fJSkNY9s13kCZmjNYks0pZRdagIF61RfApWAOnH+BM="

@@ -15,9 +15,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Arrays;
-
+import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
 import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -62,10 +62,11 @@ public class MediaCollectionDTOFactoryTest {
 
         MediaCollectionDTO mediaCollectionDTO = mediaCollectionDTOFactory.createWithMedia(userMediaCollection, user);
 
+        UserDTO ownerDto = aUserDtoBuilderFromUser(user).build();
         MediaCollectionDTO expected = aMediaCollectionDTOBuilder()
                 .withName("root")
-                .withMediaList(Arrays.asList(new MediaFullDetailsImpl()))
-                .withOwner(new UserDTO(user))
+                .withMediaList(singletonList(new MediaFullDetailsImpl()))
+                .withOwner(ownerDto)
                 .build();
 
         assertThat(mediaCollectionDTO).isEqualTo(expected);

@@ -193,8 +193,8 @@
         </plugins>
     </build>
 
-    <!-- Setup for Integration tests -->
     <profiles>
+        <!-- Setup for Integration tests -->
         <profile>
             <id>integration-tests</id>
             <build>
@@ -207,6 +207,25 @@
                             <includes>
                                 <include>**/*Integration*Test*</include>
                                 <include>**/*Controller*Test*</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- All tests for code coverage (Sonar) -->
+        <profile>
+            <id>all-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludes>none</excludes>
+                            <includes>
+                                <include>**/*</include>
                             </includes>
                         </configuration>
                     </plugin>

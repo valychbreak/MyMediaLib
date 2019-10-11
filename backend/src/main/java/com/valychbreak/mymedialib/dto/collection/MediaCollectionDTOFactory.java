@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
 import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
 
 
@@ -52,11 +53,13 @@ public class MediaCollectionDTOFactory {
             }
         }
 
+        UserDTO ownerUserDto = aUserDtoBuilderFromUser(owner).build();
+
         return aMediaCollectionDTOBuilder()
                 .withId(userMediaCollection.getId())
                 .withName(userMediaCollection.getName())
                 .withMediaList(mediaList)
-                .withOwner(new UserDTO(owner))
+                .withOwner(ownerUserDto)
                 .build();
     }
 }

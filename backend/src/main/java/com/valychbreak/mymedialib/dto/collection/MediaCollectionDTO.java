@@ -2,7 +2,6 @@ package com.valychbreak.mymedialib.dto.collection;
 
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.dto.UserDTO;
-import com.valychbreak.mymedialib.dto.UserDetailsDTO;
 
 import java.util.List;
 

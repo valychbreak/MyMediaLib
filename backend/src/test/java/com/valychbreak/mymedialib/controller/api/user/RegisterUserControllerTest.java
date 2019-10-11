@@ -1,30 +1,22 @@
 package com.valychbreak.mymedialib.controller.api.user;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.valychbreak.mymedialib.controller.ControllerTest;
+import com.valychbreak.mymedialib.dto.NewUserDTO;
 import com.valychbreak.mymedialib.entity.Role;
-import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.repository.UserRepository;
 import com.valychbreak.mymedialib.repository.UserRoleRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class,
-        TransactionalTestExecutionListener.class,
-        DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/data/db/common/CleanDb.xml", type = DatabaseOperation.DELETE_ALL)
 @DatabaseSetup(value = "/data/db/BasicRolesDataset.xml")
 public class RegisterUserControllerTest extends ControllerTest {
@@ -36,11 +28,25 @@ public class RegisterUserControllerTest extends ControllerTest {
     private UserRepository userRepository;
 
     @Test
-    public void addUser() throws Exception {
+    public void shouldRegisterNewUser() throws Exception {
         Role role = getUserRole();
-        User newUser = new User("username1", "password2", "User name", "useremail@t.com", role);
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/user/add").contentType(MediaType.APPLICATION_JSON).content(json(newUser)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        NewUserDTO newUserDTO = new NewUserDTO();
+        newUserDTO.setUsername("username1");
+        newUserDTO.setPassword("password2");
+        newUserDTO.setName("User name");
+        newUserDTO.setEmail("useremail@t.com");
+
+        mockMvc.perform(
+                post("/api/user/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(newUserDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username").value("username1"))
+                .andExpect(jsonPath("$.name").value("User name"))
+                .andExpect(jsonPath("$.email").value("useremail@t.com"))
+                .andExpect(jsonPath("$.roleId").value(role.getId()))
+                .andExpect(jsonPath("$.password").doesNotExist());
 
         assertThat(userRepository.findFirstByUsername("username1")).isNotNull();
     }
