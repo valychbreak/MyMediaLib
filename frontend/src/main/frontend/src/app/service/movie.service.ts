@@ -1,4 +1,5 @@
 import 'rxjs/add/operator/toPromise';
+import {Config} from "../config/config";
 import {Injectable} from "@angular/core";
 import {Movie} from "../shared/movie/movie";
 import {HttpClient, HttpParams} from "@angular/common/http";
@@ -19,7 +20,7 @@ export class MovieService {
             .append("p", page.toString())
             .append("media-type", "media");
 
-        return this.http.get<MovieSearchResult>("http://localhost:8080/api/media/search", { params: params })
+        return this.http.get<MovieSearchResult>(Config.DATA_REQUEST_LINK + "/media/search", { params: params })
             .toPromise()
             .then(response => response)
             .catch(this.handleError);
@@ -35,7 +36,7 @@ export class MovieService {
             .append("p", page.toString())
             .append("media-type", "movie");
 
-        return this.http.get<MovieSearchResult>("http://localhost:8080/api/media/search", { params: params })
+        return this.http.get<MovieSearchResult>(Config.DATA_REQUEST_LINK + "/media/search", { params: params })
             .toPromise()
             .then(response => response)
             .catch(this.handleError);
@@ -51,14 +52,14 @@ export class MovieService {
             .append("p", page.toString())
             .append("media-type", "tvshow");
 
-        return this.http.get<MovieSearchResult>("http://localhost:8080/api/media/search", { params: params })
+        return this.http.get<MovieSearchResult>(Config.DATA_REQUEST_LINK + "/media/search", { params: params })
             .toPromise()
             .then(response => response)
             .catch(this.handleError);
     }
 
     getMovieByImdbId(id: string): Promise<Movie> {
-        return this.http.get<Movie>("http://localhost:8080/api/media/details/" + id)
+        return this.http.get<Movie>(Config.DATA_REQUEST_LINK + "/media/details/" + id)
             .toPromise()
             .then(response => response)
             .catch(this.handleError);

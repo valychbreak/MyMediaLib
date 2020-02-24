@@ -1,4 +1,4 @@
 export class Config {
-    static HOST_LINK = "http://localhost:8080";
-    static DATA_REQUEST_LINK = "http://localhost:8080/api";
+    static HOST_LINK = ".";
+    static DATA_REQUEST_LINK = Config.HOST_LINK + "/api";
 }
