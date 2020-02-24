@@ -1,17 +1,20 @@
 package com.valychbreak.mymedialib.config;
 
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * Created by valych on 3/19/17.
- */
+import java.util.Collections;
+
+
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -22,5 +25,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("*");
+    }
+
+    @Bean
+    ErrorViewResolver supportPathBasedLocationStrategyWithoutHashes() {
+        return (request, status, model) -> status == HttpStatus.NOT_FOUND
+                ? new ModelAndView("index.html", Collections.emptyMap(), HttpStatus.OK)
+                : null;
+
     }
 }
