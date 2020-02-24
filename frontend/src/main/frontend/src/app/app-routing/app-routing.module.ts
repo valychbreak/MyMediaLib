@@ -9,6 +9,7 @@ import {MoviesComponent} from "../views/movies/movies.component";
 import {SignUpComponent} from "../views/auth/sign-up/sign-up.component";
 import {CollectionViewComponent} from "../views/favorites/collection/collection-view/collection-view.component";
 import {ProfileComponent} from "../views/auth/profile/profile.component";
+import {NotFoundComponent} from '../not-found/not-found.component';
 
 const routes: Routes = [
     {
@@ -63,6 +64,10 @@ const routes: Routes = [
     {
         path: '',
         component: SignInComponent
+    },
+    {
+        path: '**',
+        component: NotFoundComponent
     }
 ];
 
