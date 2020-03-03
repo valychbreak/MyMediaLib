@@ -13,12 +13,12 @@ jobs:
 
     - name: "Integration Tests"
       before_install:
-        - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-        - sudo apt-get update
-        - sudo apt-get --yes remove postgresql\*
-        - sudo apt-get install -y postgresql-11 postgresql-client-11
-        - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
-        - sudo service postgresql restart 11
+#        - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+#        - sudo apt-get update
+#        - sudo apt-get --yes remove postgresql\*
+#        - sudo apt-get install -y postgresql-11 postgresql-client-11
+#        - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
+#        - sudo service postgresql restart 11
         - cp ci-config/travis-ci.application.yml backend/src/test/resources/application.yml
       install: skip
       before_script:
