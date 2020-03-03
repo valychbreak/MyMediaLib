@@ -55,6 +55,11 @@ jobs:
         - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       script: skip
 
+
+services:
+  - postgresql
+
+
 addons:
   postgresql: "11"
   apt:
