@@ -59,6 +59,10 @@ jobs:
 services:
   - postgresql
 
+env:
+  global:
+    - PGUSER=postgres
+    - PGPORT=5432
 
 addons:
   postgresql: "11"
