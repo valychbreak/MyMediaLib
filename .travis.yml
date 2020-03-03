@@ -1,5 +1,8 @@
 language: java
 
+dist: bionic
+group: dev
+
 jdk:
   - openjdk12
 
