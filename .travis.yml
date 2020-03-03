@@ -22,6 +22,7 @@ jobs:
         - cp ci-config/travis-ci.application.yml backend/src/test/resources/application.yml
       install: skip
       before_script:
+        - psql -c 'create database travis_ci_test;' -U postgres
         - psql -c 'create database "mymedialib-test";' -U postgres
         - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
       script: mvn -pl backend test -Pintegration-tests -Dtmdb.api.key=$TMDB_API_KEY -B -V
@@ -56,6 +57,10 @@ jobs:
 
 addons:
   postgresql: "11"
+  apt:
+    packages:
+      - postgresql-11
+      - postgresql-client-11
   sonarcloud:
     organization: "valychbreak"
     token:
