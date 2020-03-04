@@ -3,13 +3,13 @@ version: '3.1'
 services:
 
   postgres:
-    image: postgres
+    image: postgres:11.7
     volumes:
       - /Users/valych/postgresql/data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgres
     ports:
-      - 1111:5432
+      - 5432:5432
 
   pgadmin:
     image: dpage/pgadmin4
@@ -20,11 +20,3 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
       PGADMIN_DEFAULT_PASSWORD: admin
-
-  mymedialib:
-    image: mymedialib
-    depends_on:
-      - postgres
-    ports:
-      - 8080:8080
-    command: ["host.docker.internal", "1111"]
