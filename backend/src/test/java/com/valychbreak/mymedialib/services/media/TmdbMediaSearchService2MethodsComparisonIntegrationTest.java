@@ -24,7 +24,7 @@ public class TmdbMediaSearchService2MethodsComparisonIntegrationTest {
     private TmdbMediaSearchService mediaSearchService;
 
     @Test
-    public void fullMethodPerformanceTest() throws IOException {
+    public void fullMethodPerformanceTest() throws Exception {
         long initialTime = System.currentTimeMillis();
         SearchParams batman = new SearchParamsBuilder().withQuery("batman").withPage(1).withItemsPerPage(20).build();
         SearchResult<MediaFullDetails> searchResult = mediaSearchService.search(batman);
@@ -32,7 +32,7 @@ public class TmdbMediaSearchService2MethodsComparisonIntegrationTest {
     }
 
     @Test
-    public void basicMethodPerformanceTest() throws IOException {
+    public void basicMethodPerformanceTest() throws Exception {
         long initialTime = System.currentTimeMillis();
         SearchParams batman = new SearchParamsBuilder().withQuery("batman").withPage(1).withItemsPerPage(20).build();
         SearchResult<Media> searchResult = mediaSearchService.searchBasic(batman);

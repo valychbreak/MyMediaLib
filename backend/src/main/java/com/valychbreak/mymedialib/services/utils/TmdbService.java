@@ -3,9 +3,11 @@ package com.valychbreak.mymedialib.services.utils;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.*;
 import com.uwetrottmann.tmdb2.enumerations.AppendToResponseItem;
+import com.uwetrottmann.tmdb2.exceptions.TmdbException;
 import com.uwetrottmann.tmdb2.exceptions.TmdbNotFoundException;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,7 @@ public class TmdbService {
         this.tmdb = tmdb;
     }
 
-    public Optional<MediaFullDetails> getMediaDetails(Media tmdbMedia) throws IOException {
+    public Optional<MediaFullDetails> getMediaDetails(Media tmdbMedia) throws IOException, ExternalAPIException {
         MediaFullDetails media = null;
 
         switch (tmdbMedia.media_type) {
@@ -40,29 +42,30 @@ public class TmdbService {
         return Optional.ofNullable(media);
     }
 
-    public MediaFullDetails getTvShowDetails(BaseTvShow result) throws IOException {
+    public MediaFullDetails getTvShowDetails(BaseTvShow result) throws IOException, ExternalAPIException {
         TvShow tvShow = requestDetailedTmdbTvShow(result);
-        MediaFullDetails media = new MediaFullDetailsTmdbMovieAdapter(tvShow);
-        return media;
+        return new MediaFullDetailsTmdbMovieAdapter(tvShow);
     }
 
-    public MediaFullDetails getMovieDetails(BaseMovie result) throws IOException {
-        MediaFullDetails media = null;
+    public MediaFullDetails getMovieDetails(BaseMovie result) throws ExternalAPIException, IOException {
+        MediaFullDetails media;
         Movie movie = requestDetailedTmdbMovie(result);
         //FIXME: get rid of imdbId
         if(movie != null && StringUtils.isNotBlank(movie.imdb_id) && movie.backdrop_path != null) {
             media = new MediaFullDetailsTmdbMovieAdapter(movie);
+            return media;
         }
 
-        return media;
+        throw new ExternalAPIException("Failed to load movie.", new IllegalArgumentException("Whether imdb id was not provided or backdrop path"));
     }
 
-    public Movie requestDetailedTmdbMovie(BaseMovie result) throws IOException {
+    public Movie requestDetailedTmdbMovie(BaseMovie result) throws ExternalAPIException, IOException {
         Movie movie = null;
         try {
             movie = requestTmdbMovie(tmdb, result);
         } catch (TmdbNotFoundException e) {
-            LOGGER.error("API Call failed ", e);
+            String message = String.format("Failed to request details for movie [title: %s, id: %s]", result.title, result.id);
+            throw new ExternalAPIException(message, e);
         } catch(IllegalStateException | IOException e) {
             LOGGER.warn("TMDB API call failed. Retrying...", e);
             movie = requestTmdbMovie(tmdb, result);
@@ -71,12 +74,13 @@ public class TmdbService {
         return movie;
     }
 
-    public TvShow requestDetailedTmdbTvShow(BaseTvShow result) throws IOException {
+    public TvShow requestDetailedTmdbTvShow(BaseTvShow result) throws IOException, ExternalAPIException {
         TvShow tvShow = null;
         try {
             tvShow = requestTmdbTvShow(tmdb, result);
         } catch (TmdbNotFoundException e) {
-            LOGGER.error("API Call failed ", e);
+            String message = String.format("Failed to request details for tv show [name: %s, id: %s]", result.name, result.id);
+            throw new ExternalAPIException(message, e);
         } catch(IllegalStateException | IOException e) {
             LOGGER.warn("TMDB API call failed. Retrying...", e);
             tvShow = requestTmdbTvShow(tmdb, result);

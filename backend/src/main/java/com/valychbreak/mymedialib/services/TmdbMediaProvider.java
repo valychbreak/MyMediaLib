@@ -7,6 +7,7 @@ import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.TvShow;
 import com.uwetrottmann.tmdb2.enumerations.ExternalSource;
 import com.uwetrottmann.tmdb2.enumerations.MediaType;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.services.utils.TmdbService;
 import org.springframework.stereotype.Component;
 import retrofit2.Call;
@@ -35,7 +36,7 @@ public class TmdbMediaProvider {
         return movie;
     }
 
-    public Media getMediaBy(String imdbId) throws IOException {
+    public Media getMediaBy(String imdbId) throws IOException, ExternalAPIException {
         Call<FindResults> call = tmdb.findService().find(imdbId, ExternalSource.IMDB_ID, null);
         FindResults body = call.execute().body();
 

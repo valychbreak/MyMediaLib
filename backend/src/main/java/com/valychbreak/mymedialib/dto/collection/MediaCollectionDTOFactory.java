@@ -5,16 +5,15 @@ import com.valychbreak.mymedialib.dto.UserDTO;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.services.media.MediaDetailsProvider;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.valychbreak.mymedialib.dto.UserDTOBuilder.aUserDtoBuilderFromUser;
 import static com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOBuilder.aMediaCollectionDTOBuilder;
-
 
 @Service
 public class MediaCollectionDTOFactory {
@@ -26,24 +25,24 @@ public class MediaCollectionDTOFactory {
     }
 
     @Deprecated
-    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection) throws IOException {
+    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection) throws ExternalAPIException {
         return createWithMedia(userMediaCollection, null);
     }
 
-    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection, User owner) throws IOException {
+    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection, User owner) throws ExternalAPIException {
         return create(userMediaCollection, owner, true);
     }
 
     @Deprecated
-    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection) throws IOException {
+    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection) throws ExternalAPIException {
         return createWithoutMedia(userMediaCollection, null);
     }
 
-    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection, User owner) throws IOException {
+    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection, User owner) throws ExternalAPIException {
         return create(userMediaCollection, owner, false);
     }
 
-    protected MediaCollectionDTO create(UserMediaCollection userMediaCollection, User owner, boolean includeMedia) throws IOException {
+    protected MediaCollectionDTO create(UserMediaCollection userMediaCollection, User owner, boolean includeMedia) throws ExternalAPIException {
         List<MediaFullDetailsImpl> mediaList = null;
 
         if(includeMedia) {

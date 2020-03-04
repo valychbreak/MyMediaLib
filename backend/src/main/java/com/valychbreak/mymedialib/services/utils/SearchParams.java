@@ -28,4 +28,13 @@ public class SearchParams {
     public void setItemsPerPage(int itemsPerPage) {
         this.itemsPerPage = itemsPerPage;
     }
+
+    @Override
+    public String toString() {
+        return "SearchParams{" +
+                "query='" + query + '\'' +
+                ", page=" + page +
+                ", itemsPerPage=" + itemsPerPage +
+                '}';
+    }
 }

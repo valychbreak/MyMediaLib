@@ -4,6 +4,7 @@ import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.data.movie.impl.MediaFullDetailsImpl;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
 import com.valychbreak.mymedialib.services.TmdbMediaProvider;
 import com.valychbreak.mymedialib.services.utils.TmdbService;
@@ -20,9 +21,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
-/**
- * Created by valych on 9/16/17.
- */
+
 @RestController
 public class MediaDetailsController extends MediaController {
     private UserMediaRepository userMediaRepository;
@@ -37,12 +36,17 @@ public class MediaDetailsController extends MediaController {
 
     @RequestMapping(value = "/media/details/{imdbId}", produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET)
-    public ResponseEntity<MediaFullDetailsImpl> getMediaDetailsByImdbId(@PathVariable String imdbId, Principal principal) throws IOException {
+    public ResponseEntity<MediaFullDetailsImpl> getMediaDetailsByImdbId(@PathVariable String imdbId, Principal principal) throws ExternalAPIException {
         Assert.notNull(principal, "Principal must not be null");
 
-        com.uwetrottmann.tmdb2.entities.Media media = tmdbMediaProvider.getMediaBy(imdbId);
-        MediaFullDetailsImpl mediaFullDetails = (MediaFullDetailsImpl) tmdbService.getMediaDetails(media)
-                .orElseThrow(() -> new IllegalArgumentException("Media details were not found for imdbId: " + imdbId));
+        MediaFullDetailsImpl mediaFullDetails = null;
+        try {
+            com.uwetrottmann.tmdb2.entities.Media media = tmdbMediaProvider.getMediaBy(imdbId);
+            mediaFullDetails = (MediaFullDetailsImpl) tmdbService.getMediaDetails(media)
+                    .orElseThrow(() -> new IllegalArgumentException("Media details were not found for imdbId: " + imdbId));
+        } catch (IOException e) {
+            throw new ExternalAPIException("Failed to execute External API call", e);
+        }
 
         User user = getUserFromPrincipal(principal);
         boolean userFavourite = isUserFavourite(user, mediaFullDetails);

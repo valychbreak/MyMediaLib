@@ -4,6 +4,7 @@ import com.valychbreak.mymedialib.controller.api.APIController;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMedia;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.repository.UserMediaRepository;
 import com.valychbreak.mymedialib.services.media.MediaDetailsProvider;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class UserFavoriteMediaController extends APIController {
         return new ResponseEntity<>(mediaList, HttpStatus.OK);
     }
 
-    private List<MediaFullDetails> getUserFavouriteMedia(User user) throws IOException {
+    private List<MediaFullDetails> getUserFavouriteMedia(User user) throws ExternalAPIException {
         List<MediaFullDetails> mediaList = new ArrayList<>();
         for (UserMedia userMedia : userMediaRepository.findByUser(user)) {
             MediaFullDetails details = mediaDetailsProvider.getDetails(userMedia.getMedia());
