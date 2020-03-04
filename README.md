@@ -28,12 +28,19 @@ Docker images: https://hub.docker.com/r/valychbreak/mymedialib
  - Run: ```mvn spring-boot:run```
  
 ### With docker
- - Run: ```docker stack deploy -c backend/stack.yml mymedialib```
+ - Run: ```docker stack deploy -c backend/db-docker-stack.yml mymedialib```
  - Goto http://localhost:3333/. Login with pgadmin4@pgadmin.org and admin
+ - Create a new server:
+    - Name: MyMediaLib
+    - Host: host.docker.internal
+    - Port: 5432
+    - Username: postgres
+    - Password: postgres
  - Create user "dbuser" with password "dbtest"
  - Create database "mymedialib"
- - From ```backend/``` project, run: ```mvn flyway:baseline flyway:migrate -Dflyway.url=<db_url> -Dflyway.user=<db_user> -Dflyway.password=<user_password>```
- - Restart mymedialib service
+ - From ```backend/``` project, run: 
+    - ```mvn flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/mymedialib -Dflyway.user=dbuser -Dflyway.password=dbtest```
+ - Run: ```mvn spring-boot:run```
 
 ## Testing 
 
