@@ -40,6 +40,7 @@ import {CustomMaterialModule} from "./utils/material/custom-material.module";
 import {MAT_DIALOG_DEFAULT_OPTIONS, MAT_LABEL_GLOBAL_OPTIONS} from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { ProfileComponent } from './views/auth/profile/profile.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { ProfileComponent } from './views/auth/profile/profile.component';
         CollectionViewComponent,
         NewCollectionDialogComponent,
         RemoveCollectionDialogComponent,
-        ProfileComponent
+        ProfileComponent,
+        NotFoundComponent
     ],
     entryComponents: [
         MovieDetailsModalComponent,
