@@ -24,18 +24,8 @@ public class MediaCollectionDTOFactory {
         this.mediaDetailsProvider = mediaDetailsProvider;
     }
 
-    @Deprecated
-    public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection) throws ExternalAPIException {
-        return createWithMedia(userMediaCollection, null);
-    }
-
     public MediaCollectionDTO createWithMedia(UserMediaCollection userMediaCollection, User owner) throws ExternalAPIException {
         return create(userMediaCollection, owner, true);
-    }
-
-    @Deprecated
-    public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection) throws ExternalAPIException {
-        return createWithoutMedia(userMediaCollection, null);
     }
 
     public MediaCollectionDTO createWithoutMedia(UserMediaCollection userMediaCollection, User owner) throws ExternalAPIException {
