@@ -3,7 +3,6 @@ package com.valychbreak.mymedialib.services.utils;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.*;
 import com.uwetrottmann.tmdb2.enumerations.AppendToResponseItem;
-import com.uwetrottmann.tmdb2.exceptions.TmdbException;
 import com.uwetrottmann.tmdb2.exceptions.TmdbNotFoundException;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
@@ -60,7 +59,7 @@ public class TmdbService {
     }
 
     public Movie requestDetailedTmdbMovie(BaseMovie result) throws ExternalAPIException, IOException {
-        Movie movie = null;
+        Movie movie;
         try {
             movie = requestTmdbMovie(tmdb, result);
         } catch (TmdbNotFoundException e) {
@@ -75,7 +74,7 @@ public class TmdbService {
     }
 
     public TvShow requestDetailedTmdbTvShow(BaseTvShow result) throws IOException, ExternalAPIException {
-        TvShow tvShow = null;
+        TvShow tvShow;
         try {
             tvShow = requestTmdbTvShow(tmdb, result);
         } catch (TmdbNotFoundException e) {

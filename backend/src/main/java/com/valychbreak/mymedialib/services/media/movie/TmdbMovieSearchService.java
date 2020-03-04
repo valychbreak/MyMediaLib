@@ -21,7 +21,7 @@ import java.util.List;
 
 @Service
 public class TmdbMovieSearchService implements MovieSearchService {
-    private static Logger LOG = LoggerFactory.getLogger(TmdbTvShowSearchService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TmdbMovieSearchService.class);
 
     private Tmdb tmdb;
     private TmdbService tmdbService;

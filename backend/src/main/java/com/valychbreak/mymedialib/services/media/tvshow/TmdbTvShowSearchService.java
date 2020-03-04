@@ -21,7 +21,7 @@ import java.util.List;
 
 @Service
 public class TmdbTvShowSearchService implements TvShowSearchService {
-    private static Logger LOG = LoggerFactory.getLogger(TmdbTvShowSearchService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TmdbTvShowSearchService.class);
 
     private Tmdb tmdb;
     private TmdbService tmdbService;
