@@ -5,7 +5,6 @@ import com.uwetrottmann.tmdb2.entities.BaseMovie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.exception.ExternalAPIException;
-import com.valychbreak.mymedialib.services.media.tvshow.TmdbTvShowSearchService;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
