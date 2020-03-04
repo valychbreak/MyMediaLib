@@ -1,5 +1,8 @@
 language: java
 
+dist: bionic
+group: dev
+
 jdk:
   - openjdk12
 
@@ -13,27 +16,17 @@ jobs:
 
     - name: "Integration Tests"
       before_install:
-        - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-        - sudo apt-get update
-        - sudo apt-get --yes remove postgresql\*
-        - sudo apt-get install -y postgresql-11 postgresql-client-11
-        - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
-        - sudo service postgresql restart 11
         - cp ci-config/travis-ci.application.yml backend/src/test/resources/application.yml
       install: skip
       before_script:
+        - psql --version
+        - psql -c 'create database travis_ci_test;' -U postgres
         - psql -c 'create database "mymedialib-test";' -U postgres
         - mvn -pl backend flyway:baseline flyway:migrate -Dflyway.url=jdbc:postgresql://localhost/mymedialib-test -Dflyway.user=postgres -Dflyway.password= -B -V
       script: mvn -pl backend test -Pintegration-tests -Dtmdb.api.key=$TMDB_API_KEY -B -V
 
     - name: "Sonar analysis"
       before_install:
-        - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-        - sudo apt-get update
-        - sudo apt-get --yes remove postgresql\*
-        - sudo apt-get install -y postgresql-11 postgresql-client-11
-        - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
-        - sudo service postgresql restart 11
         - cp ci-config/travis-ci.application.yml backend/src/test/resources/application.yml
       install: skip
       before_script:
@@ -54,8 +47,21 @@ jobs:
         - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
       script: skip
 
+
+services:
+  - postgresql
+
+env:
+  global:
+    - PGUSER=postgres
+    - PGPORT=5432
+
 addons:
   postgresql: "11"
+  apt:
+    packages:
+      - postgresql-11
+      - postgresql-client-11
   sonarcloud:
     organization: "valychbreak"
     token:

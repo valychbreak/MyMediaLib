@@ -3,6 +3,7 @@ package com.valychbreak.mymedialib.services.utils;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.*;
 import com.uwetrottmann.tmdb2.enumerations.AppendToResponseItem;
+import com.uwetrottmann.tmdb2.exceptions.TmdbNotFoundException;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.adapters.MediaFullDetailsTmdbMovieAdapter;
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +61,8 @@ public class TmdbService {
         Movie movie = null;
         try {
             movie = requestTmdbMovie(tmdb, result);
+        } catch (TmdbNotFoundException e) {
+            LOGGER.error("API Call failed ", e);
         } catch(IllegalStateException | IOException e) {
             LOGGER.warn("TMDB API call failed. Retrying...", e);
             movie = requestTmdbMovie(tmdb, result);
@@ -69,9 +72,11 @@ public class TmdbService {
     }
 
     public TvShow requestDetailedTmdbTvShow(BaseTvShow result) throws IOException {
-        TvShow tvShow;
+        TvShow tvShow = null;
         try {
             tvShow = requestTmdbTvShow(tmdb, result);
+        } catch (TmdbNotFoundException e) {
+            LOGGER.error("API Call failed ", e);
         } catch(IllegalStateException | IOException e) {
             LOGGER.warn("TMDB API call failed. Retrying...", e);
             tvShow = requestTmdbTvShow(tmdb, result);
