@@ -4,6 +4,7 @@ import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.Media;
 import com.uwetrottmann.tmdb2.entities.MediaResultsPage;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.services.utils.SearchParams;
 import com.valychbreak.mymedialib.services.utils.SearchResult;
 import com.valychbreak.mymedialib.services.utils.SearchResultFactory;
@@ -32,13 +33,13 @@ public class TmdbMediaSearchService implements MediaSearchService {
     }
 
     @Override
-    public SearchResult<MediaFullDetails> search(SearchParams searchParams) throws IOException {
+    public SearchResult<MediaFullDetails> search(SearchParams searchParams) throws ExternalAPIException {
         MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
         List<MediaFullDetails> mediaSearchResults = convertMedia(movieResults);
         return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
     }
 
-    public SearchResult<Media> searchBasic(SearchParams searchParams) throws IOException {
+    public SearchResult<Media> searchBasic(SearchParams searchParams) throws ExternalAPIException {
         MediaResultsPage movieResults = searchMedia(searchParams, tmdb);
         List<Media> mediaSearchResults = convertMediaBasic(movieResults);
         return new SearchResultFactory().create(searchParams.getPage(),  movieResults.total_pages,  movieResults.total_results, mediaSearchResults);
@@ -53,7 +54,7 @@ public class TmdbMediaSearchService implements MediaSearchService {
                 .map(tmdbMedia -> {
                     try {
                         return tmdbService.getMediaDetails(tmdbMedia);
-                    } catch (IOException e) {
+                    } catch (IOException | ExternalAPIException e) {
                         logMediaDetailsLoadingError(tmdbMedia, e);
                     }
                     return Optional.<MediaFullDetails>empty();
@@ -64,19 +65,27 @@ public class TmdbMediaSearchService implements MediaSearchService {
         return stream.collect(Collectors.toList());
     }
 
-    private MediaResultsPage searchMedia(SearchParams searchParams, Tmdb tmdb) throws IOException {
-        Call<MediaResultsPage> call = tmdb.searchService().multi(searchParams.getQuery(), searchParams.getPage(), null, null, null);
-        return call.execute().body();
+    private MediaResultsPage searchMedia(SearchParams searchParams, Tmdb tmdb) throws ExternalAPIException {
+        try {
+            Call<MediaResultsPage> call = tmdb.searchService().multi(searchParams.getQuery(), searchParams.getPage(), null, null, null);
+            return call.execute().body();
+        } catch (IOException e) {
+            throw new ExternalAPIException("Failed to execute external API call", e);
+        }
     }
 
-    private void logMediaDetailsLoadingError(Media tmdbMedia, IOException e) {
+    private void logMediaDetailsLoadingError(Media tmdbMedia, Throwable e) {
         String mediaTitle = "Unknown";
+        Integer mediaId = -1;
+
         if (tmdbMedia.movie != null) {
             mediaTitle = tmdbMedia.movie.title;
+            mediaId = tmdbMedia.movie.id;
         } else if (tmdbMedia.tvShow != null) {
             mediaTitle = tmdbMedia.tvShow.name;
+            mediaId = tmdbMedia.tvShow.id;
         }
 
-        LOG.error("There was a problem with getting details of media '" + mediaTitle + "'", e);
+        LOG.warn("There was a problem with getting details of media [title: {}, id: {}]. Ignoring in the search result.", mediaTitle, mediaId, e);
     }
 }

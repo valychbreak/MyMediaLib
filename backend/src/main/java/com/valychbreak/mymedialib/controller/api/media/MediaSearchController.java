@@ -3,6 +3,7 @@ package com.valychbreak.mymedialib.controller.api.media;
 import com.valychbreak.mymedialib.data.MediaSearchType;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.entity.User;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.exception.MyMediaLibException;
 import com.valychbreak.mymedialib.services.media.MediaSearchService;
 import com.valychbreak.mymedialib.services.media.UserMediaService;
@@ -20,14 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by valych on 9/16/17.
- */
 @RestController
 public class MediaSearchController extends MediaController {
 
@@ -50,7 +47,7 @@ public class MediaSearchController extends MediaController {
                                                                               @RequestParam(value = "year", required = false) Integer year,
                                                                               @RequestParam(value = "p", required = false) Integer page,
                                                                               Principal principal
-    ) throws IOException, MyMediaLibException {
+    ) throws ExternalAPIException, MyMediaLibException {
 
         User loggedUser = getUserFromPrincipal(principal);
 
@@ -73,7 +70,7 @@ public class MediaSearchController extends MediaController {
             }).collect(Collectors.toList());
     }
 
-    private SearchResult<MediaFullDetails> performSearch(String mediaType, SearchParams searchParams) throws IOException, MyMediaLibException {
+    private SearchResult<MediaFullDetails> performSearch(String mediaType, SearchParams searchParams) throws MyMediaLibException, ExternalAPIException {
         SearchResult<MediaFullDetails> searchResult;
         MediaSearchType mediaSearchType = MediaSearchType.get(mediaType);
 

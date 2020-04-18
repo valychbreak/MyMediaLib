@@ -6,6 +6,7 @@ import com.valychbreak.mymedialib.dto.collection.MediaCollectionDTOFactory;
 import com.valychbreak.mymedialib.entity.User;
 import com.valychbreak.mymedialib.entity.media.UserMediaCollection;
 import com.valychbreak.mymedialib.exception.CollectionNotFoundException;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.repository.UserMediaCollectionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -37,7 +37,7 @@ public class UserMediaCollectionController extends APIController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MediaCollectionDTO> getCollection(@PathVariable String id,
                                                             @RequestParam(value = "media", required = false) String includeMedia,
-                                                            Principal principal) throws IOException, CollectionNotFoundException {
+                                                            Principal principal) throws ExternalAPIException, CollectionNotFoundException {
         User loggedUser = getUserFromPrincipal(principal);
 
         Long collectionId = Long.parseLong(id);
@@ -50,7 +50,7 @@ public class UserMediaCollectionController extends APIController {
 
     @RequestMapping(value = "/user/collection/root", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MediaCollectionDTO> getUserRootCollection(@RequestParam(value = "media", required = false) String includeMedia) throws IOException {
+    public ResponseEntity<MediaCollectionDTO> getUserRootCollection(@RequestParam(value = "media", required = false) String includeMedia) throws ExternalAPIException {
 
         User user = getLoggedUser();
         MediaCollectionDTO collectionDTO = getMediaCollectionDTO(user.getRootUserMediaCollection(), includeMedia, user);
@@ -73,7 +73,7 @@ public class UserMediaCollectionController extends APIController {
                     .map(userMediaCollection -> {
                         try {
                             return Optional.ofNullable(this.getMediaCollectionDTO(userMediaCollection, includeMedia, user));
-                        } catch (IOException e) {
+                        } catch (ExternalAPIException e) {
                             LOG.error("Media Collection was not converted to DTO", e);
                         }
 
@@ -84,7 +84,7 @@ public class UserMediaCollectionController extends APIController {
                     .collect(Collectors.toList());
     }
 
-    private MediaCollectionDTO getMediaCollectionDTO(UserMediaCollection userMediaCollection, String includeMedia, User user) throws IOException {
+    private MediaCollectionDTO getMediaCollectionDTO(UserMediaCollection userMediaCollection, String includeMedia, User user) throws ExternalAPIException {
         MediaCollectionDTO collectionDTO;
         if (Boolean.parseBoolean(includeMedia)) {
             collectionDTO = mediaCollectionDTOFactory.createWithMedia(userMediaCollection, user);

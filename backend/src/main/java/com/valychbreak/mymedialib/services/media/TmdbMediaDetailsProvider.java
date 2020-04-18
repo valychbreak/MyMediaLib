@@ -7,8 +7,10 @@ import com.uwetrottmann.tmdb2.enumerations.ExternalSource;
 import com.valychbreak.mymedialib.data.movie.MediaFullDetails;
 import com.valychbreak.mymedialib.data.movie.MediaShortDetails;
 import com.valychbreak.mymedialib.entity.media.Media;
+import com.valychbreak.mymedialib.exception.ExternalAPIException;
 import com.valychbreak.mymedialib.services.utils.TmdbService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import retrofit2.Call;
 
 import java.io.IOException;
@@ -29,18 +31,24 @@ public class TmdbMediaDetailsProvider implements MediaDetailsProvider {
     }
 
     @Override
-    public MediaFullDetails getDetails(Media media) throws IOException {
+    public MediaFullDetails getDetails(Media media) throws ExternalAPIException {
         String imdbId = media.getImdbId();
 
         Call<FindResults> call = tmdb.findService().find(imdbId, ExternalSource.IMDB_ID, null);
-        FindResults body = call.execute().body();
 
-        Movie movie = body.movie_results.isEmpty() ? null : body.movie_results.get(0);
+        try {
+            FindResults body = call.execute().body();
+            Assert.notNull(body, "External API call must bring object in response");
 
-        if (movie != null) {
-            return tmdbService.getMovieDetails(movie);
-        } else {
-            return tmdbService.getTvShowDetails(body.tv_results.get(0));
+            Movie movie = body.movie_results.isEmpty() ? null : body.movie_results.get(0);
+
+            if (movie != null) {
+                return tmdbService.getMovieDetails(movie);
+            } else {
+                return tmdbService.getTvShowDetails(body.tv_results.get(0));
+            }
+        } catch (IOException e) {
+            throw new ExternalAPIException("Failed to execute external API call", e);
         }
     }
 }
